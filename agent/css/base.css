@@ -154,7 +154,7 @@ body.view-home .site-shell {
 }
 
 .mech-avatar-btn.is-docked:hover {
-  transform: scale(1.08) translateY(-1px);
+  transform: scale(1.09) translateY(-1px);
 }
 
 .mech-avatar-btn.is-nodding {
@@ -176,16 +176,35 @@ body.view-home .site-shell {
 
 .mech-ant-tip {
   transition: fill 0.28s ease;
-  animation: mechLedPulse 3.2s ease-in-out infinite;
+  animation: mechLedPulse 2.8s ease-in-out infinite;
 }
 
-.mech-avatar-btn.is-flagship-sense .mech-ant-tip {
+.mech-avatar-btn.is-flagship-sense .mech-ant-tip,
+.mech-avatar-btn.is-flagship-sense .mech-forehead-gem {
   fill: var(--vermilion);
 }
 
+.mech-forehead-gem {
+  transition: fill 0.28s ease;
+}
+
 @keyframes mechLedPulse {
-  0%, 100% { fill-opacity: 0.65; }
+  0%, 100% { fill-opacity: 0.72; }
   50%      { fill-opacity: 1; }
+}
+
+.mech-hud-brackets {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center center;
+  transform: scale(1.14);
+  transition: opacity 0.2s ease, transform 0.24s var(--ease-out);
+}
+
+.mech-avatar-btn.is-docked:hover .mech-hud-brackets,
+.mech-avatar-btn.is-scanning .mech-hud-brackets {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .mech-eyes-idle {
@@ -233,6 +252,11 @@ body.view-home .site-shell {
   gap: clamp(16px, 2vw, 26px);
   flex-shrink: 0;
   pointer-events: auto;
+  transition: transform 0.38s var(--ease-out);
+}
+
+.top-nav.is-mech-landing .nav-links {
+  transform: translateX(-58px);
 }
 
 .nav-btn {
