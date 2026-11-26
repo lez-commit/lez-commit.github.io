@@ -4,15 +4,17 @@
   const AgentBlog = (window.AgentBlog = window.AgentBlog || {});
 
   /* =======================================================================
-     11. TOP-RIGHT CYBER-INK MECHA AVATAR & FULL-SCREEN ARCHITECTURAL SCANNER
-         - Descends with luminous bamboo-mint repulsor braking plumes
-         - Morphs into a sharp faceted Gundam-inspired cyber-ink mecha helmet
-           with swept V-fin crest, forehead jewel sensor, wrap-around obsidian
-           visor, glowing angled cyber-optics & tactical HUD lock brackets
-         - Sweeps a TRUE full-screen vertical optical curtain + micro-blueprint
-           grid + frontier telemetry ticks + live readout across 100% viewport
-           while pinging every era column in sequence
-         - Glides smoothly to top-left & lives on as a 2.5D parallax mascot
+     11. AUTONOMOUS PRODUCTION AGENT — SCULPTURAL MINIMALIST AERIAL DRONE
+         - Inspired by EVE (WALL-E) × Braun × Teenage Engineering × Ink-on-Paper
+         - Free-space 2D aerodynamic flight physics (damped spring velocity,
+           natural banking into turns, organic hover bobbing, curious pause &
+           head-tilt over the Flagship Era 4 LangGraph card)
+         - Projects a soft feathered downward optical cone directly beneath its
+           visor during flight, waking columns & heatmap squares underneath
+         - Docks seamlessly at top-left & emits a full-screen radial bamboo
+           sonar wavefront sweeping 100% of the viewport
+         - Lives on as a weightless floating 2.5D eye-tracking mascot;
+           double-click anytime to undock & fly a live autonomous patrol!
      ======================================================================= */
   function initTopRightMechAvatar() {
     const btn = document.getElementById("mech-avatar-btn");
@@ -21,6 +23,7 @@
     const navLinksEl = document.getElementById("nav-links");
     const navBtns = navLinksEl ? Array.from(navLinksEl.querySelectorAll(".nav-btn")) : [];
     const skeletonGridEl = document.getElementById("skeleton-grid");
+    const fpCanvasEl = document.getElementById("fp-canvas");
     if (!btn || !topNav) return;
 
     const NS = "http://www.w3.org/2000/svg";
@@ -32,328 +35,229 @@
     };
 
     // =====================================================================
-    // FULL-VIEWPORT ARCHITECTURAL BLUEPRINT SCANNER OVERLAY
+    // FULL-VIEWPORT OVERLAY: DOWNWARD OPTICAL CONE + WAKE + RADIAL SONAR WAVE
     // =====================================================================
-    let scanRoot = null;
-    let scanCurtain = null;
-    let scanGridRect = null;
-    let scanGlowEdge = null;
-    let scanFrontLine = null;
-    let scanTetherTop = null;
-    let scanTetherBot = null;
-    let scanTicksG = null;
-    let scanHudBadgeG = null;
-    let scanHudText = null;
-    let scanSpineTick = null;
-    let scanCurtainGradRTL = null;
-    let scanCurtainGradLTR = null;
+    let coneG = null;
+    let conePoly = null;
+    let coneCorePoly = null;
+    let coneEdgeL = null;
+    let coneEdgeR = null;
+    let groundFocusRing = null;
+    let wakeDots = [];
+    let sonarG = null;
+    let sonarOuterHalo = null;
+    let sonarRingMain = null;
+    let sonarRingEcho = null;
 
     if (scanOverlay) {
       scanOverlay.setAttribute("shape-rendering", "geometricPrecision");
       const sDefs = mk("defs", null, scanOverlay);
 
-      // Right-to-left trailing curtain gradient (leading edge on LEFT = 0%, fading RIGHT = 100%)
-      scanCurtainGradRTL = mk("linearGradient", { id: "mech-curtain-rtl", x1: "0%", y1: "0%", x2: "100%", y2: "0%" }, sDefs);
-      mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.22" }, scanCurtainGradRTL);
-      mk("stop", { offset: "18%", "stop-color": "#2D6A47", "stop-opacity": "0.11" }, scanCurtainGradRTL);
-      mk("stop", { offset: "65%", "stop-color": "#2D6A47", "stop-opacity": "0.03" }, scanCurtainGradRTL);
-      mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, scanCurtainGradRTL);
+      // Soft downward vertical optical inspection beam (bamboo green)
+      const beamGrad = mk("linearGradient", { id: "agent-beam-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
+      mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.24" }, beamGrad);
+      mk("stop", { offset: "45%", "stop-color": "#2D6A47", "stop-opacity": "0.10" }, beamGrad);
+      mk("stop", { offset: "85%", "stop-color": "#2D6A47", "stop-opacity": "0.025" }, beamGrad);
+      mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, beamGrad);
 
-      // Left-to-right trailing curtain gradient (leading edge on RIGHT = 100%, fading LEFT = 0%)
-      scanCurtainGradLTR = mk("linearGradient", { id: "mech-curtain-ltr", x1: "100%", y1: "0%", x2: "0%", y2: "0%" }, sDefs);
-      mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.22" }, scanCurtainGradLTR);
-      mk("stop", { offset: "18%", "stop-color": "#2D6A47", "stop-opacity": "0.11" }, scanCurtainGradLTR);
-      mk("stop", { offset: "65%", "stop-color": "#2D6A47", "stop-opacity": "0.03" }, scanCurtainGradLTR);
-      mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, scanCurtainGradLTR);
+      const coreBeamGrad = mk("linearGradient", { id: "agent-beam-core", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
+      mk("stop", { offset: "0%", "stop-color": "#B5F5D4", "stop-opacity": "0.34" }, coreBeamGrad);
+      mk("stop", { offset: "48%", "stop-color": "#2D6A47", "stop-opacity": "0.09" }, coreBeamGrad);
+      mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, coreBeamGrad);
 
-      // Crisp architectural blueprint crosshair micro-grid revealed inside scan curtain!
-      const gridPat = mk("pattern", { id: "mech-scan-grid", width: "28", height: "28", patternUnits: "userSpaceOnUse" }, sDefs);
-      mk("path", {
-        d: "M 28 0 L 0 0 0 28",
-        fill: "none", stroke: "#2D6A47", "stroke-width": "0.55", "stroke-opacity": "0.22"
-      }, gridPat);
-      mk("path", {
-        d: "M 12.5 14 L 15.5 14 M 14 12.5 L 14 15.5",
-        fill: "none", stroke: "#2D6A47", "stroke-width": "0.65", "stroke-opacity": "0.34", "stroke-linecap": "round"
-      }, gridPat);
+      // Warm vermilion inspection cone gradient when curiously inspecting the Flagship card
+      const flagBeamGrad = mk("linearGradient", { id: "agent-beam-flag", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
+      mk("stop", { offset: "0%", "stop-color": "#B83B2A", "stop-opacity": "0.20" }, flagBeamGrad);
+      mk("stop", { offset: "48%", "stop-color": "#B83B2A", "stop-opacity": "0.08" }, flagBeamGrad);
+      mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, flagBeamGrad);
 
-      // Soft horizontal fade mask so blueprint grid dissolves smoothly behind frontier
-      const gridMaskRTL = mk("mask", { id: "mech-grid-mask-rtl", maskContentUnits: "objectBoundingBox" }, sDefs);
-      const gmGradRTL = mk("linearGradient", { id: "mech-gm-rtl", x1: "0%", y1: "0%", x2: "100%", y2: "0%" }, sDefs);
-      mk("stop", { offset: "0%", "stop-color": "#FFFFFF", "stop-opacity": "0.95" }, gmGradRTL);
-      mk("stop", { offset: "45%", "stop-color": "#FFFFFF", "stop-opacity": "0.45" }, gmGradRTL);
-      mk("stop", { offset: "100%", "stop-color": "#FFFFFF", "stop-opacity": "0" }, gmGradRTL);
-      mk("rect", { x: "0", y: "0", width: "1", height: "1", fill: "url(#mech-gm-rtl)" }, gridMaskRTL);
-
-      const gridMaskLTR = mk("mask", { id: "mech-grid-mask-ltr", maskContentUnits: "objectBoundingBox" }, sDefs);
-      const gmGradLTR = mk("linearGradient", { id: "mech-gm-ltr", x1: "100%", y1: "0%", x2: "0%", y2: "0%" }, sDefs);
-      mk("stop", { offset: "0%", "stop-color": "#FFFFFF", "stop-opacity": "0.95" }, gmGradLTR);
-      mk("stop", { offset: "45%", "stop-color": "#FFFFFF", "stop-opacity": "0.45" }, gmGradLTR);
-      mk("stop", { offset: "100%", "stop-color": "#FFFFFF", "stop-opacity": "0" }, gmGradLTR);
-      mk("rect", { x: "0", y: "0", width: "1", height: "1", fill: "url(#mech-gm-ltr)" }, gridMaskLTR);
-
-      // Soft glow band hugging the leading optical frontier
-      const edgeGlowGrad = mk("linearGradient", { id: "mech-edge-glow", x1: "0%", y1: "0%", x2: "100%", y2: "0%" }, sDefs);
-      mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0" }, edgeGlowGrad);
-      mk("stop", { offset: "50%", "stop-color": "#7AD9A3", "stop-opacity": "0.52" }, edgeGlowGrad);
-      mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0" }, edgeGlowGrad);
-
-      scanRoot = mk("g", { opacity: "0" }, scanOverlay);
-      scanCurtain = mk("rect", { fill: "url(#mech-curtain-rtl)" }, scanRoot);
-      scanGridRect = mk("rect", { fill: "url(#mech-scan-grid)", mask: "url(#mech-grid-mask-rtl)" }, scanRoot);
-      scanTetherTop = mk("line", { stroke: "#2D6A47", "stroke-width": "0.8", "stroke-opacity": "0.32", "stroke-dasharray": "4 3" }, scanRoot);
-      scanTetherBot = mk("line", { stroke: "#2D6A47", "stroke-width": "0.65", "stroke-opacity": "0.18", "stroke-dasharray": "4 4" }, scanRoot);
-      scanGlowEdge = mk("rect", { width: "14", fill: "url(#mech-edge-glow)" }, scanRoot);
-      scanFrontLine = mk("line", { stroke: "#2D6A47", "stroke-width": "1.6", "stroke-opacity": "0.92" }, scanRoot);
-      scanTicksG = mk("g", { stroke: "#2D6A47", "stroke-width": "1.0", "stroke-opacity": "0.65", "stroke-linecap": "round" }, scanRoot);
-      for (let i = 0; i < 9; i++) {
-        mk("line", { x1: "-4", y1: "0", x2: "4", y2: "0" }, scanTicksG);
+      // Subtle trailing aerodynamic wake particles along 2D flight path
+      for (let i = 0; i < 10; i++) {
+        const d = mk("circle", { r: "1.35", fill: "#2D6A47", opacity: "0" }, scanOverlay);
+        wakeDots.push({ el: d, x: 0, y: 0, life: 0 });
       }
-      scanSpineTick = mk("g", null, scanRoot);
-      mk("circle", { r: "5.2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", "stroke-opacity": "0.55" }, scanSpineTick);
-      mk("circle", { r: "2.2", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.9" }, scanSpineTick);
 
-      // Minimal editorial telemetry pill riding the scan frontier
-      scanHudBadgeG = mk("g", null, scanRoot);
-      mk("rect", { x: "0", y: "0", width: "92", height: "19", rx: "3", fill: "#FAF8F4", "fill-opacity": "0.94", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.65" }, scanHudBadgeG);
-      mk("circle", { cx: "9", cy: "9.5", r: "2.3", fill: "#2D6A47" }, scanHudBadgeG);
-      scanHudText = mk("text", {
-        x: "16", y: "13",
-        fill: "#1D1B18",
-        "font-family": '"JetBrains Mono", "SF Mono", monospace',
-        "font-size": "9.5",
-        "font-weight": "500",
-        "letter-spacing": "0.04em"
-      }, scanHudBadgeG);
-      scanHudText.textContent = "SCAN 00%";
+      // Downward inspection cone group (pure feathered light veil, zero clutter over typography!)
+      coneG = mk("g", { opacity: "0" }, scanOverlay);
+      conePoly = mk("polygon", { fill: "url(#agent-beam-grad)" }, coneG);
+      coneCorePoly = mk("polygon", { fill: "url(#agent-beam-core)" }, coneG);
+      coneEdgeL = mk("line", { stroke: "#2D6A47", "stroke-width": "0.7", "stroke-opacity": "0.22" }, coneG);
+      coneEdgeR = mk("line", { stroke: "#2D6A47", "stroke-width": "0.7", "stroke-opacity": "0.22" }, coneG);
+
+      // Full-screen radial bamboo sonar wavefront (emitted cleanly from docked Agent across 100% viewport!)
+      sonarG = mk("g", { opacity: "0" }, scanOverlay);
+      sonarOuterHalo = mk("circle", { fill: "none", stroke: "#2D6A47", "stroke-width": "28", "stroke-opacity": "0.05" }, sonarG);
+      sonarRingMain = mk("circle", { fill: "none", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-opacity": "0.62" }, sonarG);
+      sonarRingEcho = mk("circle", { fill: "none", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "4 4", "stroke-opacity": "0.35" }, sonarG);
     }
 
     // =====================================================================
-    // HERO CYBER-INK MECHA AVATAR SVG
+    // SCULPTURAL MINIMALIST MONO-SHELL AGENT SVG (EVE × Braun × Ink-on-Paper)
     // =====================================================================
-    const svg = mk("svg", { viewBox: "-26 -24 52 44", "shape-rendering": "geometricPrecision" }, btn);
+    const svg = mk("svg", { viewBox: "-24 -22 48 44", "shape-rendering": "geometricPrecision" }, btn);
     const defs = mk("defs", null, svg);
 
-    const jetGrad = mk("linearGradient", { id: "mech-jet-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, defs);
-    mk("stop", { offset: "0%", "stop-color": "#B5F5D4", "stop-opacity": "0.95" }, jetGrad);
-    mk("stop", { offset: "40%", "stop-color": "#2D6A47", "stop-opacity": "0.62" }, jetGrad);
-    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, jetGrad);
+    const hoverGlow = mk("radialGradient", { id: "agent-hover-glow", cx: "50%", cy: "50%", r: "50%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#7AD9A3", "stop-opacity": "0.65" }, hoverGlow);
+    mk("stop", { offset: "55%", "stop-color": "#2D6A47", "stop-opacity": "0.22" }, hoverGlow);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, hoverGlow);
 
-    const coreGlow = mk("radialGradient", { id: "mech-core-glow", cx: "50%", cy: "50%", r: "50%" }, defs);
-    mk("stop", { offset: "0%", "stop-color": "#4FA072", "stop-opacity": "0.65" }, coreGlow);
-    mk("stop", { offset: "60%", "stop-color": "#2D6A47", "stop-opacity": "0.20" }, coreGlow);
-    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, coreGlow);
+    const eyeGlow = mk("radialGradient", { id: "agent-eye-glow", cx: "50%", cy: "50%", r: "50%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#B5F5D4", "stop-opacity": "0.42" }, eyeGlow);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, eyeGlow);
 
-    const opticGlow = mk("radialGradient", { id: "mech-optic-glow", cx: "50%", cy: "50%", r: "50%" }, defs);
-    mk("stop", { offset: "0%", "stop-color": "#B5F5D4", "stop-opacity": "0.55" }, opticGlow);
-    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, opticGlow);
+    // Local dock confirmation ripple ring
+    const dockRing = mk("circle", { cx: "0", cy: "0", r: "10", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, svg);
 
-    // Braking ring, slipstream trail, tactical HUD brackets & lock ring
-    const brakeRing = mk("ellipse", { cx: "0", cy: "14.5", rx: "6", ry: "1.6", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, svg);
-    const glideTrail = mk("g", { opacity: "0" }, svg);
-    mk("line", { x1: "16", y1: "-2.0", x2: "31", y2: "-2.0", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round" }, glideTrail);
-    mk("line", { x1: "17", y1: "2.4", x2: "27", y2: "2.4", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-opacity": "0.65", "stroke-linecap": "round" }, glideTrail);
-    mk("line", { x1: "16", y1: "6.8", x2: "23", y2: "6.8", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-opacity": "0.35", "stroke-linecap": "round" }, glideTrail);
+    // Main floating body wrapper (handles smooth levitation + aerodynamic banking)
+    const craftG = mk("g", null, svg);
 
-    // 4-Corner Tactical HUD Brackets around docked helmet (appear on hover & during scan!)
-    const hudBrackets = mk("g", { class: "mech-hud-brackets" }, svg);
+    // Subtle anti-gravity levitation field underneath shell (only visible while flying!)
+    const antiGravG = mk("g", { opacity: "0" }, craftG);
+    mk("ellipse", { cx: "0", cy: "13.2", rx: "8.2", ry: "3.0", fill: "url(#agent-hover-glow)" }, antiGravG);
+    const antiGravRing = mk("ellipse", { cx: "0", cy: "12.2", rx: "5.2", ry: "1.2", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-opacity": "0.75" }, antiGravG);
+
+    // Subtle soft ground shadow when docked & floating peacefully at top-left
+    const dockShadow = mk("ellipse", { cx: "0", cy: "13.6", rx: "7.2", ry: "1.25", fill: "#1D1B18", "fill-opacity": "0.09", opacity: "0" }, svg);
+
+    // --- Sculptural Mono-Shell Head (Zero spikes, pure aerodynamic elegance!) ---
+    const headG = mk("g", { transform: "scale(1.22)" }, craftG);
+
+    // Flush-mounted recessed side acoustic rings (subtle architectural contour, zero protruding blocks)
+    mk("path", { d: "M -10.5,-1.8 Q -11.4,0 -10.5,1.8", fill: "none", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linecap": "round", "stroke-opacity": "0.65" }, headG);
+    mk("path", { d: "M 10.5,-1.8 Q 11.4,0 10.5,1.8", fill: "none", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linecap": "round", "stroke-opacity": "0.65" }, headG);
+
+    // Seamless aerodynamic mono-shell silhouette (smooth crown curving gracefully to sculpted chin)
     mk("path", {
-      d: "M -19,-13 L -19,-17 L -15,-17 M 15,-17 L 19,-17 L 19,-13 M -19,11 L -19,15 L -15,15 M 15,15 L 19,15 L 19,11",
-      fill: "none", stroke: "#2D6A47", "stroke-width": "1.15", "stroke-linecap": "round", "stroke-linejoin": "round"
-    }, hudBrackets);
-
-    const morphSparks = mk("g", { opacity: "0" }, svg);
-    mk("path", {
-      d: "M -16,-11 L -20,-15 M 16,-11 L 20,-15 M -16,12 L -20,16 M 16,12 L 20,16",
-      fill: "none", stroke: "#2D6A47", "stroke-width": "1.25", "stroke-linecap": "round"
-    }, morphSparks);
-    const morphRing = mk("circle", { cx: "0", cy: "1.5", r: "10", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, svg);
-
-    // Root group for descending vertical travel
-    const rootG = mk("g", { transform: "translate(0, -64)" }, svg);
-
-    // --- Retractable Body Subgroups (descending full mech) ---
-    const legsG = mk("g", null, rootG);
-    mk("path", { d: "M -2.2,6.2 L -3.5,12.2 L -1.4,12.2 M 2.2,6.2 L 2.8,13.6 L 4.8,13.6", fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, legsG);
-    mk("path", { d: "M -5.0,10.2 L -1.8,10.2 L -1.1,13.4 L -5.2,13.4 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, legsG);
-    mk("path", { d: "M 1.3,11.2 L 4.5,11.2 L 5.4,14.6 L 1.1,14.6 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round" }, legsG);
-
-    const armsG = mk("g", null, rootG);
-    mk("path", { d: "M -5.0,-2.4 L -8.6,0.4 L -11.2,4.6 M 5.0,-2.4 L 8.6,0.4 L 11.2,4.6", fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, armsG);
-    mk("rect", { x: "-13.2", y: "3.4", width: "4.0", height: "3.1", rx: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0" }, armsG);
-    mk("rect", { x: "9.2", y: "3.4", width: "4.0", height: "3.1", rx: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.0" }, armsG);
-    mk("line", { x1: "10.2", y1: "4.9", x2: "12.2", y2: "4.9", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, armsG);
-
-    const torsoG = mk("g", null, rootG);
-    mk("rect", { x: "-8.6", y: "-2.8", width: "4.4", height: "7.6", rx: "1.1", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, torsoG);
-    mk("rect", { x: "-8.2", y: "-2.3", width: "1.6", height: "6.6", rx: "0.4", fill: "#EDE8DE" }, torsoG);
-    mk("path", { d: "M -5.8,-4.0 L 5.8,-4.0 L 6.7,-1.6 L -6.7,-1.6 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round" }, torsoG);
-    mk("rect", { x: "-4.6", y: "-3.2", width: "9.2", height: "9.4", rx: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.2" }, torsoG);
-    mk("rect", { x: "-4.1", y: "-2.7", width: "2.4", height: "8.4", rx: "0.6", fill: "#EDE8DE", "fill-opacity": "0.85" }, torsoG);
-    mk("path", { d: "M -3.8,-2.4 L 3.8,5.4 M 3.8,-2.4 L -3.8,5.4", fill: "none", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linecap": "round" }, torsoG);
-    mk("circle", { cx: "0", cy: "1.5", r: "4.4", fill: "url(#mech-core-glow)" }, torsoG);
-    mk("circle", { cx: "0", cy: "1.5", r: "2.15", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, torsoG);
-    mk("circle", { cx: "0", cy: "1.5", r: "1.35", fill: "#2D6A47" }, torsoG);
-
-    const jetsG = mk("g", { opacity: "0" }, rootG);
-    const jetL = mk("path", { fill: "url(#mech-jet-grad)" }, jetsG);
-    const jetLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.9" }, jetsG);
-    const jetR = mk("path", { fill: "url(#mech-jet-grad)" }, jetsG);
-    const jetRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.9" }, jetsG);
-    const jetB = mk("path", { fill: "url(#mech-jet-grad)", opacity: "0.82" }, jetsG);
-    mk("circle", { cx: "-11.2", cy: "6.7", r: "1.45", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.55" }, jetsG);
-    mk("circle", { cx: "11.2", cy: "6.7", r: "1.45", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.55" }, jetsG);
-
-    // =====================================================================
-    // BADASS SCULPTED CYBER-INK MECHA HELMET (Pure Symmetrical V-Fin + Side Comms Blade)
-    // =====================================================================
-    const headG = mk("g", { transform: "translate(0, -8.8) scale(1)" }, rootG);
-
-    // Side-mounted tactical comms blade rising cleanly from right ear wing (keeps V-Fin 100% pure!)
-    const antG = mk("g", null, headG);
-    mk("path", { d: "M 7.1,-2.2 L 8.2,-8.6 L 9.0,-8.5 L 8.1,-2.0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.58", "stroke-linejoin": "round" }, antG);
-    mk("circle", { class: "mech-ant-tip", cx: "8.65", cy: "-9.1", r: "0.95", fill: "#2D6A47", stroke: "#1D1B18", "stroke-width": "0.58" }, antG);
-
-    // Swept-back aerodynamic ear sensor wings (dual-layer mecha comms fins)
-    mk("path", {
-      d: "M -5.8,-2.4 L -8.4,-4.2 L -8.8,-1.8 L -7.6,1.6 L -5.6,1.8 Z",
-      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-linejoin": "round"
-    }, headG);
-    mk("line", { x1: "-7.6", y1: "-2.3", x2: "-6.6", y2: "0.8", stroke: "#1D1B18", "stroke-width": "0.48", "stroke-opacity": "0.55", "stroke-linecap": "round" }, headG);
-    mk("path", {
-      d: "M 5.8,-2.4 L 8.4,-4.2 L 8.8,-1.8 L 7.6,1.6 L 5.6,1.8 Z",
-      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-linejoin": "round"
-    }, headG);
-    mk("line", { x1: "7.6", y1: "-2.3", x2: "6.6", y2: "0.8", stroke: "#1D1B18", "stroke-width": "0.48", "stroke-opacity": "0.55", "stroke-linecap": "round" }, headG);
-
-    // Sculpted faceted mecha helmet shell (chamfered crown, angular cheek plates & chin guard)
-    mk("path", {
-      d: "M -4.2,-5.0 L 4.2,-5.0 L 6.2,-2.6 L 5.8,2.2 L 3.4,4.7 L -3.4,4.7 L -5.8,2.2 L -6.2,-2.6 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round"
-    }, headG);
-    // Warm stone-wash lower cheek armor shading + chin faceplate bevel
-    mk("path", {
-      d: "M -5.6,1.6 L -3.3,4.4 L 3.3,4.4 L 5.6,1.6 L 4.2,2.2 L -4.2,2.2 Z",
-      fill: "#EDE8DE", "fill-opacity": "0.9"
-    }, headG);
-    // Chin guard central armor plate + twin micro intake vents
-    mk("path", {
-      d: "M -2.2,2.5 L 2.2,2.5 L 1.5,4.6 L -1.5,4.6 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.62", "stroke-linejoin": "round"
-    }, headG);
-    mk("path", {
-      d: "M -1.0,3.4 L 1.0,3.4 M -0.7,4.0 L 0.7,4.0",
-      fill: "none", stroke: "#1D1B18", "stroke-width": "0.48", "stroke-opacity": "0.6", "stroke-linecap": "round"
-    }, headG);
-    // Subtle crown panel seam lines
-    mk("path", {
-      d: "M -3.8,-4.7 L -2.6,-3.2 M 3.8,-4.7 L 2.6,-3.2",
-      fill: "none", stroke: "#1D1B18", "stroke-width": "0.48", "stroke-opacity": "0.42", "stroke-linecap": "round"
+      d: "M 0,-9.2 C 6.6,-9.2 10.4,-5.4 10.4,-0.4 C 10.4,4.8 6.8,8.6 0,8.6 C -6.8,8.6 -10.4,4.8 -10.4,-0.4 C -10.4,-5.4 -6.6,-9.2 0,-9.2 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05"
     }, headG);
 
-    // Wrap-around obsidian cyber-visor with aggressive brow chamfer
+    // Warm rice-paper stone-wash lower underside contour shadow (subtle 3D sculptural volume)
     mk("path", {
-      d: "M -5.1,-1.8 L -1.4,-2.6 L 0,-1.9 L 1.4,-2.6 L 5.1,-1.8 L 4.7,1.4 L 2.2,2.1 L -2.2,2.1 L -4.7,1.4 Z",
-      fill: "#1D1B18"
+      d: "M -8.6,3.8 C -6.4,6.8 -3.4,7.9 0,7.9 C 3.4,7.9 6.4,6.8 8.6,3.8 C 6.2,5.6 3.2,6.3 0,6.3 C -3.2,6.3 -6.2,5.6 -8.6,3.8 Z",
+      fill: "#EDE8DE", "fill-opacity": "0.92"
     }, headG);
-    // Subtle inner bamboo optic aura inside visor
-    const visorAura = mk("ellipse", { cx: "0", cy: "-0.1", rx: "4.6", ry: "2.0", fill: "url(#mech-optic-glow)", opacity: "0.45" }, headG);
-    // Parallax curved glass reflection tucked cleanly at upper-left brow edge
+
+    // Crisp crown highlight sheen
+    mk("path", {
+      d: "M -4.2,-7.9 Q 0,-8.6 4.2,-7.9",
+      fill: "none", stroke: "#FFFFFF", "stroke-width": "0.7", "stroke-opacity": "0.85", "stroke-linecap": "round"
+    }, headG);
+
+    // Single Signature Industrial Detail: flush-inlaid micro crown status slit (bamboo idle / vermilion flagship)
+    const statusSlit = mk("rect", {
+      class: "mech-status-slit",
+      x: "-2.4", y: "-7.0", width: "4.8", height: "1.15", rx: "0.58",
+      fill: "#2D6A47"
+    }, headG);
+
+    // Deep Edge-to-Edge Obsidian OLED Wrap Visor (the unmistakable hero focus!)
+    mk("path", {
+      d: "M 0,-4.7 C 5.4,-4.7 8.4,-2.7 8.4,0.2 C 8.4,3.1 5.4,5.0 0,5.0 C -5.4,5.0 -8.4,3.1 -8.4,0.2 C -8.4,-2.7 -5.4,-4.7 0,-4.7 Z",
+      fill: "#181715"
+    }, headG);
+
+    // Soft inner OLED luminance glow inside visor
+    const visorAura = mk("ellipse", { cx: "0", cy: "0.2", rx: "6.4", ry: "3.2", fill: "url(#agent-eye-glow)", opacity: "0.5" }, headG);
+
+    // Curved glass reflection tucked smoothly along upper-left visor rim
     const visorGlint = mk("path", {
-      d: "M -4.4,-1.3 L -2.1,-1.85",
-      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.46", "stroke-opacity": "0.36", "stroke-linecap": "round"
+      d: "M -6.4,-1.3 Q -4.6,-3.4 -1.4,-3.7",
+      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.55", "stroke-opacity": "0.32", "stroke-linecap": "round"
     }, headG);
 
-    // Expressive Cyber-Optics (Sharp glowing chamfered optical eyes + scan sweep bar!)
+    // Expressive Luminous OLED Pill Eyes (EVE / Astro Bot clarity!)
     const eyesIdleG = mk("g", { class: "mech-eyes-idle" }, headG);
     const eyesTrackG = mk("g", null, eyesIdleG);
-    const eyeDotL = mk("path", {
-      d: "M -3.5,-0.5 L -1.1,-0.9 L -0.9,0.5 L -3.1,0.75 Z",
-      fill: "#E6FFF1"
-    }, eyesTrackG);
-    const eyeDotR = mk("path", {
-      d: "M 1.1,-0.9 L 3.5,-0.5 L 3.1,0.75 L 0.9,0.5 Z",
-      fill: "#E6FFF1"
-    }, eyesTrackG);
-    // Razor-thin scanning visor laser hairline (preserves twin-optic silhouette during scan!)
-    const visorScanBar = mk("line", {
-      x1: "-3.9", y1: "0.0", x2: "3.9", y2: "0.0",
-      stroke: "#7AD9A3", "stroke-width": "0.45", "stroke-linecap": "round", opacity: "0"
-    }, headG);
+    const eyeL = mk("rect", { x: "-4.5", y: "-1.75", width: "2.35", height: "3.7", rx: "1.18", fill: "#EBFFF3" }, eyesTrackG);
+    const eyeR = mk("rect", { x: "2.15", y: "-1.75", width: "2.35", height: "3.7", rx: "1.18", fill: "#EBFFF3" }, eyesTrackG);
 
-    // Hover confident cyber-smile arcs
+    // Hover delighted OLED arcs (^ ^)
     const eyesHappyG = mk("g", { class: "mech-eyes-happy" }, headG);
     mk("path", {
-      d: "M -3.4,0.45 L -2.15,-0.75 L -0.9,0.35 M 0.9,0.35 L 2.15,-0.75 L 3.4,0.45",
-      fill: "none", stroke: "#B5F5D4", "stroke-width": "0.95", "stroke-linecap": "round", "stroke-linejoin": "round"
+      d: "M -4.7,1.0 Q -3.3,-1.6 -1.9,1.0 M 1.9,1.0 Q 3.3,-1.6 4.7,1.0",
+      fill: "none", stroke: "#B5F5D4", "stroke-width": "1.2", "stroke-linecap": "round"
     }, eyesHappyG);
 
-    // Click cheeky cyber-wink (sharp left optic + curved right arc)
+    // Click playful wink (left glowing pill + right curved arc)
     const eyesWinkG = mk("g", { class: "mech-eyes-wink" }, headG);
-    mk("path", { d: "M -3.5,-0.5 L -1.1,-0.9 L -0.9,0.5 L -3.1,0.75 Z", fill: "#B5F5D4" }, eyesWinkG);
+    mk("rect", { x: "-4.5", y: "-1.75", width: "2.35", height: "3.7", rx: "1.18", fill: "#B5F5D4" }, eyesWinkG);
     mk("path", {
-      d: "M 0.9,0.4 L 2.15,-0.75 L 3.4,0.45",
-      fill: "none", stroke: "#B5F5D4", "stroke-width": "0.95", "stroke-linecap": "round", "stroke-linejoin": "round"
+      d: "M 1.9,1.0 Q 3.3,-1.5 4.7,1.0",
+      fill: "none", stroke: "#B5F5D4", "stroke-width": "1.2", "stroke-linecap": "round"
     }, eyesWinkG);
 
-    // Iconic Swept-Back Gundam V-Fin Crest + Central Glowing Forehead Diamond Sensor (drawn over brow!)
-    mk("path", {
-      d: "M 0,-3.4 L -7.4,-8.2 L -6.0,-5.3 L -1.2,-2.7 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-linejoin": "round"
-    }, headG);
-    mk("path", {
-      d: "M 0,-3.4 L 7.4,-8.2 L 6.0,-5.3 L 1.2,-2.7 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-linejoin": "round"
-    }, headG);
-    // Inner V-fin warm stone shadow bevels
-    mk("path", {
-      d: "M -0.8,-3.1 L -5.7,-5.7 L -5.1,-4.8 L -1.1,-2.7 Z M 0.8,-3.1 L 5.7,-5.7 L 5.1,-4.8 L 1.1,-2.7 Z",
-      fill: "#EDE8DE"
-    }, headG);
-    // Central forehead diamond sensor housing + glowing bamboo jewel
-    const foreheadGem = mk("polygon", {
-      class: "mech-forehead-gem",
-      points: "0,-5.2 1.35,-3.6 0,-2.0 -1.35,-3.6",
-      fill: "#2D6A47", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-linejoin": "round"
-    }, headG);
-
     // =====================================================================
-    // STATE MACHINE & 2.5D SPRING PARALLAX PHYSICS
+    // 2D AUTONOMOUS FLIGHT PHYSICS & INTELLIGENT PATROL ENGINE
     // =====================================================================
-    let avPhase = "waiting"; // "waiting" | "delay" | "descending" | "morphing" | "scanning" | "gliding" | "avatar" | "rescan"
+    let avPhase = "waiting"; // "waiting" | "delay" | "patrolling" | "sonar" | "avatar"
     let avT = 0;
+    let patrolT = 0;
+    let sonarT = 0;
     let syncTimer = 0;
-    let glideStartX = 0;
     let lastTs = performance.now();
-    const eyePos = { tx: 0, ty: 0, cx: 0, cy: 0 };
-    const headSpring = { tx: 0, ty: 0, cx: 0, cy: 0, trot: 0, rot: 0 };
-    const antSpring = { angle: 0, vel: 0 };
-    let scannedColFlags = [];
-    let navWakeFlags = [];
+
+    // True 2D physical drone state (world coordinates relative to viewport)
+    const drone = {
+      x: 0, y: 0,
+      vx: 0, vy: 0,
+      rot: 0,
+      scale: 1.0,
+      eyeX: 0, eyeY: 0,
+      curious: 0
+    };
+    const mouseGoal = { ex: 0, ey: 0, hx: 0, hy: 0, hrot: 0 };
+    const headState = { ex: 0, ey: 0, hx: 0, hy: 0, hrot: 0 };
+
+    let wakeIdx = 0;
+    let wakeCooldown = 0;
+    let pingedCols = [];
+    let pingedHeatmapWeeks = [];
+    let sonarColsDone = [];
+    let sonarNavDone = [];
     let winkTimeout = null;
+    let patrolIsReRun = false;
 
     function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
     function lerp(a, b, t) { return a + (b - a) * t; }
 
-    function getRightOffsetX() {
-      const navRect = topNav.getBoundingClientRect();
-      const style = getComputedStyle(topNav);
-      const padL = parseFloat(style.paddingLeft) || 24;
-      const padR = parseFloat(style.paddingRight) || 24;
-      return Math.max(0, navRect.width - padL - padR - 44);
+    // Stable resting dock center in viewport coordinates (immune to btn's own transform!)
+    function getDockCenter() {
+      const nr = topNav.getBoundingClientRect();
+      const cs = getComputedStyle(topNav);
+      const padL = parseFloat(cs.paddingLeft) || 24;
+      return {
+        x: nr.left + padL + 22,
+        y: nr.top + nr.height * 0.5
+      };
     }
 
-    function hideScanOverlay() {
-      btn.classList.remove("is-scanning");
-      visorScanBar.setAttribute("opacity", "0");
-      visorAura.setAttribute("opacity", "0.45");
-      if (scanRoot) scanRoot.setAttribute("opacity", "0");
+    function hideFlightFX() {
+      antiGravG.setAttribute("opacity", "0");
+      if (coneG) coneG.setAttribute("opacity", "0");
+      wakeDots.forEach((d) => { d.life = 0; d.el.setAttribute("opacity", "0"); });
+    }
+
+    function hideSonarFX() {
+      if (sonarG) sonarG.setAttribute("opacity", "0");
     }
 
     function pingEraColumn(colEl) {
       if (!colEl) return;
       colEl.classList.add("is-scan-ping");
-      setTimeout(() => colEl.classList.remove("is-scan-ping"), 480);
+      setTimeout(() => colEl.classList.remove("is-scan-ping"), 520);
+    }
+
+    function shimmerHeatmapCol(weekIdx) {
+      if (!fpCanvasEl) return;
+      const cells = fpCanvasEl.querySelectorAll(`.fp-cell[data-week="${weekIdx}"], .fp-col:nth-child(${weekIdx + 1}) .fp-cell`);
+      if (cells.length) {
+        cells.forEach((c) => {
+          c.classList.add("is-sonar-shimmer");
+          setTimeout(() => c.classList.remove("is-sonar-shimmer"), 320);
+        });
+      }
     }
 
     function wakeNavButton(nb) {
@@ -373,48 +277,67 @@
     function triggerWink() {
       if (winkTimeout) clearTimeout(winkTimeout);
       btn.classList.add("is-winking");
-      antSpring.vel += 210;
-      winkTimeout = setTimeout(() => {
-        btn.classList.remove("is-winking");
-      }, 360);
+      winkTimeout = setTimeout(() => btn.classList.remove("is-winking"), 380);
     }
 
     function scheduleBlink() {
       setTimeout(() => {
         if (avPhase === "avatar") triggerBlink(Math.random() < 0.25);
         scheduleBlink();
-      }, 2900 + Math.random() * 3200);
+      }, 2800 + Math.random() * 3200);
     }
     scheduleBlink();
 
-    // 2.5D cursor tracking + subtle parallax tilt
+    // Launch a smooth 2D autonomous patrol across the entire viewport!
+    function startAutonomousPatrol(fromDock) {
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const dock = getDockCenter();
+      patrolIsReRun = !!fromDock;
+      avPhase = "patrolling";
+      patrolT = 0;
+      pingedCols = [];
+      pingedHeatmapWeeks = [];
+      btn.classList.remove("is-docked", "is-winking", "is-flagship-sense");
+      btn.classList.add("is-visible");
+      dockShadow.setAttribute("opacity", "0");
+
+      if (fromDock) {
+        drone.x = dock.x;
+        drone.y = dock.y;
+        drone.vx = 180;
+        drone.vy = 120;
+      } else {
+        // Enters gracefully from upper-right sky right after Era 5 vertical blastoff!
+        drone.x = W * 0.91;
+        drone.y = -28;
+        drone.vx = -65;
+        drone.vy = 210;
+      }
+      drone.rot = 0;
+      drone.curious = 0;
+    }
+
+    // 2.5D cursor tracking when docked
     window.addEventListener("mousemove", (e) => {
       if (avPhase !== "avatar") return;
       const r = btn.getBoundingClientRect();
       const dx = e.clientX - (r.left + r.width / 2);
       const dy = e.clientY - (r.top + r.height / 2);
       const dist = Math.hypot(dx, dy) || 1;
-      const ratio = Math.min(1, dist / 260);
-      eyePos.tx = (dx / dist) * 1.15 * ratio;
-      eyePos.ty = (dy / dist) * 0.72 * ratio;
-      headSpring.tx = (dx / dist) * 0.9 * ratio;
-      headSpring.ty = (dy / dist) * 0.55 * ratio;
-      headSpring.trot = (dx / dist) * 2.8 * ratio;
+      const ratio = Math.min(1, dist / 280);
+      mouseGoal.ex = (dx / dist) * 1.55 * ratio;
+      mouseGoal.ey = (dy / dist) * 1.05 * ratio;
+      mouseGoal.hx = (dx / dist) * 0.85 * ratio;
+      mouseGoal.hy = (dy / dist) * 0.60 * ratio;
+      mouseGoal.hrot = (dx / dist) * 3.0 * ratio;
     }, { passive: true });
 
     document.addEventListener("mouseleave", () => {
-      eyePos.tx = 0;
-      eyePos.ty = 0;
-      headSpring.tx = 0;
-      headSpring.ty = 0;
-      headSpring.trot = 0;
+      mouseGoal.ex = mouseGoal.ey = mouseGoal.hx = mouseGoal.hy = mouseGoal.hrot = 0;
     });
 
-    btn.addEventListener("mouseenter", () => {
-      if (avPhase === "avatar") antSpring.vel += 150;
-    });
-
-    // Subtle flagship-node vermilion sensor sense when exploring the map
+    // Subtle flagship-node vermilion crown slit sense
     if (skeletonGridEl) {
       skeletonGridEl.addEventListener("mouseover", (e) => {
         if (avPhase !== "avatar") return;
@@ -426,7 +349,7 @@
       }, { passive: true });
     }
 
-    // Click: return home from subpages, OR cheeky cyber-wink + pulse ring when on home!
+    // Click: return home from subpages, OR playful wink + local pulse when on home!
     btn.addEventListener("click", () => {
       if (avPhase !== "avatar") return;
       btn.classList.remove("is-nodding");
@@ -441,15 +364,12 @@
       }
     });
 
-    // Double-click on homepage replays the TRUE full-screen architectural scan from left -> right!
+    // Double-click on homepage: UNDOCK & FLY A LIVE 2D AERIAL PATROL!
     btn.addEventListener("dblclick", (e) => {
       e.preventDefault();
       if (avPhase !== "avatar") return;
       if (AgentBlog.getView && AgentBlog.getView() !== "home") return;
-      avPhase = "rescan";
-      avT = 0;
-      scannedColFlags = [];
-      btn.classList.remove("is-winking");
+      startAutonomousPatrol(true);
     });
 
     AgentBlog.onMechExitedTop = () => {
@@ -458,7 +378,6 @@
         avT = 0;
       } else if (avPhase === "avatar") {
         syncTimer = 0.48;
-        antSpring.vel += 160;
         btn.classList.remove("is-nodding");
         void btn.offsetWidth;
         btn.classList.add("is-nodding");
@@ -466,118 +385,62 @@
       }
     };
 
-    // =====================================================================
-    // TRUE FULL-SCREEN ARCHITECTURAL BLUEPRINT SWEEP (100% Viewport Coverage)
-    // =====================================================================
-    function renderFullScreenScan(u, leftToRight) {
-      btn.classList.add("is-scanning");
-      const alpha = u < 0.08 ? u / 0.08 : u > 0.90 ? (1 - u) / 0.10 : 1;
-      const sweepU = clamp01((u - 0.05) / 0.87);
-      const sweepEase = sweepU < 0.5 ? 2 * sweepU * sweepU : 1 - Math.pow(-2 * sweepU + 2, 2) / 2;
-
-      // Intense cyber-optic glow + subtle visor hairline + forehead gem flare
-      eyeDotL.setAttribute("fill", "#B5F5D4");
-      eyeDotR.setAttribute("fill", "#B5F5D4");
-      visorAura.setAttribute("opacity", (0.50 + alpha * 0.38).toFixed(2));
-      visorScanBar.setAttribute("opacity", (alpha * 0.62).toFixed(2));
-      foreheadGem.setAttribute("fill", "#7AD9A3");
-      const lookX = leftToRight ? lerp(-1.1, 1.15, sweepEase) : lerp(0.9, -1.15, sweepEase);
-      eyesTrackG.setAttribute("transform", `translate(${lookX.toFixed(2)}, 0.45)`);
-
-      if (!scanRoot) return;
-      const r = btn.getBoundingClientRect();
+    // Compute intelligent autonomous 2D target waypoint & curiosity behavior at time t
+    function getPatrolTarget(t, W, H, dock) {
       const navH = topNav.getBoundingClientRect().height || 46;
-      const exMid = r.left + r.width * 0.50;
-      const ey = r.top + r.height * 0.55;
-      const W = window.innerWidth;
-      const H = window.innerHeight;
-      const curtainH = Math.max(100, H - navH);
-      const curtainW = Math.min(300, Math.max(190, W * 0.20));
+      const safeTop = navH + 34;
 
-      const frontX = leftToRight
-        ? lerp(-6, W + 10, sweepEase)
-        : lerp(W + 6, -10, sweepEase);
-
-      scanRoot.setAttribute("opacity", alpha.toFixed(2));
-
-      // Full-height sweeping optical curtain + blueprint crosshair micro-grid inside curtain
-      const cx = leftToRight ? frontX - curtainW : frontX;
-      scanCurtain.setAttribute("x", cx.toFixed(1));
-      scanCurtain.setAttribute("y", navH.toFixed(1));
-      scanCurtain.setAttribute("width", curtainW.toFixed(1));
-      scanCurtain.setAttribute("height", curtainH.toFixed(1));
-      scanCurtain.setAttribute("fill", leftToRight ? "url(#mech-curtain-ltr)" : "url(#mech-curtain-rtl)");
-
-      scanGridRect.setAttribute("x", cx.toFixed(1));
-      scanGridRect.setAttribute("y", navH.toFixed(1));
-      scanGridRect.setAttribute("width", curtainW.toFixed(1));
-      scanGridRect.setAttribute("height", curtainH.toFixed(1));
-      scanGridRect.setAttribute("mask", leftToRight ? "url(#mech-grid-mask-ltr)" : "url(#mech-grid-mask-rtl)");
-
-      // Glowing frontier aura & razor-sharp vertical scan line spanning 100% height below nav
-      scanGlowEdge.setAttribute("x", (frontX - 7).toFixed(1));
-      scanGlowEdge.setAttribute("y", navH.toFixed(1));
-      scanGlowEdge.setAttribute("height", curtainH.toFixed(1));
-
-      scanFrontLine.setAttribute("x1", frontX.toFixed(1));
-      scanFrontLine.setAttribute("y1", navH.toFixed(1));
-      scanFrontLine.setAttribute("x2", frontX.toFixed(1));
-      scanFrontLine.setAttribute("y2", String(H));
-
-      // Optical tether rays linking mecha eyes cleanly to the advancing full-height frontier
-      scanTetherTop.setAttribute("x1", exMid.toFixed(1));
-      scanTetherTop.setAttribute("y1", ey.toFixed(1));
-      scanTetherTop.setAttribute("x2", frontX.toFixed(1));
-      scanTetherTop.setAttribute("y2", (navH + 14).toFixed(1));
-
-      scanTetherBot.setAttribute("x1", exMid.toFixed(1));
-      scanTetherBot.setAttribute("y1", ey.toFixed(1));
-      scanTetherBot.setAttribute("x2", frontX.toFixed(1));
-      scanTetherBot.setAttribute("y2", (navH + curtainH * 0.52).toFixed(1));
-
-      // Sliding architectural calibration ticks along the frontier
-      const tickLines = scanTicksG.children;
-      const tickStep = curtainH / (tickLines.length + 1);
-      for (let i = 0; i < tickLines.length; i++) {
-        const ty = navH + tickStep * (i + 1);
-        const half = i % 2 === 0 ? 5.5 : 3.0;
-        tickLines[i].setAttribute("x1", (frontX - half).toFixed(1));
-        tickLines[i].setAttribute("x2", (frontX + half).toFixed(1));
-        tickLines[i].setAttribute("y1", ty.toFixed(1));
-        tickLines[i].setAttribute("y2", ty.toFixed(1));
-      }
-
-      // Live HUD telemetry pill riding neatly beside the top of the scan wave
-      const pct = Math.min(100, Math.round(sweepEase * 100));
-      scanHudText.textContent = pct >= 99 ? "INDEX OK" : `SCAN ${String(pct).padStart(2, "0")}%`;
-      const badgeX = leftToRight
-        ? Math.max(12, Math.min(W - 104, frontX - 102))
-        : Math.max(12, Math.min(W - 104, frontX + 10));
-      scanHudBadgeG.setAttribute("transform", `translate(${badgeX.toFixed(1)}, ${(navH + 12).toFixed(1)})`);
-
-      // Glowing reticle riding directly along the horizontal timeline spine + pinging each era column!
-      const spineEl = skeletonGridEl && skeletonGridEl.querySelector(".timeline-spine");
-      if (spineEl) {
-        const sr = spineEl.getBoundingClientRect();
-        scanSpineTick.setAttribute("transform", `translate(${frontX.toFixed(1)}, ${sr.top.toFixed(1)})`);
-        scanSpineTick.setAttribute("opacity", "1");
-
-        if (!AgentBlog.getView || AgentBlog.getView() === "home") {
-          const cols = skeletonGridEl.querySelectorAll(".era-col");
-          cols.forEach((col, idx) => {
-            if (scannedColFlags[idx]) return;
-            const cr = col.getBoundingClientRect();
-            const colCenter = cr.left + cr.width * 0.5;
-            const crossed = leftToRight ? frontX >= colCenter : frontX <= colCenter;
-            if (crossed) {
-              scannedColFlags[idx] = true;
-              pingEraColumn(col);
-            }
-          });
+      if (patrolIsReRun) {
+        // Re-patrol from top-left dock -> swoops right across Era 1..5 -> pauses curiously over Flagship -> arcs smoothly back to dock!
+        if (t < 0.75) {
+          return { x: W * 0.24, y: safeTop + H * 0.08, lookX: 1.4, lookY: 0.9, curious: 0, beam: 0.85, stiffness: 28 };
+        } else if (t < 1.70) {
+          const u = (t - 0.75) / 0.95;
+          return { x: lerp(W * 0.24, W * 0.71, u), y: safeTop + H * (0.08 + Math.sin(u * Math.PI) * 0.09), lookX: 1.1, lookY: 1.0, curious: 0, beam: 1.0, stiffness: 26 };
+        } else if (t < 2.35) {
+          // Curious hover pause right over Flagship Era 4 LangGraph card!
+          return { x: W * 0.70, y: safeTop + H * 0.13, lookX: -0.2, lookY: 1.1, curious: 1, beam: 0.9, stiffness: 22 };
+        } else if (t < 3.15) {
+          return { x: W * 0.84, y: safeTop + H * 0.06, lookX: -1.1, lookY: 0.7, curious: 0, beam: 0.75, stiffness: 24 };
+        } else if (t < 4.10) {
+          const u = (t - 3.15) / 0.95;
+          return { x: lerp(W * 0.84, dock.x + 18, u), y: safeTop + H * 0.03 * (1 - u), lookX: -1.3, lookY: 0.3, curious: 0, beam: 0.45 * (1 - u), stiffness: 32 };
         }
-      } else {
-        scanSpineTick.setAttribute("opacity", "0");
+        return { x: dock.x, y: dock.y, lookX: 0, lookY: 0, curious: 0, beam: 0, stiffness: 58 };
       }
+
+      // First arrival after Stage 5 takeoff (total ~4.55s organic autonomous patrol):
+      // 0.00–0.65s: Graceful sky drop into Era 5 upper airspace
+      if (t < 0.65) {
+        return { x: W * 0.86, y: safeTop + H * 0.07, lookX: -0.9, lookY: 0.95, curious: 0, beam: clamp01(t / 0.45), stiffness: 26 };
+      }
+      // 0.65–1.35s: Sweeps inward toward Flagship Era 4 (LangGraph 状态机)
+      if (t < 1.35) {
+        return { x: W * 0.69, y: safeTop + H * 0.15, lookX: -0.8, lookY: 1.1, curious: 0, beam: 1.0, stiffness: 24 };
+      }
+      // 1.35–1.95s: Intelligent Curious Hover Pause over Era 4 Flagship! (head tilts curiously, crown slit turns vermilion)
+      if (t < 1.95) {
+        return { x: W * 0.68, y: safeTop + H * 0.15, lookX: 0.1, lookY: 1.15, curious: 1, beam: 0.95, stiffness: 20 };
+      }
+      // 1.95–3.15s: Graceful S-curve cruise leftward across Era 3 → Era 2 → Era 1
+      if (t < 3.15) {
+        const u = (t - 1.95) / 1.20;
+        return {
+          x: lerp(W * 0.66, W * 0.16, u),
+          y: safeTop + H * (0.14 - Math.sin(u * Math.PI) * 0.065),
+          lookX: -1.35,
+          lookY: 0.9,
+          curious: 0,
+          beam: 1.0,
+          stiffness: 28
+        };
+      }
+      // 3.15–3.75s: Glances across GitHub Heatmap upper-left zone & rises cleanly toward top-left dock
+      if (t < 3.75) {
+        return { x: dock.x + 28, y: safeTop + H * 0.03, lookX: -0.8, lookY: 0.45, curious: 0, beam: 0.55, stiffness: 32 };
+      }
+      // 3.75–4.55s: Effortless precision hover-dock into top-left home slot!
+      return { x: dock.x, y: dock.y, lookX: 0, lookY: 0, curious: 0, beam: 0, stiffness: 58 };
     }
 
     function tickAvatar(now) {
@@ -586,202 +449,273 @@
 
       if (avPhase === "delay") {
         avT += dt;
-        if (avT >= 0.22) {
-          avPhase = "descending";
-          avT = 0;
-          topNav.classList.add("is-mech-landing");
-          glideStartX = getRightOffsetX();
-          btn.style.transform = `translateX(${glideStartX.toFixed(1)}px)`;
-          btn.classList.add("is-visible");
+        if (avT >= 0.18) {
+          startAutonomousPatrol(false);
         }
-      } else if (avPhase === "descending") {
-        avT += dt;
-        const u = clamp01(avT / 0.86);
-        const easeOut = 1 - Math.pow(1 - u, 3);
-        const y = lerp(-62, 1, easeOut);
-        rootG.setAttribute("transform", `translate(0, ${y.toFixed(2)})`);
-        headG.setAttribute("transform", "translate(0, -8.8) scale(1)");
-        legsG.setAttribute("opacity", "1");
-        armsG.setAttribute("opacity", "1");
-        torsoG.setAttribute("opacity", "1");
-        legsG.removeAttribute("transform");
-        armsG.removeAttribute("transform");
-        torsoG.removeAttribute("transform");
+      } else if (avPhase === "patrolling") {
+        patrolT += dt;
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        const dock = getDockCenter();
+        const totalDur = patrolIsReRun ? 4.65 : 4.45;
+        const tgt = getPatrolTarget(patrolT, W, H, dock);
 
-        const brakePower = Math.sin(u * Math.PI) * (1 - u * 0.22);
-        if (brakePower > 0.04) {
-          const flick = 0.88 + 0.24 * Math.abs(Math.sin(now * 0.055));
-          const jLen = (5.0 + brakePower * 10.5) * flick;
-          const cLen = jLen * 0.52;
-          jetsG.setAttribute("opacity", clamp01(brakePower * 1.45).toFixed(2));
-          jetL.setAttribute("d", `M -13.1,6.7 Q -11.4,${(6.7 + jLen * 0.55).toFixed(1)} -11.8,${(6.7 + jLen).toFixed(1)} Q -10.8,${(6.7 + jLen * 0.55).toFixed(1)} -9.3,6.7 Z`);
-          jetLCore.setAttribute("d", `M -12.0,6.7 L -10.4,6.7 L -11.4,${(6.7 + cLen).toFixed(1)} Z`);
-          jetR.setAttribute("d", `M 9.3,6.7 Q 10.8,${(6.7 + jLen * 0.55).toFixed(1)} 11.8,${(6.7 + jLen).toFixed(1)} Q 11.4,${(6.7 + jLen * 0.55).toFixed(1)} 13.1,6.7 Z`);
-          jetRCore.setAttribute("d", `M 10.4,6.7 L 12.0,6.7 L 11.4,${(6.7 + cLen).toFixed(1)} Z`);
-          jetB.setAttribute("d", `M -2.2,13.6 L 3.8,13.6 L 0.8,${(13.6 + jLen * 0.82).toFixed(1)} Z`);
-        } else {
-          jetsG.setAttribute("opacity", "0");
+        // True damped spring-mass 2D flight physics (smooth organic acceleration & momentum!)
+        const k = tgt.stiffness;
+        const damp = Math.sqrt(k) * 1.48;
+        const ax = (tgt.x - drone.x) * k - drone.vx * damp;
+        const ay = (tgt.y - drone.y) * k - drone.vy * damp;
+        drone.vx += ax * dt;
+        drone.vy += ay * dt;
+        drone.x += drone.vx * dt;
+        drone.y += drone.vy * dt;
+
+        // Subtle organic aerial hover bobbing (multi-frequency, zero robotic rigidity!)
+        const bobFade = 1 - clamp01((patrolT - (totalDur - 0.55)) / 0.55);
+        const hoverBobY = (Math.sin(now * 0.0062) * 2.4 + Math.cos(now * 0.0037) * 1.1) * bobFade;
+
+        // Natural drone aerodynamic banking into horizontal velocity + curious head-tilt!
+        drone.curious += (tgt.curious - drone.curious) * Math.min(1, dt * 8);
+        const velBank = Math.max(-16, Math.min(16, drone.vx * 0.032));
+        const curiousTilt = drone.curious * 9.5;
+        const targetRot = velBank + curiousTilt;
+        drone.rot += (targetRot - drone.rot) * Math.min(1, dt * 9);
+
+        // Position btn cleanly anywhere in 2D viewport via GPU translate3d relative to dock center
+        const dx = drone.x - dock.x;
+        const dy = drone.y + hoverBobY - dock.y;
+        btn.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
+
+        // Scale slightly larger while airborne patrolling (1.16 -> 1.00 as it lands cleanly in dock)
+        const flyScale = lerp(1.16, 1.0, clamp01((patrolT - (totalDur - 0.7)) / 0.7));
+        craftG.setAttribute("transform", `scale(${flyScale.toFixed(3)}) rotate(${drone.rot.toFixed(2)})`);
+
+        // Expressive OLED Eyes: look toward patrol gaze + curious asymmetric eye sizing!
+        drone.eyeX += (tgt.lookX - drone.eyeX) * Math.min(1, dt * 10);
+        drone.eyeY += (tgt.lookY - drone.eyeY) * Math.min(1, dt * 10);
+        eyesTrackG.setAttribute("transform", `translate(${drone.eyeX.toFixed(2)}, ${drone.eyeY.toFixed(2)})`);
+        visorGlint.setAttribute("transform", `translate(${(-drone.eyeX * 0.25).toFixed(2)}, ${(-drone.eyeY * 0.20).toFixed(2)})`);
+
+        // Curious asymmetric OLED eye expression when hovering over Flagship Era 4!
+        const lH = lerp(3.7, 2.75, drone.curious);
+        const rH = lerp(3.7, 4.15, drone.curious);
+        eyeL.setAttribute("height", lH.toFixed(2));
+        eyeL.setAttribute("y", (-lH * 0.5).toFixed(2));
+        eyeR.setAttribute("height", rH.toFixed(2));
+        eyeR.setAttribute("y", (-rH * 0.5).toFixed(2));
+        const eyeFill = drone.curious > 0.35 ? "#FFE8E3" : "#C9FCE0";
+        eyeL.setAttribute("fill", eyeFill);
+        eyeR.setAttribute("fill", eyeFill);
+        statusSlit.setAttribute("fill", drone.curious > 0.35 ? "#B83B2A" : "#2D6A47");
+        visorAura.setAttribute("opacity", (0.55 + tgt.beam * 0.35).toFixed(2));
+
+        // Anti-gravity levitation ring pulsing softly underneath shell while flying
+        const agAlpha = bobFade * 0.92;
+        antiGravG.setAttribute("opacity", agAlpha.toFixed(2));
+        antiGravRing.setAttribute("rx", (4.8 + Math.sin(now * 0.015) * 0.7).toFixed(2));
+
+        // Downward optical inspection cone physically anchored right beneath the flying Agent!
+        if (coneG && tgt.beam > 0.02) {
+          const originX = drone.x;
+          const originY = drone.y + hoverBobY + 12;
+          const spineEl = skeletonGridEl && skeletonGridEl.querySelector(".timeline-spine");
+          const floorY = spineEl ? spineEl.getBoundingClientRect().top : H - 56;
+          const beamH = Math.max(80, floorY - originY);
+          // Cone tilts slightly with drone's gaze & velocity!
+          const aimShiftX = drone.vx * 0.08 + drone.eyeX * 16;
+          const targetCenterX = originX + aimShiftX;
+          const halfSpread = lerp(74, 48, drone.curious); // Tightens into focused inspection beam when curious!
+          const coreSpread = halfSpread * 0.42;
+
+          const isFlagHover = drone.curious > 0.35;
+          coneG.setAttribute("opacity", (tgt.beam * 0.92).toFixed(2));
+          conePoly.setAttribute("fill", isFlagHover ? "url(#agent-beam-flag)" : "url(#agent-beam-grad)");
+          coneCorePoly.setAttribute("opacity", isFlagHover ? "0.25" : "1");
+          conePoly.setAttribute("points", `${(originX - 8).toFixed(1)},${originY.toFixed(1)} ${(originX + 8).toFixed(1)},${originY.toFixed(1)} ${(targetCenterX + halfSpread).toFixed(1)},${floorY.toFixed(1)} ${(targetCenterX - halfSpread).toFixed(1)},${floorY.toFixed(1)}`);
+          coneCorePoly.setAttribute("points", `${(originX - 4).toFixed(1)},${originY.toFixed(1)} ${(originX + 4).toFixed(1)},${originY.toFixed(1)} ${(targetCenterX + coreSpread).toFixed(1)},${floorY.toFixed(1)} ${(targetCenterX - coreSpread).toFixed(1)},${floorY.toFixed(1)}`);
+          const edgeColor = isFlagHover ? "#B83B2A" : "#2D6A47";
+          coneEdgeL.setAttribute("stroke", edgeColor);
+          coneEdgeR.setAttribute("stroke", edgeColor);
+          coneEdgeL.setAttribute("x1", (originX - 8).toFixed(1));
+          coneEdgeL.setAttribute("y1", originY.toFixed(1));
+          coneEdgeL.setAttribute("x2", (targetCenterX - halfSpread).toFixed(1));
+          coneEdgeL.setAttribute("y2", floorY.toFixed(1));
+          coneEdgeR.setAttribute("x1", (originX + 8).toFixed(1));
+          coneEdgeR.setAttribute("y1", originY.toFixed(1));
+          coneEdgeR.setAttribute("x2", (targetCenterX + halfSpread).toFixed(1));
+          coneEdgeR.setAttribute("y2", floorY.toFixed(1));
+
+          // Live Page Reactivity: ping each era column as the downward optical cone sweeps across it!
+          if (skeletonGridEl && (!AgentBlog.getView || AgentBlog.getView() === "home")) {
+            const cols = skeletonGridEl.querySelectorAll(".era-col");
+            cols.forEach((col, idx) => {
+              if (pingedCols[idx]) return;
+              const cr = col.getBoundingClientRect();
+              if (Math.abs(targetCenterX - (cr.left + cr.width * 0.5)) < cr.width * 0.28) {
+                pingedCols[idx] = true;
+                pingEraColumn(col);
+              }
+            });
+          }
+
+          // Subtle wake dots trailing behind flight path
+          wakeCooldown -= dt;
+          const speed = Math.hypot(drone.vx, drone.vy);
+          if (speed > 45 && wakeCooldown <= 0) {
+            const p = wakeDots[wakeIdx % wakeDots.length];
+            wakeIdx += 1;
+            p.x = drone.x - (drone.vx / speed) * 14;
+            p.y = drone.y + hoverBobY - (drone.vy / speed) * 10;
+            p.life = 0.55;
+            wakeCooldown = 0.065;
+          }
+        } else if (coneG) {
+          coneG.setAttribute("opacity", "0");
         }
 
-        if (u > 0.55) {
-          const bu = (u - 0.55) / 0.45;
-          brakeRing.setAttribute("rx", (6 + bu * 14).toFixed(1));
-          brakeRing.setAttribute("ry", (1.4 + bu * 2.2).toFixed(1));
-          brakeRing.setAttribute("opacity", ((1 - bu) * 0.58).toFixed(2));
-        } else {
-          brakeRing.setAttribute("opacity", "0");
-        }
+        // Update trailing flight wake particles
+        wakeDots.forEach((p) => {
+          if (p.life > 0) {
+            p.life = Math.max(0, p.life - dt);
+            const u = p.life / 0.55;
+            p.el.setAttribute("cx", p.x.toFixed(1));
+            p.el.setAttribute("cy", p.y.toFixed(1));
+            p.el.setAttribute("r", (0.7 + u * 0.9).toFixed(2));
+            p.el.setAttribute("opacity", (u * 0.38).toFixed(2));
+          } else {
+            p.el.setAttribute("opacity", "0");
+          }
+        });
 
-        if (avT >= 0.86) {
-          avPhase = "morphing";
-          avT = 0;
-          jetsG.setAttribute("opacity", "0");
-          brakeRing.setAttribute("opacity", "0");
-        }
-      } else if (avPhase === "morphing") {
-        avT += dt;
-        const u = clamp01(avT / 0.72);
-        rootG.setAttribute("transform", "translate(0, 0)");
-
-        const foldU = clamp01(u / 0.58);
-        const foldEase = foldU * foldU * (3 - 2 * foldU);
-        legsG.setAttribute("transform", `translate(0, ${(-13 * foldEase).toFixed(1)}) scale(${(1 - 0.35 * foldEase).toFixed(2)}, ${(1 - 0.88 * foldEase).toFixed(2)})`);
-        legsG.setAttribute("opacity", (1 - foldEase).toFixed(2));
-        armsG.setAttribute("transform", `translate(0, ${(-6 * foldEase).toFixed(1)}) scale(${(1 - 0.85 * foldEase).toFixed(2)}, ${(1 - 0.4 * foldEase).toFixed(2)})`);
-        armsG.setAttribute("opacity", (1 - foldEase).toFixed(2));
-        const torsoU = clamp01((u - 0.12) / 0.50);
-        const torsoEase = torsoU * torsoU * (3 - 2 * torsoU);
-        torsoG.setAttribute("transform", `translate(0, ${(-9 * torsoEase).toFixed(1)}) scale(${(1 - 0.35 * torsoEase).toFixed(2)}, ${(1 - 0.9 * torsoEase).toFixed(2)})`);
-        torsoG.setAttribute("opacity", (1 - torsoEase).toFixed(2));
-
-        const headU = clamp01((u - 0.24) / 0.76);
-        const overshoot = headU < 0.78
-          ? lerp(1.0, 1.94, 1 - Math.pow(1 - headU / 0.78, 3))
-          : lerp(1.94, 1.84, (headU - 0.78) / 0.22);
-        const headY = lerp(-8.8, 3.0, 1 - Math.pow(1 - headU, 3));
-        headG.setAttribute("transform", `translate(0, ${headY.toFixed(2)}) scale(${overshoot.toFixed(3)})`);
-
-        if (u >= 0.72) {
-          const su = (u - 0.72) / 0.28;
-          morphSparks.setAttribute("opacity", ((1 - su) * 0.9).toFixed(2));
-          morphRing.setAttribute("r", (9 + su * 11).toFixed(1));
-          morphRing.setAttribute("opacity", ((1 - su) * 0.65).toFixed(2));
-        }
-
-        if (avT >= 0.72) {
-          avPhase = "scanning";
-          avT = 0;
-          scannedColFlags = [];
-          legsG.setAttribute("opacity", "0");
-          armsG.setAttribute("opacity", "0");
-          torsoG.setAttribute("opacity", "0");
-          morphSparks.setAttribute("opacity", "0");
-          morphRing.setAttribute("opacity", "0");
-          headG.setAttribute("transform", "translate(0, 3.0) scale(1.84)");
-        }
-      } else if (avPhase === "scanning") {
-        avT += dt;
-        const u = clamp01(avT / 1.38);
-        renderFullScreenScan(u, false);
-
-        if (avT >= 1.38) {
-          avPhase = "gliding";
-          avT = 0;
-          navWakeFlags = [];
-          topNav.classList.remove("is-mech-landing");
-          glideStartX = getRightOffsetX();
-          hideScanOverlay();
-          eyeDotL.setAttribute("fill", "#E6FFF1");
-          eyeDotR.setAttribute("fill", "#E6FFF1");
-          foreheadGem.setAttribute("fill", "#2D6A47");
+        // Finish patrol once landed smoothly in dock -> emit full-screen radial sonar confirmation wave!
+        const distToDock = Math.hypot(drone.x - dock.x, drone.y - dock.y);
+        if (patrolT >= totalDur || (patrolT > totalDur - 0.45 && distToDock < 3.5)) {
+          avPhase = "sonar";
+          sonarT = 0;
+          sonarColsDone = [];
+          sonarNavDone = [];
+          btn.style.transform = "";
+          craftG.setAttribute("transform", "scale(1) rotate(0)");
+          eyeL.setAttribute("height", "3.7");
+          eyeL.setAttribute("y", "-1.75");
+          eyeR.setAttribute("height", "3.7");
+          eyeR.setAttribute("y", "-1.75");
+          eyeL.setAttribute("fill", "#EBFFF3");
+          eyeR.setAttribute("fill", "#EBFFF3");
+          statusSlit.setAttribute("fill", "#2D6A47");
+          eyesTrackG.setAttribute("transform", "translate(0, 0)");
+          hideFlightFX();
+          btn.classList.add("is-docked");
+          dockShadow.setAttribute("opacity", "1");
           triggerBlink(false);
         }
-      } else if (avPhase === "rescan") {
-        // Double-click replays the full-screen architectural blueprint sweep left -> right!
-        avT += dt;
-        const u = clamp01(avT / 1.28);
-        renderFullScreenScan(u, true);
+      } else if (avPhase === "sonar") {
+        // =================================================================
+        // FULL-SCREEN RADIAL BAMBOO SONAR WAVEFRONT (100% Viewport Coverage!)
+        // =================================================================
+        sonarT += dt;
+        const u = clamp01(sonarT / 1.25);
+        const ease = 1 - Math.pow(1 - u, 2.2);
+        const dock = getDockCenter();
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        const maxR = Math.hypot(W, H) * 1.06;
+        const curR = ease * maxR;
+        const fade = u < 0.10 ? u / 0.10 : (1 - smooth(0.55, 1.0, u));
 
-        if (avT >= 1.28) {
-          avPhase = "avatar";
-          avT = 0;
-          hideScanOverlay();
-          eyeDotL.setAttribute("fill", "#E6FFF1");
-          eyeDotR.setAttribute("fill", "#E6FFF1");
-          foreheadGem.setAttribute("fill", "#2D6A47");
-          triggerBlink(false);
+        if (sonarG) {
+          sonarG.setAttribute("opacity", fade.toFixed(2));
+          sonarOuterHalo.setAttribute("cx", dock.x.toFixed(1));
+          sonarOuterHalo.setAttribute("cy", dock.y.toFixed(1));
+          sonarOuterHalo.setAttribute("r", Math.max(2, curR - 14).toFixed(1));
+          sonarRingMain.setAttribute("cx", dock.x.toFixed(1));
+          sonarRingMain.setAttribute("cy", dock.y.toFixed(1));
+          sonarRingMain.setAttribute("r", curR.toFixed(1));
+          sonarRingEcho.setAttribute("cx", dock.x.toFixed(1));
+          sonarRingEcho.setAttribute("cy", dock.y.toFixed(1));
+          sonarRingEcho.setAttribute("r", Math.max(0, curR - 36).toFixed(1));
         }
-      } else if (avPhase === "gliding") {
-        avT += dt;
-        const u = clamp01(avT / 0.90);
-        const ease = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
-        const curX = lerp(glideStartX, 0, ease);
-        btn.style.transform = `translateX(${curX.toFixed(1)}px)`;
 
-        const glideBell = Math.sin(u * Math.PI);
-        const tilt = -glideBell * 7.5;
-        headG.setAttribute("transform", `translate(0, 3.0) scale(1.84) rotate(${tilt.toFixed(1)})`);
-        antG.setAttribute("transform", `rotate(${(glideBell * 12).toFixed(1)}, 7.6, -2.1)`);
-        eyesTrackG.setAttribute("transform", `translate(${(-1.1 * glideBell).toFixed(2)}, 0)`);
-        glideTrail.setAttribute("opacity", (glideBell * 0.68).toFixed(2));
-
-        const revCount = navBtns.length;
-        for (let i = 0; i < revCount; i++) {
-          const revIdx = revCount - 1 - i;
-          const wakeAt = 0.08 + revIdx * 0.12;
-          if (!navWakeFlags[i] && u >= wakeAt) {
-            navWakeFlags[i] = true;
-            wakeNavButton(navBtns[i]);
+        // Radial wavefront kisses GitHub heatmap columns smoothly as it expands!
+        if (fpCanvasEl && (!AgentBlog.getView || AgentBlog.getView() === "home")) {
+          const hmCols = fpCanvasEl.querySelectorAll(".fp-col");
+          for (let wi = 0; wi < hmCols.length; wi += 2) {
+            if (pingedHeatmapWeeks[wi]) continue;
+            const hr = hmCols[wi].getBoundingClientRect();
+            const dist = Math.hypot((hr.left + hr.width * 0.5) - dock.x, (hr.top + hr.height * 0.5) - dock.y);
+            if (curR >= dist) {
+              pingedHeatmapWeeks[wi] = true;
+              shimmerHeatmapCol(wi);
+            }
           }
         }
 
-        if (avT >= 0.90) {
+        // Radial wavefront kisses nav links & era spine-dots by true 2D Euclidean distance!
+        navBtns.forEach((nb, idx) => {
+          if (sonarNavDone[idx]) return;
+          const nr = nb.getBoundingClientRect();
+          const dist = Math.hypot((nr.left + nr.width * 0.5) - dock.x, (nr.top + nr.height * 0.5) - dock.y);
+          if (curR >= dist) {
+            sonarNavDone[idx] = true;
+            wakeNavButton(nb);
+          }
+        });
+
+        if (skeletonGridEl && (!AgentBlog.getView || AgentBlog.getView() === "home")) {
+          const cols = skeletonGridEl.querySelectorAll(".era-col");
+          cols.forEach((col, idx) => {
+            if (sonarColsDone[idx]) return;
+            const dot = col.querySelector(".spine-dot") || col;
+            const dr = dot.getBoundingClientRect();
+            const dist = Math.hypot(dr.left - dock.x, dr.top - dock.y);
+            if (curR >= dist) {
+              sonarColsDone[idx] = true;
+              pingEraColumn(col);
+            }
+          });
+        }
+
+        // Gentle breathing levitation already active while sonar expands
+        const floatY = Math.sin(now * 0.0028) * 1.1;
+        craftG.setAttribute("transform", `translate(0, ${floatY.toFixed(2)})`);
+
+        if (sonarT >= 1.25) {
           avPhase = "avatar";
-          btn.style.transform = "";
-          headG.setAttribute("transform", "translate(0, 3.0) scale(1.84)");
-          antG.setAttribute("transform", "rotate(0, 7.6, -2.1)");
-          eyesTrackG.setAttribute("transform", "translate(0, 0)");
-          glideTrail.setAttribute("opacity", "0");
-          btn.classList.add("is-docked");
-          syncTimer = 0.45;
-          antSpring.vel = -180;
-          triggerBlink(false);
+          hideSonarFX();
         }
       } else if (avPhase === "avatar") {
-        // 2.5D Living Cyber-Mecha Parallax (Optics + Subtle Helmet Tilt + Spring Comms Blade + Counter-Glint)
-        const prevRot = headSpring.rot;
-        eyePos.cx += (eyePos.tx - eyePos.cx) * 0.18;
-        eyePos.cy += (eyePos.ty - eyePos.cy) * 0.18;
-        headSpring.cx += (headSpring.tx - headSpring.cx) * 0.12;
-        headSpring.cy += (headSpring.ty - headSpring.cy) * 0.12;
-        headSpring.rot += (headSpring.trot - headSpring.rot) * 0.12;
+        // Weightless floating 2.5D sculptural mascot with smooth OLED eye tracking!
+        headState.ex += (mouseGoal.ex - headState.ex) * 0.16;
+        headState.ey += (mouseGoal.ey - headState.ey) * 0.16;
+        headState.hx += (mouseGoal.hx - headState.hx) * 0.11;
+        headState.hy += (mouseGoal.hy - headState.hy) * 0.11;
+        headState.hrot += (mouseGoal.hrot - headState.hrot) * 0.11;
 
-        const rotVel = (headSpring.rot - prevRot) / Math.max(0.008, dt);
-        const k = 155;
-        const damp = 10.5;
-        const accel = -k * antSpring.angle - damp * antSpring.vel - rotVel * 1.1;
-        antSpring.vel += accel * dt;
-        antSpring.angle = Math.max(-18, Math.min(18, antSpring.angle + antSpring.vel * dt));
-
-        headG.setAttribute(
+        const floatY = Math.sin(now * 0.0028) * 1.15;
+        craftG.setAttribute(
           "transform",
-          `translate(${headSpring.cx.toFixed(2)}, ${(3.0 + headSpring.cy).toFixed(2)}) scale(1.84) rotate(${headSpring.rot.toFixed(2)})`
+          `translate(${headState.hx.toFixed(2)}, ${(floatY + headState.hy).toFixed(2)}) rotate(${headState.hrot.toFixed(2)})`
         );
-        antG.setAttribute("transform", `rotate(${antSpring.angle.toFixed(2)}, 7.6, -2.1)`);
-        eyesTrackG.setAttribute("transform", `translate(${eyePos.cx.toFixed(2)}, ${eyePos.cy.toFixed(2)})`);
-        visorGlint.setAttribute("transform", `translate(${(-eyePos.cx * 0.30).toFixed(2)}, ${(-eyePos.cy * 0.22).toFixed(2)})`);
+        dockShadow.setAttribute("rx", (7.2 - floatY * 0.45).toFixed(2));
+        eyesTrackG.setAttribute("transform", `translate(${headState.ex.toFixed(2)}, ${headState.ey.toFixed(2)})`);
+        visorGlint.setAttribute("transform", `translate(${(-headState.ex * 0.28).toFixed(2)}, ${(-headState.ey * 0.22).toFixed(2)})`);
 
         if (syncTimer > 0) {
           syncTimer = Math.max(0, syncTimer - dt);
           const su = 1 - syncTimer / 0.48;
-          morphRing.setAttribute("r", (10 + su * 10.5).toFixed(1));
-          morphRing.setAttribute("opacity", ((1 - su) * 0.58).toFixed(2));
+          dockRing.setAttribute("r", (11 + su * 10).toFixed(1));
+          dockRing.setAttribute("opacity", ((1 - su) * 0.58).toFixed(2));
         } else {
-          morphRing.setAttribute("opacity", "0");
+          dockRing.setAttribute("opacity", "0");
         }
       }
 
       requestAnimationFrame(tickAvatar);
+    }
+
+    function smooth(a, b, x) {
+      const t = clamp01((x - a) / (b - a));
+      return t * t * (3 - 2 * t);
     }
 
     requestAnimationFrame(tickAvatar);
