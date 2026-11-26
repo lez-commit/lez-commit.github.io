@@ -141,12 +141,16 @@ body.view-home .site-shell {
   overflow: visible;
   opacity: 0;
   pointer-events: none;
-  transition: transform 0.22s var(--ease-out);
+  will-change: transform, opacity;
 }
 
 .mech-avatar-btn.is-visible {
   opacity: 1;
   pointer-events: auto;
+}
+
+.mech-avatar-btn.is-docked {
+  transition: transform 0.22s var(--ease-out);
 }
 
 .mech-avatar-btn.is-docked:hover {
@@ -159,7 +163,7 @@ body.view-home .site-shell {
 
 @keyframes mechNod {
   0%   { transform: scale(1) translateY(0); }
-  45%  { transform: scale(1.04) translateY(2.5px); }
+  45%  { transform: scale(1.05) translateY(2.4px); }
   100% { transform: scale(1) translateY(0); }
 }
 
@@ -171,34 +175,45 @@ body.view-home .site-shell {
 }
 
 .mech-ant-tip {
+  transition: fill 0.28s ease;
   animation: mechLedPulse 3.2s ease-in-out infinite;
 }
 
+.mech-avatar-btn.is-flagship-sense .mech-ant-tip {
+  fill: var(--vermilion);
+}
+
 @keyframes mechLedPulse {
-  0%, 100% { opacity: 0.55; }
-  50%      { opacity: 1; }
+  0%, 100% { fill-opacity: 0.65; }
+  50%      { fill-opacity: 1; }
 }
 
 .mech-eyes-idle {
   transform-box: fill-box;
   transform-origin: center center;
-  transition: transform 0.09s ease-in-out, opacity 0.14s ease;
+  transition: transform 0.08s ease-in-out, opacity 0.14s ease;
 }
 
 .mech-avatar-btn.is-blinking .mech-eyes-idle {
   transform: scaleY(0.1);
 }
 
-.mech-eyes-happy {
+.mech-eyes-happy,
+.mech-eyes-wink {
   opacity: 0;
-  transition: opacity 0.14s ease;
+  transition: opacity 0.12s ease;
 }
 
-.mech-avatar-btn.is-docked:hover .mech-eyes-idle {
+.mech-avatar-btn.is-docked:hover .mech-eyes-idle,
+.mech-avatar-btn.is-winking .mech-eyes-idle {
   opacity: 0;
 }
 
-.mech-avatar-btn.is-docked:hover .mech-eyes-happy {
+.mech-avatar-btn.is-docked:hover:not(.is-winking) .mech-eyes-happy {
+  opacity: 1;
+}
+
+.mech-avatar-btn.is-winking .mech-eyes-wink {
   opacity: 1;
 }
 
@@ -217,10 +232,6 @@ body.view-home .site-shell {
   height: 100%;
   gap: clamp(16px, 2vw, 26px);
   flex-shrink: 0;
-  pointer-events: none;
-}
-
-.nav-links.is-revealed {
   pointer-events: auto;
 }
 
@@ -239,9 +250,14 @@ body.view-home .site-shell {
   align-items: center;
   gap: 5px;
   letter-spacing: 0.02em;
-  opacity: 0;
-  transform: translateX(8px);
-  transition: color 0.16s ease;
+  opacity: 1;
+  transform: translateY(0);
+  transition: color 0.18s ease, transform 0.28s var(--ease-out);
+}
+
+.nav-btn.is-scan-wake {
+  color: var(--bamboo-4);
+  transform: translateY(-1.5px);
 }
 
 .mech-scan-overlay {

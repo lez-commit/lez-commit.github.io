@@ -101,6 +101,20 @@
   background-color: rgba(230, 239, 232, 0.42);
 }
 
+/* Living optical scan pulse as top-right mech indexes each era column */
+.era-col.is-scan-ping {
+  background-color: rgba(45, 106, 71, 0.06);
+}
+
+.era-col.is-scan-ping .spine-dot {
+  transform: translate(-50%, 50%) scale(1.32);
+  box-shadow: 0 0 0 6px rgba(45, 106, 71, 0.22);
+}
+
+.era-col.is-scan-ping .spine-dot.is-lit-vermilion {
+  box-shadow: 0 0 0 6px rgba(184, 59, 42, 0.24);
+}
+
 /* Warm rice-paper fade mask keeping overflowing twig rows clear of the robot runway */
 .era-scroll-mask {
   position: absolute;
