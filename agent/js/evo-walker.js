@@ -339,10 +339,10 @@
 
     const shadowEl = mk("ellipse", { cx: "0", cy: "0.4", rx: "6.8", ry: "1.35", fill: "#1D1B18", "fill-opacity": "0.14" }, botGroup);
 
-    // Stage 1 Vermilion trip `!` burst (stays upright above rolling/sliding body)
+    // Stage 1 Vermilion trip `!` burst (stays upright with crisp clearance above tumbling body)
     const stuckBang = mk("g", { opacity: "0" }, botGroup);
-    mk("line", { x1: "0", y1: "-23.5", x2: "0", y2: "-18.4", stroke: "#B83B2A", "stroke-width": "1.65", "stroke-linecap": "round" }, stuckBang);
-    mk("circle", { cx: "0", cy: "-16.2", r: "1.0", fill: "#B83B2A" }, stuckBang);
+    mk("line", { x1: "0", y1: "-27.0", x2: "0", y2: "-21.8", stroke: "#B83B2A", "stroke-width": "1.65", "stroke-linecap": "round" }, stuckBang);
+    mk("circle", { cx: "0", cy: "-19.5", r: "1.05", fill: "#B83B2A" }, stuckBang);
 
     // Rotatable body wrapper (enables clean belly-slide & recovery)
     const botBody = mk("g", null, botGroup);
@@ -444,9 +444,11 @@
     const headCrestEl = mk("g", { opacity: "0" }, headGroup);
     mk("path", { d: "M -4.4,-4.6 L 0.4,-7.3 L 5.0,-4.6 M -6.9,-2.2 L -8.8,-4.3 L -6.5,0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round" }, headCrestEl);
 
-    // Front arm + shoulder socket rivet + attachments + Stage 5 Repulsor Gauntlets + Luminous Jets
+    // Front arm + shoulder socket rivet + mechanical hand caps + attachments + Stage 5 Repulsor Gauntlets + Luminous Jets
     const frontArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
     const shoulderPin = mk("circle", { r: "1.1", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, botBody);
+    const handTipB = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", opacity: "0" }, botBody);
+    const handTipF = mk("circle", { r: "1.15", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", opacity: "0" }, botBody);
     const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
     const wrenchEl = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0" }, botBody);
     const gauntletF = mk("g", { opacity: "0" }, botBody);
@@ -478,9 +480,13 @@
       // Wave 4: Mech Head V-Crest from straight above!
       { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 4,   cy: -45, tx: 0.4,  ty: -36.5,rot0: 0,   d: "M -4.6,1.3 L 0.4,-1.8 L 5.2,1.3" }
     ];
-    const flyParts = FLY_SPECS.map((sp) => {
+    const flyParts = FLY_SPECS.map((sp, idx) => {
       const trail = mk("line", { stroke: "#2D6A47", "stroke-width": "1.15", "stroke-opacity": "0.62", "stroke-dasharray": "4 2", "stroke-linecap": "round", opacity: "0" }, assembleLayer);
-      const piece = mk("path", { d: sp.d, fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round", "stroke-linecap": "round", opacity: "0" }, assembleLayer);
+      const piece = mk("g", { opacity: "0" }, assembleLayer);
+      mk("path", { d: sp.d, fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round", "stroke-linecap": "round" }, piece);
+      if (idx === 2 || idx === 3 || idx === 5) {
+        mk("circle", { cx: "0", cy: idx === 5 ? "0" : "-0.4", r: "0.95", fill: "#2D6A47" }, piece);
+      }
       return { sp, trail, piece };
     });
     // System-Online 4-corner lock flash ticks
@@ -891,11 +897,12 @@
           cotSparks.setAttribute("opacity", "0");
         }
 
-        // Prop 3 updates: cross-valve rotation, torque arcs, sinking brick wall, dust & bonk sparks
+        // Prop 3 updates: cross-valve rotation, torque arcs, sinking brick wall, dust & vivid bonk sparks
         wallBody.setAttribute("transform", `translate(0, ${wallSink.toFixed(1)})`);
         wallBolt.setAttribute("transform", `rotate(${wallBoltDeg.toFixed(1)}, 0, -13.6)`);
-        const showBonk = b3 === 1 && b3t < 0.34;
-        wallSparks.setAttribute("opacity", showBonk ? (1 - b3t / 0.34).toFixed(2) : "0");
+        const showBonk = b3 === 1 && b3t < 0.36;
+        const bonkOp = showBonk ? (b3t < 0.18 ? 0.96 : (1 - (b3t - 0.18) / 0.18) * 0.96) : 0;
+        wallSparks.setAttribute("opacity", bonkOp.toFixed(2));
         const turningValve = b3 === 1 && b3t >= 0.72 && b3t < 1.04;
         wallTorqueArcs.setAttribute("opacity", turningValve ? (Math.sin(((b3t - 0.72) / 0.32) * Math.PI) * 0.8).toFixed(2) : "0");
         const wallSinkingNow = b3 === 1 && b3t >= 1.04 && b3t < 1.42;
@@ -1324,8 +1331,8 @@
           bHY = bSY + 5.8;
           fBend = 0.35;
         } else if (armPose === "press") {
-          // Era 4: right hand arcs cleanly OVER lowered boom to depress checkpoint plunger
-          fHX = fSX + 11.4;
+          // Era 4: right hand arcs cleanly OVER lowered boom to land dead-center on checkpoint plunger
+          fHX = fSX + 13.0;
           fHY = -19.8;
           bHX = bSX - 2.0;
           bHY = bSY + 6.2;
@@ -1365,13 +1372,27 @@
           gauntletB.setAttribute("transform", `translate(${bHX.toFixed(1)}, ${bHY.toFixed(1)})`);
         }
 
-        // Era 1 C-pincer claw
+        // Era 1 C-pincer claw (aligns forward along arm vector during belly-slide so it never pokes downward!)
         const pincerW = 1 - smooth(0.65, 0.95, evo);
         pincerEl.setAttribute("opacity", pincerW.toFixed(2));
         if (pincerW > 0.02) {
           const gap = 1.9 - pincerSnap * 1.35;
-          pincerEl.setAttribute("d", `M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.3,${(-gap).toFixed(1)} l 1.5,0 M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.3,${gap.toFixed(1)} l 1.5,0`);
+          if (isSliding || b1 === 1) {
+            pincerEl.setAttribute("d", `M ${fHX.toFixed(1)},${fHY.toFixed(1)} l ${(-gap).toFixed(1)},-2.2 l 0,-1.4 M ${fHX.toFixed(1)},${fHY.toFixed(1)} l ${gap.toFixed(1)},-2.2 l 0,-1.4`);
+          } else {
+            pincerEl.setAttribute("d", `M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.3,${(-gap).toFixed(1)} l 1.5,0 M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.3,${gap.toFixed(1)} l 1.5,0`);
+          }
         }
+
+        // Crisp mechanical wrist/hand caps whenever bare robotic hands are visible (Era 2–4)
+        const showBareHandF = !hasGauntlets && pincerW < 0.15 && wrenchW < 0.15;
+        const showBareHandB = !hasGauntlets && headW > 0.3;
+        handTipF.setAttribute("cx", fHX.toFixed(1));
+        handTipF.setAttribute("cy", fHY.toFixed(1));
+        handTipF.setAttribute("opacity", showBareHandF ? "1" : "0");
+        handTipB.setAttribute("cx", bHX.toFixed(1));
+        handTipB.setAttribute("cy", bHY.toFixed(1));
+        handTipB.setAttribute("opacity", showBareHandB ? (armPose === "cot" ? "0.95" : "0.62") : "0");
 
         // Era 3 Sculpted open-end C-spanner wrench with warm-paper fill (reads cleanly over valve)
         wrenchEl.setAttribute("opacity", wrenchW.toFixed(2));
