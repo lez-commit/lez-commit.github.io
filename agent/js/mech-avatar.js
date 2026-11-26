@@ -254,7 +254,8 @@
     const DOCKED_HEAD_SCALE = 1.30;
     const FLIGHT_HEAD_SCALE = 0.88;
     const FLIGHT_HEAD_Y = -10.5;
-    const FLY_SCALE = 1.40;
+    const LAUNCH_MATCH_SCALE = 1.13; // Exact 1:1 pixel height match (34.6px) with Era 5 runway robot at liftoff!
+    const FLY_SCALE = 1.38;
 
     const headG = mk("g", { transform: `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE})` }, craftG);
 
@@ -324,13 +325,13 @@
     // =====================================================================
     // 2D AUTONOMOUS FLIGHT PHYSICS & ZERO-SNAP FOLD-TO-AVATAR ENGINE
     // =====================================================================
-    let avPhase = "waiting"; // "waiting" | "delay" | "unfolding" | "patrolling" | "folding" | "sonar" | "avatar"
-    let avT = 0;
+    let avPhase = "waiting"; // "waiting" | "unfolding" | "patrolling" | "folding" | "sonar" | "avatar"
     let patrolT = 0;
     let foldT = 0;
     let sonarT = 0;
     let syncTimer = 0;
     let lastTs = performance.now();
+    let launchOrigin = { x: 0, y: 0 };
 
     const drone = {
       x: 0, y: 0,
@@ -504,8 +505,9 @@
       }
     }
 
-    function startAutonomousPatrol(fromDock) {
+    function startAutonomousPatrol(fromDock, origin) {
       const W = window.innerWidth;
+      const H = window.innerHeight;
       const dock = getDockCenter();
       patrolIsReRun = !!fromDock;
       patrolT = 0;
@@ -534,19 +536,34 @@
         drone.vy = 140;
       } else {
         avPhase = "patrolling";
-        // Enters gracefully from upper-right sky right above Era 5 launch pad!
-        drone.x = W * 0.90;
-        drone.y = -32;
-        drone.vx = -55;
-        drone.vy = 260;
+        // Seamless single-robot continuous liftoff directly from Era 5 launch pad (NEVER leaves screen!)
+        const startX = origin && typeof origin.x === "number" ? origin.x : W * 0.92;
+        const startY = origin && typeof origin.y === "number" ? origin.y : H - 96;
+        launchOrigin.x = startX;
+        launchOrigin.y = startY;
+        drone.x = startX;
+        drone.y = startY;
+        drone.vx = 0;
+        drone.vy = -340;
       }
       drone.bodyBank = 0;
-      drone.headTilt = 0;
+      drone.headTilt = fromDock ? 0 : -6;
       drone.headYaw = 0;
-      drone.headPitch = 0;
+      drone.headPitch = fromDock ? 0 : -0.6;
       drone.eyeX = 0;
-      drone.eyeY = 0;
+      drone.eyeY = fromDock ? 0 : -0.8;
       drone.curious = 0;
+
+      // Render handoff frame synchronously so there is ZERO 1-frame flash or teleport!
+      if (!fromDock) {
+        const dx = drone.x - dock.x;
+        const dy = drone.y - dock.y;
+        btn.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
+        craftG.setAttribute("transform", `scale(${LAUNCH_MATCH_SCALE.toFixed(3)}) rotate(0)`);
+        headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(${drone.headTilt.toFixed(2)})`);
+        applyFaceYaw(drone.headYaw, drone.headPitch);
+        updateFullBodyKinematics(performance.now(), 1.0, 0, 0, 0);
+      }
     }
 
     // 2.5D cursor tracking when docked (active immediately during sonar & idle!)
@@ -601,10 +618,12 @@
       startAutonomousPatrol(true);
     });
 
-    AgentBlog.onMechExitedTop = () => {
+    AgentBlog.isAvatarDocked = () => avPhase === "avatar" || avPhase === "sonar";
+
+    // Primary single-robot continuous liftoff handoff from Era 5 launch pad (zero off-screen flight!)
+    AgentBlog.onMechLiftoff = (origin) => {
       if (avPhase === "waiting") {
-        avPhase = "delay";
-        avT = 0;
+        startAutonomousPatrol(false, origin);
       } else if (avPhase === "avatar") {
         syncTimer = 0.48;
         btn.classList.remove("is-nodding");
@@ -612,6 +631,10 @@
         btn.classList.add("is-nodding");
         triggerBlink(true);
       }
+    };
+
+    AgentBlog.onMechExitedTop = () => {
+      AgentBlog.onMechLiftoff();
     };
 
     function getPatrolTarget(t, W, H, dock) {
@@ -636,22 +659,26 @@
         return { x: dock.x, y: dock.y, lookX: 0, lookY: 0, curious: 0, beam: 0, stiffness: 58 };
       }
 
-      // First-run autonomous survey through clean open rice-paper airspace above the 5 Eras!
-      if (t < 0.68) {
-        return { x: W * 0.88, y: skyY + 18, lookX: -0.95, lookY: 0.95, curious: 0, beam: clamp01(t / 0.45), stiffness: 26 };
+      // First-run single-robot continuous liftoff from Era 5 pad -> vertical climb straight up contrail -> open-sky patrol!
+      const climbX = Math.max(W * 0.88, Math.min(W - 28, launchOrigin.x));
+      if (t < 0.86) {
+        // Phase 1: Vertical rocket climb smoothly inside the right margin up into the open rice-paper sky!
+        return { x: climbX, y: skyY + 18, lookX: -0.25, lookY: -0.75, curious: 0, beam: 0, stiffness: 20 };
       }
-      if (t < 1.34) {
-        return { x: air.flagX, y: air.flagY, lookX: -0.75, lookY: 1.1, curious: 0, beam: 1.0, stiffness: 24 };
+      if (t < 1.66) {
+        // Phase 2: Level out in open rice-paper sky, power on volumetric visor beam, glide to Era 4 Flagship!
+        const u = clamp01((t - 0.86) / 0.42);
+        return { x: air.flagX, y: air.flagY, lookX: -0.85, lookY: 1.1, curious: 0, beam: u, stiffness: 24 };
       }
-      if (t < 2.04) {
-        // Curious hover & mini 2.5D head-sweep dead-center above Flagship Era 4 LangGraph card!
-        const u = (t - 1.34) / 0.70;
+      if (t < 2.38) {
+        // Phase 3: Curious hover & mini 2.5D head-sweep dead-center above Flagship Era 4 LangGraph card!
+        const u = (t - 1.66) / 0.72;
         const scanSwing = Math.sin(u * Math.PI * 1.5) * 0.55;
         return { x: air.flagX, y: air.flagY, lookX: scanSwing, lookY: 1.18, curious: 1, beam: 0.96, stiffness: 20 };
       }
-      if (t < 3.24) {
-        // Sweeps smoothly across Era 3 -> Era 2 -> Era 1 through the wide-open rice-paper sky!
-        const u = (t - 2.04) / 1.20;
+      if (t < 3.64) {
+        // Phase 4: Sweeps smoothly across Era 3 -> Era 2 -> Era 1 through the wide-open rice-paper sky!
+        const u = (t - 2.38) / 1.26;
         return {
           x: lerp(air.flagX - 18, W * 0.14, u),
           y: lerp(air.flagY + 10, skyY + 72, u) - Math.sin(u * Math.PI) * 18,
@@ -662,8 +689,8 @@
           stiffness: 28
         };
       }
-      if (t < 3.84) {
-        // Climbs gracefully toward top-left dock!
+      if (t < 4.28) {
+        // Phase 5: Climbs gracefully toward top-left dock!
         return { x: dock.x + 28, y: skyY - 12, lookX: -0.75, lookY: 0.35, curious: 0, beam: 0.48, stiffness: 32 };
       }
       return { x: dock.x, y: dock.y, lookX: 0, lookY: 0, curious: 0, beam: 0, stiffness: 58 };
@@ -673,12 +700,7 @@
       const dt = Math.min(0.05, Math.max(0.001, (now - lastTs) / 1000));
       lastTs = now;
 
-      if (avPhase === "delay") {
-        avT += dt;
-        if (avT >= 0.18) {
-          startAutonomousPatrol(false);
-        }
-      } else if (avPhase === "unfolding") {
+      if (avPhase === "unfolding") {
         foldT += dt;
         const u = clamp01(foldT / 0.40);
         const ease = 1 - Math.pow(1 - u, 3);
@@ -702,7 +724,7 @@
         const W = window.innerWidth;
         const H = window.innerHeight;
         const dock = getDockCenter();
-        const totalDur = patrolIsReRun ? 4.65 : 4.54;
+        const totalDur = patrolIsReRun ? 4.65 : 5.05;
         const tgt = getPatrolTarget(patrolT, W, H, dock);
 
         // True damped spring-mass 2D flight physics
@@ -715,7 +737,8 @@
         drone.x += drone.vx * dt;
         drone.y += drone.vy * dt;
 
-        const bobFade = 1 - clamp01((patrolT - (totalDur - 0.55)) / 0.55);
+        const climbIn = patrolIsReRun ? 1 : clamp01(patrolT / 0.72);
+        const bobFade = climbIn * (1 - clamp01((patrolT - (totalDur - 0.55)) / 0.55));
         const hoverBobY = (Math.sin(now * 0.0062) * 2.4 + Math.cos(now * 0.0037) * 1.1) * bobFade;
 
         // BODY banks smoothly with horizontal velocity; HEAD moves independently (counter-stabilizes, yaws 2.5D, & tilts curiously!)
@@ -736,7 +759,9 @@
         const dy = drone.y + hoverBobY - dock.y;
         btn.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
 
-        const flyScale = lerp(FLY_SCALE, 1.0, clamp01((patrolT - (totalDur - 0.65)) / 0.65));
+        // Smoothly grows from exact 1:1 Era 5 pad height (1.13) to heroic open-sky presence (1.38), then back to 1.0 on dock!
+        const riseScale = patrolIsReRun ? FLY_SCALE : lerp(LAUNCH_MATCH_SCALE, FLY_SCALE, smooth(0.0, 0.75, patrolT));
+        const flyScale = lerp(riseScale, 1.0, clamp01((patrolT - (totalDur - 0.65)) / 0.65));
         craftG.setAttribute("transform", `scale(${flyScale.toFixed(3)}) rotate(${drone.bodyBank.toFixed(2)})`);
         headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(${drone.headTilt.toFixed(2)})`);
         applyFaceYaw(drone.headYaw, drone.headPitch);
@@ -809,20 +834,20 @@
               }
             });
           }
-
-          // Boot thruster wake micro-dots spawned cleanly below the rotated thruster boots!
-          wakeCooldown -= dt;
-          if (speed > 40 && wakeCooldown <= 0) {
-            const p = wakeDots[wakeIdx % wakeDots.length];
-            wakeIdx += 1;
-            const bootDist = 20 * flyScale * pxPerUnit;
-            p.x = drone.x - Math.sin(bankRad) * bootDist;
-            p.y = drone.y + hoverBobY + Math.cos(bankRad) * bootDist;
-            p.life = 0.55;
-            wakeCooldown = 0.055;
-          }
         } else if (coneG) {
           coneG.setAttribute("opacity", "0");
+        }
+
+        // Boot thruster wake micro-dots spawned cleanly below the rotated thruster boots (active during vertical climb & patrol!)
+        wakeCooldown -= dt;
+        if (speed > 40 && wakeCooldown <= 0) {
+          const p = wakeDots[wakeIdx % wakeDots.length];
+          wakeIdx += 1;
+          const bootDist = 20 * flyScale * pxPerUnit;
+          p.x = drone.x - Math.sin(bankRad) * bootDist;
+          p.y = drone.y + hoverBobY + Math.cos(bankRad) * bootDist;
+          p.life = 0.55;
+          wakeCooldown = 0.055;
         }
 
         wakeDots.forEach((p) => {
@@ -928,6 +953,9 @@
           btn.classList.add("is-docked");
           dockShadow.setAttribute("opacity", "1");
           triggerBlink(false);
+          if (typeof AgentBlog.onMechDocked === "function") {
+            AgentBlog.onMechDocked();
+          }
         }
       } else if (avPhase === "sonar") {
         sonarT += dt;

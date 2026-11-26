@@ -481,9 +481,29 @@
     const goggleEye = mk("g", { opacity: "0" }, headGroup);
     const gEyeL = mk("circle", { cx: "0.3", cy: "-0.5", r: "1.1", fill: "#FAF8F4" }, goggleEye);
     const gEyeR = mk("circle", { cx: "3.4", cy: "-0.5", r: "1.1", fill: "#FAF8F4" }, goggleEye);
-    // Stage 5: Sleek Mech V-Crest & Side Ear-Fin (matches top-right avatar!)
+    // Stage 5: Unified Sculptural Production Mono-Shell Helmet (identical to airborne Production Agent & top-left avatar!)
     const headCrestEl = mk("g", { opacity: "0" }, headGroup);
-    mk("path", { d: "M -4.4,-4.6 L 0.4,-7.3 L 5.0,-4.6 M -6.9,-2.2 L -8.8,-4.3 L -6.5,0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round" }, headCrestEl);
+    // Flush recessed side acoustic arcs
+    mk("path", { d: "M -7.6,-1.2 Q -8.3,0 -7.6,1.2 M 7.6,-1.2 Q 8.3,0 7.6,1.2", fill: "none", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linecap": "round", "stroke-opacity": "0.65" }, headCrestEl);
+    // Seamless aerodynamic mono-shell head covering Era 4 CRT box on Wave 4 lock-in!
+    mk("path", {
+      d: "M 0,-6.6 C 4.8,-6.6 7.5,-3.9 7.5,-0.3 C 7.5,3.5 4.9,6.2 0,6.2 C -4.9,6.2 -7.5,3.5 -7.5,-0.3 C -7.5,-3.9 -4.8,-6.6 0,-6.6 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1"
+    }, headCrestEl);
+    // Warm stone-wash lower underside contour
+    mk("path", {
+      d: "M -6.2,2.7 C -4.6,4.9 -2.5,5.7 0,5.7 C 2.5,5.7 4.6,4.9 6.2,2.7 C 4.5,4.0 2.3,4.5 0,4.5 C -2.3,4.5 -4.5,4.0 -6.2,2.7 Z",
+      fill: "#EDE8DE", "fill-opacity": "0.92"
+    }, headCrestEl);
+    // Flush bamboo crown status slit
+    mk("rect", { x: "-1.7", y: "-5.1", width: "3.4", height: "0.9", rx: "0.45", fill: "#2D6A47" }, headCrestEl);
+    // Obsidian OLED wrap visor + luminous mint pill eyes
+    mk("path", {
+      d: "M 0,-3.4 C 3.9,-3.4 6.1,-2.0 6.1,0.1 C 6.1,2.2 3.9,3.6 0,3.6 C -3.9,3.6 -6.1,2.2 -6.1,0.1 C -6.1,-2.0 -3.9,-3.4 0,-3.4 Z",
+      fill: "#181715"
+    }, headCrestEl);
+    mk("rect", { x: "-3.2", y: "-1.25", width: "1.7", height: "2.65", rx: "0.85", fill: "#EBFFF3" }, headCrestEl);
+    mk("rect", { x: "1.5", y: "-1.25", width: "1.7", height: "2.65", rx: "0.85", fill: "#EBFFF3" }, headCrestEl);
 
     // Front arm + shoulder socket rivet + mechanical hand caps + attachments + Stage 5 Repulsor Gauntlets + Luminous Jets
     const frontArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
@@ -518,8 +538,8 @@
       // Wave 3: Twin-Nozzle Skills Jetpack (upper-left) + Chamfered Shoulder Pauldrons (upper-right)
       { t0: 0.40, t1: 0.72, sx: -38, sy: -42, cx: -21, cy: -34, tx: -6.2, ty: -22,  rot0: -26, d: "M -2.4,-4.2 L 2.4,-4.2 L 2.4,3.4 L -2.4,3.4 Z M -1.4,-1.8 L 1.4,-1.8 M -1.4,0.8 L 1.4,0.8 M -2.0,3.4 L -2.5,5.2 L -0.6,5.2 L -0.4,3.4 M 0.4,3.4 L 0.6,5.2 L 2.5,5.2 L 2.0,3.4" },
       { t0: 0.42, t1: 0.72, sx: 38,  sy: -44, cx: 20,  cy: -35, tx: 0,    ty: -25.5,rot0: 24,  d: "M -5.8,-1.5 L 5.8,-1.5 L 6.8,1.3 L -6.8,1.3 Z M -4.2,-1.4 L -4.8,1.2 M 4.2,-1.4 L 4.8,1.2" },
-      // Wave 4: Mech Head V-Crest from straight above!
-      { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 4,   cy: -45, tx: 0.4,  ty: -36.5,rot0: 0,   d: "M -4.6,1.3 L 0.4,-1.8 L 5.2,1.3" }
+      // Wave 4: Sculptural Production Mono-Shell Helmet descending straight from above!
+      { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 3,   cy: -45, tx: 0,    ty: -32.5,rot0: 0,   d: "M 0,-5.4 C 4.2,-5.4 6.4,-3.1 6.4,-0.2 C 6.4,2.7 4.2,4.6 0,4.6 C -4.2,4.6 -6.4,2.7 -6.4,-0.2 C -6.4,-3.1 -4.2,-5.4 0,-5.4 Z M -1.6,-3.8 L 1.6,-3.8" }
     ];
     const flyParts = FLY_SPECS.map((sp, idx) => {
       const trail = mk("line", { stroke: "#2D6A47", "stroke-width": "1.15", "stroke-opacity": "0.62", "stroke-dasharray": "4 2", "stroke-linecap": "round", opacity: "0" }, assembleLayer);
@@ -623,7 +643,17 @@
     let b2 = 0, b2t = 0; // Era 2 desk:   0=approach, 1=read+CoT(0.95s), 2=done
     let b3 = 0, b3t = 0; // Era 3 wall:   0=approach, 1=bonk+recoil+wrench+turn+sink(1.42s), 2=done
     let b4 = 0, b4t = 0; // Era 4 gate:   0=approach, 1=press+0.25s freeze+lift(1.02s), 2=done
-    let b5 = 0, b5t = 0; // Era 5 pad:    0=approach, 1=dock harness(1.22s), 2=walk to launch pad, 3=Iron Man takeoff(1.62s)
+    let b5 = 0, b5t = 0; // Era 5 pad:    0=approach, 1=dock harness(1.22s), 2=walk to launch pad, 3=ignition & liftoff, 4=airborne handoff (waiting for dock)
+    let waitingForDock = false;
+    let handoffStarted = false;
+    let handoffTrailT = 0;
+
+    AgentBlog.onMechDocked = () => {
+      if (waitingForDock) {
+        waitingForDock = false;
+        resetWaitTimer = 2.6;
+      }
+    };
 
     let wallSink = 0;    // 0..27px sunk into ground (persists until cycle reset)
     let wallBoltDeg = 0; // 0..90 deg
@@ -654,6 +684,9 @@
       brainDockTimer = 0;
       toolSnapTimer = 0;
       resetWaitTimer = 0;
+      waitingForDock = false;
+      handoffStarted = false;
+      handoffTrailT = 0;
       skidPool.forEach((p) => { p.life = 0; p.el.setAttribute("opacity", "0"); });
       launchShock.setAttribute("opacity", "0");
       sonicRing.setAttribute("opacity", "0");
@@ -885,31 +918,62 @@
           }
           if (b5t >= 1.22) b5 = 2;
         } else if (b5 === 3) {
-          // Era 5 Beat B: Iron Man palms-down repulsor ignition -> hover -> sonic ring -> rocket UP out of window!
+          // Era 5 Beat B: Palms-down repulsor ignition -> hover -> seamless single-robot liftoff inside viewport!
           b5t += dt;
           moveSpeed = 0;
           armPose = "launch";
+          const alreadyDocked = !!(AgentBlog.isAvatarDocked && AgentBlog.isAvatarDocked());
           if (b5t < 0.34) {
             const u = clamp01(b5t / 0.34);
             crouchY = Math.sin(u * Math.PI * 0.5) * 2.8;
             jetPower = u * 0.9;
-          } else if (b5t < 0.68) {
-            const u = clamp01((b5t - 0.34) / 0.34);
+          } else if (b5t < 0.64) {
+            const u = clamp01((b5t - 0.34) / 0.30);
             crouchY = lerp(2.8, 0, clamp01(u * 3));
             const ease = 1 - Math.pow(1 - u, 3);
-            launchLiftY = ease * 11.5 + Math.sin(u * Math.PI * 3) * 0.6;
-            jetPower = 1.0 + u * 0.25;
-          } else {
-            const au = clamp01((b5t - 0.68) / 0.94);
+            launchLiftY = ease * 13.0 + Math.sin(u * Math.PI * 2.5) * 0.5;
+            jetPower = 1.0 + u * 0.35;
+          } else if (!alreadyDocked) {
+            // Cycle 1 Hero Liftoff: ZERO off-screen exit! Hand off exact screen coords to the SAME robot in mech-avatar.js!
             crouchY = 0;
-            launchLiftY = 11.5 + Math.pow(au, 2.45) * 860;
-            jetPower = 1.35 + au * 1.35;
-          }
-          if (b5t >= 1.62) {
-            resetWaitTimer = 1.6;
-            if (typeof AgentBlog.onMechExitedTop === "function") {
-              AgentBlog.onMechExitedTop();
+            launchLiftY = 13.0;
+            jetPower = 1.35;
+            if (!handoffStarted) {
+              handoffStarted = true;
+              waitingForDock = true;
+              handoffTrailT = 0;
+              b5 = 4;
+              const lr = evoLayerEl.getBoundingClientRect();
+              const worldX = lr.left + posX;
+              const worldY = lr.top + BASE_Y - launchLiftY - 17.5;
+              botGroup.setAttribute("opacity", "0");
+              if (typeof AgentBlog.onMechLiftoff === "function") {
+                AgentBlog.onMechLiftoff({ x: worldX, y: worldY, padX: lr.left + launchX, padY: lr.top + BASE_Y });
+              } else if (typeof AgentBlog.onMechExitedTop === "function") {
+                AgentBlog.onMechExitedTop();
+              }
             }
+          } else {
+            // Cycle 2+ (avatar already docked): graceful in-viewport ascent & sky dissolve sync pulse (never flies off top!)
+            const au = clamp01((b5t - 0.64) / 0.92);
+            crouchY = 0;
+            launchLiftY = 13.0 + Math.pow(au, 1.85) * 185;
+            jetPower = 1.25 * (1 - au * 0.5);
+            if (b5t >= 1.56) {
+              resetWaitTimer = 2.6;
+              if (typeof AgentBlog.onMechExitedTop === "function") {
+                AgentBlog.onMechExitedTop();
+              }
+            }
+          }
+        } else if (b5 === 4) {
+          // Single robot is currently airborne & patrolling the open sky -> keep runway quiet until it docks!
+          b5t += dt;
+          handoffTrailT += dt;
+          moveSpeed = 0;
+          if (!waitingForDock || b5t >= 9.5) {
+            waitingForDock = false;
+            resetWaitTimer = 2.4;
           }
         } else {
           posX += baseSpeed * dt;
@@ -921,7 +985,7 @@
         if (brainDockTimer > 0) brainDockTimer = Math.max(0, brainDockTimer - dt);
         if (toolSnapTimer > 0) toolSnapTimer = Math.max(0, toolSnapTimer - dt);
 
-        if (posX >= endX && b5 !== 3) {
+        if (posX >= endX && b5 !== 3 && b5 !== 4) {
           resetWaitTimer = 1.4;
         }
 
@@ -1145,8 +1209,8 @@
         }
         lockSparks.setAttribute("opacity", lockSparkTimer > 0 ? (lockSparkTimer / 0.28).toFixed(2) : "0");
 
-        // Ground shockwave, sonic boom ring & triple contrails during Iron Man blastoff
-        if (b5 === 3 && b5t > 0.12) {
+        // Ground shockwave, sonic boom ring & triple contrails during liftoff (continues smoothly after handoff in b5 === 4!)
+        if ((b5 === 3 || b5 === 4) && b5t > 0.12) {
           const su = clamp01((b5t - 0.12) / 0.52);
           if (su < 1) {
             const spread = 4 + su * 23;
@@ -1163,19 +1227,22 @@
           } else {
             launchShock.setAttribute("opacity", "0");
           }
-          if (b5t >= 0.66 && b5t < 1.04) {
-            const ru = (b5t - 0.66) / 0.38;
+          if (b5t >= 0.62 && b5t < 1.04) {
+            const ru = (b5t - 0.62) / 0.42;
             sonicRing.setAttribute("cx", launchX.toFixed(1));
-            sonicRing.setAttribute("cy", String(BASE_Y - 12.5));
-            sonicRing.setAttribute("rx", (6 + ru * 19).toFixed(1));
-            sonicRing.setAttribute("ry", (1.8 + ru * 4.0).toFixed(1));
-            sonicRing.setAttribute("opacity", ((1 - ru) * 0.75).toFixed(2));
+            sonicRing.setAttribute("cy", String(BASE_Y - 13.5));
+            sonicRing.setAttribute("rx", (6 + ru * 20).toFixed(1));
+            sonicRing.setAttribute("ry", (1.8 + ru * 4.2).toFixed(1));
+            sonicRing.setAttribute("opacity", ((1 - ru) * 0.78).toFixed(2));
           } else {
             sonicRing.setAttribute("opacity", "0");
           }
-          if (launchLiftY > 8) {
-            const trailOp = clamp01(1 - (launchLiftY - 45) / 185) * 0.48;
-            const topY = (BASE_Y - launchLiftY - 4).toFixed(1);
+          const trailLift = b5 === 4 ? 13 + Math.min(260, handoffTrailT * 340) : launchLiftY;
+          if (trailLift > 8 && (b5 !== 4 || handoffTrailT < 0.78)) {
+            const trailOp = b5 === 4
+              ? clamp01(1 - handoffTrailT / 0.78) * 0.42
+              : clamp01(1 - (trailLift - 45) / 145) * 0.46;
+            const topY = (BASE_Y - trailLift - 4).toFixed(1);
             launchTrail.setAttribute("x1", launchX.toFixed(1));
             launchTrail.setAttribute("x2", launchX.toFixed(1));
             launchTrail.setAttribute("y1", String(BASE_Y - 2));
@@ -1184,12 +1251,12 @@
             launchTrailL.setAttribute("x1", (launchX - 7.4).toFixed(1));
             launchTrailL.setAttribute("x2", (launchX - 7.4).toFixed(1));
             launchTrailL.setAttribute("y1", String(BASE_Y - 6));
-            launchTrailL.setAttribute("y2", (BASE_Y - launchLiftY - 12).toFixed(1));
+            launchTrailL.setAttribute("y2", (BASE_Y - trailLift - 12).toFixed(1));
             launchTrailL.setAttribute("opacity", (trailOp * 0.7).toFixed(2));
             launchTrailR.setAttribute("x1", (launchX + 7.4).toFixed(1));
             launchTrailR.setAttribute("x2", (launchX + 7.4).toFixed(1));
             launchTrailR.setAttribute("y1", String(BASE_Y - 6));
-            launchTrailR.setAttribute("y2", (BASE_Y - launchLiftY - 12).toFixed(1));
+            launchTrailR.setAttribute("y2", (BASE_Y - trailLift - 12).toFixed(1));
             launchTrailR.setAttribute("opacity", (trailOp * 0.7).toFixed(2));
           } else {
             launchTrail.setAttribute("opacity", "0");
@@ -1215,7 +1282,11 @@
           : 0;
         const gogglesW = smooth(2.65, 3.05, evo);    // Era 4–5 dual-optic visor
         const keyW = hasBrain ? 0 : 1 - smooth(0.95, 1.22, evo); // Wind-up key fades as brain takes over!
-        const edgeFade = b5 === 3 ? 1 : smooth(0, 0.03, progress) * (1 - smooth(0.96, 1, progress));
+        const edgeFade = b5 === 4
+          ? 0
+          : b5 === 3
+          ? (b5t > 0.64 ? 1 - smooth(1.05, 1.54, b5t) : 1)
+          : smooth(0, 0.03, progress) * (1 - smooth(0.96, 1, progress));
 
         // Smooth vertical step-up onto Era 5 architectural docking pad deck (height 3.5px)
         const onPadDist = Math.abs(drawX - x5);
@@ -1405,6 +1476,7 @@
         const launchLookUp = b5 === 3 && launchLiftY > 2 ? -8 : 0;
         headGroup.setAttribute("transform", `translate(${headX.toFixed(2)}, ${headY.toFixed(2)}) scale(${hScale.toFixed(3)}) rotate(${(walkTilt + headNodDeg + launchLookUp).toFixed(1)})`);
 
+        antGroup.setAttribute("opacity", hasHeadCrest ? "0" : "1");
         antGroup.setAttribute("transform", `rotate(${(Math.sin(phase * Math.PI * 2) * 5).toFixed(1)}, -0.8, -5.0)`);
         antTip.setAttribute("fill", hasHeadCrest || reasoningNow ? "#2D6A47" : "#FAF8F4");
         cotHeadSpark.setAttribute("opacity", "0");
