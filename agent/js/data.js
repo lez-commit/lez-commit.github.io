@@ -19,7 +19,7 @@
         num: "01",
         year: "1950s–2016",
         title: "规则与 RPA 期",
-        whisper: "有手脚，无大脑",
+        whisper: "按脚本跑，无大脑",
         nodes: [
           {
             id: "n01",
@@ -100,7 +100,7 @@
         num: "02",
         year: "2017–2022",
         title: "通用大脑诞生",
-        whisper: "通用大脑上线",
+        whisper: "缸中之脑，会推理",
         nodes: [
           {
             id: "n04",
@@ -193,7 +193,7 @@
         num: "03",
         year: "2023",
         title: "野蛮生长与撞墙",
-        whisper: "试错撞墙，长出手",
+        whisper: "撞墙试错，接工具",
         nodes: [
           {
             id: "n08",
