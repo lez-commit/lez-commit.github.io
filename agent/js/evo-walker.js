@@ -1,0 +1,1408 @@
+(function () {
+  "use strict";
+
+  const AgentBlog = (window.AgentBlog = window.AgentBlog || {});
+
+  /* =======================================================================
+     10. EVOLVING INK-ART ROBOT ON THE TIMELINE SPINE
+         Inspired by JDhruv14/line-art-animation: ink-on-paper SVG filter,
+         2-bone IK gait solver, spring scarf & continuous 5-era morphology
+     ======================================================================= */
+  const evoLayerEl = document.getElementById("evo-walker-layer");
+
+  function initEvoWalker() {
+    if (!evoLayerEl) return;
+
+    const NS = "http://www.w3.org/2000/svg";
+    const mk = (tag, attrs, parent) => {
+      const node = document.createElementNS(NS, tag);
+      if (attrs) {
+        Object.keys(attrs).forEach((k) => node.setAttribute(k, attrs[k]));
+      }
+      if (parent) parent.appendChild(node);
+      return node;
+    };
+
+    const BASE_Y = 42;
+    const svg = mk("svg", { class: "evo-svg", "shape-rendering": "geometricPrecision" }, evoLayerEl);
+    const defs = mk("defs", null, svg);
+
+    // Soft bamboo-green lamp cone gradient (Era 2)
+    const lampGrad = mk("linearGradient", { id: "evo-lamp-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.26" }, lampGrad);
+    mk("stop", { offset: "65%", "stop-color": "#2D6A47", "stop-opacity": "0.10" }, lampGrad);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, lampGrad);
+
+    // Soft holographic alignment field gradient (Era 5)
+    const padGrad = mk("linearGradient", { id: "evo-pad-grad", x1: "0%", y1: "100%", x2: "0%", y2: "0%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.24" }, padGrad);
+    mk("stop", { offset: "58%", "stop-color": "#2D6A47", "stop-opacity": "0.08" }, padGrad);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, padGrad);
+
+    // Bamboo Arc Core radial glow (Stage 5)
+    const arcGlowGrad = mk("radialGradient", { id: "evo-arc-glow", cx: "50%", cy: "50%", r: "50%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#4FA072", "stop-opacity": "0.65" }, arcGlowGrad);
+    mk("stop", { offset: "55%", "stop-color": "#2D6A47", "stop-opacity": "0.22" }, arcGlowGrad);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, arcGlowGrad);
+
+    // Clip path for Era 3 brick barrier sinking cleanly into the ground seam (y <= 0)
+    const wallClip = mk("clipPath", { id: "evo-wall-clip" }, defs);
+    mk("rect", { x: "-24", y: "-38", width: "48", height: "38" }, wallClip);
+
+    // =====================================================================
+    // LAYER 1: 5 EDITORIAL INK-AND-WASH MILESTONE PROPS (behind robot)
+    // =====================================================================
+    const scenery = mk("g", null, svg);
+
+    // --- PROP 1 (Era 1): Sculpted Angular Stone Cluster ---
+    const prop1 = mk("g", { color: "#8A8275", opacity: "0.40" }, scenery);
+    mk("line", { x1: "-7.6", y1: "0", x2: "7.2", y2: "0", stroke: "currentColor", "stroke-width": "0.9", "stroke-opacity": "0.35", "stroke-linecap": "round" }, prop1);
+    // Companion micro-pebble on left
+    mk("polygon", {
+      points: "-6.2,0 -5.4,-2.3 -3.7,-2.1 -3.1,0",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round"
+    }, prop1);
+    // Main faceted stone
+    mk("polygon", {
+      points: "-4.1,0 -3.1,-4.5 -0.4,-6.1 3.2,-4.2 4.7,0",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15", "stroke-linejoin": "round"
+    }, prop1);
+    // Warm stone-wash shaded right facet
+    mk("polygon", {
+      points: "-0.4,-6.1 3.2,-4.2 4.7,0 0.7,0 0.3,-3.0",
+      fill: "#EDE8DE", "fill-opacity": "0.92"
+    }, prop1);
+    // Facet ridge & tiny ink-hatching marks
+    mk("path", {
+      d: "M -0.4,-6.1 L 0.3,-3.0 L 0.7,0 M -2.3,-2.3 L -1.2,-2.3 M 1.7,-1.7 L 2.7,-1.7",
+      fill: "none", stroke: "currentColor", "stroke-width": "0.78", "stroke-linecap": "round"
+    }, prop1);
+    // Trip kick dust puffs (Era 1)
+    const pebbleDust = mk("g", { opacity: "0" }, prop1);
+    mk("circle", { cx: "6.4", cy: "-2.2", r: "1.15", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.75" }, pebbleDust);
+    mk("circle", { cx: "9.2", cy: "-4.0", r: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.7" }, pebbleDust);
+    mk("line", { x1: "5.2", y1: "-4.8", x2: "7.8", y2: "-6.6", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round" }, pebbleDust);
+
+    // --- PROP 2 (Era 2): Architect's Drafting Desk + Stacked Papers + Gooseneck Lamp ---
+    const prop2 = mk("g", { color: "#8A8275", opacity: "0.40" }, scenery);
+    mk("line", { x1: "-14", y1: "0", x2: "14", y2: "0", stroke: "currentColor", "stroke-width": "0.9", "stroke-opacity": "0.3", "stroke-linecap": "round" }, prop2);
+    // Soft bamboo-green lamp light cone (gradient)
+    const lampCone = mk("polygon", {
+      points: "5.2,-20.2 -11.5,-12.8 8.8,-12.8",
+      fill: "url(#evo-lamp-grad)",
+      opacity: "0"
+    }, prop2);
+    // Trestle legs & slim cross-brace
+    mk("path", {
+      d: "M -10.2,-10.2 L -11.6,0 M 10.2,-10.2 L 11.6,0",
+      fill: "none", stroke: "currentColor", "stroke-width": "1.15", "stroke-linecap": "round"
+    }, prop2);
+    mk("line", {
+      x1: "-10.8", y1: "-4.2", x2: "10.8", y2: "-4.2",
+      stroke: "currentColor", "stroke-width": "0.8", "stroke-opacity": "0.65", "stroke-linecap": "round"
+    }, prop2);
+    // Under-desk drawer apron (warm stone wash)
+    mk("rect", {
+      x: "-10.5", y: "-12.0", width: "21", height: "2.0", rx: "0.4",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85"
+    }, prop2);
+    mk("line", { x1: "-1.6", y1: "-11.0", x2: "1.6", y2: "-11.0", stroke: "currentColor", "stroke-width": "0.8", "stroke-linecap": "round" }, prop2);
+    // Crisp tabletop slab
+    mk("rect", {
+      x: "-13.2", y: "-13.8", width: "26.4", height: "2.0", rx: "0.6",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15"
+    }, prop2);
+    // Stacked reference sheets on left side of desk
+    mk("path", {
+      d: "M -10.0,-13.8 L -1.8,-13.8 L -1.2,-15.3 L -9.4,-15.3 Z",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85", "stroke-linejoin": "round"
+    }, prop2);
+    // Lifting parchment page with tiny ink text lines
+    const deskPaperLift = mk("g", null, prop2);
+    mk("path", {
+      d: "M -6.4,-14.3 Q -2.2,-17.0 1.8,-15.0 L 2.4,-13.8 L -5.8,-13.8 Z",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round"
+    }, deskPaperLift);
+    mk("path", {
+      d: "M -4.2,-14.8 L -0.4,-15.2 M -3.6,-14.2 L 0.4,-14.4",
+      fill: "none", stroke: "currentColor", "stroke-width": "0.65", "stroke-opacity": "0.65", "stroke-linecap": "round"
+    }, deskPaperLift);
+    // Articulated architect gooseneck lamp
+    mk("path", {
+      d: "M 7.2,-13.8 L 11.4,-13.8 L 10.7,-15.2 L 7.9,-15.2 Z",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round"
+    }, prop2);
+    mk("path", {
+      d: "M 9.3,-15.2 L 11.2,-20.0 L 6.8,-21.6",
+      fill: "none", stroke: "currentColor", "stroke-width": "1.05", "stroke-linecap": "round", "stroke-linejoin": "round"
+    }, prop2);
+    mk("circle", { cx: "11.2", cy: "-20.0", r: "0.9", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.85" }, prop2);
+    mk("path", {
+      d: "M 3.4,-19.6 L 7.2,-22.4 L 7.9,-19.1 Z",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0", "stroke-linejoin": "round"
+    }, prop2);
+    const lampBulbHalo = mk("circle", { cx: "5.4", cy: "-19.8", r: "2.8", fill: "url(#evo-arc-glow)", opacity: "0" }, prop2);
+    const lampBulb = mk("circle", { cx: "5.4", cy: "-19.8", r: "1.35", fill: "#2D6A47", opacity: "0" }, prop2);
+    // Subtle floating CoT insight motes above reading desk
+    const cotSparks = mk("g", { opacity: "0" }, prop2);
+    const cotDot1 = mk("circle", { cx: "-2.2", cy: "-21", r: "1.0", fill: "#2D6A47" }, cotSparks);
+    const cotDot2 = mk("circle", { cx: "1.4", cy: "-23.5", r: "0.8", fill: "#2D6A47", "fill-opacity": "0.7" }, cotSparks);
+
+    // --- PROP 3 (Era 3): Reinforced Brick Masonry Barrier & Industrial Cross-Valve ---
+    const prop3 = mk("g", { color: "#8A8275", opacity: "0.40" }, scenery);
+    // Slotted ground seam where wall retracts
+    mk("line", { x1: "-10.5", y1: "0", x2: "10.5", y2: "0", stroke: "currentColor", "stroke-width": "1.1", "stroke-opacity": "0.45", "stroke-linecap": "round" }, prop3);
+    const wallClipWrap = mk("g", { "clip-path": "url(#evo-wall-clip)" }, prop3);
+    const wallBody = mk("g", null, wallClipWrap);
+    // Main wall masonry mass
+    mk("rect", {
+      x: "-8", y: "-26.6", width: "16", height: "26.6", rx: "0.7",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.2"
+    }, wallBody);
+    // Alternating warm stone-wash bricks for unmistakable masonry texture
+    mk("rect", { x: "-7.5", y: "-26.1", width: "7.2", height: "4.4", fill: "#EDE8DE" }, wallBody);
+    mk("rect", { x: "1.4", y: "-21.3", width: "6.1", height: "4.4", fill: "#EDE8DE" }, wallBody);
+    mk("rect", { x: "-7.5", y: "-10.0", width: "5.8", height: "4.6", fill: "#EDE8DE" }, wallBody);
+    mk("rect", { x: "0.6", y: "-5.1", width: "6.9", height: "4.8", fill: "#EDE8DE" }, wallBody);
+    // Crisp staggered brick mortar courses
+    mk("path", {
+      d: "M -8,-21.4 L 8,-21.4 M -8,-16.7 L 8,-16.7 M -8,-10.2 L 8,-10.2 M -8,-5.2 L 8,-5.2 M 0,-26.6 L 0,-21.4 M -3.6,-21.4 L -3.6,-16.7 M 3.8,-21.4 L 3.8,-16.7 M -1.6,-10.2 L -1.6,-5.2 M 3.4,-10.2 L 3.4,-5.2 M -4.2,-5.2 L -4.2,0 M 0.6,-5.2 L 0.6,0",
+      fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-opacity": "0.8"
+    }, wallBody);
+    // Beveled stone capstone header
+    mk("rect", {
+      x: "-8.7", y: "-28.6", width: "17.4", height: "2.3", rx: "0.6",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.1"
+    }, wallBody);
+    // Recessed industrial cross-valve wheel at waist height (y = -13.6)
+    mk("circle", { cx: "0", cy: "-13.6", r: "4.2", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1" }, wallBody);
+    mk("circle", { cx: "0", cy: "-13.6", r: "2.9", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.75", "stroke-opacity": "0.75" }, wallBody);
+    const wallBolt = mk("g", null, wallBody);
+    mk("line", { x1: "-2.7", y1: "-13.6", x2: "2.7", y2: "-13.6", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, wallBolt);
+    mk("line", { x1: "0", y1: "-16.3", x2: "0", y2: "-10.9", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, wallBolt);
+    mk("circle", { cx: "0", cy: "-13.6", r: "0.95", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.85" }, wallBolt);
+    // Curved torque motion arcs while wrench turns valve
+    const wallTorqueArcs = mk("g", { opacity: "0" }, prop3);
+    mk("path", {
+      d: "M -4.2,-17.8 A 5.8,5.8 0 0,1 4.2,-17.8 M 4.2,-9.4 A 5.8,5.8 0 0,1 -4.2,-9.4",
+      fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", "stroke-linecap": "round"
+    }, wallTorqueArcs);
+    // Vermilion bonk impact star-sparks
+    const wallSparks = mk("g", { opacity: "0" }, prop3);
+    mk("line", { x1: "-9.0", y1: "-22.2", x2: "-14.2", y2: "-25.8", stroke: "#B83B2A", "stroke-width": "1.35", "stroke-linecap": "round" }, wallSparks);
+    mk("line", { x1: "-9.4", y1: "-19.0", x2: "-15.2", y2: "-19.2", stroke: "#B83B2A", "stroke-width": "1.35", "stroke-linecap": "round" }, wallSparks);
+    mk("line", { x1: "-8.8", y1: "-15.8", x2: "-13.2", y2: "-13.2", stroke: "#B83B2A", "stroke-width": "1.25", "stroke-linecap": "round" }, wallSparks);
+    mk("circle", { cx: "-8.2", cy: "-19.0", r: "1.25", fill: "#B83B2A" }, wallSparks);
+    // Retracting wall dust puffs at ground seam
+    const wallDust = mk("g", { opacity: "0" }, prop3);
+    mk("circle", { cx: "-9.5", cy: "-1.6", r: "1.35", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.7" }, wallDust);
+    mk("circle", { cx: "9.5", cy: "-1.8", r: "1.25", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.7" }, wallDust);
+    mk("circle", { cx: "-11.4", cy: "-3.2", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
+    mk("circle", { cx: "11.2", cy: "-3.4", r: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
+
+    // --- PROP 4 (Era 4): Mechanical Checkpoint Gate & Striped Boom Arm ---
+    const prop4 = mk("g", { color: "#8A8275", opacity: "0.40" }, scenery);
+    // Gate boom arm + counterweight pivoting around (0, -13.5)
+    const gateArmGroup = mk("g", { transform: "rotate(0, 0, -13.5)" }, prop4);
+    // Counterweight block on right
+    mk("rect", {
+      x: "1.4", y: "-15.1", width: "3.8", height: "3.2", rx: "0.7",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.0"
+    }, gateArmGroup);
+    // Sleek tapered boom arm extending left
+    mk("rect", {
+      x: "-14.6", y: "-14.7", width: "16.0", height: "2.4", rx: "1.1",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.05"
+    }, gateArmGroup);
+    // Architectural diagonal hazard stripes on boom
+    mk("path", {
+      d: "M -12.2,-14.6 L -10.8,-12.4 M -8.6,-14.6 L -7.2,-12.4 M -5.0,-14.6 L -3.6,-12.4",
+      fill: "none", stroke: "currentColor", "stroke-width": "1.1", "stroke-linecap": "butt"
+    }, gateArmGroup);
+    // Ground plinth base
+    mk("rect", {
+      x: "-5.8", y: "-2.2", width: "11.6", height: "2.2", rx: "0.6",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.05"
+    }, prop4);
+    // Checkpoint post housing
+    mk("rect", {
+      x: "-4.2", y: "-17.2", width: "8.4", height: "15.0", rx: "1.1",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15"
+    }, prop4);
+    // Stone-wash side shading bevel
+    mk("rect", {
+      x: "1.5", y: "-16.5", width: "2.1", height: "13.6", rx: "0.4",
+      fill: "#EDE8DE"
+    }, prop4);
+    // Top plunger collar & depressible checkpoint button
+    mk("rect", {
+      x: "-2.9", y: "-18.4", width: "5.8", height: "1.3", rx: "0.4",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85"
+    }, prop4);
+    const gateBtnEl = mk("rect", {
+      x: "-2.2", y: "-20.4", width: "4.4", height: "2.1", rx: "0.8",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0"
+    }, prop4);
+    // Pivot axle pin & recessed status dial
+    mk("circle", { cx: "0", cy: "-13.5", r: "1.35", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0" }, prop4);
+    mk("circle", { cx: "0", cy: "-8.0", r: "2.5", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85" }, prop4);
+    const gateSavedDot = mk("circle", { cx: "0", cy: "-8.0", r: "1.6", fill: "#2D6A47", opacity: "0" }, prop4);
+    const gateSavedRipple = mk("circle", { cx: "0", cy: "-8.0", r: "2.5", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", opacity: "0" }, prop4);
+    // Minimal stateless-interrupt freeze cue (||) above checkpoint button
+    const gateFreezeBadge = mk("g", { opacity: "0" }, prop4);
+    mk("line", { x1: "-1.5", y1: "-26.2", x2: "-1.5", y2: "-22.6", stroke: "#2D6A47", "stroke-width": "1.35", "stroke-linecap": "round" }, gateFreezeBadge);
+    mk("line", { x1: "1.5", y1: "-26.2", x2: "1.5", y2: "-22.6", stroke: "#2D6A47", "stroke-width": "1.35", "stroke-linecap": "round" }, gateFreezeBadge);
+
+    // --- PROP 5 (Era 5): Architectural Modular Harness Docking Pad ---
+    const prop5 = mk("g", { color: "#8A8275", opacity: "0.40" }, scenery);
+    // Soft holographic projection cone behind pad
+    const padField = mk("polygon", {
+      points: "-11.5,-3.6 -14.2,-27 14.2,-27 11.5,-3.6",
+      fill: "url(#evo-pad-grad)",
+      opacity: "0"
+    }, prop5);
+    // Vertical alignment ticks + sweeping horizontal scan line
+    const padBeams = mk("g", { opacity: "0" }, prop5);
+    mk("line", { x1: "-10.5", y1: "-5", x2: "-10.5", y2: "-25", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "2 3" }, padBeams);
+    mk("line", { x1: "10.5", y1: "-5", x2: "10.5", y2: "-25", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "2 3" }, padBeams);
+    const padScanLine = mk("line", { x1: "-11.5", y1: "-6", x2: "11.5", y2: "-6", stroke: "#2D6A47", "stroke-width": "1.0", "stroke-opacity": "0.7", "stroke-dasharray": "3 2", opacity: "0" }, prop5);
+    // Stepped architectural docking deck
+    mk("path", {
+      d: "M -16.8,0 L -14.2,-3.6 L 14.2,-3.6 L 16.8,0 Z",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15", "stroke-linejoin": "round"
+    }, prop5);
+    mk("path", {
+      d: "M -10.5,-3.6 L -9.0,-1.6 L 9.0,-1.6 L 10.5,-3.6 Z",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round"
+    }, prop5);
+    // Twin angled micro-pylon docking clamps
+    mk("path", {
+      d: "M -15.6,0 L -16.2,-6.0 L -13.4,-6.0 L -12.6,-3.6 M 15.6,0 L 16.2,-6.0 L 13.4,-6.0 L 12.6,-3.6",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.05", "stroke-linecap": "round", "stroke-linejoin": "round"
+    }, prop5);
+    const padPipL = mk("circle", { cx: "-14.7", cy: "-4.6", r: "0.9", fill: "#2D6A47", opacity: "0" }, prop5);
+    const padPipR = mk("circle", { cx: "14.7", cy: "-4.6", r: "0.9", fill: "#2D6A47", opacity: "0" }, prop5);
+    // Central bamboo-green summon emitter bar
+    const padCore = mk("line", { x1: "-6.2", y1: "-3.6", x2: "6.2", y2: "-3.6", stroke: "#2D6A47", "stroke-width": "2.0", "stroke-linecap": "round", opacity: "0" }, prop5);
+
+    // Era 5 Iron Man vertical takeoff FX: ground shockwave, sonic boom ring & contrails
+    const launchShock = mk("g", { opacity: "0" }, scenery);
+    const shockL = mk("line", { stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linecap": "round" }, launchShock);
+    const shockR = mk("line", { stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linecap": "round" }, launchShock);
+    const sonicRing = mk("ellipse", { cx: "0", cy: "0", rx: "6", ry: "2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.2", opacity: "0" }, scenery);
+    const launchTrail = mk("line", { stroke: "#2D6A47", "stroke-width": "1.3", "stroke-dasharray": "3 3", "stroke-linecap": "round", opacity: "0" }, scenery);
+    const launchTrailL = mk("line", { stroke: "#1D1B18", "stroke-width": "0.85", "stroke-opacity": "0.35", "stroke-linecap": "round", opacity: "0" }, scenery);
+    const launchTrailR = mk("line", { stroke: "#1D1B18", "stroke-width": "0.85", "stroke-opacity": "0.35", "stroke-linecap": "round", opacity: "0" }, scenery);
+
+    // Era 5 Tracing evenly-spaced micro-dots (behind mech)
+    const tracePool = [];
+    for (let i = 0; i < 6; i++) {
+      const c = mk("circle", { cx: "0", cy: String(BASE_Y - 0.9), r: "1.1", fill: "#2D6A47", opacity: "0" }, scenery);
+      tracePool.push({ el: c, x: 0, life: 0 });
+    }
+    let traceIdx = 0;
+    let traceCooldown = 0;
+
+    // Era 1 Mode B ink skid-dashes during long belly-slide
+    const skidPool = [];
+    for (let i = 0; i < 5; i++) {
+      const ln = mk("line", { x1: "0", y1: String(BASE_Y - 1.2), x2: "0", y2: String(BASE_Y - 1.2), stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linecap": "round", opacity: "0" }, scenery);
+      skidPool.push({ el: ln, x: 0, yOff: 0, life: 0 });
+    }
+    let skidIdx = 0;
+    let skidCooldown = 0;
+
+    // =====================================================================
+    // LAYER 2: THE EVOLVING INK-AND-WASH ROBOT (Crisp Mechanical Anatomy)
+    // =====================================================================
+    const botGroup = mk("g", { class: "evo-bot-hit" }, svg);
+    mk("rect", { x: "-17", y: "-40", width: "34", height: "42", fill: "transparent" }, botGroup);
+
+    const shadowEl = mk("ellipse", { cx: "0", cy: "0.4", rx: "6.8", ry: "1.35", fill: "#1D1B18", "fill-opacity": "0.14" }, botGroup);
+
+    // Stage 1 Vermilion trip `!` burst (stays upright above rolling/sliding body)
+    const stuckBang = mk("g", { opacity: "0" }, botGroup);
+    mk("line", { x1: "0", y1: "-23.5", x2: "0", y2: "-18.4", stroke: "#B83B2A", "stroke-width": "1.65", "stroke-linecap": "round" }, stuckBang);
+    mk("circle", { cx: "0", cy: "-16.2", r: "1.0", fill: "#B83B2A" }, stuckBang);
+
+    // Rotatable body wrapper (enables clean belly-slide & recovery)
+    const botBody = mk("g", null, botGroup);
+
+    // Stage 1: Spinning vintage wind-up key on back (with collar + sculpted bow)
+    const keyGroup = mk("g", { opacity: "1" }, botBody);
+    mk("rect", { x: "-6.6", y: "-5.7", width: "1.6", height: "2.4", rx: "0.5", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, keyGroup);
+    mk("line", { x1: "-6.6", y1: "-4.5", x2: "-9.8", y2: "-4.5", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round" }, keyGroup);
+    const keyLoop = mk("ellipse", { cx: "-11.2", cy: "-4.5", rx: "1.75", ry: "3.3", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15" }, keyGroup);
+    const keyInner = mk("ellipse", { cx: "-11.2", cy: "-4.5", rx: "0.75", ry: "1.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.7", "stroke-opacity": "0.55" }, keyGroup);
+
+    // Back leg + capsule back foot + Stage 5 back boot + back arm
+    const backLeg = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
+    const backFoot = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round" }, botBody);
+    const bootB = mk("path", { d: "M -1.8,-4.2 L 1.7,-4.2 L 2.7,0 L -2.0,0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    const backArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
+    const gauntletB = mk("rect", { x: "-2.1", y: "-2.3", width: "4.2", height: "3.3", rx: "0.9", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.05", opacity: "0" }, botBody);
+
+    // Torso group (neck + pelvis + sculpted chassis with warm stone bevel + Stage 5 Modular Armor)
+    const torsoGroup = mk("g", null, botBody);
+    // Stage 5: Modular Skills Jetpack mounted behind torso
+    const jetpackEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("rect", { x: "-8.8", y: "-10.2", width: "4.8", height: "8.4", rx: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15" }, jetpackEl);
+    mk("rect", { x: "-8.4", y: "-9.7", width: "1.8", height: "7.4", rx: "0.5", fill: "#EDE8DE" }, jetpackEl);
+    mk("path", { d: "M -7.6,-7.5 L -5.0,-7.5 M -7.6,-5.1 L -5.0,-5.1 M -8.0,-1.8 L -8.6,0.7 L -6.6,0.7 L -6.4,-1.8 M -6.0,-1.8 L -5.8,0.7 L -4.1,0.7 L -4.6,-1.8", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linecap": "round", "stroke-linejoin": "round" }, jetpackEl);
+    // Mechanical neck collar connecting torso to CRT head
+    const neckEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("rect", { x: "-2.0", y: "-12.2", width: "4.0", height: "2.4", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0" }, neckEl);
+    mk("line", { x1: "-1.5", y1: "-11.0", x2: "1.5", y2: "-11.0", stroke: "#1D1B18", "stroke-width": "0.7", "stroke-opacity": "0.55" }, neckEl);
+    // Mechanical pelvis / hip housing (grounds IK legs cleanly)
+    const pelvisEl = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round" }, torsoGroup);
+    // Sculpted main chassis torso + subtle warm stone bevel
+    const torsoEl = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.3", "stroke-linejoin": "round" }, torsoGroup);
+    const torsoShade = mk("path", { fill: "#EDE8DE", "fill-opacity": "0.85" }, torsoGroup);
+    const chestPanel = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-opacity": "0.58", "stroke-linecap": "round" }, torsoGroup);
+    const chestLed = mk("circle", { cx: "1.6", cy: "-5.2", r: "0.8", fill: "#2D6A47", opacity: "0" }, torsoGroup);
+    // Stage 5: Chamfered Mech Shoulder Pauldrons
+    const shoulderArmorEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("path", { d: "M -5.8,-10.8 L 5.8,-10.8 L 6.8,-8.1 L -6.8,-8.1 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linejoin": "round" }, shoulderArmorEl);
+    mk("path", { d: "M -4.2,-10.6 L -4.8,-8.3 M 4.2,-10.6 L 4.8,-8.3", fill: "none", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-opacity": "0.5" }, shoulderArmorEl);
+    // Stage 5: X-shaped Harness straps + Bamboo Arc Core Glow + Double Ripple
+    const harnessGroup = mk("g", { opacity: "0" }, torsoGroup);
+    const harnessX1 = mk("line", { stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linecap": "round" }, harnessGroup);
+    const harnessX2 = mk("line", { stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linecap": "round" }, harnessGroup);
+    const harnessGlow = mk("circle", { r: "4.6", fill: "url(#evo-arc-glow)" }, harnessGroup);
+    const harnessClaspOuter = mk("circle", { r: "2.35", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9" }, harnessGroup);
+    const harnessClasp = mk("circle", { r: "1.5", fill: "#2D6A47" }, harnessGroup);
+    const harnessRipple = mk("circle", { r: "2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, harnessGroup);
+    const harnessRipple2 = mk("circle", { r: "2", fill: "none", stroke: "#1D1B18", "stroke-width": "0.75", opacity: "0" }, harnessGroup);
+
+    // Front leg + mechanical knee joint rivets + capsule front foot + Stage 5 front boot
+    const kneeJoint2 = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", opacity: "0" }, botBody);
+    const frontLeg = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.4", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
+    const frontFoot = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linejoin": "round" }, botBody);
+    const kneeJoint1 = mk("circle", { r: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", opacity: "0" }, botBody);
+    const bootF = mk("path", { d: "M -1.8,-4.3 L 1.9,-4.3 L 3.0,0 L -2.0,0 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round", opacity: "0" }, botBody);
+
+    // Robot Head group (boxy CRT chassis + expressive visor + antenna + Stage 5 Mech Crest)
+    const headGroup = mk("g", { opacity: "0" }, botBody);
+    const antGroup = mk("g", null, headGroup);
+    mk("rect", { x: "-1.9", y: "-5.5", width: "2.2", height: "1.1", rx: "0.4", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.8" }, antGroup);
+    mk("line", { x1: "-0.8", y1: "-5.5", x2: "-1.4", y2: "-8.9", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linecap": "round" }, antGroup);
+    const antTip = mk("circle", { cx: "-1.5", cy: "-9.6", r: "1.3", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, antGroup);
+    // Era 2 CoT antenna idea-rays
+    const cotHeadSpark = mk("g", { opacity: "0" }, antGroup);
+    mk("path", {
+      d: "M -1.5,-12.0 L -1.5,-13.6 M -4.0,-11.0 L -5.2,-12.2 M 1.0,-11.0 L 2.2,-12.2",
+      fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", "stroke-linecap": "round"
+    }, cotHeadSpark);
+    // Ear-bolt pods
+    mk("rect", { x: "-6.9", y: "-1.6", width: "1.7", height: "3.4", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, headGroup);
+    mk("rect", { x: "5.2", y: "-1.6", width: "1.4", height: "3.2", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, headGroup);
+    // Boxy CRT head dome + subtle bottom-left warm stone shading
+    mk("rect", { x: "-5.7", y: "-4.7", width: "11.4", height: "9.0", rx: "2.6", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.3" }, headGroup);
+    mk("path", { d: "M -5.0,2.2 Q -5.0,3.8 -3.0,3.8 L 3.4,3.8 Q 4.8,3.8 5.0,2.6 L 5.0,1.8 L -5.0,1.8 Z", fill: "#EDE8DE", "fill-opacity": "0.7" }, headGroup);
+    // Stage 1-3 single-eye visor screen + glass glint
+    const visorScreen = mk("rect", { x: "-1.8", y: "-2.8", width: "6.6", height: "4.8", rx: "1.5", fill: "#1D1B18" }, headGroup);
+    const visorGlint1 = mk("line", { x1: "-0.7", y1: "-1.8", x2: "0.2", y2: "-1.8", stroke: "#FAF8F4", "stroke-width": "0.7", "stroke-opacity": "0.35", "stroke-linecap": "round" }, headGroup);
+    const eyeEl = mk("circle", { cx: "2.3", cy: "-0.4", r: "1.15", fill: "#FAF8F4" }, headGroup);
+    // Expressive wince eye (> < / ×) for Era 1 trip & Era 3 bonk
+    const eyeWince = mk("path", {
+      d: "M 1.4,-1.2 L 3.1,0.4 M 3.1,-1.2 L 1.4,0.4",
+      fill: "none", stroke: "#FAF8F4", "stroke-width": "1.0", "stroke-linecap": "round", opacity: "0"
+    }, headGroup);
+    // Stage 4-5 panoramic dual-optic visor
+    const gogglesEl = mk("rect", {
+      x: "-2.4", y: "-3.1", width: "7.8", height: "5.2", rx: "1.7",
+      fill: "#1D1B18", stroke: "#1D1B18", "stroke-width": "0.95", opacity: "0"
+    }, headGroup);
+    const visorGlint2 = mk("line", { x1: "-1.2", y1: "-2.0", x2: "-0.1", y2: "-2.0", stroke: "#FAF8F4", "stroke-width": "0.7", "stroke-opacity": "0.32", "stroke-linecap": "round", opacity: "0" }, headGroup);
+    const goggleEye = mk("g", { opacity: "0" }, headGroup);
+    const gEyeL = mk("circle", { cx: "0.3", cy: "-0.5", r: "1.1", fill: "#FAF8F4" }, goggleEye);
+    const gEyeR = mk("circle", { cx: "3.4", cy: "-0.5", r: "1.1", fill: "#FAF8F4" }, goggleEye);
+    // Stage 5: Sleek Mech V-Crest & Side Ear-Fin (matches top-right avatar!)
+    const headCrestEl = mk("g", { opacity: "0" }, headGroup);
+    mk("path", { d: "M -4.4,-4.6 L 0.4,-7.3 L 5.0,-4.6 M -6.9,-2.2 L -8.8,-4.3 L -6.5,0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round" }, headCrestEl);
+
+    // Front arm + shoulder socket rivet + attachments + Stage 5 Repulsor Gauntlets + Jets
+    const frontArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.3", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
+    const shoulderPin = mk("circle", { r: "1.25", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95" }, botBody);
+    const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
+    const wrenchEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    const gauntletF = mk("g", { opacity: "0" }, botBody);
+    mk("rect", { x: "-2.1", y: "-2.3", width: "4.2", height: "3.3", rx: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1" }, gauntletF);
+    mk("line", { x1: "-1.1", y1: "-0.6", x2: "1.1", y2: "-0.6", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, gauntletF);
+    const repulsorJets = mk("g", { opacity: "0" }, botBody);
+    const leftPalmJet = mk("path", { fill: "#2D6A47", "fill-opacity": "0.26", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, repulsorJets);
+    const leftPalmCore = mk("path", { fill: "#7AD9A3", "fill-opacity": "0.88" }, repulsorJets);
+    const rightPalmJet = mk("path", { fill: "#2D6A47", "fill-opacity": "0.26", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, repulsorJets);
+    const rightPalmCore = mk("path", { fill: "#7AD9A3", "fill-opacity": "0.88" }, repulsorJets);
+    const packJet = mk("path", { fill: "#2D6A47", "fill-opacity": "0.24", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linejoin": "round" }, repulsorJets);
+    const bootJetF = mk("path", { fill: "#2D6A47", "fill-opacity": "0.35", stroke: "#1D1B18", "stroke-width": "0.85" }, repulsorJets);
+    const bootJetB = mk("path", { fill: "#2D6A47", "fill-opacity": "0.28", stroke: "#1D1B18", "stroke-width": "0.8" }, repulsorJets);
+
+    // Stage 5 Converging Modular Parts Layer (7 pieces flying in from all directions!)
+    const assembleLayer = mk("g", { opacity: "0" }, botGroup);
+    const FLY_SPECS = [
+      // Wave 1: Thruster Boots from lower-left & lower-right
+      { t0: 0.06, t1: 0.34, sx: -46, sy: -5,  cx: -22, cy: -14, tx: -2.2, ty: -2,   rot0: -40, d: "M -1.8,-3.8 L 1.8,-3.8 L 2.5,0 L -1.8,0 Z" },
+      { t0: 0.08, t1: 0.36, sx: 46,  sy: -5,  cx: 22,  cy: -14, tx: 2.2,  ty: -2,   rot0: 40,  d: "M -1.8,-3.8 L 1.8,-3.8 L 2.7,0 L -1.8,0 Z" },
+      // Wave 2: Repulsor Gauntlets from mid-left & mid-right
+      { t0: 0.22, t1: 0.52, sx: -52, sy: -16, cx: -26, cy: -22, tx: -5.4, ty: -15,  rot0: -55, d: "M -2.1,-2.2 L 2.1,-2.2 L 2.1,1.2 L -2.1,1.2 Z" },
+      { t0: 0.24, t1: 0.54, sx: 52,  sy: -16, cx: 26,  cy: -22, tx: 5.4,  ty: -15,  rot0: 55,  d: "M -2.1,-2.2 L 2.1,-2.2 L 2.1,1.2 L -2.1,1.2 Z" },
+      // Wave 3: Skills Jetpack (upper-left) + Shoulder Pauldrons & X-Core (upper-right)
+      { t0: 0.40, t1: 0.72, sx: -42, sy: -42, cx: -24, cy: -34, tx: -6.4, ty: -19,  rot0: -32, d: "M -2.3,-4.2 L 2.3,-4.2 L 2.3,4.2 L -2.3,4.2 Z M -1.4,-1.8 L 1.4,-1.8 M -1.4,0.8 L 1.4,0.8" },
+      { t0: 0.42, t1: 0.72, sx: 40,  sy: -44, cx: 22,  cy: -35, tx: 0,    ty: -22.5,rot0: 28,  d: "M -5.6,-1.4 L 5.6,-1.4 L 6.4,1.2 L -6.4,1.2 Z" },
+      // Wave 4: Mech Head V-Crest from straight above!
+      { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 4,   cy: -44, tx: 0.4,  ty: -33.2,rot0: 0,   d: "M -4.4,1.2 L 0.4,-1.6 L 5.0,1.2" }
+    ];
+    const flyParts = FLY_SPECS.map((sp) => {
+      const trail = mk("line", { stroke: "#2D6A47", "stroke-width": "0.95", "stroke-opacity": "0.48", "stroke-linecap": "round", opacity: "0" }, assembleLayer);
+      const piece = mk("path", { d: sp.d, fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linejoin": "round", "stroke-linecap": "round", opacity: "0" }, assembleLayer);
+      return { sp, trail, piece };
+    });
+    // System-Online 4-corner lock flash ticks
+    const lockSparks = mk("g", { opacity: "0" }, botGroup);
+    mk("path", {
+      d: "M -12,-28 L -15,-31 M 12,-28 L 15,-31 M -12,-10 L -15,-7 M 12,-10 L 15,-7",
+      fill: "none", stroke: "#2D6A47", "stroke-width": "1.25", "stroke-linecap": "round"
+    }, lockSparks);
+
+    // Click happy hop spark
+    const clickSpark = mk("g", { opacity: "0" }, botGroup);
+    mk("line", { x1: "0", y1: "-35", x2: "0", y2: "-39", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round" }, clickSpark);
+    mk("line", { x1: "-4.5", y1: "-34", x2: "-7.5", y2: "-37", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round" }, clickSpark);
+    mk("line", { x1: "4.5", y1: "-34", x2: "7.5", y2: "-37", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round" }, clickSpark);
+
+    const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
+    const smooth = (a, b, x) => {
+      const t = clamp01((x - a) / (b - a));
+      return t * t * (3 - 2 * t);
+    };
+    const lerp = (a, b, t) => a + (b - a) * t;
+
+    // Smooth RGB ink color interpolation (#8A8275 muted -> #1D1B18 primary ink)
+    const lerpInk = (t) => {
+      const r = Math.round(lerp(138, 29, t));
+      const g = Math.round(lerp(130, 27, t));
+      const b = Math.round(lerp(117, 24, t));
+      return `rgb(${r},${g},${b})`;
+    };
+
+    function solveKnee(hx, hy, fx, fy, l1, l2) {
+      const dx = fx - hx;
+      const dy = fy - hy;
+      const d = Math.max(0.5, Math.min(l1 + l2 - 0.1, Math.hypot(dx, dy)));
+      const a = (l1 * l1 - l2 * l2 + d * d) / (2 * d);
+      const h = Math.sqrt(Math.max(0, l1 * l1 - a * a));
+      const mx = hx + (a * dx) / d;
+      const my = hy + (a * dy) / d;
+      return { x: mx + (h * dy) / d, y: my - (h * dx) / d };
+    }
+
+    // 2-bone elbow solver (bends slightly backward/downward for crisp mechanical arm silhouette)
+    function solveElbow(sx, sy, hx, hy, bendDir) {
+      const dx = hx - sx;
+      const dy = hy - sy;
+      const d = Math.max(1.2, Math.hypot(dx, dy));
+      const mx = (sx + hx) * 0.5;
+      const my = (sy + hy) * 0.5;
+      const bend = Math.min(2.4, Math.max(0.6, (10.5 - d) * 0.35));
+      const nx = -dy / d;
+      const ny = dx / d;
+      return { x: mx + nx * bend * bendDir, y: my + ny * bend * bendDir };
+    }
+
+    function footPose(phase, strideLen, liftH) {
+      const p = ((phase % 1) + 1) % 1;
+      if (p < 0.5) {
+        const s = p / 0.5;
+        return { x: lerp(strideLen * 0.5, -strideLen * 0.5, s), y: 0, pitch: 0 };
+      }
+      const s = (p - 0.5) / 0.5;
+      const mj = s * s * s * (10 + s * (-15 + 6 * s));
+      return {
+        x: lerp(-strideLen * 0.5, strideLen * 0.5, mj),
+        y: -Math.sin(s * Math.PI) * liftH,
+        pitch: -Math.sin(s * Math.PI) * 0.28
+      };
+    }
+
+    // Solid capsule mechanical foot path seated cleanly on y = ground
+    function capsuleFootPath(fx, fy, len, pitch) {
+      const dy = pitch * len;
+      const backX = fx - 1.1;
+      const toeX = fx + len;
+      const toeY = fy + dy;
+      const topY = fy - 1.5;
+      const toeTopY = toeY - 1.3;
+      return `M ${backX.toFixed(1)},${fy.toFixed(1)} L ${toeX.toFixed(1)},${toeY.toFixed(1)} Q ${(toeX + 0.7).toFixed(1)},${(toeY - 0.7).toFixed(1)} ${(toeX - 0.5).toFixed(1)},${toeTopY.toFixed(1)} L ${(backX + 0.2).toFixed(1)},${topY.toFixed(1)} Z`;
+    }
+
+    // Cycle state
+    let posX = 16;
+    let phase = 0;
+    let keyPhase = 0;
+    let lastTime = performance.now();
+    let blinkTimer = 3.0;
+    let isBlinking = false;
+    let clickHopTimer = 0;
+    let resetWaitTimer = 0;
+
+    // 5-beat state machine per cycle
+    let b1 = 0, b1t = 0; // Era 1 pebble: 0=jog, 1=trip, 2=long belly-slide into Era 2, 3=pop up, 4=done
+    let b2 = 0, b2t = 0; // Era 2 desk:   0=approach, 1=read+CoT(0.95s), 2=done
+    let b3 = 0, b3t = 0; // Era 3 wall:   0=approach, 1=bonk+recoil+wrench+turn+sink(1.42s), 2=done
+    let b4 = 0, b4t = 0; // Era 4 gate:   0=approach, 1=press+0.25s freeze+lift(1.02s), 2=done
+    let b5 = 0, b5t = 0; // Era 5 pad:    0=approach, 1=dock harness(1.22s), 2=walk to launch pad, 3=Iron Man takeoff(1.62s)
+
+    let wallSink = 0;    // 0..27px sunk into ground (persists until cycle reset)
+    let wallBoltDeg = 0; // 0..90 deg
+    let gateAngle = 0;   // 0..76 deg raised (persists until cycle reset)
+    let isEquipped = false;
+    let claspRippleTimer = 0;
+    let lockSparkTimer = 0;
+    let gateRippleTimer = 0;
+
+    function resetCycle(startX) {
+      posX = startX;
+      phase = 0;
+      b1 = b2 = b3 = b4 = b5 = 0;
+      b1t = b2t = b3t = b4t = b5t = 0;
+      wallSink = 0;
+      wallBoltDeg = 0;
+      gateAngle = 0;
+      isEquipped = false;
+      claspRippleTimer = 0;
+      lockSparkTimer = 0;
+      gateRippleTimer = 0;
+      resetWaitTimer = 0;
+      skidPool.forEach((p) => { p.life = 0; p.el.setAttribute("opacity", "0"); });
+      launchShock.setAttribute("opacity", "0");
+      sonicRing.setAttribute("opacity", "0");
+      launchTrail.setAttribute("opacity", "0");
+      launchTrailL.setAttribute("opacity", "0");
+      launchTrailR.setAttribute("opacity", "0");
+      assembleLayer.setAttribute("opacity", "0");
+      lockSparks.setAttribute("opacity", "0");
+    }
+
+    botGroup.addEventListener("click", (e) => {
+      e.stopPropagation();
+      clickHopTimer = 0.5;
+    });
+
+    function tick(now) {
+      const dt = Math.min(0.05, Math.max(0.001, (now - lastTime) / 1000));
+      lastTime = now;
+
+      if (!AgentBlog.getView || AgentBlog.getView() === "home") {
+        const w = evoLayerEl.clientWidth || 1280;
+        const startX = 14;
+        const endX = Math.max(240, w - 18);
+        const span = endX - startX;
+
+        // 5 Concrete prop anchor X positions (centered in each era column)
+        const x1 = startX + span * 0.11; // Stone Cluster
+        const x2 = startX + span * 0.31; // Study Desk
+        const x3 = startX + span * 0.51; // Brick Barrier Wall
+        const x4 = startX + span * 0.71; // Checkpoint Gate
+        const x5 = startX + span * 0.89; // Harness Docking Pad
+
+        // End-of-cycle breath pause before respawning cleanly
+        if (resetWaitTimer > 0) {
+          resetWaitTimer = Math.max(0, resetWaitTimer - dt);
+          botGroup.setAttribute("opacity", "0");
+          if (resetWaitTimer <= 0) resetCycle(startX);
+          requestAnimationFrame(tick);
+          return;
+        }
+
+        const progress = clamp01((posX - startX) / span);
+        const evo = progress * 4.0; // 0..4 across 5 eras
+
+        // Dramatic speed curve (Era 1 brisk jog -> Era 2 steady -> Era 3 sprint -> Era 4 measured -> Era 5 heroic stride)
+        const baseSpeed =
+          evo < 0.85
+            ? 74
+            : evo < 1.75
+            ? 54
+            : evo < 2.65
+            ? 82
+            : evo < 3.45
+            ? 64
+            : 58;
+
+        const launchX = Math.max(x5 + 34, endX - 24);
+
+        // Trigger each era's silent-film beat once per cycle
+        if (b1 === 0 && posX >= x1 - 7.5) { b1 = 1; b1t = 0; }
+        if (b2 === 0 && posX >= x2 - 16.5){ b2 = 1; b2t = 0; }
+        if (b3 === 0 && posX >= x3 - 13.0){ b3 = 1; b3t = 0; }
+        if (b4 === 0 && posX >= x4 - 16.5){ b4 = 1; b4t = 0; }
+        if (b5 === 0 && posX >= x5 - 1)   { b5 = 1; b5t = 0; }
+        if (b5 === 2 && posX >= launchX)  { b5 = 3; b5t = 0; }
+
+        let moveSpeed = baseSpeed;
+        let visualDX = 0;
+        let beatHopH = 0;
+        let extraLean = 0;
+        let freezeAll = false;
+        let headNodDeg = 0;
+        let armPose = "walk"; // "walk" | "cot" | "bonk" | "wrench" | "press" | "dock" | "launch"
+        let pincerSnap = 0;
+        let bodyRollDeg = 0;
+        let bodyDropY = 0;
+        let isSliding = false;
+        let launchLiftY = 0;
+        let crouchY = 0;
+        let jetPower = 0;
+
+        if (b1 === 0) {
+          // Era 1: brisk light jog approach
+          extraLean = 10;
+        }
+
+        if (clickHopTimer > 0 && b5 !== 3) {
+          clickHopTimer = Math.max(0, clickHopTimer - dt);
+          moveSpeed = 0;
+          beatHopH = Math.sin((clickHopTimer / 0.5) * Math.PI) * 7.5;
+        } else if (b1 === 1) {
+          // Era 1 Step 1: Jog-trip over stone cluster, launching into flat belly-slide
+          b1t += dt;
+          const u = clamp01(b1t / 0.22);
+          posX += 116 * dt;
+          moveSpeed = 0;
+          beatHopH = Math.sin(u * Math.PI) * 5.8;
+          bodyRollDeg = u * 84;
+          bodyDropY = u * 3.0;
+          pincerSnap = 0.9;
+          if (b1t >= 0.22) { b1 = 2; b1t = 0; }
+        } else if (b1 === 2) {
+          // Era 1 Step 2: Long friction belly-slide across Era 1 -> Era 2 border
+          b1t += dt;
+          const slideTargetX = startX + span * 0.225;
+          const u = clamp01(b1t / 1.15);
+          const slideSpeed = lerp(142, 36, u * u);
+          posX += slideSpeed * dt;
+          moveSpeed = 0;
+          bodyRollDeg = 84;
+          bodyDropY = 3.2;
+          isSliding = true;
+          if (posX >= slideTargetX || b1t >= 1.20) { b1 = 3; b1t = 0; }
+        } else if (b1 === 3) {
+          // Era 1 Step 3: Pop cleanly upright inside Era 2
+          b1t += dt;
+          const u = clamp01(b1t / 0.34);
+          const ease = u * u * (3 - 2 * u);
+          posX += lerp(30, 54, ease) * dt;
+          moveSpeed = lerp(30, 54, ease);
+          bodyRollDeg = lerp(84, 0, ease);
+          bodyDropY = lerp(3.2, 0, ease);
+          beatHopH = Math.sin(u * Math.PI) * 2.8;
+          if (b1t >= 0.34) b1 = 4;
+        } else if (b2 === 1) {
+          // Era 2 Beat: stop at study desk, CoT chin-prop + read lifted parchment + nod
+          b2t += dt;
+          moveSpeed = 0;
+          armPose = "cot";
+          extraLean = 6;
+          headNodDeg = b2t > 0.36 ? Math.sin((b2t - 0.36) * 18) * 9 : 5;
+          if (b2t >= 0.96) b2 = 2;
+        } else if (b3 === 1) {
+          // Era 3 Beat: BONK into brick wall -> recoil -> morph wrench -> turn valve 90° -> wall sinks!
+          b3t += dt;
+          moveSpeed = 0;
+          if (b3t < 0.38) {
+            const u = b3t / 0.38;
+            visualDX = -Math.sin(u * Math.PI * 0.5) * 9.5;
+            extraLean = -32 * (1 - u * 0.4);
+            armPose = "bonk";
+          } else if (b3t < 0.72) {
+            const u = (b3t - 0.38) / 0.34;
+            visualDX = lerp(-9.5, -1.5, u);
+            extraLean = lerp(-18, 6, u);
+            armPose = "wrench";
+          } else if (b3t < 1.04) {
+            const u = (b3t - 0.72) / 0.32;
+            visualDX = -1.5;
+            extraLean = 6;
+            armPose = "wrench";
+            wallBoltDeg = u * 90;
+          } else {
+            const u = clamp01((b3t - 1.04) / 0.38);
+            const ease = u * u * (3 - 2 * u);
+            visualDX = -1.5;
+            extraLean = 2;
+            armPose = "wrench";
+            wallBoltDeg = 90;
+            wallSink = ease * 27;
+          }
+          if (b3t >= 1.42) {
+            wallSink = 27;
+            b3 = 2;
+          }
+        } else if (b4 === 1) {
+          // Era 4 Beat: brake before gate -> press checkpoint plunger -> 0.25s stateless freeze -> boom lifts 76°
+          b4t += dt;
+          moveSpeed = 0;
+          if (b4t < 0.28) {
+            armPose = "press";
+          } else if (b4t < 0.54) {
+            armPose = "press";
+            freezeAll = true;
+          } else {
+            if (gateRippleTimer <= 0 && b4t < 0.62) gateRippleTimer = 0.52;
+            const u = clamp01((b4t - 0.54) / 0.44);
+            const ease = 1 - Math.pow(1 - u, 3);
+            gateAngle = ease * 76;
+            armPose = "walk";
+          }
+          if (b4t >= 1.02) {
+            gateAngle = 76;
+            b4 = 2;
+          }
+        } else if (b5 === 1) {
+          // Era 5 Beat A: Modular Armor Convergence (7 pieces fly in & lock on!)
+          b5t += dt;
+          moveSpeed = 0;
+          armPose = "dock";
+          const waveImpacts = [0.34, 0.52, 0.72, 0.88];
+          let recoil = 0;
+          for (let i = 0; i < waveImpacts.length; i++) {
+            const d = b5t - waveImpacts[i];
+            if (d >= 0 && d < 0.12) recoil += Math.sin((d / 0.12) * Math.PI) * 1.35;
+          }
+          crouchY = recoil;
+          if (b5t >= 0.88 && !isEquipped) {
+            isEquipped = true;
+            claspRippleTimer = 0.72;
+            lockSparkTimer = 0.28;
+          }
+          if (b5t >= 0.88) {
+            headNodDeg = Math.sin(clamp01((b5t - 0.88) / 0.30) * Math.PI) * 9;
+          }
+          if (b5t >= 1.22) b5 = 2;
+        } else if (b5 === 3) {
+          // Era 5 Beat B: Iron Man palms-down repulsor ignition -> hover -> sonic ring -> rocket UP out of window!
+          b5t += dt;
+          moveSpeed = 0;
+          armPose = "launch";
+          if (b5t < 0.34) {
+            const u = clamp01(b5t / 0.34);
+            crouchY = Math.sin(u * Math.PI * 0.5) * 2.8;
+            jetPower = u * 0.9;
+          } else if (b5t < 0.68) {
+            const u = clamp01((b5t - 0.34) / 0.34);
+            crouchY = lerp(2.8, 0, clamp01(u * 3));
+            const ease = 1 - Math.pow(1 - u, 3);
+            launchLiftY = ease * 11.5 + Math.sin(u * Math.PI * 3) * 0.6;
+            jetPower = 1.0 + u * 0.25;
+          } else {
+            const au = clamp01((b5t - 0.68) / 0.94);
+            crouchY = 0;
+            launchLiftY = 11.5 + Math.pow(au, 2.45) * 860;
+            jetPower = 1.35 + au * 1.35;
+          }
+          if (b5t >= 1.62) {
+            resetWaitTimer = 1.6;
+            if (typeof AgentBlog.onMechExitedTop === "function") {
+              AgentBlog.onMechExitedTop();
+            }
+          }
+        } else {
+          posX += baseSpeed * dt;
+        }
+
+        if (claspRippleTimer > 0) claspRippleTimer = Math.max(0, claspRippleTimer - dt);
+        if (lockSparkTimer > 0) lockSparkTimer = Math.max(0, lockSparkTimer - dt);
+        if (gateRippleTimer > 0) gateRippleTimer = Math.max(0, gateRippleTimer - dt);
+
+        if (posX >= endX && b5 !== 3) {
+          resetWaitTimer = 1.4;
+        }
+
+        const drawX = posX + visualDX;
+
+        // =================================================================
+        // SMOOTH SPOTLIGHT FOCUS: Muted ink (0.40, #8A8275) -> Crisp ink (0.96, #1D1B18)
+        // =================================================================
+        const setPropFocus = (el, px) => {
+          const near = clamp01(1 - Math.abs(drawX - px) / 86);
+          const easedNear = near * near * (3 - 2 * near);
+          el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y})`);
+          el.setAttribute("opacity", (0.40 + easedNear * 0.56).toFixed(2));
+          el.setAttribute("color", lerpInk(easedNear));
+          return easedNear;
+        };
+
+        setPropFocus(prop1, x1);
+        setPropFocus(prop2, x2);
+        setPropFocus(prop3, x3);
+        setPropFocus(prop4, x4);
+        const near5 = setPropFocus(prop5, x5);
+
+        // Prop 1 updates: pebble kick dust burst during trip
+        if (b1 === 1 || (b1 === 2 && b1t < 0.24)) {
+          const du = b1 === 1 ? clamp01(b1t / 0.22) * 0.55 : 0.55 + clamp01(b1t / 0.24) * 0.45;
+          pebbleDust.setAttribute("transform", `translate(${(du * 4.5).toFixed(1)}, ${(-du * 2.5).toFixed(1)})`);
+          pebbleDust.setAttribute("opacity", ((1 - du) * 0.85).toFixed(2));
+        } else {
+          pebbleDust.setAttribute("opacity", "0");
+        }
+
+        // Prop 2 updates: gradient lamp cone + glowing bulb + lifting parchment + CoT motes
+        const readingNow = b2 === 1 && b2t > 0.10 && b2t < 0.88;
+        const readFade = readingNow ? Math.sin(clamp01((b2t - 0.10) / 0.78) * Math.PI) : 0;
+        lampCone.setAttribute("opacity", (readFade * 0.95).toFixed(2));
+        lampBulb.setAttribute("opacity", readingNow ? "1" : "0");
+        lampBulbHalo.setAttribute("opacity", (readFade * 0.9).toFixed(2));
+        const liftY = readingNow ? -readFade * 3.4 : 0;
+        deskPaperLift.setAttribute("transform", `translate(0, ${liftY.toFixed(1)})`);
+        if (readingNow && b2t > 0.24) {
+          const mu = clamp01((b2t - 0.24) / 0.60);
+          cotSparks.setAttribute("opacity", (Math.sin(mu * Math.PI) * 0.85).toFixed(2));
+          cotDot1.setAttribute("cy", (-20.5 - mu * 4.5).toFixed(1));
+          cotDot2.setAttribute("cy", (-22.5 - mu * 5.8).toFixed(1));
+        } else {
+          cotSparks.setAttribute("opacity", "0");
+        }
+
+        // Prop 3 updates: cross-valve rotation, torque arcs, sinking brick wall, dust & bonk sparks
+        wallBody.setAttribute("transform", `translate(0, ${wallSink.toFixed(1)})`);
+        wallBolt.setAttribute("transform", `rotate(${wallBoltDeg.toFixed(1)}, 0, -13.6)`);
+        const showBonk = b3 === 1 && b3t < 0.34;
+        wallSparks.setAttribute("opacity", showBonk ? (1 - b3t / 0.34).toFixed(2) : "0");
+        const turningValve = b3 === 1 && b3t >= 0.72 && b3t < 1.04;
+        wallTorqueArcs.setAttribute("opacity", turningValve ? (Math.sin(((b3t - 0.72) / 0.32) * Math.PI) * 0.8).toFixed(2) : "0");
+        const wallSinkingNow = b3 === 1 && b3t >= 1.04 && b3t < 1.42;
+        if (wallSinkingNow) {
+          const wu = clamp01((b3t - 1.04) / 0.38);
+          wallDust.setAttribute("opacity", (Math.sin(wu * Math.PI) * 0.75).toFixed(2));
+          wallDust.setAttribute("transform", `translate(0, ${(-wu * 3.2).toFixed(1)})`);
+        } else {
+          wallDust.setAttribute("opacity", "0");
+        }
+
+        // Prop 4 updates: plunger depression, bamboo saved dial + ripple, freeze badge, boom lift
+        const btnPressed = b4 === 1 && b4t >= 0.20 && b4t <= 0.56;
+        gateBtnEl.setAttribute("y", btnPressed ? "-19.2" : "-20.4");
+        gateArmGroup.setAttribute("transform", `rotate(${gateAngle.toFixed(1)}, 0, -13.5)`);
+        gateSavedDot.setAttribute("opacity", gateAngle > 2 || (b4 === 1 && b4t >= 0.50) ? "1" : "0");
+        gateFreezeBadge.setAttribute("opacity", freezeAll ? "0.95" : "0");
+        if (gateRippleTimer > 0) {
+          const gu = 1 - gateRippleTimer / 0.52;
+          gateSavedRipple.setAttribute("r", (2.4 + gu * 6.4).toFixed(1));
+          gateSavedRipple.setAttribute("opacity", ((1 - gu) * 0.85).toFixed(2));
+        } else {
+          gateSavedRipple.setAttribute("opacity", "0");
+        }
+
+        // Prop 5 updates: Harness Docking Pad emitter, pylon pips, holographic field & scan bar
+        const padActive = b5 === 1 || isEquipped;
+        padCore.setAttribute("opacity", padActive ? "1" : (near5 > 0.3 ? (near5 * 0.45).toFixed(2) : "0"));
+        const pipOp = padActive ? "1" : (near5 > 0.2 ? (near5 * 0.7).toFixed(2) : "0");
+        padPipL.setAttribute("opacity", pipOp);
+        padPipR.setAttribute("opacity", pipOp);
+        if (b5 === 1 && b5t < 0.94) {
+          const fu = clamp01(b5t / 0.94);
+          padField.setAttribute("opacity", (Math.sin(fu * Math.PI) * 0.92).toFixed(2));
+          padBeams.setAttribute("opacity", (0.45 + 0.35 * Math.sin(b5t * 24)).toFixed(2));
+          const scanY = -4.5 - ((b5t * 28) % 21);
+          padScanLine.setAttribute("y1", scanY.toFixed(1));
+          padScanLine.setAttribute("y2", scanY.toFixed(1));
+          padScanLine.setAttribute("opacity", "0.75");
+        } else {
+          padField.setAttribute("opacity", "0");
+          padBeams.setAttribute("opacity", "0");
+          padScanLine.setAttribute("opacity", "0");
+        }
+
+        // Stage 5 Flying Modular Parts convergence animation (during b5 === 1)
+        if (b5 === 1 && b5t < 0.94) {
+          assembleLayer.setAttribute("opacity", "1");
+          flyParts.forEach(({ sp, trail, piece }) => {
+            if (b5t >= sp.t0 && b5t < sp.t1) {
+              const rawU = clamp01((b5t - sp.t0) / (sp.t1 - sp.t0));
+              const u = Math.pow(rawU, 1.65);
+              const inv = 1 - u;
+              const px = inv * inv * sp.sx + 2 * inv * u * sp.cx + u * u * sp.tx;
+              const py = inv * inv * sp.sy + 2 * inv * u * sp.cy + u * u * sp.ty;
+              const rot = sp.rot0 * (1 - u);
+              const fadeIn = clamp01(rawU * 4.5);
+              piece.setAttribute("transform", `translate(${px.toFixed(1)}, ${py.toFixed(1)}) rotate(${rot.toFixed(1)})`);
+              piece.setAttribute("opacity", fadeIn.toFixed(2));
+              const prevU = Math.max(0, u - 0.22);
+              const pinv = 1 - prevU;
+              const tx0 = pinv * pinv * sp.sx + 2 * pinv * prevU * sp.cx + prevU * prevU * sp.tx;
+              const ty0 = pinv * pinv * sp.sy + 2 * pinv * prevU * sp.cy + prevU * prevU * sp.ty;
+              trail.setAttribute("x1", tx0.toFixed(1));
+              trail.setAttribute("y1", ty0.toFixed(1));
+              trail.setAttribute("x2", px.toFixed(1));
+              trail.setAttribute("y2", py.toFixed(1));
+              trail.setAttribute("opacity", (fadeIn * 0.55).toFixed(2));
+            } else {
+              piece.setAttribute("opacity", "0");
+              trail.setAttribute("opacity", "0");
+            }
+          });
+        } else {
+          assembleLayer.setAttribute("opacity", "0");
+        }
+        lockSparks.setAttribute("opacity", lockSparkTimer > 0 ? (lockSparkTimer / 0.28).toFixed(2) : "0");
+
+        // Ground shockwave, sonic boom ring & triple contrails during Iron Man blastoff
+        if (b5 === 3 && b5t > 0.12) {
+          const su = clamp01((b5t - 0.12) / 0.52);
+          if (su < 1) {
+            const spread = 4 + su * 23;
+            const len = 6.0 * (1 - su * 0.45);
+            shockL.setAttribute("x1", (launchX - spread - len).toFixed(1));
+            shockL.setAttribute("x2", (launchX - spread).toFixed(1));
+            shockL.setAttribute("y1", String(BASE_Y - 1));
+            shockL.setAttribute("y2", String(BASE_Y - 1));
+            shockR.setAttribute("x1", (launchX + spread).toFixed(1));
+            shockR.setAttribute("x2", (launchX + spread + len).toFixed(1));
+            shockR.setAttribute("y1", String(BASE_Y - 1));
+            shockR.setAttribute("y2", String(BASE_Y - 1));
+            launchShock.setAttribute("opacity", ((1 - su) * 0.72).toFixed(2));
+          } else {
+            launchShock.setAttribute("opacity", "0");
+          }
+          if (b5t >= 0.66 && b5t < 1.04) {
+            const ru = (b5t - 0.66) / 0.38;
+            sonicRing.setAttribute("cx", launchX.toFixed(1));
+            sonicRing.setAttribute("cy", String(BASE_Y - 12.5));
+            sonicRing.setAttribute("rx", (6 + ru * 19).toFixed(1));
+            sonicRing.setAttribute("ry", (1.8 + ru * 4.0).toFixed(1));
+            sonicRing.setAttribute("opacity", ((1 - ru) * 0.75).toFixed(2));
+          } else {
+            sonicRing.setAttribute("opacity", "0");
+          }
+          if (launchLiftY > 8) {
+            const trailOp = clamp01(1 - (launchLiftY - 45) / 185) * 0.48;
+            const topY = (BASE_Y - launchLiftY - 4).toFixed(1);
+            launchTrail.setAttribute("x1", launchX.toFixed(1));
+            launchTrail.setAttribute("x2", launchX.toFixed(1));
+            launchTrail.setAttribute("y1", String(BASE_Y - 2));
+            launchTrail.setAttribute("y2", topY);
+            launchTrail.setAttribute("opacity", trailOp.toFixed(2));
+            launchTrailL.setAttribute("x1", (launchX - 7.4).toFixed(1));
+            launchTrailL.setAttribute("x2", (launchX - 7.4).toFixed(1));
+            launchTrailL.setAttribute("y1", String(BASE_Y - 6));
+            launchTrailL.setAttribute("y2", (BASE_Y - launchLiftY - 12).toFixed(1));
+            launchTrailL.setAttribute("opacity", (trailOp * 0.7).toFixed(2));
+            launchTrailR.setAttribute("x1", (launchX + 7.4).toFixed(1));
+            launchTrailR.setAttribute("x2", (launchX + 7.4).toFixed(1));
+            launchTrailR.setAttribute("y1", String(BASE_Y - 6));
+            launchTrailR.setAttribute("y2", (BASE_Y - launchLiftY - 12).toFixed(1));
+            launchTrailR.setAttribute("opacity", (trailOp * 0.7).toFixed(2));
+          } else {
+            launchTrail.setAttribute("opacity", "0");
+            launchTrailL.setAttribute("opacity", "0");
+            launchTrailR.setAttribute("opacity", "0");
+          }
+        } else {
+          launchShock.setAttribute("opacity", "0");
+          sonicRing.setAttribute("opacity", "0");
+          launchTrail.setAttribute("opacity", "0");
+          launchTrailL.setAttribute("opacity", "0");
+          launchTrailR.setAttribute("opacity", "0");
+        }
+
+        // =================================================================
+        // CONTINUOUS MORPHOLOGY EVOLUTION (17px -> 23px -> 26px -> 29px -> 33px)
+        // =================================================================
+        const headW = smooth(0.72, 1.15, evo);       // Boxy CRT head pops out entering Era 2
+        const kneeW = smooth(0.75, 1.25, evo);       // Articulated knees unfold in Era 2
+        const wrenchW = b3 === 1 ? smooth(0.45, 0.68, b3t) : (b3 === 2 && !isEquipped ? 1 : 0);
+        const gogglesW = smooth(2.65, 3.05, evo);    // Era 4–5 dual-optic visor
+        const keyW = 1 - smooth(0.72, 1.05, evo);    // Era 1 wind-up key fades out
+        const edgeFade = b5 === 3 ? 1 : smooth(0, 0.03, progress) * (1 - smooth(0.96, 1, progress));
+
+        // Proportions: total height scales smoothly 17 -> 23 -> 26 -> 29 -> 33px
+        const legSeg = lerp(3.4, 7.2, smooth(0.2, 3.4, evo));
+        const strideLen = lerp(6.0, 14.0, smooth(0.2, 3.6, evo));
+        const torsoH = lerp(7.8, 10.6, smooth(0.4, 3.4, evo));
+        const torsoW = lerp(11.6, 8.4, smooth(0.5, 3.2, evo));
+
+        if (!freezeAll && moveSpeed > 0) {
+          phase += (moveSpeed / Math.max(9, strideLen * 1.95)) * dt;
+          keyPhase += 5.2 * dt;
+        }
+
+        // Spinal lean arc: +22° -> +5° -> +26° -> +6° -> 0°
+        const baseLean =
+          evo < 1
+            ? lerp(22, 6, smooth(0.5, 1.0, evo))
+            : evo < 2
+            ? lerp(6, 24, smooth(1.45, 2.0, evo))
+            : evo < 3
+            ? lerp(24, 6, smooth(2.2, 2.9, evo))
+            : lerp(6, 0, smooth(3.1, 3.65, evo));
+        const leanDeg = b5 === 3 || armPose === "dock" ? 0 : baseLean + extraLean;
+        const leanRad = (leanDeg * Math.PI) / 180;
+
+        const bob = freezeAll || b5 === 3 ? 0 : kneeW * Math.abs(Math.sin(phase * Math.PI * 2)) * 1.35;
+        const totalLift = beatHopH + launchLiftY;
+        const hipY = -lerp(6.4, 13.0, smooth(0.2, 3.4, evo)) - bob - totalLift + crouchY;
+        const shoulderX = Math.sin(leanRad) * torsoH;
+        const shoulderY = hipY - Math.cos(leanRad) * torsoH;
+
+        botGroup.setAttribute("transform", `translate(${drawX.toFixed(2)}, ${BASE_Y})`);
+        botGroup.setAttribute("opacity", edgeFade.toFixed(3));
+        if (Math.abs(bodyRollDeg) > 0.1 || Math.abs(bodyDropY) > 0.1) {
+          const pivotY = isSliding ? -4.5 : -7.5;
+          botBody.setAttribute("transform", `translate(0, ${bodyDropY.toFixed(2)}) rotate(${bodyRollDeg.toFixed(1)}, 0, ${pivotY})`);
+        } else {
+          botBody.removeAttribute("transform");
+        }
+        const shadowBaseRx = lerp(7.4, 6.2, smooth(0.5, 3.2, evo));
+        const shadowScale = clamp01(1 - totalLift / 48);
+        shadowEl.setAttribute("rx", ((isSliding ? 9.8 : shadowBaseRx) * (0.4 + 0.6 * shadowScale)).toFixed(1));
+        shadowEl.setAttribute("fill-opacity", (0.14 * shadowScale).toFixed(3));
+
+        // Era 1 wind-up key on back + trip vermilion `!`
+        keyGroup.setAttribute("opacity", keyW.toFixed(2));
+        if (keyW > 0.02) {
+          const keyShudder = b1 === 1 ? Math.sin(b1t * 48) * 1.2 : 0;
+          keyGroup.setAttribute("transform", `translate(${keyShudder.toFixed(1)}, ${hipY.toFixed(1)}) rotate(${leanDeg.toFixed(1)})`);
+          const ryOuter = 1.2 + Math.abs(Math.cos(keyPhase)) * 2.2;
+          keyLoop.setAttribute("ry", ryOuter.toFixed(2));
+          keyInner.setAttribute("ry", (ryOuter * 0.48).toFixed(2));
+        }
+        stuckBang.setAttribute("opacity", b1 === 1 ? "0.95" : "0");
+
+        // Legs: Era 1 jog/slide -> Era 2–5 articulated IK gait -> Iron Man flight pose
+        const liftH = b1 === 0 ? 2.4 : lerp(0.5, 3.6, kneeW);
+        const isFlying = b5 === 3 && launchLiftY > 2;
+        const f1 = isSliding
+          ? { x: -3.8, y: -1.4, pitch: 0 }
+          : isFlying
+          ? { x: 1.6, y: 0.2, pitch: 0.25 }
+          : moveSpeed > 0
+          ? footPose(phase, strideLen, liftH)
+          : { x: 2.3, y: 0, pitch: 0 };
+        const f2 = isSliding
+          ? { x: -1.8, y: -0.6, pitch: 0 }
+          : isFlying
+          ? { x: -2.2, y: -2.6, pitch: 0.32 }
+          : moveSpeed > 0
+          ? footPose(phase + 0.5, strideLen, liftH)
+          : { x: -2.3, y: 0, pitch: 0 };
+
+        // Era 5 Staggered Modular Armor Lock-in Flags (Boots -> Gauntlets -> Torso/Pack -> Head Crest)
+        const hasBoots = isEquipped || (b5 === 1 && b5t >= 0.34);
+        const hasGauntlets = isEquipped || (b5 === 1 && b5t >= 0.52);
+        const hasTorsoArmor = isEquipped || (b5 === 1 && b5t >= 0.72);
+        const hasHeadCrest = isEquipped || (b5 === 1 && b5t >= 0.88);
+
+        if (kneeW < 0.15) {
+          // Stiff knee-less RPA stick legs + capsule feet
+          const f1x = f1.x + 1.5;
+          const f1y = f1.y - beatHopH;
+          const f2x = f2.x - 1.5;
+          const f2y = f2.y - beatHopH;
+          frontLeg.setAttribute("d", `M 1.5,${hipY.toFixed(1)} L ${f1x.toFixed(1)},${f1y.toFixed(1)}`);
+          backLeg.setAttribute("d", `M -1.5,${hipY.toFixed(1)} L ${f2x.toFixed(1)},${f2y.toFixed(1)}`);
+          frontFoot.setAttribute("d", capsuleFootPath(f1x, f1y, 2.5, f1.pitch));
+          backFoot.setAttribute("d", capsuleFootPath(f2x, f2y, 2.3, f2.pitch));
+          kneeJoint1.setAttribute("opacity", "0");
+          kneeJoint2.setAttribute("opacity", "0");
+        } else {
+          const hipOffF = 1.0;
+          const hipOffB = -1.0;
+          const k1 = solveKnee(hipOffF, hipY + 0.8, f1.x, f1.y - totalLift, legSeg, legSeg);
+          const k2 = solveKnee(hipOffB, hipY + 0.8, f2.x, f2.y - totalLift, legSeg, legSeg);
+          frontLeg.setAttribute("d", `M ${hipOffF},${(hipY + 0.8).toFixed(1)} L ${k1.x.toFixed(1)},${k1.y.toFixed(1)} L ${f1.x.toFixed(1)},${(f1.y - totalLift).toFixed(1)}`);
+          backLeg.setAttribute("d", `M ${hipOffB},${(hipY + 0.8).toFixed(1)} L ${k2.x.toFixed(1)},${k2.y.toFixed(1)} L ${f2.x.toFixed(1)},${(f2.y - totalLift).toFixed(1)}`);
+          frontFoot.setAttribute("d", capsuleFootPath(f1.x, f1.y - totalLift, 3.1, f1.pitch));
+          backFoot.setAttribute("d", capsuleFootPath(f2.x, f2.y - totalLift, 2.9, f2.pitch));
+          kneeJoint1.setAttribute("cx", k1.x.toFixed(1));
+          kneeJoint1.setAttribute("cy", k1.y.toFixed(1));
+          kneeJoint1.setAttribute("opacity", kneeW.toFixed(2));
+          kneeJoint2.setAttribute("cx", k2.x.toFixed(1));
+          kneeJoint2.setAttribute("cy", k2.y.toFixed(1));
+          kneeJoint2.setAttribute("opacity", (kneeW * 0.65).toFixed(2));
+        }
+        backLeg.setAttribute("opacity", "0.68");
+        backFoot.setAttribute("opacity", hasBoots ? "0" : "0.72");
+        frontFoot.setAttribute("opacity", hasBoots ? "0" : "1");
+
+        // Torso (neck + pelvis + sculpted chassis with warm stone right bevel + vents)
+        const hw = torsoW * 0.5;
+        const topW = lerp(hw * 0.90, hw * 0.98, smooth(0.8, 3.2, evo));
+        pelvisEl.setAttribute("d", `M ${(-hw * 0.74).toFixed(1)},-0.2 L ${(hw * 0.74).toFixed(1)},-0.2 L ${(hw * 0.52).toFixed(1)},1.9 L ${(-hw * 0.52).toFixed(1)},1.9 Z`);
+        torsoEl.setAttribute("d", `M ${(-hw).toFixed(1)},0 L ${hw.toFixed(1)},0 L ${topW.toFixed(1)},${(-torsoH + 1.0).toFixed(1)} Q ${topW.toFixed(1)},${(-torsoH).toFixed(1)} ${(topW - 1.0).toFixed(1)},${(-torsoH).toFixed(1)} L ${(-topW + 1.0).toFixed(1)},${(-torsoH).toFixed(1)} Q ${(-topW).toFixed(1)},${(-torsoH).toFixed(1)} ${(-topW).toFixed(1)},${(-torsoH + 1.0).toFixed(1)} Z`);
+        torsoShade.setAttribute("d", `M ${(-hw + 0.5).toFixed(1)},-0.5 L ${(-hw * 0.35).toFixed(1)},-0.5 L ${(-topW * 0.35).toFixed(1)},${(-torsoH + 0.7).toFixed(1)} L ${(-topW + 0.6).toFixed(1)},${(-torsoH + 0.7).toFixed(1)} Z`);
+        chestPanel.setAttribute("d", `M ${(-hw * 0.42).toFixed(1)},${(-torsoH * 0.66).toFixed(1)} L ${(hw * 0.42).toFixed(1)},${(-torsoH * 0.66).toFixed(1)} M ${(-hw * 0.32).toFixed(1)},${(-torsoH * 0.42).toFixed(1)} L ${(hw * 0.24).toFixed(1)},${(-torsoH * 0.42).toFixed(1)}`);
+        chestPanel.setAttribute("opacity", hasTorsoArmor ? "0" : "0.62");
+        chestLed.setAttribute("cx", (hw * 0.36).toFixed(1));
+        chestLed.setAttribute("cy", (-torsoH * 0.42).toFixed(1));
+        chestLed.setAttribute("opacity", !hasTorsoArmor && evo > 1.0 ? "0.85" : "0");
+        neckEl.setAttribute("transform", `translate(0, ${(10.6 - torsoH).toFixed(2)})`);
+        neckEl.setAttribute("opacity", headW.toFixed(2));
+        torsoGroup.setAttribute("transform", `translate(0, ${hipY.toFixed(2)}) rotate(${leanDeg.toFixed(1)})`);
+
+        // Armored Thruster Boots track front & back feet
+        bootF.setAttribute("opacity", hasBoots ? "1" : "0");
+        bootB.setAttribute("opacity", hasBoots ? "0.80" : "0");
+        if (hasBoots) {
+          bootF.setAttribute("transform", `translate(${f1.x.toFixed(1)}, ${(f1.y - totalLift).toFixed(1)})`);
+          bootB.setAttribute("transform", `translate(${f2.x.toFixed(1)}, ${(f2.y - totalLift).toFixed(1)})`);
+        }
+
+        // Modular Skills Jetpack + Shoulder Pauldrons + X-Harness + Bamboo Arc Core
+        jetpackEl.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
+        shoulderArmorEl.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
+        harnessGroup.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
+        if (hasTorsoArmor) {
+          harnessX1.setAttribute("x1", (-topW + 0.7).toFixed(1));
+          harnessX1.setAttribute("y1", (-torsoH + 0.9).toFixed(1));
+          harnessX1.setAttribute("x2", (hw - 0.7).toFixed(1));
+          harnessX1.setAttribute("y2", "-1.1");
+          harnessX2.setAttribute("x1", (topW - 0.7).toFixed(1));
+          harnessX2.setAttribute("y1", (-torsoH + 0.9).toFixed(1));
+          harnessX2.setAttribute("x2", (-hw + 0.7).toFixed(1));
+          harnessX2.setAttribute("y2", "-1.1");
+          const cy = (-torsoH * 0.52).toFixed(1);
+          harnessGlow.setAttribute("cx", "0");
+          harnessGlow.setAttribute("cy", cy);
+          harnessClaspOuter.setAttribute("cx", "0");
+          harnessClaspOuter.setAttribute("cy", cy);
+          harnessClasp.setAttribute("cx", "0");
+          harnessClasp.setAttribute("cy", cy);
+          if (claspRippleTimer > 0) {
+            const rp = 1 - claspRippleTimer / 0.72;
+            harnessRipple.setAttribute("cx", "0");
+            harnessRipple.setAttribute("cy", cy);
+            harnessRipple.setAttribute("r", (2.0 + rp * 7.6).toFixed(1));
+            harnessRipple.setAttribute("opacity", ((1 - rp) * 0.92).toFixed(2));
+            const rp2 = clamp01((rp - 0.18) / 0.82);
+            harnessRipple2.setAttribute("cx", "0");
+            harnessRipple2.setAttribute("cy", cy);
+            harnessRipple2.setAttribute("r", (1.8 + rp2 * 11.0).toFixed(1));
+            harnessRipple2.setAttribute("opacity", (rp2 > 0 ? (1 - rp2) * 0.55 : 0).toFixed(2));
+          } else {
+            harnessRipple.setAttribute("opacity", "0");
+            harnessRipple2.setAttribute("opacity", "0");
+          }
+        }
+
+        // Robot Head (boxy CRT chassis + proud upright antenna + expressive visor + Stage 5 Mech V-Crest)
+        headGroup.setAttribute("opacity", headW.toFixed(3));
+        const hScale = lerp(0.35, 0.96, headW) * lerp(1.04, 0.92, smooth(1.3, 3.5, evo));
+        const headX = shoulderX + 0.5;
+        const headY = shoulderY - 4.7 * hScale - 1.1;
+        const walkTilt = freezeAll || b5 === 3 ? 0 : Math.sin(phase * Math.PI * 2) * 1.8;
+        const launchLookUp = b5 === 3 && launchLiftY > 2 ? -8 : 0;
+        headGroup.setAttribute("transform", `translate(${headX.toFixed(2)}, ${headY.toFixed(2)}) scale(${hScale.toFixed(3)}) rotate(${(walkTilt + headNodDeg + launchLookUp).toFixed(1)})`);
+
+        antGroup.setAttribute("transform", `rotate(${(Math.sin(phase * Math.PI * 2) * 5).toFixed(1)}, -0.8, -5.0)`);
+        antTip.setAttribute("fill", hasHeadCrest || readingNow ? "#2D6A47" : "#FAF8F4");
+        cotHeadSpark.setAttribute("opacity", readingNow && b2t > 0.34 ? (Math.sin(clamp01((b2t - 0.34) / 0.52) * Math.PI) * 0.9).toFixed(2) : "0");
+        headCrestEl.setAttribute("opacity", hasHeadCrest ? "1" : "0");
+
+        if (!freezeAll) {
+          blinkTimer -= dt;
+          if (blinkTimer <= 0) {
+            isBlinking = !isBlinking;
+            blinkTimer = isBlinking ? 0.11 : 2.6 + Math.random() * 2.6;
+          }
+        }
+
+        const isWincing = (b3 === 1 && b3t < 0.36) || b1 === 1;
+        const useGoggles = gogglesW > 0.5;
+        visorScreen.setAttribute("opacity", useGoggles ? "0" : "1");
+        visorGlint1.setAttribute("opacity", useGoggles ? "0" : "1");
+        eyeEl.setAttribute("opacity", !useGoggles && !isWincing ? "1" : "0");
+        eyeEl.setAttribute("cx", readingNow ? "2.8" : "2.3");
+        eyeEl.setAttribute("cy", readingNow ? "0.2" : "-0.4");
+        eyeEl.setAttribute("r", isBlinking ? "0.18" : "1.15");
+        eyeWince.setAttribute("opacity", !useGoggles && isWincing ? "1" : "0");
+
+        gogglesEl.setAttribute("opacity", gogglesW.toFixed(2));
+        visorGlint2.setAttribute("opacity", useGoggles ? "1" : "0");
+        goggleEye.setAttribute("opacity", useGoggles && !isBlinking ? "1" : "0");
+        const twinEyeFill = freezeAll || hasHeadCrest ? "#B5F5D4" : "#FAF8F4";
+        gEyeL.setAttribute("fill", twinEyeFill);
+        gEyeR.setAttribute("fill", twinEyeFill);
+
+        // Articulated 2-segment Arms & Props (Pincer / CoT Chin / Forehead Bonk / Wrench / Gate Press / Suit-Up / Launch)
+        const swing = moveSpeed > 0 ? Math.sin(phase * Math.PI * 2) * lerp(1.6, 5.4, kneeW) : 0;
+        const armLen = lerp(5.8, 8.8, smooth(0.4, 3.4, evo));
+        const isSymStance = armPose === "dock" || armPose === "launch";
+        const fSX = isSymStance ? shoulderX + 3.6 : shoulderX + 0.6;
+        const fSY = shoulderY + 2.0;
+        const bSX = isSymStance ? shoulderX - 3.6 : shoulderX - 1.2;
+        const bSY = shoulderY + 2.0;
+
+        let fHX = fSX + swing + 1.8;
+        let fHY = fSY + armLen - Math.abs(swing) * 0.25;
+        let bHX = bSX - swing;
+        let bHY = bSY + armLen - Math.abs(swing) * 0.25;
+        let fBend = 1;
+        let bBend = 1;
+
+        if (evo < 0.8) {
+          // Era 1: rigid fixed-height straight horizontal C-pincer arm
+          fHX = fSX + 6.8;
+          fHY = fSY + 0.6;
+          bHX = bSX - 1.6;
+          bHY = bSY + 4.4;
+          fBend = 0.2;
+        } else if (armPose === "cot") {
+          // Era 2: left hand props chin, right hand lifts parchment
+          bHX = headX + 2.2;
+          bHY = headY + 3.8;
+          fHX = fSX + 7.8;
+          fHY = fSY + 2.2 + liftY * 0.65;
+          bBend = 1;
+        } else if (armPose === "bonk") {
+          // Era 3: hand clutches bonked forehead
+          bHX = headX + 3.4;
+          bHY = headY - 1.2;
+          fHX = fSX + 3.8;
+          fHY = fSY + 4.6;
+          bBend = 1;
+        } else if (armPose === "wrench") {
+          // Era 3: right wrench arm reaches straight out to cross-valve (y = -13.6)
+          fHX = fSX + 8.6;
+          fHY = -13.6;
+          bHX = bSX - 2.4;
+          bHY = bSY + 6.0;
+          fBend = 0.35;
+        } else if (armPose === "press") {
+          // Era 4: right hand reaches out to depress checkpoint plunger (y = -19.2)
+          fHX = fSX + 11.4;
+          fHY = -19.2;
+          bHX = bSX - 2.0;
+          bHY = bSY + 6.5;
+          fBend = 0.35;
+        } else if (armPose === "dock") {
+          // Era 5 Suit-Up Stance: arms held heroically outward while modules converge!
+          fHX = shoulderX + 6.2;
+          fHY = fSY + armLen - 1.4;
+          bHX = shoulderX - 6.2;
+          bHY = bSY + armLen - 1.4;
+          fBend = -0.6;
+          bBend = 0.6;
+        } else if (armPose === "launch") {
+          // Era 5 Iron Man Takeoff: arms angled cleanly outward, palms down!
+          fHX = shoulderX + 7.6;
+          fHY = fSY + armLen - 1.4;
+          bHX = shoulderX - 7.6;
+          bHY = bSY + armLen - 1.4;
+          fBend = -0.4;
+          bBend = 0.4;
+        }
+
+        const fElb = solveElbow(fSX, fSY, fHX, fHY, fBend);
+        const bElb = solveElbow(bSX, bSY, bHX, bHY, bBend);
+        frontArm.setAttribute("d", `M ${fSX.toFixed(1)},${fSY.toFixed(1)} L ${fElb.x.toFixed(1)},${fElb.y.toFixed(1)} L ${fHX.toFixed(1)},${fHY.toFixed(1)}`);
+        backArm.setAttribute("opacity", armPose === "cot" || armPose === "bonk" || isSymStance ? "0.95" : "0.60");
+        backArm.setAttribute("d", `M ${bSX.toFixed(1)},${bSY.toFixed(1)} L ${bElb.x.toFixed(1)},${bElb.y.toFixed(1)} L ${bHX.toFixed(1)},${bHY.toFixed(1)}`);
+        shoulderPin.setAttribute("cx", fSX.toFixed(1));
+        shoulderPin.setAttribute("cy", fSY.toFixed(1));
+        shoulderPin.setAttribute("opacity", hasTorsoArmor ? "0" : "1");
+
+        // Stage 5 Repulsor Gauntlets track wrists
+        gauntletF.setAttribute("opacity", hasGauntlets ? "1" : "0");
+        gauntletB.setAttribute("opacity", hasGauntlets ? (isSymStance ? "0.95" : "0.68") : "0");
+        if (hasGauntlets) {
+          gauntletF.setAttribute("transform", `translate(${fHX.toFixed(1)}, ${fHY.toFixed(1)})`);
+          gauntletB.setAttribute("transform", `translate(${bHX.toFixed(1)}, ${bHY.toFixed(1)})`);
+        }
+
+        // Era 1 C-pincer claw
+        const pincerW = 1 - smooth(0.65, 0.95, evo);
+        pincerEl.setAttribute("opacity", pincerW.toFixed(2));
+        if (pincerW > 0.02) {
+          const gap = 2.0 - pincerSnap * 1.45;
+          pincerEl.setAttribute("d", `M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.5,${(-gap).toFixed(1)} l 1.6,0 M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.5,${gap.toFixed(1)} l 1.6,0`);
+        }
+
+        // Era 3-4 Precision square-jaw wrench on right forearm
+        wrenchEl.setAttribute("opacity", wrenchW.toFixed(2));
+        if (wrenchW > 0.02) {
+          wrenchEl.setAttribute("d", `M ${fHX.toFixed(1)},${(fHY - 2.2).toFixed(1)} l 3.1,0 M ${fHX.toFixed(1)},${(fHY + 2.2).toFixed(1)} l 3.1,0 M ${fHX.toFixed(1)},${(fHY - 2.2).toFixed(1)} l 0,4.4`);
+        }
+
+        // Era 5 Iron Man dual-layer downward palm repulsor jets + jetpack + boot thrusters
+        if (jetPower > 0.02) {
+          const flick = 0.86 + 0.28 * Math.abs(Math.sin(now * 0.05));
+          const jLen = (6.2 + jetPower * 10.8) * flick;
+          const jW = 1.75 + jetPower * 0.7;
+          const cLen = jLen * 0.56;
+          const cW = jW * 0.46;
+          repulsorJets.setAttribute("opacity", clamp01(jetPower * 1.25).toFixed(2));
+          rightPalmJet.setAttribute("d", `M ${(fHX - jW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + jW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + 0.5).toFixed(1)},${(fHY + jLen).toFixed(1)} Z`);
+          rightPalmCore.setAttribute("d", `M ${(fHX - cW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + cW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + 0.2).toFixed(1)},${(fHY + cLen).toFixed(1)} Z`);
+          leftPalmJet.setAttribute("d", `M ${(bHX - jW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX + jW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX - 0.5).toFixed(1)},${(bHY + jLen).toFixed(1)} Z`);
+          leftPalmCore.setAttribute("d", `M ${(bHX - cW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX + cW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX - 0.2).toFixed(1)},${(bHY + cLen).toFixed(1)} Z`);
+          const pX = -6.4;
+          const pY = hipY + 0.8;
+          const pLen = (5.2 + jetPower * 12.8) * flick;
+          packJet.setAttribute("d", `M ${(pX - 2.0).toFixed(1)},${pY.toFixed(1)} L ${(pX + 2.0).toFixed(1)},${pY.toFixed(1)} L ${pX.toFixed(1)},${(pY + pLen).toFixed(1)} Z`);
+          const bLen = (3.2 + jetPower * 6.8) * flick;
+          const fy1 = f1.y - totalLift + 0.4;
+          const fy2 = f2.y - totalLift + 0.4;
+          bootJetF.setAttribute("d", `M ${(f1.x - 1.1).toFixed(1)},${fy1.toFixed(1)} L ${(f1.x + 1.4).toFixed(1)},${fy1.toFixed(1)} L ${(f1.x + 0.1).toFixed(1)},${(fy1 + bLen).toFixed(1)} Z`);
+          bootJetB.setAttribute("d", `M ${(f2.x - 1.0).toFixed(1)},${fy2.toFixed(1)} L ${(f2.x + 1.2).toFixed(1)},${fy2.toFixed(1)} L ${(f2.x + 0.1).toFixed(1)},${(fy2 + bLen * 0.85).toFixed(1)} Z`);
+        } else {
+          repulsorJets.setAttribute("opacity", "0");
+        }
+
+        // Era 1 Mode B ink skid-dashes behind sliding robot
+        skidCooldown -= dt;
+        if (isSliding && skidCooldown <= 0) {
+          const s = skidPool[skidIdx % skidPool.length];
+          skidIdx += 1;
+          s.x = drawX - 9;
+          s.yOff = (skidIdx % 2 === 0 ? -1.4 : -3.0);
+          s.life = 0.42;
+          skidCooldown = 0.11;
+        }
+        skidPool.forEach((s) => {
+          if (s.life > 0) {
+            s.life = Math.max(0, s.life - dt);
+            const y = (BASE_Y + s.yOff).toFixed(1);
+            const len = 4.5 + (1 - s.life / 0.42) * 3.5;
+            s.el.setAttribute("x1", (s.x - len).toFixed(1));
+            s.el.setAttribute("x2", s.x.toFixed(1));
+            s.el.setAttribute("y1", y);
+            s.el.setAttribute("y2", y);
+            s.el.setAttribute("opacity", ((s.life / 0.42) * 0.36).toFixed(2));
+          } else {
+            s.el.setAttribute("opacity", "0");
+          }
+        });
+
+        // Era 5 Evenly-spaced Tracing micro-dots behind engineer
+        traceCooldown -= dt;
+        if (isEquipped && moveSpeed > 10 && traceCooldown <= 0 && edgeFade > 0.4) {
+          const p = tracePool[traceIdx % tracePool.length];
+          traceIdx += 1;
+          p.x = drawX - 5;
+          p.life = 1.0;
+          traceCooldown = 0.26;
+        }
+        tracePool.forEach((p) => {
+          if (p.life > 0) {
+            p.life = Math.max(0, p.life - dt);
+            p.el.setAttribute("cx", p.x.toFixed(1));
+            p.el.setAttribute("opacity", (p.life * 0.48).toFixed(2));
+          } else {
+            p.el.setAttribute("opacity", "0");
+          }
+        });
+
+        // Click celebration spark
+        clickSpark.setAttribute("opacity", clickHopTimer > 0.12 ? ((clickHopTimer - 0.12) / 0.38).toFixed(2) : "0");
+      }
+
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  initEvoWalker();
+})();

@@ -1,0 +1,283 @@
+/* =========================================================================
+   1. DESIGN SYSTEM — 「02 · 细枝目录卷」
+   Warm Rice-Paper · Architectural Hairlines · Vermilion Seal · Bamboo Green
+   ========================================================================= */
+:root {
+  --paper: #FAF8F4;
+  --stone-surface: #F3EFE7;
+  --bamboo-wash: #E6EFE8;
+
+  --ink-primary: #1D1B18;
+  --ink-secondary: #5E584F;
+  --ink-muted: #968E82;
+  --ink-planned: #ACA498;
+  --ink-hollow: #C9C2B6;
+
+  --hairline: rgba(29, 27, 24, 0.10);
+  --hairline-mid: rgba(29, 27, 24, 0.17);
+  --hairline-strong: rgba(29, 27, 24, 0.28);
+
+  /* Accent: Vermilion Seal Red */
+  --vermilion: #B83B2A;
+  --vermilion-ring: rgba(184, 59, 42, 0.26);
+
+  /* Accent: Pure Publish Bamboo Green Scale (0 / 1 / 2 / 3+ posts) */
+  --bamboo-0: #EBE7DF;
+  --bamboo-1: #6FA882;
+  --bamboo-2: #3F8457;
+  --bamboo-3: #235737;
+  --bamboo-4: #2D6A47;
+  --bamboo-ring: rgba(45, 106, 71, 0.28);
+
+  /* GitHub Heatmap Cell Geometry (strict 1:1 square) */
+  --cell-size: 10px;
+  --cell-gap: 3px;
+
+  /* Typography */
+  --font-serif: "Noto Serif SC", "Songti SC", "STSong", Georgia, serif;
+  --font-sans: "Inter", "PingFang SC", -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", Menlo, Monaco, Consolas, monospace;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Fluid Vertical Budget Tokens (strictly tuned for 1280x700 – 1440x900) */
+  --nav-h: clamp(42px, 5.6vh, 48px);
+  --era-foot-h: clamp(46px, 6.2vh, 52px);
+  --era-runway-pb: 46px;
+  --dock-h: clamp(124px, 16.5vh, 136px);
+  --colophon-h: 0px;
+  --page-px: clamp(18px, 2.4vw, 32px);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--paper);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* HARD ZERO-SCROLL LOCK ON HOMEPAGE */
+body.view-home {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.site-shell {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--paper);
+  position: relative;
+}
+
+body.view-home .site-shell {
+  width: 100vw;
+  height: 100vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* =========================================================================
+   2. BAND 1: MINIMAL TOP NAVIGATION BAR (~48px)
+   ========================================================================= */
+.top-nav {
+  flex: 0 0 var(--nav-h);
+  height: var(--nav-h);
+  padding: 0 var(--page-px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--hairline);
+  background-color: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.brand-cluster {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Top-Right Live Mech Head Avatar (descends & morphs after Stage 5 takeoff!) */
+.mech-avatar-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  width: 44px;
+  height: 36px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.22s var(--ease-out);
+}
+
+.mech-avatar-btn.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mech-avatar-btn.is-docked:hover {
+  transform: scale(1.08) translateY(-1px);
+}
+
+.mech-avatar-btn.is-nodding {
+  animation: mechNod 0.36s var(--ease-out);
+}
+
+@keyframes mechNod {
+  0%   { transform: scale(1) translateY(0); }
+  45%  { transform: scale(1.04) translateY(2.5px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+.mech-avatar-btn svg {
+  width: 44px;
+  height: 36px;
+  overflow: visible;
+  display: block;
+}
+
+.mech-ant-tip {
+  animation: mechLedPulse 3.2s ease-in-out infinite;
+}
+
+@keyframes mechLedPulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+.mech-eyes-idle {
+  transform-box: fill-box;
+  transform-origin: center center;
+  transition: transform 0.09s ease-in-out, opacity 0.14s ease;
+}
+
+.mech-avatar-btn.is-blinking .mech-eyes-idle {
+  transform: scaleY(0.1);
+}
+
+.mech-eyes-happy {
+  opacity: 0;
+  transition: opacity 0.14s ease;
+}
+
+.mech-avatar-btn.is-docked:hover .mech-eyes-idle {
+  opacity: 0;
+}
+
+.mech-avatar-btn.is-docked:hover .mech-eyes-happy {
+  opacity: 1;
+}
+
+.brand-sub {
+  font-size: clamp(11px, 0.9vw, 12px);
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-links {
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  gap: clamp(16px, 2vw, 26px);
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.nav-links.is-revealed {
+  pointer-events: auto;
+}
+
+.nav-btn {
+  position: relative;
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  padding: 0 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: color 0.16s ease;
+}
+
+.mech-scan-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 35;
+  overflow: visible;
+}
+
+.nav-btn:hover {
+  color: var(--ink-primary);
+}
+
+.nav-btn.is-active {
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+
+.nav-btn.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1.5px;
+  background-color: var(--ink-primary);
+}
+
+/* View Containers */
+.view-panel {
+  display: none;
+}
+
+.view-panel.is-visible {
+  display: flex;
+}

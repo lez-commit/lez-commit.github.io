@@ -1,0 +1,557 @@
+/* Quiet Floating Tooltip (Planned twigs & Heatmap squares) */
+.quiet-tip {
+  position: fixed;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+  background-color: var(--ink-primary);
+  color: var(--paper);
+  padding: 5px 9px;
+  border-radius: 4px;
+  font-size: 10.5px;
+  line-height: 1.45;
+  max-width: 320px;
+}
+
+.quiet-tip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.qt-meta {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: #C9C2B6;
+  margin-bottom: 1px;
+}
+
+/* =========================================================================
+   4. ARTICLE READER VIEW (Scrollable Editorial Page)
+   ========================================================================= */
+.reader-view {
+  flex: 1 1 auto;
+  flex-direction: column;
+  background-color: var(--paper);
+  animation: pageIn 0.24s var(--ease-out);
+}
+
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reader-bar {
+  position: sticky;
+  top: var(--nav-h);
+  z-index: 20;
+  height: 42px;
+  padding: 0 var(--page-px);
+  background-color: rgba(250, 248, 244, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.back-link {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.back-link:hover {
+  color: var(--ink-primary);
+  transform: translateX(-2px);
+}
+
+.coord-tag {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--bamboo-4);
+  background-color: var(--bamboo-wash);
+  padding: 2.5px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reader-body {
+  width: 100%;
+  max-width: 710px;
+  margin: 0 auto;
+  padding: 40px 24px 88px;
+}
+
+.art-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+}
+
+.art-h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(23px, 2.8vw, 30px);
+  font-weight: 600;
+  line-height: 1.42;
+  color: var(--ink-primary);
+  margin-bottom: 16px;
+}
+
+/* Multi-post Node / Same-day Series Switcher inside Reader & Archive Sub-list */
+.node-series-box {
+  margin-bottom: 20px;
+  padding: 11px 14px;
+  background-color: rgba(230, 239, 232, 0.45);
+  border: 1px solid rgba(45, 106, 71, 0.20);
+  border-radius: 6px;
+}
+
+.node-series-head {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--bamboo-4);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.node-series-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.series-tab-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background-color: rgba(250, 248, 244, 0.65);
+  border-radius: 4px;
+  padding: 6px 10px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--ink-secondary);
+  transition: all 0.16s ease;
+}
+
+.series-tab-btn:hover {
+  background-color: var(--paper);
+  color: var(--ink-primary);
+  border-color: var(--hairline-mid);
+}
+
+.series-tab-btn.is-current {
+  background-color: var(--paper);
+  border-color: rgba(45, 106, 71, 0.34);
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+
+.series-tab-date {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
+.archive-subposts {
+  margin-top: 7px;
+  padding-left: 11px;
+  border-left: 1px solid rgba(45, 106, 71, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.archive-subpost-btn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 3px 6px;
+  margin-left: -6px;
+  border-radius: 3px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--ink-secondary);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.archive-subpost-btn:hover {
+  background-color: rgba(45, 106, 71, 0.10);
+  color: var(--bamboo-4);
+}
+
+.archive-subpost-date {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
+.art-lead {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: var(--ink-secondary);
+  padding: 13px 17px;
+  background-color: var(--stone-surface);
+  border-left: 2px solid var(--bamboo-4);
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 32px;
+}
+
+.art-prose {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #2B2925;
+}
+
+.art-prose p {
+  margin-bottom: 17px;
+}
+
+.art-prose h2 {
+  font-family: var(--font-serif);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--ink-primary);
+  margin: 34px 0 13px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.art-prose h3 {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-primary);
+  margin: 22px 0 9px;
+}
+
+.art-prose ul {
+  margin: 0 0 18px 20px;
+}
+
+.art-prose li {
+  margin-bottom: 8px;
+}
+
+.art-prose strong {
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+
+.art-prose code {
+  font-family: var(--font-mono);
+  font-size: 12.8px;
+  background-color: var(--stone-surface);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--bamboo-4);
+}
+
+.art-prose pre {
+  margin: 20px 0 24px;
+  padding: 16px 18px;
+  background-color: #22201D;
+  color: #EDE9E0;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+.art-prose pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+.c-cmt { color: #8B9B8E; }
+.c-kw  { color: #A0C6AB; }
+.c-str { color: #E2BA8A; }
+.c-fn  { color: #DDD5C7; }
+
+.art-hr {
+  border: none;
+  border-top: 1px solid var(--hairline);
+  margin: 32px 0 24px;
+}
+
+.art-foot-nav {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.outline-btn {
+  appearance: none;
+  border: 1px solid var(--hairline-mid);
+  background-color: var(--paper);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  padding: 7px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease;
+}
+
+.outline-btn:hover {
+  background-color: var(--stone-surface);
+  border-color: var(--hairline-strong);
+}
+
+/* =========================================================================
+   5. 「全部文章」 ARCHIVE VIEW (Grouped by Era)
+   ========================================================================= */
+.archive-view,
+.about-view {
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: center;
+  padding: 38px 24px 80px;
+  animation: pageIn 0.24s var(--ease-out);
+}
+
+.narrow-container {
+  width: 100%;
+  max-width: 780px;
+}
+
+.subpage-head {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 26px;
+}
+
+.subpage-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ink-primary);
+  margin-bottom: 6px;
+}
+
+.subpage-desc {
+  font-size: 12.5px;
+  color: var(--ink-muted);
+}
+
+.era-group {
+  margin-bottom: 30px;
+}
+
+.era-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--hairline);
+  margin-bottom: 6px;
+}
+
+.era-group-title {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-primary);
+  display: inline-flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.era-group-num {
+  font-size: 19px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.era-group-period {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
+.archive-item {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 10px;
+  padding: 11px 10px;
+  margin: 0 -10px;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 4px;
+  transition: background-color 0.16s ease;
+}
+
+.archive-item.is-published {
+  cursor: pointer;
+}
+
+.archive-item.is-published:hover {
+  background-color: var(--bamboo-wash);
+}
+
+.archive-dot {
+  width: 6.5px;
+  height: 6.5px;
+  border-radius: 50%;
+  align-self: center;
+  justify-self: center;
+}
+
+.archive-item.is-published .archive-dot {
+  background-color: var(--bamboo-4);
+}
+
+.archive-item.is-flagship .archive-dot {
+  background-color: var(--vermilion);
+}
+
+.archive-item.is-planned .archive-dot {
+  border: 1.2px solid var(--ink-hollow);
+  background-color: var(--paper);
+}
+
+.archive-item-title {
+  font-family: var(--font-serif);
+  font-size: 14.5px;
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+
+.archive-item.is-planned .archive-item-title {
+  color: var(--ink-planned);
+  font-weight: 400;
+}
+
+.archive-item-sub {
+  font-size: 11.5px;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+
+.archive-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.archive-item.is-published .archive-status {
+  color: var(--bamboo-4);
+}
+
+/* =========================================================================
+   6. 「关于」 ABOUT VIEW & COPYABLE AGENT_MAP_DATA JSON
+   ========================================================================= */
+.about-text {
+  font-size: 14.5px;
+  line-height: 1.88;
+  color: var(--ink-secondary);
+  margin-bottom: 26px;
+}
+
+.about-text p {
+  margin-bottom: 13px;
+}
+
+.about-text strong {
+  color: var(--ink-primary);
+  font-weight: 600;
+}
+
+.json-box-wrap {
+  border: 1px solid var(--hairline-mid);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--stone-surface);
+}
+
+.json-bar {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--hairline);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.json-label {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  color: var(--ink-primary);
+}
+
+.copy-btn {
+  appearance: none;
+  border: 1px solid var(--hairline-mid);
+  background-color: var(--paper);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  padding: 4px 11px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.copy-btn:hover {
+  border-color: var(--bamboo-4);
+  color: var(--bamboo-4);
+}
+
+.copy-btn.is-copied {
+  background-color: var(--bamboo-4);
+  border-color: var(--bamboo-4);
+  color: var(--paper);
+}
+
+.json-pre {
+  padding: 14px 16px;
+  max-height: 390px;
+  overflow: auto;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.6;
+  color: #2E2B26;
+  background-color: #F6F3EC;
+  white-space: pre;
+}
