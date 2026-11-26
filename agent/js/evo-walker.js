@@ -45,6 +45,12 @@
     mk("stop", { offset: "55%", "stop-color": "#2D6A47", "stop-opacity": "0.22" }, arcGlowGrad);
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, arcGlowGrad);
 
+    // Luminous bamboo-mint repulsor plasma plume gradient (Stage 5 Iron Man launch)
+    const jetGrad = mk("linearGradient", { id: "evo-jet-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#B5F5D4", "stop-opacity": "0.95" }, jetGrad);
+    mk("stop", { offset: "38%", "stop-color": "#2D6A47", "stop-opacity": "0.62" }, jetGrad);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, jetGrad);
+
     // Clip path for Era 3 brick barrier sinking cleanly into the ground seam (y <= 0)
     const wallClip = mk("clipPath", { id: "evo-wall-clip" }, defs);
     mk("rect", { x: "-24", y: "-38", width: "48", height: "38" }, wallClip);
@@ -328,58 +334,62 @@
     // Rotatable body wrapper (enables clean belly-slide & recovery)
     const botBody = mk("g", null, botGroup);
 
-    // Stage 1: Spinning vintage wind-up key on back (with collar + sculpted bow)
+    // Stage 1: Compact vintage wind-up key on back (with collar + sculpted bow)
     const keyGroup = mk("g", { opacity: "1" }, botBody);
-    mk("rect", { x: "-6.6", y: "-5.7", width: "1.6", height: "2.4", rx: "0.5", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, keyGroup);
-    mk("line", { x1: "-6.6", y1: "-4.5", x2: "-9.8", y2: "-4.5", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round" }, keyGroup);
-    const keyLoop = mk("ellipse", { cx: "-11.2", cy: "-4.5", rx: "1.75", ry: "3.3", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15" }, keyGroup);
-    const keyInner = mk("ellipse", { cx: "-11.2", cy: "-4.5", rx: "0.75", ry: "1.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.7", "stroke-opacity": "0.55" }, keyGroup);
+    mk("rect", { x: "-6.4", y: "-5.2", width: "1.4", height: "2.0", rx: "0.45", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85" }, keyGroup);
+    mk("line", { x1: "-6.4", y1: "-4.2", x2: "-8.9", y2: "-4.2", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round" }, keyGroup);
+    const keyLoop = mk("ellipse", { cx: "-10.1", cy: "-4.2", rx: "1.45", ry: "2.65", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, keyGroup);
+    const keyInner = mk("ellipse", { cx: "-10.1", cy: "-4.2", rx: "0.6", ry: "1.25", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-opacity": "0.55" }, keyGroup);
 
     // Back leg + capsule back foot + Stage 5 back boot + back arm
-    const backLeg = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
-    const backFoot = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round" }, botBody);
-    const bootB = mk("path", { d: "M -1.8,-4.2 L 1.7,-4.2 L 2.7,0 L -2.0,0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round", opacity: "0" }, botBody);
-    const backArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
-    const gauntletB = mk("rect", { x: "-2.1", y: "-2.3", width: "4.2", height: "3.3", rx: "0.9", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.05", opacity: "0" }, botBody);
+    const backLeg = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
+    const backFoot = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round" }, botBody);
+    const bootB = mk("path", { d: "M -1.7,-4.0 L 1.6,-4.0 L 2.5,0 L -1.9,0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    const backArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
+    const gauntletB = mk("rect", { x: "-2.0", y: "-2.1", width: "4.0", height: "3.1", rx: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0", opacity: "0" }, botBody);
 
     // Torso group (neck + pelvis + sculpted chassis with warm stone bevel + Stage 5 Modular Armor)
     const torsoGroup = mk("g", null, botBody);
     // Stage 5: Modular Skills Jetpack mounted behind torso
     const jetpackEl = mk("g", { opacity: "0" }, torsoGroup);
-    mk("rect", { x: "-8.8", y: "-10.2", width: "4.8", height: "8.4", rx: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15" }, jetpackEl);
-    mk("rect", { x: "-8.4", y: "-9.7", width: "1.8", height: "7.4", rx: "0.5", fill: "#EDE8DE" }, jetpackEl);
-    mk("path", { d: "M -7.6,-7.5 L -5.0,-7.5 M -7.6,-5.1 L -5.0,-5.1 M -8.0,-1.8 L -8.6,0.7 L -6.6,0.7 L -6.4,-1.8 M -6.0,-1.8 L -5.8,0.7 L -4.1,0.7 L -4.6,-1.8", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linecap": "round", "stroke-linejoin": "round" }, jetpackEl);
+    mk("rect", { x: "-8.6", y: "-10.1", width: "4.6", height: "8.2", rx: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1" }, jetpackEl);
+    mk("rect", { x: "-8.2", y: "-9.6", width: "1.7", height: "7.2", rx: "0.5", fill: "#EDE8DE" }, jetpackEl);
+    mk("path", { d: "M -7.4,-7.5 L -5.0,-7.5 M -7.4,-5.1 L -5.0,-5.1 M -7.8,-1.9 L -8.4,0.6 L -6.5,0.6 L -6.3,-1.9 M -5.9,-1.9 L -5.7,0.6 L -4.1,0.6 L -4.6,-1.9", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round", "stroke-linejoin": "round" }, jetpackEl);
+    // Stage 1: Retro tin-toy top lid + micro gauge (fades smoothly as CRT head emerges in Era 2)
+    const rpaTopCap = mk("g", { opacity: "1" }, torsoGroup);
+    mk("rect", { x: "-4.6", y: "-9.1", width: "9.2", height: "1.5", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0" }, rpaTopCap);
+    mk("circle", { cx: "0", cy: "-9.6", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, rpaTopCap);
     // Mechanical neck collar connecting torso to CRT head
     const neckEl = mk("g", { opacity: "0" }, torsoGroup);
-    mk("rect", { x: "-2.0", y: "-12.2", width: "4.0", height: "2.4", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0" }, neckEl);
-    mk("line", { x1: "-1.5", y1: "-11.0", x2: "1.5", y2: "-11.0", stroke: "#1D1B18", "stroke-width": "0.7", "stroke-opacity": "0.55" }, neckEl);
-    // Mechanical pelvis / hip housing (grounds IK legs cleanly)
-    const pelvisEl = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round" }, torsoGroup);
+    mk("rect", { x: "-1.9", y: "-12.2", width: "3.8", height: "2.4", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, neckEl);
+    mk("line", { x1: "-1.4", y1: "-11.0", x2: "1.4", y2: "-11.0", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-opacity": "0.55" }, neckEl);
+    // Sleek mechanical waist / hip band (grounds IK legs cleanly without crowding knees)
+    const pelvisEl = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, torsoGroup);
     // Sculpted main chassis torso + subtle warm stone bevel
-    const torsoEl = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.3", "stroke-linejoin": "round" }, torsoGroup);
+    const torsoEl = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linejoin": "round" }, torsoGroup);
     const torsoShade = mk("path", { fill: "#EDE8DE", "fill-opacity": "0.85" }, torsoGroup);
-    const chestPanel = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-opacity": "0.58", "stroke-linecap": "round" }, torsoGroup);
+    const chestPanel = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-opacity": "0.58", "stroke-linecap": "round" }, torsoGroup);
     const chestLed = mk("circle", { cx: "1.6", cy: "-5.2", r: "0.8", fill: "#2D6A47", opacity: "0" }, torsoGroup);
     // Stage 5: Chamfered Mech Shoulder Pauldrons
     const shoulderArmorEl = mk("g", { opacity: "0" }, torsoGroup);
-    mk("path", { d: "M -5.8,-10.8 L 5.8,-10.8 L 6.8,-8.1 L -6.8,-8.1 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linejoin": "round" }, shoulderArmorEl);
-    mk("path", { d: "M -4.2,-10.6 L -4.8,-8.3 M 4.2,-10.6 L 4.8,-8.3", fill: "none", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-opacity": "0.5" }, shoulderArmorEl);
+    mk("path", { d: "M -5.8,-10.8 L 5.8,-10.8 L 6.8,-8.2 L -6.8,-8.2 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round" }, shoulderArmorEl);
+    mk("path", { d: "M -4.2,-10.6 L -4.8,-8.4 M 4.2,-10.6 L 4.8,-8.4", fill: "none", stroke: "#1D1B18", "stroke-width": "0.75", "stroke-opacity": "0.5" }, shoulderArmorEl);
     // Stage 5: X-shaped Harness straps + Bamboo Arc Core Glow + Double Ripple
     const harnessGroup = mk("g", { opacity: "0" }, torsoGroup);
-    const harnessX1 = mk("line", { stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linecap": "round" }, harnessGroup);
-    const harnessX2 = mk("line", { stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linecap": "round" }, harnessGroup);
-    const harnessGlow = mk("circle", { r: "4.6", fill: "url(#evo-arc-glow)" }, harnessGroup);
-    const harnessClaspOuter = mk("circle", { r: "2.35", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9" }, harnessGroup);
-    const harnessClasp = mk("circle", { r: "1.5", fill: "#2D6A47" }, harnessGroup);
+    const harnessX1 = mk("line", { stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linecap": "round" }, harnessGroup);
+    const harnessX2 = mk("line", { stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linecap": "round" }, harnessGroup);
+    const harnessGlow = mk("circle", { r: "5.2", fill: "url(#evo-arc-glow)" }, harnessGroup);
+    const harnessClaspOuter = mk("circle", { r: "2.3", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, harnessGroup);
+    const harnessClasp = mk("circle", { r: "1.45", fill: "#2D6A47" }, harnessGroup);
     const harnessRipple = mk("circle", { r: "2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, harnessGroup);
     const harnessRipple2 = mk("circle", { r: "2", fill: "none", stroke: "#1D1B18", "stroke-width": "0.75", opacity: "0" }, harnessGroup);
 
-    // Front leg + mechanical knee joint rivets + capsule front foot + Stage 5 front boot
-    const kneeJoint2 = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", opacity: "0" }, botBody);
-    const frontLeg = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.4", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
-    const frontFoot = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linejoin": "round" }, botBody);
-    const kneeJoint1 = mk("circle", { r: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", opacity: "0" }, botBody);
-    const bootF = mk("path", { d: "M -1.8,-4.3 L 1.9,-4.3 L 3.0,0 L -2.0,0 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    // Front leg + subtle mechanical knee joint rivets + sleek capsule front foot + Stage 5 front boot
+    const kneeJoint2 = mk("circle", { r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.8", opacity: "0" }, botBody);
+    const frontLeg = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.3", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
+    const frontFoot = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round" }, botBody);
+    const kneeJoint1 = mk("circle", { r: "0.95", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85", opacity: "0" }, botBody);
+    const bootF = mk("path", { d: "M -1.7,-4.1 L 1.8,-4.1 L 2.8,0 L -1.9,0 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round", opacity: "0" }, botBody);
 
     // Robot Head group (boxy CRT chassis + expressive visor + antenna + Stage 5 Mech Crest)
     const headGroup = mk("g", { opacity: "0" }, botBody);
@@ -421,22 +431,24 @@
     const headCrestEl = mk("g", { opacity: "0" }, headGroup);
     mk("path", { d: "M -4.4,-4.6 L 0.4,-7.3 L 5.0,-4.6 M -6.9,-2.2 L -8.8,-4.3 L -6.5,0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round" }, headCrestEl);
 
-    // Front arm + shoulder socket rivet + attachments + Stage 5 Repulsor Gauntlets + Jets
-    const frontArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.3", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
-    const shoulderPin = mk("circle", { r: "1.25", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95" }, botBody);
-    const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
-    const wrenchEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    // Front arm + shoulder socket rivet + attachments + Stage 5 Repulsor Gauntlets + Luminous Jets
+    const frontArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
+    const shoulderPin = mk("circle", { r: "1.1", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, botBody);
+    const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
+    const wrenchEl = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0" }, botBody);
     const gauntletF = mk("g", { opacity: "0" }, botBody);
-    mk("rect", { x: "-2.1", y: "-2.3", width: "4.2", height: "3.3", rx: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1" }, gauntletF);
-    mk("line", { x1: "-1.1", y1: "-0.6", x2: "1.1", y2: "-0.6", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, gauntletF);
+    mk("rect", { x: "-2.0", y: "-2.1", width: "4.0", height: "3.1", rx: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, gauntletF);
+    mk("line", { x1: "-1.0", y1: "-0.5", x2: "1.0", y2: "-0.5", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, gauntletF);
     const repulsorJets = mk("g", { opacity: "0" }, botBody);
-    const leftPalmJet = mk("path", { fill: "#2D6A47", "fill-opacity": "0.26", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, repulsorJets);
-    const leftPalmCore = mk("path", { fill: "#7AD9A3", "fill-opacity": "0.88" }, repulsorJets);
-    const rightPalmJet = mk("path", { fill: "#2D6A47", "fill-opacity": "0.26", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, repulsorJets);
-    const rightPalmCore = mk("path", { fill: "#7AD9A3", "fill-opacity": "0.88" }, repulsorJets);
-    const packJet = mk("path", { fill: "#2D6A47", "fill-opacity": "0.24", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linejoin": "round" }, repulsorJets);
-    const bootJetF = mk("path", { fill: "#2D6A47", "fill-opacity": "0.35", stroke: "#1D1B18", "stroke-width": "0.85" }, repulsorJets);
-    const bootJetB = mk("path", { fill: "#2D6A47", "fill-opacity": "0.28", stroke: "#1D1B18", "stroke-width": "0.8" }, repulsorJets);
+    const leftPalmJet = mk("path", { fill: "url(#evo-jet-grad)" }, repulsorJets);
+    const leftPalmCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, repulsorJets);
+    const rightPalmJet = mk("path", { fill: "url(#evo-jet-grad)" }, repulsorJets);
+    const rightPalmCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, repulsorJets);
+    const packJet = mk("path", { fill: "url(#evo-jet-grad)", opacity: "0.75" }, repulsorJets);
+    const bootJetF = mk("path", { fill: "url(#evo-jet-grad)" }, repulsorJets);
+    const bootJetB = mk("path", { fill: "url(#evo-jet-grad)", opacity: "0.8" }, repulsorJets);
+    const palmEmitterL = mk("circle", { r: "1.5", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.6" }, repulsorJets);
+    const palmEmitterR = mk("circle", { r: "1.5", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.6" }, repulsorJets);
 
     // Stage 5 Converging Modular Parts Layer (7 pieces flying in from all directions!)
     const assembleLayer = mk("g", { opacity: "0" }, botGroup);
@@ -528,12 +540,12 @@
     // Solid capsule mechanical foot path seated cleanly on y = ground
     function capsuleFootPath(fx, fy, len, pitch) {
       const dy = pitch * len;
-      const backX = fx - 1.1;
+      const backX = fx - 0.9;
       const toeX = fx + len;
       const toeY = fy + dy;
-      const topY = fy - 1.5;
-      const toeTopY = toeY - 1.3;
-      return `M ${backX.toFixed(1)},${fy.toFixed(1)} L ${toeX.toFixed(1)},${toeY.toFixed(1)} Q ${(toeX + 0.7).toFixed(1)},${(toeY - 0.7).toFixed(1)} ${(toeX - 0.5).toFixed(1)},${toeTopY.toFixed(1)} L ${(backX + 0.2).toFixed(1)},${topY.toFixed(1)} Z`;
+      const topY = fy - 1.25;
+      const toeTopY = toeY - 1.1;
+      return `M ${backX.toFixed(1)},${fy.toFixed(1)} L ${toeX.toFixed(1)},${toeY.toFixed(1)} Q ${(toeX + 0.6).toFixed(1)},${(toeY - 0.55).toFixed(1)} ${(toeX - 0.4).toFixed(1)},${toeTopY.toFixed(1)} L ${(backX + 0.2).toFixed(1)},${topY.toFixed(1)} Z`;
     }
 
     // Cycle state
@@ -665,26 +677,26 @@
           moveSpeed = 0;
           beatHopH = Math.sin((clickHopTimer / 0.5) * Math.PI) * 7.5;
         } else if (b1 === 1) {
-          // Era 1 Step 1: Jog-trip over stone cluster, launching into flat belly-slide
+          // Era 1 Step 1: Jog-trip over stone cluster, pitching cleanly into flat belly-slide above spine
           b1t += dt;
           const u = clamp01(b1t / 0.22);
           posX += 116 * dt;
           moveSpeed = 0;
-          beatHopH = Math.sin(u * Math.PI) * 5.8;
-          bodyRollDeg = u * 84;
-          bodyDropY = u * 3.0;
+          beatHopH = Math.sin(u * Math.PI) * 6.4;
+          bodyRollDeg = u * 78;
+          bodyDropY = -u * 1.4;
           pincerSnap = 0.9;
           if (b1t >= 0.22) { b1 = 2; b1t = 0; }
         } else if (b1 === 2) {
-          // Era 1 Step 2: Long friction belly-slide across Era 1 -> Era 2 border
+          // Era 1 Step 2: Long friction belly-slide flush atop the timeline spine (never below y=0!)
           b1t += dt;
           const slideTargetX = startX + span * 0.225;
           const u = clamp01(b1t / 1.15);
           const slideSpeed = lerp(142, 36, u * u);
           posX += slideSpeed * dt;
           moveSpeed = 0;
-          bodyRollDeg = 84;
-          bodyDropY = 3.2;
+          bodyRollDeg = 78;
+          bodyDropY = -1.6;
           isSliding = true;
           if (posX >= slideTargetX || b1t >= 1.20) { b1 = 3; b1t = 0; }
         } else if (b1 === 3) {
@@ -694,9 +706,9 @@
           const ease = u * u * (3 - 2 * u);
           posX += lerp(30, 54, ease) * dt;
           moveSpeed = lerp(30, 54, ease);
-          bodyRollDeg = lerp(84, 0, ease);
-          bodyDropY = lerp(3.2, 0, ease);
-          beatHopH = Math.sin(u * Math.PI) * 2.8;
+          bodyRollDeg = lerp(78, 0, ease);
+          bodyDropY = lerp(-1.6, 0, ease);
+          beatHopH = Math.sin(u * Math.PI) * 3.0;
           if (b1t >= 0.34) b1 = 4;
         } else if (b2 === 1) {
           // Era 2 Beat: stop at study desk, CoT chin-prop + read lifted parchment + nod
@@ -1012,10 +1024,18 @@
         // =================================================================
         const headW = smooth(0.72, 1.15, evo);       // Boxy CRT head pops out entering Era 2
         const kneeW = smooth(0.75, 1.25, evo);       // Articulated knees unfold in Era 2
-        const wrenchW = b3 === 1 ? smooth(0.45, 0.68, b3t) : (b3 === 2 && !isEquipped ? 1 : 0);
+        const wrenchW = b3 === 1
+          ? smooth(0.45, 0.68, b3t)
+          : b3 === 2 && !isEquipped
+          ? 1 - smooth(2.75, 3.02, evo)
+          : 0;
         const gogglesW = smooth(2.65, 3.05, evo);    // Era 4–5 dual-optic visor
         const keyW = 1 - smooth(0.72, 1.05, evo);    // Era 1 wind-up key fades out
         const edgeFade = b5 === 3 ? 1 : smooth(0, 0.03, progress) * (1 - smooth(0.96, 1, progress));
+
+        // Smooth vertical step-up onto Era 5 architectural docking pad deck (height 3.5px)
+        const onPadDist = Math.abs(drawX - x5);
+        const padStandY = b5 === 3 ? 0 : (1 - smooth(10, 17, onPadDist)) * 3.5;
 
         // Proportions: total height scales smoothly 17 -> 23 -> 26 -> 29 -> 33px
         const legSeg = lerp(3.4, 7.2, smooth(0.2, 3.4, evo));
@@ -1041,7 +1061,7 @@
         const leanRad = (leanDeg * Math.PI) / 180;
 
         const bob = freezeAll || b5 === 3 ? 0 : kneeW * Math.abs(Math.sin(phase * Math.PI * 2)) * 1.35;
-        const totalLift = beatHopH + launchLiftY;
+        const totalLift = beatHopH + launchLiftY + padStandY;
         const hipY = -lerp(6.4, 13.0, smooth(0.2, 3.4, evo)) - bob - totalLift + crouchY;
         const shoulderX = Math.sin(leanRad) * torsoH;
         const shoulderY = hipY - Math.cos(leanRad) * torsoH;
@@ -1049,44 +1069,46 @@
         botGroup.setAttribute("transform", `translate(${drawX.toFixed(2)}, ${BASE_Y})`);
         botGroup.setAttribute("opacity", edgeFade.toFixed(3));
         if (Math.abs(bodyRollDeg) > 0.1 || Math.abs(bodyDropY) > 0.1) {
-          const pivotY = isSliding ? -4.5 : -7.5;
+          const pivotY = isSliding ? -6.2 : -8.0;
           botBody.setAttribute("transform", `translate(0, ${bodyDropY.toFixed(2)}) rotate(${bodyRollDeg.toFixed(1)}, 0, ${pivotY})`);
         } else {
           botBody.removeAttribute("transform");
         }
         const shadowBaseRx = lerp(7.4, 6.2, smooth(0.5, 3.2, evo));
-        const shadowScale = clamp01(1 - totalLift / 48);
+        const shadowScale = clamp01(1 - (beatHopH + launchLiftY) / 48);
+        shadowEl.setAttribute("cy", (0.4 - padStandY).toFixed(1));
         shadowEl.setAttribute("rx", ((isSliding ? 9.8 : shadowBaseRx) * (0.4 + 0.6 * shadowScale)).toFixed(1));
         shadowEl.setAttribute("fill-opacity", (0.14 * shadowScale).toFixed(3));
 
-        // Era 1 wind-up key on back + trip vermilion `!`
+        // Era 1 wind-up key on back + retro tin-toy cap + trip vermilion `!`
         keyGroup.setAttribute("opacity", keyW.toFixed(2));
+        rpaTopCap.setAttribute("opacity", (1 - headW).toFixed(2));
         if (keyW > 0.02) {
-          const keyShudder = b1 === 1 ? Math.sin(b1t * 48) * 1.2 : 0;
+          const keyShudder = b1 === 1 ? Math.sin(b1t * 48) * 1.1 : 0;
           keyGroup.setAttribute("transform", `translate(${keyShudder.toFixed(1)}, ${hipY.toFixed(1)}) rotate(${leanDeg.toFixed(1)})`);
-          const ryOuter = 1.2 + Math.abs(Math.cos(keyPhase)) * 2.2;
+          const ryOuter = 1.0 + Math.abs(Math.cos(keyPhase)) * 1.85;
           keyLoop.setAttribute("ry", ryOuter.toFixed(2));
-          keyInner.setAttribute("ry", (ryOuter * 0.48).toFixed(2));
+          keyInner.setAttribute("ry", (ryOuter * 0.46).toFixed(2));
         }
         stuckBang.setAttribute("opacity", b1 === 1 ? "0.95" : "0");
 
-        // Legs: Era 1 jog/slide -> Era 2–5 articulated IK gait -> Iron Man flight pose
+        // Legs: Era 1 jog/slide -> Era 2–5 articulated IK gait -> Heroic Iron Man flight pose
         const liftH = b1 === 0 ? 2.4 : lerp(0.5, 3.6, kneeW);
         const isFlying = b5 === 3 && launchLiftY > 2;
         const f1 = isSliding
-          ? { x: -3.8, y: -1.4, pitch: 0 }
+          ? { x: -2.2, y: -1.6, pitch: 0 }
           : isFlying
-          ? { x: 1.6, y: 0.2, pitch: 0.25 }
+          ? { x: 2.0, y: 0.4, pitch: 0.28 }
           : moveSpeed > 0
           ? footPose(phase, strideLen, liftH)
-          : { x: 2.3, y: 0, pitch: 0 };
+          : { x: 2.2, y: 0, pitch: 0 };
         const f2 = isSliding
-          ? { x: -1.8, y: -0.6, pitch: 0 }
+          ? { x: -0.6, y: -1.0, pitch: 0 }
           : isFlying
-          ? { x: -2.2, y: -2.6, pitch: 0.32 }
+          ? { x: -2.8, y: -3.6, pitch: 0.38 }
           : moveSpeed > 0
           ? footPose(phase + 0.5, strideLen, liftH)
-          : { x: -2.3, y: 0, pitch: 0 };
+          : { x: -2.2, y: 0, pitch: 0 };
 
         // Era 5 Staggered Modular Armor Lock-in Flags (Boots -> Gauntlets -> Torso/Pack -> Head Crest)
         const hasBoots = isEquipped || (b5 === 1 && b5t >= 0.34);
@@ -1097,39 +1119,39 @@
         if (kneeW < 0.15) {
           // Stiff knee-less RPA stick legs + capsule feet
           const f1x = f1.x + 1.5;
-          const f1y = f1.y - beatHopH;
+          const f1y = f1.y - totalLift;
           const f2x = f2.x - 1.5;
-          const f2y = f2.y - beatHopH;
+          const f2y = f2.y - totalLift;
           frontLeg.setAttribute("d", `M 1.5,${hipY.toFixed(1)} L ${f1x.toFixed(1)},${f1y.toFixed(1)}`);
           backLeg.setAttribute("d", `M -1.5,${hipY.toFixed(1)} L ${f2x.toFixed(1)},${f2y.toFixed(1)}`);
-          frontFoot.setAttribute("d", capsuleFootPath(f1x, f1y, 2.5, f1.pitch));
-          backFoot.setAttribute("d", capsuleFootPath(f2x, f2y, 2.3, f2.pitch));
+          frontFoot.setAttribute("d", capsuleFootPath(f1x, f1y, 2.3, f1.pitch));
+          backFoot.setAttribute("d", capsuleFootPath(f2x, f2y, 2.1, f2.pitch));
           kneeJoint1.setAttribute("opacity", "0");
           kneeJoint2.setAttribute("opacity", "0");
         } else {
           const hipOffF = 1.0;
           const hipOffB = -1.0;
-          const k1 = solveKnee(hipOffF, hipY + 0.8, f1.x, f1.y - totalLift, legSeg, legSeg);
-          const k2 = solveKnee(hipOffB, hipY + 0.8, f2.x, f2.y - totalLift, legSeg, legSeg);
-          frontLeg.setAttribute("d", `M ${hipOffF},${(hipY + 0.8).toFixed(1)} L ${k1.x.toFixed(1)},${k1.y.toFixed(1)} L ${f1.x.toFixed(1)},${(f1.y - totalLift).toFixed(1)}`);
-          backLeg.setAttribute("d", `M ${hipOffB},${(hipY + 0.8).toFixed(1)} L ${k2.x.toFixed(1)},${k2.y.toFixed(1)} L ${f2.x.toFixed(1)},${(f2.y - totalLift).toFixed(1)}`);
-          frontFoot.setAttribute("d", capsuleFootPath(f1.x, f1.y - totalLift, 3.1, f1.pitch));
-          backFoot.setAttribute("d", capsuleFootPath(f2.x, f2.y - totalLift, 2.9, f2.pitch));
+          const k1 = solveKnee(hipOffF, hipY + 0.6, f1.x, f1.y - totalLift, legSeg, legSeg);
+          const k2 = solveKnee(hipOffB, hipY + 0.6, f2.x, f2.y - totalLift, legSeg, legSeg);
+          frontLeg.setAttribute("d", `M ${hipOffF},${(hipY + 0.6).toFixed(1)} L ${k1.x.toFixed(1)},${k1.y.toFixed(1)} L ${f1.x.toFixed(1)},${(f1.y - totalLift).toFixed(1)}`);
+          backLeg.setAttribute("d", `M ${hipOffB},${(hipY + 0.6).toFixed(1)} L ${k2.x.toFixed(1)},${k2.y.toFixed(1)} L ${f2.x.toFixed(1)},${(f2.y - totalLift).toFixed(1)}`);
+          frontFoot.setAttribute("d", capsuleFootPath(f1.x, f1.y - totalLift, 2.9, f1.pitch));
+          backFoot.setAttribute("d", capsuleFootPath(f2.x, f2.y - totalLift, 2.7, f2.pitch));
           kneeJoint1.setAttribute("cx", k1.x.toFixed(1));
           kneeJoint1.setAttribute("cy", k1.y.toFixed(1));
           kneeJoint1.setAttribute("opacity", kneeW.toFixed(2));
           kneeJoint2.setAttribute("cx", k2.x.toFixed(1));
           kneeJoint2.setAttribute("cy", k2.y.toFixed(1));
-          kneeJoint2.setAttribute("opacity", (kneeW * 0.65).toFixed(2));
+          kneeJoint2.setAttribute("opacity", (kneeW * 0.62).toFixed(2));
         }
-        backLeg.setAttribute("opacity", "0.68");
-        backFoot.setAttribute("opacity", hasBoots ? "0" : "0.72");
+        backLeg.setAttribute("opacity", "0.66");
+        backFoot.setAttribute("opacity", hasBoots ? "0" : "0.70");
         frontFoot.setAttribute("opacity", hasBoots ? "0" : "1");
 
-        // Torso (neck + pelvis + sculpted chassis with warm stone right bevel + vents)
+        // Torso (neck + sleek waist band + sculpted chassis with warm stone bevel + vents)
         const hw = torsoW * 0.5;
         const topW = lerp(hw * 0.90, hw * 0.98, smooth(0.8, 3.2, evo));
-        pelvisEl.setAttribute("d", `M ${(-hw * 0.74).toFixed(1)},-0.2 L ${(hw * 0.74).toFixed(1)},-0.2 L ${(hw * 0.52).toFixed(1)},1.9 L ${(-hw * 0.52).toFixed(1)},1.9 Z`);
+        pelvisEl.setAttribute("d", `M ${(-hw * 0.68).toFixed(1)},-0.1 L ${(hw * 0.68).toFixed(1)},-0.1 L ${(hw * 0.50).toFixed(1)},1.35 L ${(-hw * 0.50).toFixed(1)},1.35 Z`);
         torsoEl.setAttribute("d", `M ${(-hw).toFixed(1)},0 L ${hw.toFixed(1)},0 L ${topW.toFixed(1)},${(-torsoH + 1.0).toFixed(1)} Q ${topW.toFixed(1)},${(-torsoH).toFixed(1)} ${(topW - 1.0).toFixed(1)},${(-torsoH).toFixed(1)} L ${(-topW + 1.0).toFixed(1)},${(-torsoH).toFixed(1)} Q ${(-topW).toFixed(1)},${(-torsoH).toFixed(1)} ${(-topW).toFixed(1)},${(-torsoH + 1.0).toFixed(1)} Z`);
         torsoShade.setAttribute("d", `M ${(-hw + 0.5).toFixed(1)},-0.5 L ${(-hw * 0.35).toFixed(1)},-0.5 L ${(-topW * 0.35).toFixed(1)},${(-torsoH + 0.7).toFixed(1)} L ${(-topW + 0.6).toFixed(1)},${(-torsoH + 0.7).toFixed(1)} Z`);
         chestPanel.setAttribute("d", `M ${(-hw * 0.42).toFixed(1)},${(-torsoH * 0.66).toFixed(1)} L ${(hw * 0.42).toFixed(1)},${(-torsoH * 0.66).toFixed(1)} M ${(-hw * 0.32).toFixed(1)},${(-torsoH * 0.42).toFixed(1)} L ${(hw * 0.24).toFixed(1)},${(-torsoH * 0.42).toFixed(1)}`);
@@ -1242,56 +1264,57 @@
         let bBend = 1;
 
         if (evo < 0.8) {
-          // Era 1: rigid fixed-height straight horizontal C-pincer arm
-          fHX = fSX + 6.8;
-          fHY = fSY + 0.6;
-          bHX = bSX - 1.6;
-          bHY = bSY + 4.4;
+          // Era 1: rigid fixed-height straight horizontal C-pincer arm (lifts slightly when belly-sliding)
+          fHX = fSX + (isSliding ? 4.8 : 6.4);
+          fHY = fSY + (isSliding ? -1.4 : 0.4);
+          bHX = bSX - 1.5;
+          bHY = bSY + 4.0;
           fBend = 0.2;
         } else if (armPose === "cot") {
-          // Era 2: left hand props chin, right hand lifts parchment
-          bHX = headX + 2.2;
-          bHY = headY + 3.8;
-          fHX = fSX + 7.8;
-          fHY = fSY + 2.2 + liftY * 0.65;
-          bBend = 1;
+          // Era 2: visible foreground arm props chin in CoT pose, back arm lifts parchment
+          fHX = headX + 2.4;
+          fHY = headY + 3.8;
+          bHX = bSX + 9.2;
+          bHY = fSY + 2.0 + liftY * 0.65;
+          fBend = 1.05;
+          bBend = 0.4;
         } else if (armPose === "bonk") {
-          // Era 3: hand clutches bonked forehead
-          bHX = headX + 3.4;
-          bHY = headY - 1.2;
-          fHX = fSX + 3.8;
-          fHY = fSY + 4.6;
-          bBend = 1;
+          // Era 3: foreground hand clutches bonked forehead cleanly
+          fHX = headX + 3.2;
+          fHY = headY - 1.0;
+          bHX = bSX + 3.5;
+          bHY = bSY + 4.8;
+          fBend = 1.0;
         } else if (armPose === "wrench") {
-          // Era 3: right wrench arm reaches straight out to cross-valve (y = -13.6)
-          fHX = fSX + 8.6;
+          // Era 3: right wrench arm reaches straight out to grip left spoke of cross-valve
+          fHX = fSX + 7.2;
           fHY = -13.6;
           bHX = bSX - 2.4;
-          bHY = bSY + 6.0;
+          bHY = bSY + 5.8;
           fBend = 0.35;
         } else if (armPose === "press") {
-          // Era 4: right hand reaches out to depress checkpoint plunger (y = -19.2)
-          fHX = fSX + 11.4;
-          fHY = -19.2;
+          // Era 4: right hand arcs cleanly OVER boom to depress checkpoint plunger
+          fHX = fSX + 11.2;
+          fHY = -19.8;
           bHX = bSX - 2.0;
-          bHY = bSY + 6.5;
-          fBend = 0.35;
+          bHY = bSY + 6.2;
+          fBend = -0.55;
         } else if (armPose === "dock") {
           // Era 5 Suit-Up Stance: arms held heroically outward while modules converge!
-          fHX = shoulderX + 6.2;
-          fHY = fSY + armLen - 1.4;
-          bHX = shoulderX - 6.2;
-          bHY = bSY + armLen - 1.4;
-          fBend = -0.6;
-          bBend = 0.6;
+          fHX = shoulderX + 7.2;
+          fHY = fSY + armLen - 1.5;
+          bHX = shoulderX - 7.2;
+          bHY = bSY + armLen - 1.5;
+          fBend = -0.55;
+          bBend = 0.55;
         } else if (armPose === "launch") {
-          // Era 5 Iron Man Takeoff: arms angled cleanly outward, palms down!
-          fHX = shoulderX + 7.6;
-          fHY = fSY + armLen - 1.4;
-          bHX = shoulderX - 7.6;
-          bHY = bSY + armLen - 1.4;
-          fBend = -0.4;
-          bBend = 0.4;
+          // Era 5 Iron Man Takeoff: wide heroic flare outward so palm repulsor plumes have clean negative space!
+          fHX = shoulderX + 10.6;
+          fHY = fSY + armLen - 2.2;
+          bHX = shoulderX - 10.6;
+          bHY = bSY + armLen - 2.2;
+          fBend = -0.45;
+          bBend = 0.45;
         }
 
         const fElb = solveElbow(fSX, fSY, fHX, fHY, fBend);
@@ -1315,37 +1338,42 @@
         const pincerW = 1 - smooth(0.65, 0.95, evo);
         pincerEl.setAttribute("opacity", pincerW.toFixed(2));
         if (pincerW > 0.02) {
-          const gap = 2.0 - pincerSnap * 1.45;
-          pincerEl.setAttribute("d", `M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.5,${(-gap).toFixed(1)} l 1.6,0 M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.5,${gap.toFixed(1)} l 1.6,0`);
+          const gap = 1.9 - pincerSnap * 1.35;
+          pincerEl.setAttribute("d", `M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.3,${(-gap).toFixed(1)} l 1.5,0 M ${fHX.toFixed(1)},${fHY.toFixed(1)} l 2.3,${gap.toFixed(1)} l 1.5,0`);
         }
 
-        // Era 3-4 Precision square-jaw wrench on right forearm
+        // Era 3 Sculpted open-end C-spanner wrench with warm-paper fill (reads cleanly over valve)
         wrenchEl.setAttribute("opacity", wrenchW.toFixed(2));
         if (wrenchW > 0.02) {
-          wrenchEl.setAttribute("d", `M ${fHX.toFixed(1)},${(fHY - 2.2).toFixed(1)} l 3.1,0 M ${fHX.toFixed(1)},${(fHY + 2.2).toFixed(1)} l 3.1,0 M ${fHX.toFixed(1)},${(fHY - 2.2).toFixed(1)} l 0,4.4`);
+          wrenchEl.setAttribute("d", `M ${(fHX - 0.5).toFixed(1)},${(fHY - 2.3).toFixed(1)} L ${(fHX + 3.2).toFixed(1)},${(fHY - 2.3).toFixed(1)} L ${(fHX + 3.2).toFixed(1)},${(fHY - 1.1).toFixed(1)} L ${(fHX + 1.2).toFixed(1)},${(fHY - 1.1).toFixed(1)} L ${(fHX + 1.2).toFixed(1)},${(fHY + 1.1).toFixed(1)} L ${(fHX + 3.2).toFixed(1)},${(fHY + 1.1).toFixed(1)} L ${(fHX + 3.2).toFixed(1)},${(fHY + 2.3).toFixed(1)} L ${(fHX - 0.5).toFixed(1)},${(fHY + 2.3).toFixed(1)} Z`);
         }
 
-        // Era 5 Iron Man dual-layer downward palm repulsor jets + jetpack + boot thrusters
+        // Era 5 Iron Man luminous gradient palm repulsor plumes + jetpack + boot thrusters
         if (jetPower > 0.02) {
-          const flick = 0.86 + 0.28 * Math.abs(Math.sin(now * 0.05));
-          const jLen = (6.2 + jetPower * 10.8) * flick;
-          const jW = 1.75 + jetPower * 0.7;
-          const cLen = jLen * 0.56;
-          const cW = jW * 0.46;
+          const flick = 0.88 + 0.24 * Math.abs(Math.sin(now * 0.05));
+          const jLen = (7.0 + jetPower * 11.5) * flick;
+          const jW = 2.1 + jetPower * 0.65;
+          const cLen = jLen * 0.52;
+          const cW = jW * 0.42;
           repulsorJets.setAttribute("opacity", clamp01(jetPower * 1.25).toFixed(2));
-          rightPalmJet.setAttribute("d", `M ${(fHX - jW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + jW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + 0.5).toFixed(1)},${(fHY + jLen).toFixed(1)} Z`);
-          rightPalmCore.setAttribute("d", `M ${(fHX - cW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + cW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + 0.2).toFixed(1)},${(fHY + cLen).toFixed(1)} Z`);
-          leftPalmJet.setAttribute("d", `M ${(bHX - jW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX + jW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX - 0.5).toFixed(1)},${(bHY + jLen).toFixed(1)} Z`);
-          leftPalmCore.setAttribute("d", `M ${(bHX - cW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX + cW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX - 0.2).toFixed(1)},${(bHY + cLen).toFixed(1)} Z`);
-          const pX = -6.4;
+          palmEmitterR.setAttribute("cx", fHX.toFixed(1));
+          palmEmitterR.setAttribute("cy", (fHY + 1.0).toFixed(1));
+          palmEmitterL.setAttribute("cx", bHX.toFixed(1));
+          palmEmitterL.setAttribute("cy", (bHY + 1.0).toFixed(1));
+          // Slight outward-angled Iron Man palm thrust plumes
+          rightPalmJet.setAttribute("d", `M ${(fHX - jW).toFixed(1)},${(fHY + 1.0).toFixed(1)} Q ${(fHX + 1.4).toFixed(1)},${(fHY + jLen * 0.55).toFixed(1)} ${(fHX + 2.2).toFixed(1)},${(fHY + jLen).toFixed(1)} Q ${(fHX + 0.6).toFixed(1)},${(fHY + jLen * 0.55).toFixed(1)} ${(fHX + jW).toFixed(1)},${(fHY + 1.0).toFixed(1)} Z`);
+          rightPalmCore.setAttribute("d", `M ${(fHX - cW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + cW).toFixed(1)},${(fHY + 1.0).toFixed(1)} L ${(fHX + 1.0).toFixed(1)},${(fHY + cLen).toFixed(1)} Z`);
+          leftPalmJet.setAttribute("d", `M ${(bHX - jW).toFixed(1)},${(bHY + 1.0).toFixed(1)} Q ${(bHX - 0.6).toFixed(1)},${(bHY + jLen * 0.55).toFixed(1)} ${(bHX - 2.2).toFixed(1)},${(bHY + jLen).toFixed(1)} Q ${(bHX - 1.4).toFixed(1)},${(bHY + jLen * 0.55).toFixed(1)} ${(bHX + jW).toFixed(1)},${(bHY + 1.0).toFixed(1)} Z`);
+          leftPalmCore.setAttribute("d", `M ${(bHX - cW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX + cW).toFixed(1)},${(bHY + 1.0).toFixed(1)} L ${(bHX - 1.0).toFixed(1)},${(bHY + cLen).toFixed(1)} Z`);
+          const pX = -6.2;
           const pY = hipY + 0.8;
-          const pLen = (5.2 + jetPower * 12.8) * flick;
-          packJet.setAttribute("d", `M ${(pX - 2.0).toFixed(1)},${pY.toFixed(1)} L ${(pX + 2.0).toFixed(1)},${pY.toFixed(1)} L ${pX.toFixed(1)},${(pY + pLen).toFixed(1)} Z`);
-          const bLen = (3.2 + jetPower * 6.8) * flick;
-          const fy1 = f1.y - totalLift + 0.4;
-          const fy2 = f2.y - totalLift + 0.4;
-          bootJetF.setAttribute("d", `M ${(f1.x - 1.1).toFixed(1)},${fy1.toFixed(1)} L ${(f1.x + 1.4).toFixed(1)},${fy1.toFixed(1)} L ${(f1.x + 0.1).toFixed(1)},${(fy1 + bLen).toFixed(1)} Z`);
-          bootJetB.setAttribute("d", `M ${(f2.x - 1.0).toFixed(1)},${fy2.toFixed(1)} L ${(f2.x + 1.2).toFixed(1)},${fy2.toFixed(1)} L ${(f2.x + 0.1).toFixed(1)},${(fy2 + bLen * 0.85).toFixed(1)} Z`);
+          const pLen = (4.8 + jetPower * 10.5) * flick;
+          packJet.setAttribute("d", `M ${(pX - 1.8).toFixed(1)},${pY.toFixed(1)} L ${(pX + 1.8).toFixed(1)},${pY.toFixed(1)} L ${pX.toFixed(1)},${(pY + pLen).toFixed(1)} Z`);
+          const bLen = (4.5 + jetPower * 8.5) * flick;
+          const fy1 = f1.y - totalLift + 0.2;
+          const fy2 = f2.y - totalLift + 0.2;
+          bootJetF.setAttribute("d", `M ${(f1.x - 1.4).toFixed(1)},${fy1.toFixed(1)} L ${(f1.x + 1.6).toFixed(1)},${fy1.toFixed(1)} L ${(f1.x + 0.1).toFixed(1)},${(fy1 + bLen).toFixed(1)} Z`);
+          bootJetB.setAttribute("d", `M ${(f2.x - 1.2).toFixed(1)},${fy2.toFixed(1)} L ${(f2.x + 1.4).toFixed(1)},${fy2.toFixed(1)} L ${(f2.x + 0.1).toFixed(1)},${(fy2 + bLen * 0.82).toFixed(1)} Z`);
         } else {
           repulsorJets.setAttribute("opacity", "0");
         }
