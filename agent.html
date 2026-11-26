@@ -52,10 +52,10 @@
 
       /* Fluid Vertical Budget Tokens (strictly tuned for 1280x700 – 1440x900) */
       --nav-h: clamp(42px, 5.6vh, 48px);
-      --era-head-h: clamp(80px, 10.8vh, 92px);
-      --era-lower-pt: clamp(10px, 1.4vh, 14px);
-      --dock-h: clamp(112px, 15vh, 122px);
-      --colophon-h: clamp(26px, 3.5vh, 30px);
+      --era-foot-h: clamp(46px, 6.2vh, 52px);
+      --era-runway-pb: 46px;
+      --dock-h: clamp(124px, 16.5vh, 136px);
+      --colophon-h: 0px;
       --page-px: clamp(18px, 2.4vw, 32px);
     }
 
@@ -134,91 +134,82 @@
       cursor: pointer;
     }
 
-    /* Live Cogs-style Mechanical Robot Avatar */
-    .bot-avatar {
-      width: 38px;
-      height: 29px;
+    /* Top-Right Live Mech Head Avatar (descends & morphs after Stage 5 takeoff!) */
+    .mech-avatar-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      width: 44px;
+      height: 36px;
+      padding: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      cursor: pointer;
+      position: relative;
+      overflow: visible;
+      opacity: 0;
+      pointer-events: none;
       transition: transform 0.22s var(--ease-out);
     }
 
-    .brand-link:hover .bot-avatar {
-      transform: scale(1.08) translateY(-0.5px);
+    .mech-avatar-btn.is-visible {
+      opacity: 1;
+      pointer-events: auto;
     }
 
-    .bot-avatar.is-nodding {
-      animation: botNod 0.34s var(--ease-out);
+    .mech-avatar-btn.is-docked:hover {
+      transform: scale(1.08) translateY(-1px);
     }
 
-    @keyframes botNod {
+    .mech-avatar-btn.is-nodding {
+      animation: mechNod 0.36s var(--ease-out);
+    }
+
+    @keyframes mechNod {
       0%   { transform: scale(1) translateY(0); }
-      45%  { transform: scale(1.04) translateY(2px); }
+      45%  { transform: scale(1.04) translateY(2.5px); }
       100% { transform: scale(1) translateY(0); }
     }
 
-    .bot-avatar svg {
-      width: 100%;
-      height: 100%;
+    .mech-avatar-btn svg {
+      width: 44px;
+      height: 36px;
       overflow: visible;
       display: block;
     }
 
-    .bot-led {
-      animation: botLedPulse 3.2s ease-in-out infinite;
+    .mech-ant-tip {
+      animation: mechLedPulse 3.2s ease-in-out infinite;
     }
 
-    @keyframes botLedPulse {
-      0%, 100% { opacity: 0.42; }
+    @keyframes mechLedPulse {
+      0%, 100% { opacity: 0.55; }
       50%      { opacity: 1; }
     }
 
-    .bot-eyes-idle {
+    .mech-eyes-idle {
       transform-box: fill-box;
       transform-origin: center center;
       transition: transform 0.09s ease-in-out, opacity 0.14s ease;
     }
 
-    .bot-avatar.is-blinking .bot-eyes-idle {
-      transform: scaleY(0.08);
+    .mech-avatar-btn.is-blinking .mech-eyes-idle {
+      transform: scaleY(0.1);
     }
 
-    .bot-eyes-happy {
+    .mech-eyes-happy {
       opacity: 0;
       transition: opacity 0.14s ease;
     }
 
-    .brand-link:hover .bot-eyes-idle {
+    .mech-avatar-btn.is-docked:hover .mech-eyes-idle {
       opacity: 0;
     }
 
-    .brand-link:hover .bot-eyes-happy {
+    .mech-avatar-btn.is-docked:hover .mech-eyes-happy {
       opacity: 1;
-    }
-
-    /* Temporary live switcher pill for picking favorite robot */
-    .bot-cycle-btn {
-      appearance: none;
-      border: 1px solid var(--hairline-mid);
-      background-color: var(--stone-surface);
-      color: var(--ink-secondary);
-      font-family: var(--font-mono);
-      font-size: 10px;
-      line-height: 1;
-      padding: 4px 8px;
-      border-radius: 999px;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: border-color 0.16s ease, color 0.16s ease, background-color 0.16s ease;
-    }
-
-    .bot-cycle-btn:hover {
-      border-color: var(--vermilion);
-      color: var(--ink-primary);
-      background-color: var(--paper);
     }
 
     .brand-sub {
@@ -236,6 +227,11 @@
       height: 100%;
       gap: clamp(16px, 2vw, 26px);
       flex-shrink: 0;
+      pointer-events: none;
+    }
+
+    .nav-links.is-revealed {
+      pointer-events: auto;
     }
 
     .nav-btn {
@@ -253,7 +249,19 @@
       align-items: center;
       gap: 5px;
       letter-spacing: 0.02em;
+      opacity: 0;
+      transform: translateX(8px);
       transition: color 0.16s ease;
+    }
+
+    .mech-scan-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 35;
+      overflow: visible;
     }
 
     .nav-btn:hover {
@@ -325,7 +333,7 @@
       position: absolute;
       left: var(--page-px);
       right: var(--page-px);
-      top: calc(clamp(4px, 0.7vh, 8px) + var(--era-head-h) - 42px);
+      bottom: calc(clamp(4px, 0.8vh, 8px) + var(--era-foot-h) - 2px);
       height: 44px;
       pointer-events: none;
       z-index: 40;
@@ -349,7 +357,7 @@
       position: absolute;
       left: 0;
       right: 1px;
-      top: var(--era-head-h);
+      bottom: var(--era-foot-h);
       height: 1.5px;
       background-color: rgba(29, 27, 24, 0.36);
       pointer-events: none;
@@ -371,7 +379,7 @@
     .era-col {
       position: relative;
       display: grid;
-      grid-template-rows: var(--era-head-h) minmax(0, 1fr);
+      grid-template-rows: minmax(0, 1fr) var(--era-foot-h);
       border-left: 1px solid var(--hairline);
       min-width: 0;
       min-height: 0;
@@ -387,13 +395,13 @@
       background-color: rgba(230, 239, 232, 0.42);
     }
 
-    /* Warm rice-paper bottom fade mask when a column overflows vertically */
+    /* Warm rice-paper fade mask right above the robot runway when a column overflows vertically */
     .era-scroll-mask {
       position: absolute;
       left: 1px;
       right: 0;
-      bottom: 0;
-      height: 24px;
+      bottom: calc(var(--era-foot-h) + var(--era-runway-pb) - 6px);
+      height: 22px;
       background: linear-gradient(to bottom, rgba(250, 248, 244, 0) 0%, var(--paper) 92%);
       pointer-events: none;
       opacity: 0;
@@ -408,14 +416,14 @@
     /* Spine Milestone Dot aligned directly on each column's left vertical stem */
     .spine-dot {
       position: absolute;
-      top: var(--era-head-h);
+      bottom: var(--era-foot-h);
       left: 20.5px;
       width: 8px;
       height: 8px;
       border-radius: 50%;
       background-color: var(--paper);
       border: 1.5px solid var(--ink-hollow);
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, 50%);
       z-index: 4;
       transition: all 0.24s var(--ease-out);
     }
@@ -436,12 +444,12 @@
       box-shadow: 0 0 0 3.5px rgba(184, 59, 42, 0.16);
     }
 
-    /* Upper Zone: Era Title + Era Year + Whisper */
+    /* Footer Zone (below Timeline Spine): Era Title + Era Year + Concise Whisper */
     .era-upper {
-      padding: 0 clamp(10px, 1.1vw, 16px) clamp(38px, 4.8vh, 43px) 20px;
+      padding: 10px clamp(10px, 1.1vw, 16px) 2px 20px;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: flex-start;
       min-width: 0;
       overflow: hidden;
     }
@@ -453,7 +461,7 @@
     .era-title-row {
       display: flex;
       align-items: baseline;
-      gap: 7px;
+      gap: 6px;
       min-width: 0;
     }
 
@@ -481,7 +489,7 @@
     }
 
     .era-whisper {
-      margin-top: clamp(2px, 0.35vh, 4px);
+      margin-top: 2px;
       font-size: clamp(10px, 0.8vw, 11.2px);
       color: var(--ink-secondary);
       opacity: 0.82;
@@ -491,9 +499,9 @@
       text-overflow: ellipsis;
     }
 
-    /* Lower Zone: Compact Fine-Twig Catalog with Invisible Local Scroll Fallback */
+    /* Upper Catalog Zone (rising upward from Timeline Spine, bottom-aligned above robot runway) */
     .era-lower {
-      padding: var(--era-lower-pt) clamp(6px, 0.75vw, 12px) 10px 20px;
+      padding: 10px clamp(6px, 0.75vw, 12px) var(--era-runway-pb) 20px;
       display: flex;
       flex-direction: column;
       min-width: 0;
@@ -516,9 +524,10 @@
     .twig-list {
       list-style: none;
       flex: 0 0 auto;
+      margin-top: auto;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: flex-end;
       position: relative;
       min-width: 0;
     }
@@ -533,7 +542,7 @@
       min-width: 0;
     }
 
-    /* Vertical 1px stem segment running down left edge (x = 0, centered under spine-dot) */
+    /* Vertical 1px stem segment rising upward from bottom spine-dot */
     .twig-item::before {
       content: "";
       position: absolute;
@@ -546,19 +555,19 @@
       transition: background-color 0.25s ease;
     }
 
-    /* Connect first twig stem flush to the bottom edge of the 8px spine milestone dot */
+    /* Terminate top twig stem cleanly at the horizontal arm of the topmost row */
     .twig-item:first-child::before {
-      top: calc(-1 * var(--era-lower-pt) + 4px);
+      top: 15px;
     }
 
-    /* Terminate last twig stem cleanly at the horizontal arm of its row */
+    /* Connect bottom twig stem down through the runway flush to the top edge of the 8px spine-dot */
     .twig-item:last-child::before {
-      bottom: auto;
-      height: 15px;
+      bottom: calc(-1 * var(--era-runway-pb) + 4px);
     }
 
     .twig-item:first-child:last-child::before {
-      height: calc(var(--era-lower-pt) - 4px + 15px);
+      top: 15px;
+      bottom: calc(-1 * var(--era-runway-pb) + 4px);
     }
 
     /* Lit trunk path from spine-dot down to the furthest published twig in column */
@@ -680,14 +689,11 @@
     .twig-title {
       flex: 1 1 auto;
       min-width: 0;
-      font-size: clamp(11.8px, 0.86vw, 12.5px);
+      font-size: clamp(11.4px, 0.84vw, 12.2px);
       line-height: 1.32;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
+      white-space: nowrap;
       overflow: hidden;
-      word-break: break-word;
-      text-wrap: pretty;
+      text-overflow: ellipsis;
       letter-spacing: 0.005em;
       transition: color 0.16s ease;
     }
@@ -706,7 +712,7 @@
     }
 
     .twig-badge.is-multi {
-      padding: 2px 4.5px;
+      padding: 2px 4px;
       color: var(--bamboo-4);
       background-color: rgba(45, 106, 71, 0.10);
       font-weight: 500;
@@ -799,10 +805,8 @@
       font-weight: 600;
     }
 
-    .twig-item.is-published.is-flagship .twig-badge:not(.is-multi) {
-      padding: 2px 4px;
+    .twig-item.is-published.is-flagship .twig-badge {
       color: var(--vermilion);
-      background-color: rgba(184, 59, 42, 0.085);
     }
 
     /* State: Standard Published */
@@ -893,7 +897,7 @@
     .bottom-dock {
       flex: 0 0 var(--dock-h);
       height: var(--dock-h);
-      border-top: 1px solid var(--hairline);
+      border-bottom: 1px solid var(--hairline);
       padding: 0 var(--page-px);
       display: grid;
       grid-template-columns: auto minmax(280px, 1fr);
@@ -903,17 +907,20 @@
 
     /* LEFT: Authentic GitHub-Style Publish Contribution Graph */
     .dock-footprint {
-      padding: 6px clamp(16px, 2vw, 26px) 6px 0;
+      padding: 8px clamp(16px, 2vw, 26px) 7px 0;
       display: flex;
       flex-direction: column;
       justify-content: center;
+      gap: 5px;
       min-width: 0;
       min-height: 0;
       overflow: hidden;
     }
 
     .fp-readout {
-      font-size: 11px;
+      padding-left: 19px;
+      font-size: 10.5px;
+      line-height: 1.25;
       color: var(--ink-muted);
       white-space: nowrap;
       overflow: hidden;
@@ -1793,14 +1800,8 @@
     <!-- =====================================================================
          BAND 1: MINIMAL TOP NAVIGATION BAR (~48px)
          ===================================================================== -->
-    <header class="top-nav">
-      <div class="brand-cluster">
-        <a class="brand-link" id="brand-home" href="#home" aria-label="返回首页">
-          <span class="bot-avatar" id="bot-avatar" aria-hidden="true"></span>
-        </a>
-        <button class="bot-cycle-btn" id="bot-cycle-btn" type="button" title="点击切换 6 款动态机械小头">换脸 01/06 · 朱砂八角</button>
-      </div>
-
+    <header class="top-nav" id="top-nav">
+      <button class="mech-avatar-btn" id="mech-avatar-btn" type="button" aria-label="动态机械头像 · 返回首页" title="点击返回图谱首页"></button>
       <nav class="nav-links" id="nav-links" aria-label="主导航">
         <button class="nav-btn is-active" type="button" data-view="home">图谱首页</button>
         <button class="nav-btn" type="button" data-view="articles">全部文章</button>
@@ -1812,29 +1813,23 @@
          VIEW 1: HOMEPAGE — ZERO-SCROLL 100vh LOCKED
          ===================================================================== -->
     <div class="view-panel home-view is-visible" id="view-home">
-      <!-- BAND 2: MAIN SKELETON STAGE ("02 · 细枝目录卷") -->
-      <main class="skeleton-stage" aria-label="Agent 五时代细枝演进图谱">
-        <div class="skeleton-grid" id="skeleton-grid"></div>
-        <div class="evo-walker-layer" id="evo-walker-layer" aria-hidden="true"></div>
-      </main>
-
-      <!-- BAND 3: BOTTOM DOCK (53-week 1:1 GitHub Publish Graph + Recent Posts) -->
+      <!-- BAND 2: UPPER OVERVIEW BAND (53-week 1:1 GitHub Publish Graph + Recent Posts) -->
       <section class="bottom-dock" aria-label="发文足迹与最近发布">
-        <!-- Left: Pure Publish GitHub Contribution Graph -->
+        <!-- Left: Pure Publish GitHub Contribution Graph + Inline Readout -->
         <div class="dock-footprint">
           <div class="fp-canvas" id="fp-canvas"></div>
+          <span class="fp-readout" id="fp-readout"></span>
         </div>
 
         <!-- Right: 最近发布 -->
         <aside class="dock-latest" id="dock-latest" aria-label="最近发布"></aside>
       </section>
 
-      <!-- BAND 4: ULTRA-SLIM BOTTOM COLOPHON (~28px) -->
-      <footer class="colophon">
-        <div class="colophon-left">
-          <span class="fp-readout" id="fp-readout"></span>
-        </div>
-      </footer>
+      <!-- BAND 3: MAIN SKELETON STAGE ("02 · 细枝目录卷") -->
+      <main class="skeleton-stage" aria-label="Agent 五时代细枝演进图谱">
+        <div class="skeleton-grid" id="skeleton-grid"></div>
+        <div class="evo-walker-layer" id="evo-walker-layer" aria-hidden="true"></div>
+      </main>
     </div>
 
     <!-- =====================================================================
@@ -1891,6 +1886,9 @@
     </main>
   </div>
 
+  <!-- Full-Viewport Twin-Eye Scanner Overlay -->
+  <svg class="mech-scan-overlay" id="mech-scan-overlay" aria-hidden="true"></svg>
+
   <!-- Quiet Floating Tooltip -->
   <div class="quiet-tip" id="quiet-tip" role="tooltip"></div>
 
@@ -1916,11 +1914,12 @@
             num: "01",
             year: "1950s–2016",
             title: "规则与 RPA 期",
-            whisper: "有手脚，没大脑 · 困于长尾例外",
+            whisper: "有手脚，无大脑",
             nodes: [
               {
                 id: "n01",
-                title: "专家系统与死规则边界",
+                title: "专家系统",
+                articleTitle: "专家系统与死规则边界",
                 kw: "Symbolic AI",
                 pubStage: 2,
                 date: "2026-06-12",
@@ -1934,7 +1933,8 @@
               },
               {
                 id: "n01b",
-                title: "有限状态机与确定性编排",
+                title: "有限状态机 FSM",
+                articleTitle: "有限状态机与确定性编排",
                 kw: "FSM",
                 pubStage: 3,
                 date: "2026-01-12",
@@ -1947,7 +1947,8 @@
               },
               {
                 id: "n02",
-                title: "RPA 脚本为何脆弱",
+                title: "RPA 自动化",
+                articleTitle: "RPA 脚本为何脆弱",
                 kw: "RPA",
                 pubStage: 2,
                 date: "2026-07-04",
@@ -1961,7 +1962,8 @@
               },
               {
                 id: "n02b",
-                title: "规则引擎与工作流 DAG",
+                title: "工作流 DAG",
+                articleTitle: "规则引擎与工作流 DAG",
                 kw: "Workflow DAG",
                 pubStage: 2,
                 date: "2026-06-24",
@@ -1974,7 +1976,8 @@
               },
               {
                 id: "n03",
-                title: "从规则到泛化的鸿沟",
+                title: "传统多智能体",
+                articleTitle: "从规则到泛化的鸿沟",
                 kw: "History",
                 pubStage: 3,
                 date: "2026-01-22",
@@ -1992,11 +1995,12 @@
             num: "02",
             year: "2017–2022",
             title: "通用大脑诞生",
-            whisper: "大脑正式上线 · 注意力桌面诞生",
+            whisper: "通用大脑上线",
             nodes: [
               {
                 id: "n04",
-                title: "Transformer 注意力直觉",
+                title: "Transformer",
+                articleTitle: "Transformer 注意力直觉",
                 kw: "Foundation",
                 pubStage: 3,
                 date: "2026-02-10",
@@ -2009,7 +2013,8 @@
               },
               {
                 id: "n04b",
-                title: "预训练、SFT 与 RLHF 对齐",
+                title: "SFT 与 RLHF",
+                articleTitle: "预训练、SFT 与 RLHF 对齐",
                 kw: "Alignment",
                 pubStage: 3,
                 date: "2026-02-18",
@@ -2022,7 +2027,8 @@
               },
               {
                 id: "n05",
-                title: "上下文学习 ICL 原理",
+                title: "上下文学习 ICL",
+                articleTitle: "上下文学习 ICL 原理",
                 kw: "ICL",
                 pubStage: 2,
                 date: "2026-07-23",
@@ -2035,7 +2041,8 @@
               },
               {
                 id: "n05b",
-                title: "CoT 思维链与分步推理",
+                title: "思维链 CoT",
+                articleTitle: "CoT 思维链与分步推理",
                 kw: "CoT",
                 pubStage: 2,
                 date: "2026-08-01",
@@ -2048,7 +2055,8 @@
               },
               {
                 id: "n06",
-                title: "ReAct 边想边做闭环",
+                title: "ReAct 闭环",
+                articleTitle: "ReAct 边想边做闭环",
                 kw: "ReAct",
                 pubStage: 2,
                 date: "2026-08-11",
@@ -2061,7 +2069,8 @@
               },
               {
                 id: "n07",
-                title: "Prompt 工程的核心范式",
+                title: "Prompt 工程",
+                articleTitle: "Prompt 工程的核心范式",
                 kw: "Prompt",
                 pubStage: 3,
                 date: "2026-02-28",
@@ -2079,11 +2088,12 @@
             num: "03",
             year: "2023",
             title: "野蛮生长与撞墙",
-            whisper: "全自动试错撞墙 · 长出结构化之手",
+            whisper: "试错撞墙，长出手",
             nodes: [
               {
                 id: "n08",
-                title: "AutoGPT 狂潮与失控复盘",
+                title: "AutoGPT",
+                articleTitle: "AutoGPT 狂潮与失控复盘",
                 kw: "AutoGPT",
                 pubStage: 3,
                 date: "2026-03-14",
@@ -2096,7 +2106,8 @@
               },
               {
                 id: "n09",
-                title: "Chain 为什么是一条直线",
+                title: "Chain 管道",
+                articleTitle: "Chain 为什么是一条直线",
                 kw: "Chain",
                 pubStage: 2,
                 date: "2026-08-29",
@@ -2109,7 +2120,8 @@
               },
               {
                 id: "n10",
-                title: "Naive RAG 检索流水线",
+                title: "Naive RAG",
+                articleTitle: "Naive RAG 检索流水线",
                 kw: "RAG",
                 pubStage: 3,
                 date: "2026-03-29",
@@ -2122,7 +2134,8 @@
               },
               {
                 id: "n10b",
-                title: "Embedding 与混合检索基础",
+                title: "混合检索 & Rerank",
+                articleTitle: "Embedding 与混合检索基础",
                 kw: "Hybrid Search",
                 pubStage: 2,
                 date: "2026-09-06",
@@ -2135,7 +2148,8 @@
               },
               {
                 id: "n11",
-                title: "Function Calling 与 JSON",
+                title: "Function Calling",
+                articleTitle: "Function Calling 与 JSON",
                 kw: "Tools",
                 pubStage: 2,
                 date: "2026-09-14",
@@ -2148,7 +2162,8 @@
               },
               {
                 id: "n11b",
-                title: "多轮对话状态与窗口截断",
+                title: "对话记忆与窗口",
+                articleTitle: "多轮对话状态与窗口截断",
                 kw: "Chat Memory",
                 pubStage: 3,
                 date: "2026-04-03",
@@ -2166,11 +2181,11 @@
             num: "04",
             year: "2024",
             title: "从聊天到干活",
-            whisper: "手眼脑全贯通 · 状态机接管线上",
+            whisper: "手眼脑通，状态机",
             nodes: [
               {
                 id: "n12",
-                title: "LangChain 到 LangGraph",
+                title: "LangGraph 状态机",
                 kw: "LangGraph",
                 summary: "分清“乐高积木”与“拼装方式”，从线上无状态架构彻底看懂状态机与 Checkpointer 存档演进。",
                 posts: [
@@ -2202,7 +2217,8 @@
               },
               {
                 id: "n13",
-                title: "Agentic RAG 意图路由",
+                title: "Agentic RAG",
+                articleTitle: "Agentic RAG 意图路由",
                 kw: "Agentic RAG",
                 pubStage: 2,
                 date: "2026-09-28",
@@ -2215,7 +2231,8 @@
               },
               {
                 id: "n13b",
-                title: "工作流编排五大设计模式",
+                title: "Workflow 五大模式",
+                articleTitle: "工作流编排五大设计模式",
                 kw: "Workflow Patterns",
                 pubStage: 2,
                 date: "2026-10-14",
@@ -2228,7 +2245,7 @@
               },
               {
                 id: "n14",
-                title: "MCP 统一工具插座",
+                title: "MCP 协议",
                 kw: "MCP",
                 summary: "AI 界的 Type-C 标准接口：靠统一协议与自动服务发现终结胶水代码，但也必须警惕插满工具撑爆桌面。",
                 posts: [
@@ -2262,7 +2279,8 @@
               },
               {
                 id: "n15",
-                title: "Computer Use 看屏操作",
+                title: "Computer Use",
+                articleTitle: "Computer Use 看屏操作",
                 kw: "GUI Agent",
                 pubStage: 3,
                 date: "2026-04-18",
@@ -2275,7 +2293,8 @@
               },
               {
                 id: "n15b",
-                title: "Coding Agent 与终端闭环",
+                title: "Coding Agent",
+                articleTitle: "Coding Agent 与终端闭环",
                 kw: "Coding Agent",
                 pubStage: 3,
                 date: "2026-04-18",
@@ -2288,7 +2307,8 @@
               },
               {
                 id: "n16",
-                title: "推理模型与长程规划",
+                title: "推理模型",
+                articleTitle: "推理模型与长程规划",
                 kw: "Reasoning",
                 pubStage: 3,
                 date: "2026-04-26",
@@ -2306,11 +2326,11 @@
             num: "05",
             year: "2025–2026",
             title: "驾驭工程与产品化",
-            whisper: "卷外围马具底座 · 迈向生产工程",
+            whisper: "卷马具，进生产",
             nodes: [
               {
                 id: "n17",
-                title: "上下文工程与清理桌面",
+                title: "上下文工程",
                 kw: "Context",
                 summary: "发现 Agent 越跑越傻、开始忘规矩时，别光死磕改 Prompt——优先清理长历史和脏工具日志，把高信噪比还给桌面。",
                 posts: [
@@ -2344,7 +2364,8 @@
               },
               {
                 id: "n18",
-                title: "Skills 渐进式披露手册",
+                title: "Agent Skills",
+                articleTitle: "Skills 渐进式披露手册",
                 kw: "Skills",
                 pubStage: 2,
                 date: "2026-11-09",
@@ -2357,7 +2378,8 @@
               },
               {
                 id: "n18b",
-                title: "Prompt Caching 与成本延迟",
+                title: "Prompt Caching",
+                articleTitle: "Prompt Caching 与成本延迟",
                 kw: "Prompt Cache",
                 pubStage: 2,
                 date: "2026-11-14",
@@ -2370,7 +2392,8 @@
               },
               {
                 id: "n19",
-                title: "Multi-Agent 上下文隔离",
+                title: "Multi-Agent 隔离",
+                articleTitle: "Multi-Agent 上下文隔离",
                 kw: "Multi-Agent",
                 pubStage: 3,
                 date: "2026-05-08",
@@ -2383,7 +2406,8 @@
               },
               {
                 id: "n20",
-                title: "长期记忆遗忘与 LLM Wiki",
+                title: "长期记忆 & LLM Wiki",
+                articleTitle: "长期记忆遗忘与 LLM Wiki",
                 kw: "Memory",
                 pubStage: 3,
                 date: "2026-05-28",
@@ -2396,7 +2420,8 @@
               },
               {
                 id: "n21",
-                title: "安全沙箱与 Evals 闭环",
+                title: "沙箱与 Evals",
+                articleTitle: "安全沙箱与 Evals 闭环",
                 kw: "Sandbox & Evals",
                 pubStage: 3,
                 date: "2026-05-28",
@@ -2409,7 +2434,8 @@
               },
               {
                 id: "n21b",
-                title: "Human-in-the-loop 与权限分级",
+                title: "HITL 权限护栏",
+                articleTitle: "Human-in-the-loop 与权限分级",
                 kw: "HITL & Safety",
                 pubStage: 3,
                 date: "2026-05-28",
@@ -2422,7 +2448,8 @@
               },
               {
                 id: "n22",
-                title: "Harness 驾驭工程与协议",
+                title: "Harness 驾驭工程",
+                articleTitle: "Harness 驾驭工程与协议",
                 kw: "Harness & Jev",
                 pubStage: 3,
                 date: "2026-06-03",
@@ -2448,6 +2475,41 @@
       const CAL_START = new Date(CAL_END);
       CAL_START.setDate(CAL_END.getDate() - (TOTAL_DAYS - 1)); // Sun 2025-11-23
 
+      const NODE_MILESTONES = {
+        n01:  "1970s–1980s · 符号主义与专家系统",
+        n01b: "1950s · Moore / Mealy 有限状态机",
+        n02:  "2000s–2010s · 桌面流程自动化 RPA",
+        n02b: "2014 · Apache Airflow 等工作流 DAG",
+        n03:  "1980s–2010s · 经典多智能体理论",
+        n04:  "2017.06 · Attention Is All You Need",
+        n04b: "2022.03 · InstructGPT 与 RLHF 对齐",
+        n05:  "2020.05 · GPT-3 上下文学习论文",
+        n05b: "2022.01 · Chain-of-Thought 论文",
+        n06:  "2022.10 · ReAct 论文",
+        n07:  "2022–2023 · Prompt 工程实践共识",
+        n08:  "2023.03 · AutoGPT 开源爆火",
+        n09:  "2022.10–2023 · LangChain LCEL 管道",
+        n10:  "2020 论文 · 2023 LLM 工程落地爆发",
+        n10b: "2023 · BM25 + 向量 + Rerank 检索基线",
+        n11:  "2023.06 · OpenAI Function Calling 首发",
+        n11b: "2023 · 早期多轮窗口截断与摘要",
+        n12:  "2024.01 · LangGraph 状态机框架发布",
+        n13:  "2024 · 意图路由与自反思 Agentic RAG",
+        n13b: "2024.12 · Anthropic Building Effective Agents",
+        n14:  "2024.11 · Anthropic 开源 MCP 协议",
+        n15:  "2024.10 · Claude 3.5 Computer Use",
+        n15b: "2024 · SWE-agent / Claude Code 终端闭环",
+        n16:  "2024.09 · OpenAI o1 推理模型首发",
+        n17:  "2025 · Context Engineering 行业共识",
+        n18:  "2025 · 模块化 SOP 与 Agent Skills",
+        n18b: "2024.08–2025 · Prompt Caching 普及",
+        n19:  "2025 · Multi-Agent 上下文隔离实践",
+        n20:  "2025–2026 · 长期记忆衰减与 LLM Wiki",
+        n21:  "2025 · 隔离沙箱与 Tracing / Evals 闭环",
+        n21b: "2025 · 生产级 HITL 审批与权限分级",
+        n22:  "2025–2026 · Harness 驾驭工程与 AG-UI / A2A"
+      };
+
       const NODE_MAP = new Map();
       const POST_MAP = new Map();
       const ALL_NODES = [];
@@ -2459,8 +2521,8 @@
             : [
                 {
                   id: `${rawNode.id}-p1`,
-                  title: rawNode.fullTitle || rawNode.title,
-                  shortTitle: rawNode.title,
+                  title: rawNode.articleTitle || rawNode.fullTitle || rawNode.title,
+                  shortTitle: rawNode.articleTitle || rawNode.title,
                   pubStage: rawNode.pubStage,
                   isFlagship: !!rawNode.isFlagship,
                   date: rawNode.date,
@@ -2474,6 +2536,7 @@
             id: rawNode.id,
             title: rawNode.title,
             kw: rawNode.kw,
+            milestone: NODE_MILESTONES[rawNode.id] || rawNode.kw,
             summary: rawNode.summary || (rawPosts[0] && rawPosts[0].summary) || "",
             era,
             eraIdx,
@@ -2513,7 +2576,6 @@
       };
 
       /* DOM Elements */
-      const brandHomeEl = document.getElementById("brand-home");
       const navLinksEl = document.getElementById("nav-links");
       const views = {
         home: document.getElementById("view-home"),
@@ -2680,7 +2742,7 @@
                 const pub = pubs.length > 0;
                 const flagship = hasFlagshipPost(node);
                 const isMulti = pubs.length >= 2;
-                const isCollapsed = isMulti && state.collapsedNodes.has(node.id);
+                const isCollapsed = pub && state.collapsedNodes.has(node.id);
 
                 const stemCls =
                   idx <= lastPubIdx
@@ -2695,6 +2757,7 @@
                   "twig-item",
                   pub ? "is-published" : "is-planned",
                   pub && flagship ? "is-flagship" : "",
+                  pub ? "is-has-branches" : "",
                   isMulti ? "is-multi-node" : "",
                   isCollapsed ? "is-collapsed" : "",
                   stemCls,
@@ -2705,16 +2768,12 @@
 
                 let badgeHtml = "";
                 if (pub) {
-                  if (isMulti) {
-                    const caret = isCollapsed ? "▸" : "▾";
-                    badgeHtml = `<span class="twig-badge is-multi" title="点击折叠或展开子文章">${pubs.length}篇 ${caret}</span>`;
-                  } else {
-                    badgeHtml = `<span class="twig-badge">${esc(pubs[0].date.slice(5))}</span>`;
-                  }
+                  const caret = isCollapsed ? "▸" : "▾";
+                  badgeHtml = `<span class="twig-badge" title="点击折叠或展开文章分支">${caret}</span>`;
                 }
 
                 let subListHtml = "";
-                if (isMulti) {
+                if (pub) {
                   const subItems = pubs
                     .map((p) => {
                       const subCls = ["sub-twig-btn", p.isFlagship ? "is-flagship-sub" : ""]
@@ -2725,7 +2784,6 @@
                           <button class="${subCls}" type="button" data-open-article="${p.id}" data-node-id="${node.id}" title="${esc(p.title)}">
                             <span class="sub-twig-branch" aria-hidden="true">└</span>
                             <span class="sub-twig-title">${esc(p.shortTitle)}</span>
-                            <span class="sub-twig-date">${esc(p.date.slice(5))}</span>
                           </button>
                         </li>
                       `;
@@ -2763,6 +2821,9 @@
 
             return `
               <section class="${colCls}" data-era-id="${era.id}">
+                <div class="era-lower">
+                  <ul class="twig-list">${twigsHtml}</ul>
+                </div>
                 <span class="spine-dot ${spineCls}" aria-hidden="true"></span>
                 <header class="era-upper">
                   <div class="era-title-row">
@@ -2771,9 +2832,6 @@
                   </div>
                   <p class="era-whisper">${esc(era.whisper)}</p>
                 </header>
-                <div class="era-lower">
-                  <ul class="twig-list">${twigsHtml}</ul>
-                </div>
                 <div class="era-scroll-mask" aria-hidden="true"></div>
               </section>
             `;
@@ -3410,11 +3468,6 @@ safe_chain = chain.<span class="c-fn">with_retry</span>(stop_after_attempt=3)</c
         if (state.view === "about") renderAbout();
       }
 
-      brandHomeEl.addEventListener("click", (e) => {
-        e.preventDefault();
-        switchView("home");
-      });
-
       navLinksEl.addEventListener("click", (e) => {
         const btn = e.target.closest(".nav-btn[data-view]");
         if (!btn) return;
@@ -3445,11 +3498,14 @@ safe_chain = chain.<span class="c-fn">with_retry</span>(stop_after_attempt=3)</c
         const pubs = getPublishedPostsForNode(node);
         if (pubs.length > 0) {
           highlightFromTwig(node.id);
-          hideTip();
+          showTip(
+            `<div class="qt-meta">${esc(node.milestone)}</div><div>已收录 ${pubs.length} 篇 · 点击折叠/展开</div>`,
+            row
+          );
         } else {
           clearHoverLinks();
           resetReadout();
-          showTip(`<div class="qt-meta">${esc(node.kw)}</div><div>待研写 · 规划节点</div>`, row);
+          showTip(`<div class="qt-meta">${esc(node.milestone)}</div><div>待研写 · 规划节点</div>`, row);
         }
       });
 
@@ -3485,26 +3541,21 @@ safe_chain = chain.<span class="c-fn">with_retry</span>(stop_after_attempt=3)</c
         const pubs = getPublishedPostsForNode(node);
         if (pubs.length === 0) return;
 
-        if (pubs.length >= 2) {
-          const itemEl = row.closest(".twig-item");
-          const collapsed = state.collapsedNodes.has(node.id);
-          if (collapsed) {
-            state.collapsedNodes.delete(node.id);
-          } else {
-            state.collapsedNodes.add(node.id);
-          }
-          if (itemEl) {
-            itemEl.classList.toggle("is-collapsed", !collapsed);
-            const badge = itemEl.querySelector(".twig-badge.is-multi");
-            if (badge) {
-              badge.textContent = `${pubs.length}篇 ${!collapsed ? "▸" : "▾"}`;
-            }
-          }
-          requestAnimationFrame(updateColumnScrollMasks);
-          return;
+        const itemEl = row.closest(".twig-item");
+        const collapsed = state.collapsedNodes.has(node.id);
+        if (collapsed) {
+          state.collapsedNodes.delete(node.id);
+        } else {
+          state.collapsedNodes.add(node.id);
         }
-
-        openArticle(pubs[0].id);
+        if (itemEl) {
+          itemEl.classList.toggle("is-collapsed", !collapsed);
+          const badge = itemEl.querySelector(".twig-badge");
+          if (badge) {
+            badge.textContent = !collapsed ? "▸" : "▾";
+          }
+        }
+        requestAnimationFrame(updateColumnScrollMasks);
       });
 
       // GitHub Heatmap Hover & Click
@@ -3593,266 +3644,7 @@ safe_chain = chain.<span class="c-fn">with_retry</span>(stop_after_attempt=3)</c
         }
       });
 
-      /* =======================================================================
-         9. LIVE COGS-STYLE MECHANICAL ROBOT AVATAR (Cursor Tracking + Blink)
-         ======================================================================= */
-      const BOT_VARIANTS = [
-        {
-          id: "01",
-          name: "朱砂八角",
-          single: false,
-          eyeInner: "#F2FFFD",
-          eyeMid: "#9BEBE5",
-          eyeOuter: "#43B6AF",
-          happyColor: "#B5F5F0",
-          shell: `
-            <polygon fill="#C84634" stroke="#962E20" stroke-width="2" points="18,4 92,4 106,18 106,62 92,76 18,76 4,62 4,18"/>
-            <rect class="bot-led" fill="#FDECE8" x="40" y="9.5" width="30" height="4" rx="2"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="19" cy="15" r="2.4"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="91" cy="15" r="2.4"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="19" cy="65" r="2.4"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="91" cy="65" r="2.4"/>
-            <rect fill="#121518" stroke="#090B0D" stroke-width="1.8" x="17" y="20" width="76" height="42" rx="20"/>
-          `
-        },
-        {
-          id: "02",
-          name: "竹青八角",
-          single: false,
-          eyeInner: "#F4FFF8",
-          eyeMid: "#AEEAC5",
-          eyeOuter: "#4DA671",
-          happyColor: "#C5F5D8",
-          shell: `
-            <polygon fill="#357A53" stroke="#225337" stroke-width="2" points="18,4 92,4 106,18 106,62 92,76 18,76 4,62 4,18"/>
-            <rect class="bot-led" fill="#E5F8EC" x="40" y="9.5" width="30" height="4" rx="2"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="19" cy="15" r="2.4"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="91" cy="15" r="2.4"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="19" cy="65" r="2.4"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="91" cy="65" r="2.4"/>
-            <rect fill="#121518" stroke="#090B0D" stroke-width="1.8" x="17" y="20" width="76" height="42" rx="20"/>
-          `
-        },
-        {
-          id: "03",
-          name: "暖墨炭灰",
-          single: false,
-          eyeInner: "#FFFDF5",
-          eyeMid: "#F7DFAC",
-          eyeOuter: "#D69F52",
-          happyColor: "#FBE6BC",
-          shell: `
-            <polygon fill="#33302B" stroke="#1D1B18" stroke-width="2" points="18,4 92,4 106,18 106,62 92,76 18,76 4,62 4,18"/>
-            <rect class="bot-led" fill="#D65B47" x="40" y="9.5" width="30" height="4" rx="2"/>
-            <circle fill="#FAF8F4" fill-opacity="0.24" cx="19" cy="15" r="2.4"/>
-            <circle fill="#FAF8F4" fill-opacity="0.24" cx="91" cy="15" r="2.4"/>
-            <circle fill="#FAF8F4" fill-opacity="0.24" cx="19" cy="65" r="2.4"/>
-            <circle fill="#FAF8F4" fill-opacity="0.24" cx="91" cy="65" r="2.4"/>
-            <rect fill="#101214" stroke="#08090A" stroke-width="1.8" x="17" y="20" width="76" height="42" rx="20"/>
-          `
-        },
-        {
-          id: "04",
-          name: "宣石瓷白",
-          single: false,
-          eyeInner: "#F2FFFD",
-          eyeMid: "#9BEBE5",
-          eyeOuter: "#43B6AF",
-          happyColor: "#B5F5F0",
-          shell: `
-            <rect fill="#EBE5DA" stroke="#BDB5A7" stroke-width="2" x="4" y="6" width="102" height="68" rx="24"/>
-            <rect class="bot-led" fill="#B83B2A" x="40" y="12" width="30" height="4" rx="2"/>
-            <circle fill="#1D1B18" fill-opacity="0.26" cx="20" cy="18" r="2.3"/>
-            <circle fill="#1D1B18" fill-opacity="0.26" cx="90" cy="18" r="2.3"/>
-            <circle fill="#1D1B18" fill-opacity="0.26" cx="20" cy="62" r="2.3"/>
-            <circle fill="#1D1B18" fill-opacity="0.26" cx="90" cy="62" r="2.3"/>
-            <rect fill="#121518" stroke="#090B0D" stroke-width="1.8" x="17" y="21" width="76" height="40" rx="19"/>
-          `
-        },
-        {
-          id: "05",
-          name: "猫耳朱砂",
-          single: false,
-          eyeInner: "#F2FFFD",
-          eyeMid: "#9BEBE5",
-          eyeOuter: "#43B6AF",
-          happyColor: "#B5F5F0",
-          shell: `
-            <path fill="#C84634" stroke="#962E20" stroke-width="2" d="M 10,16 L 20,4 L 38,14 L 72,14 L 90,4 L 100,16 L 105,60 L 90,76 L 20,76 L 5,60 Z"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="22" cy="14" r="2.3"/>
-            <circle fill="#1D1B18" fill-opacity="0.34" cx="88" cy="14" r="2.3"/>
-            <rect fill="#121518" stroke="#090B0D" stroke-width="1.8" x="17" y="21" width="76" height="41" rx="19"/>
-            <rect class="bot-led" fill="#FDECE8" x="42" y="67" width="26" height="3.6" rx="1.8"/>
-          `
-        },
-        {
-          id: "06",
-          name: "六棱单眼",
-          single: true,
-          eyeInner: "#F5FFFD",
-          eyeMid: "#9CEBE6",
-          eyeOuter: "#3FB0AA",
-          happyColor: "#B5F5F0",
-          shell: `
-            <polygon fill="#3B6E55" stroke="#264D3A" stroke-width="2" points="55,2 100,22 100,60 55,80 10,60 10,22"/>
-            <rect class="bot-led" fill="#E3F7EB" x="42" y="11" width="26" height="3.8" rx="1.9"/>
-            <circle fill="#1D1B18" fill-opacity="0.32" cx="23" cy="25" r="2.1"/>
-            <circle fill="#1D1B18" fill-opacity="0.32" cx="87" cy="25" r="2.1"/>
-            <circle fill="#1D1B18" fill-opacity="0.32" cx="23" cy="57" r="2.1"/>
-            <circle fill="#1D1B18" fill-opacity="0.32" cx="87" cy="57" r="2.1"/>
-            <rect fill="#121518" stroke="#090B0D" stroke-width="1.8" x="26" y="20" width="58" height="42" rx="19"/>
-          `
-        }
-      ];
 
-      const botAvatarEl = document.getElementById("bot-avatar");
-      const botCycleBtnEl = document.getElementById("bot-cycle-btn");
-      let botIdx = 0;
-      const eyeState = { tx: 0, ty: 0, cx: 0, cy: 0 };
-      let botScleraEl = null;
-      let botPupilsEl = null;
-
-      function renderBotAvatar() {
-        if (!botAvatarEl) return;
-        const v = BOT_VARIANTS[botIdx];
-        const gradId = `bot-eye-grad-${v.id}`;
-
-        const eyesIdleHtml = v.single
-          ? `
-              <g class="bot-eyes-idle">
-                <g id="bot-sclera">
-                  <rect fill="url(#${gradId})" x="34" y="25.5" width="42" height="31" rx="13"/>
-                </g>
-                <g id="bot-pupils">
-                  <circle fill="#172026" cx="55" cy="41" r="6.8"/>
-                  <circle fill="#FFFFFF" cx="57.2" cy="38.6" r="1.9"/>
-                </g>
-              </g>
-            `
-          : `
-              <g class="bot-eyes-idle">
-                <g id="bot-sclera">
-                  <rect fill="url(#${gradId})" x="25" y="26" width="27" height="30" rx="11"/>
-                  <rect fill="url(#${gradId})" x="58" y="26" width="27" height="30" rx="11"/>
-                </g>
-                <g id="bot-pupils">
-                  <circle fill="#172026" cx="38.5" cy="41" r="5.4"/>
-                  <circle fill="#FFFFFF" cx="40.3" cy="39" r="1.6"/>
-                  <circle fill="#172026" cx="71.5" cy="41" r="5.4"/>
-                  <circle fill="#FFFFFF" cx="73.3" cy="39" r="1.6"/>
-                </g>
-              </g>
-            `;
-
-        const eyesHappyHtml = v.single
-          ? `
-              <g class="bot-eyes-happy">
-                <path fill="none" stroke="${v.happyColor}" stroke-width="5.2" stroke-linecap="round" d="M 41,45 Q 55,31 69,45"/>
-              </g>
-            `
-          : `
-              <g class="bot-eyes-happy">
-                <path fill="none" stroke="${v.happyColor}" stroke-width="5" stroke-linecap="round" d="M 29,44 Q 38.5,33 48,44"/>
-                <path fill="none" stroke="${v.happyColor}" stroke-width="5" stroke-linecap="round" d="M 62,44 Q 71.5,33 81,44"/>
-              </g>
-            `;
-
-        botAvatarEl.innerHTML = `
-          <svg viewBox="0 0 110 82" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="${gradId}" cx="50%" cy="50%" r="56%">
-                <stop offset="0%" stop-color="${v.eyeInner}"/>
-                <stop offset="58%" stop-color="${v.eyeMid}"/>
-                <stop offset="100%" stop-color="${v.eyeOuter}" stop-opacity="0.3"/>
-              </radialGradient>
-            </defs>
-            ${v.shell}
-            ${eyesIdleHtml}
-            ${eyesHappyHtml}
-          </svg>
-        `;
-
-        botScleraEl = botAvatarEl.querySelector("#bot-sclera");
-        botPupilsEl = botAvatarEl.querySelector("#bot-pupils");
-        if (botCycleBtnEl) {
-          botCycleBtnEl.textContent = `换脸 ${v.id}/06 · ${v.name}`;
-        }
-      }
-
-      function triggerBotBlink(doubleBlink) {
-        if (!botAvatarEl) return;
-        botAvatarEl.classList.add("is-blinking");
-        setTimeout(() => {
-          botAvatarEl.classList.remove("is-blinking");
-          if (doubleBlink) {
-            setTimeout(() => triggerBotBlink(false), 140);
-          }
-        }, 125);
-      }
-
-      function scheduleNextBlink() {
-        const delay = 3000 + Math.random() * 3400;
-        setTimeout(() => {
-          triggerBotBlink(Math.random() < 0.26);
-          scheduleNextBlink();
-        }, delay);
-      }
-
-      window.addEventListener(
-        "mousemove",
-        (e) => {
-          if (!botAvatarEl) return;
-          const r = botAvatarEl.getBoundingClientRect();
-          const dx = e.clientX - (r.left + r.width / 2);
-          const dy = e.clientY - (r.top + r.height / 2);
-          const dist = Math.hypot(dx, dy) || 1;
-          const ratio = Math.min(1, dist / 260);
-          eyeState.tx = (dx / dist) * 5.2 * ratio;
-          eyeState.ty = (dy / dist) * 3.8 * ratio;
-        },
-        { passive: true }
-      );
-
-      document.addEventListener("mouseleave", () => {
-        eyeState.tx = 0;
-        eyeState.ty = 0;
-      });
-
-      function animateBotEyes() {
-        eyeState.cx += (eyeState.tx - eyeState.cx) * 0.16;
-        eyeState.cy += (eyeState.ty - eyeState.cy) * 0.16;
-        if (botPupilsEl && botScleraEl) {
-          botPupilsEl.setAttribute(
-            "transform",
-            `translate(${eyeState.cx.toFixed(2)}, ${eyeState.cy.toFixed(2)})`
-          );
-          botScleraEl.setAttribute(
-            "transform",
-            `translate(${(eyeState.cx * 0.34).toFixed(2)}, ${(eyeState.cy * 0.34).toFixed(2)})`
-          );
-        }
-        requestAnimationFrame(animateBotEyes);
-      }
-
-      brandHomeEl.addEventListener("click", () => {
-        if (!botAvatarEl) return;
-        botAvatarEl.classList.remove("is-nodding");
-        void botAvatarEl.offsetWidth;
-        botAvatarEl.classList.add("is-nodding");
-        triggerBotBlink(false);
-      });
-
-      if (botCycleBtnEl) {
-        botCycleBtnEl.addEventListener("click", () => {
-          botIdx = (botIdx + 1) % BOT_VARIANTS.length;
-          renderBotAvatar();
-          triggerBotBlink(false);
-        });
-      }
-
-      renderBotAvatar();
-      scheduleNextBlink();
-      requestAnimationFrame(animateBotEyes);
 
       /* =======================================================================
          10. EVOLVING INK-ART ROBOT ON THE TIMELINE SPINE
@@ -4461,14 +4253,17 @@ safe_chain = chain.<span class="c-fn">with_retry</span>(stop_after_attempt=3)</c
                 launchLiftY = ease * 11 + Math.sin(u * Math.PI * 3) * 0.6;
                 jetPower = 1.0 + u * 0.25;
               } else {
-                // Full blastoff: sonic ring pops & robot accelerates straight out top of window!
-                const au = clamp01((b5t - 0.68) / 0.76);
+                // Full blastoff: sonic ring pops & robot accelerates across the full viewport out the top!
+                const au = clamp01((b5t - 0.68) / 0.94);
                 crouchY = 0;
-                launchLiftY = 11 + Math.pow(au, 2.5) * 245;
-                jetPower = 1.35 + au * 1.25;
+                launchLiftY = 11 + Math.pow(au, 2.45) * 860;
+                jetPower = 1.35 + au * 1.35;
               }
-              if (b5t >= 1.44) {
-                resetWaitTimer = 1.25;
+              if (b5t >= 1.62) {
+                resetWaitTimer = 1.6;
+                if (typeof window.__onMechExitedTop === "function") {
+                  window.__onMechExitedTop();
+                }
               }
             } else {
               posX += baseSpeed * dt;
@@ -4963,6 +4758,393 @@ safe_chain = chain.<span class="c-fn">with_retry</span>(stop_after_attempt=3)</c
         requestAnimationFrame(tick);
       }
 
+      /* =======================================================================
+         11. TOP-RIGHT LIVE MECH HEAD AVATAR
+             Descends from top edge after Stage 5 takeoff, brakes with palm jets,
+             folds limbs/torso into the head, and stays as a live eye-tracking avatar
+         ======================================================================= */
+      function initTopRightMechAvatar() {
+        const btn = document.getElementById("mech-avatar-btn");
+        const topNav = document.getElementById("top-nav");
+        const scanOverlay = document.getElementById("mech-scan-overlay");
+        const navBtns = Array.from(navLinksEl.querySelectorAll(".nav-btn"));
+        if (!btn || !topNav) return;
+
+        const NS = "http://www.w3.org/2000/svg";
+        const mk = (tag, attrs, parent) => {
+          const node = document.createElementNS(NS, tag);
+          if (attrs) Object.keys(attrs).forEach((k) => node.setAttribute(k, attrs[k]));
+          if (parent) parent.appendChild(node);
+          return node;
+        };
+
+        // Full-viewport twin-eye scanner overlay elements
+        let scanConeL = null, scanConeR = null, scanRay1 = null, scanRay2 = null, scanBand = null;
+        if (scanOverlay) {
+          const sDefs = mk("defs", null, scanOverlay);
+          const lg = mk("linearGradient", { id: "mech-scan-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
+          mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.28" }, lg);
+          mk("stop", { offset: "65%", "stop-color": "#2D6A47", "stop-opacity": "0.10" }, lg);
+          mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.02" }, lg);
+          scanConeL = mk("polygon", { fill: "url(#mech-scan-grad)", opacity: "0" }, scanOverlay);
+          scanConeR = mk("polygon", { fill: "url(#mech-scan-grad)", opacity: "0" }, scanOverlay);
+          scanRay1 = mk("line", { stroke: "#2D6A47", "stroke-width": "1.0", "stroke-opacity": "0.55", opacity: "0" }, scanOverlay);
+          scanRay2 = mk("line", { stroke: "#2D6A47", "stroke-width": "1.0", "stroke-opacity": "0.55", opacity: "0" }, scanOverlay);
+          scanBand = mk("line", { stroke: "#2D6A47", "stroke-width": "1.4", "stroke-opacity": "0.45", "stroke-dasharray": "4 3", opacity: "0" }, scanOverlay);
+        }
+
+        const svg = mk("svg", { viewBox: "-26 -24 52 44" }, btn);
+
+        // Braking air-puff ring, glide whisp & lock-in spark FX
+        const brakeRing = mk("ellipse", { cx: "0", cy: "14", rx: "6", ry: "1.6", fill: "none", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, svg);
+        const glideTrail = mk("path", { d: "M 16,1 L 28,1 M 15,5 L 24,5", fill: "none", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round", opacity: "0" }, svg);
+        const morphSparks = mk("g", { opacity: "0" }, svg);
+        mk("path", {
+          d: "M -16,-12 L -20,-16 M 16,-12 L 20,-16 M -16,12 L -20,16 M 16,12 L 20,16",
+          fill: "none", stroke: "#2D6A47", "stroke-width": "1.35", "stroke-linecap": "round"
+        }, morphSparks);
+        const morphRing = mk("circle", { cx: "0", cy: "1", r: "10", fill: "none", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, svg);
+
+        // Root group for descending Y motion
+        const rootG = mk("g", { transform: "translate(0, -64)" }, svg);
+
+        // --- Retractable Body Subgroups (fold cleanly up into the head!) ---
+        const legsG = mk("g", null, rootG);
+        mk("path", { d: "M -2.2,6 L -3.4,12.5 L -1.2,12.5 M 2.2,6 L 2.8,14 L 5.0,14", fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, legsG);
+        mk("path", { d: "M -4.8,10.5 L -1.8,10.5 L -1.2,13.5 L -5.0,13.5 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round" }, legsG);
+        mk("path", { d: "M 1.4,11.5 L 4.4,11.5 L 5.2,14.8 L 1.2,14.8 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round" }, legsG);
+
+        const armsG = mk("g", null, rootG);
+        mk("path", { d: "M -4.8,-2.5 Q -8.8,0.5 -10.4,4.8 M 4.8,-2.5 Q 8.8,0.5 10.4,4.8", fill: "none", stroke: "#1D1B18", "stroke-width": "1.3", "stroke-linecap": "round" }, armsG);
+        mk("rect", { x: "-12.4", y: "3.4", width: "4.0", height: "3.2", rx: "0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, armsG);
+        mk("rect", { x: "8.4", y: "3.4", width: "4.0", height: "3.2", rx: "0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, armsG);
+
+        const torsoG = mk("g", null, rootG);
+        mk("rect", { x: "-8.4", y: "-2.6", width: "4.2", height: "7.4", rx: "1.0", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1" }, torsoG);
+        mk("path", { d: "M -5.4,-3.8 L 5.4,-3.8 L 6.2,-1.6 L -6.2,-1.6 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round" }, torsoG);
+        mk("rect", { x: "-4.6", y: "-3.2", width: "9.2", height: "9.4", rx: "1.1", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.25" }, torsoG);
+        mk("path", { d: "M -3.8,-2.4 L 3.8,5.4 M 3.8,-2.4 L -3.8,5.4", fill: "none", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linecap": "round" }, torsoG);
+        mk("circle", { cx: "0", cy: "1.5", r: "1.7", fill: "#2D6A47" }, torsoG);
+
+        const jetsG = mk("g", { opacity: "0" }, rootG);
+        const jetL = mk("path", { fill: "#2D6A47", "fill-opacity": "0.28", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, jetsG);
+        const jetR = mk("path", { fill: "#2D6A47", "fill-opacity": "0.28", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, jetsG);
+        const jetB = mk("path", { fill: "#2D6A47", "fill-opacity": "0.32", stroke: "#2D6A47", "stroke-width": "0.85" }, jetsG);
+
+        // --- Hero Mech Head Group (morphs, scans whole page, glides to top-left!) ---
+        const headG = mk("g", { transform: "translate(0, -8.8) scale(1)" }, rootG);
+        mk("line", { x1: "-0.8", y1: "-4.6", x2: "-1.4", y2: "-8.4", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linecap": "round" }, headG);
+        mk("circle", { class: "mech-ant-tip", cx: "-1.5", cy: "-9.1", r: "1.35", fill: "#2D6A47", stroke: "#1D1B18", "stroke-width": "0.95" }, headG);
+        mk("rect", { x: "-6.9", y: "-1.6", width: "1.6", height: "3.4", rx: "0.6", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95" }, headG);
+        mk("rect", { x: "5.3", y: "-1.6", width: "1.6", height: "3.4", rx: "0.6", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95" }, headG);
+        mk("path", { d: "M -4.6,-4.4 L 0,-7.0 L 4.6,-4.4", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linecap": "round", "stroke-linejoin": "round" }, headG);
+        mk("rect", { x: "-5.8", y: "-4.6", width: "11.6", height: "9.0", rx: "2.5", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.2" }, headG);
+        mk("rect", { x: "-4.3", y: "-2.7", width: "8.6", height: "5.2", rx: "1.7", fill: "#1D1B18" }, headG);
+        const eyesIdleG = mk("g", { class: "mech-eyes-idle" }, headG);
+        const eyesTrackG = mk("g", null, eyesIdleG);
+        const eyeDotL = mk("circle", { cx: "-1.8", cy: "-0.1", r: "1.25", fill: "#FAF8F4" }, eyesTrackG);
+        const eyeDotR = mk("circle", { cx: "1.8", cy: "-0.1", r: "1.25", fill: "#FAF8F4" }, eyesTrackG);
+        const eyesHappyG = mk("g", { class: "mech-eyes-happy" }, headG);
+        mk("path", { d: "M -3.1,0.5 Q -1.8,-1.3 -0.5,0.5 M 0.5,0.5 Q 1.8,-1.3 3.1,0.5", fill: "none", stroke: "#B5F5D4", "stroke-width": "1.05", "stroke-linecap": "round" }, eyesHappyG);
+
+        let avPhase = "waiting"; // "waiting" | "delay" | "descending" | "morphing" | "scanning" | "gliding" | "avatar"
+        let avT = 0;
+        let syncTimer = 0;
+        let glideStartX = 0;
+        let lastTs = performance.now();
+        const eyePos = { tx: 0, ty: 0, cx: 0, cy: 0 };
+
+        function clamp01(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
+        function lerp(a, b, t) { return a + (b - a) * t; }
+
+        function getRightOffsetX() {
+          const navRect = topNav.getBoundingClientRect();
+          const style = getComputedStyle(topNav);
+          const padL = parseFloat(style.paddingLeft) || 24;
+          const padR = parseFloat(style.paddingRight) || 24;
+          return Math.max(0, navRect.width - padL - padR - 44);
+        }
+
+        function hideScanBeams() {
+          if (!scanConeL) return;
+          scanConeL.setAttribute("opacity", "0");
+          scanConeR.setAttribute("opacity", "0");
+          scanRay1.setAttribute("opacity", "0");
+          scanRay2.setAttribute("opacity", "0");
+          scanBand.setAttribute("opacity", "0");
+        }
+
+        function triggerBlink(doubleBlink) {
+          btn.classList.add("is-blinking");
+          setTimeout(() => {
+            btn.classList.remove("is-blinking");
+            if (doubleBlink) setTimeout(() => triggerBlink(false), 140);
+          }, 120);
+        }
+
+        function scheduleBlink() {
+          setTimeout(() => {
+            if (avPhase === "avatar") triggerBlink(Math.random() < 0.25);
+            scheduleBlink();
+          }, 2900 + Math.random() * 3200);
+        }
+        scheduleBlink();
+
+        window.addEventListener("mousemove", (e) => {
+          if (avPhase !== "avatar") return;
+          const r = btn.getBoundingClientRect();
+          const dx = e.clientX - (r.left + r.width / 2);
+          const dy = e.clientY - (r.top + r.height / 2);
+          const dist = Math.hypot(dx, dy) || 1;
+          const ratio = Math.min(1, dist / 240);
+          eyePos.tx = (dx / dist) * 1.35 * ratio;
+          eyePos.ty = (dy / dist) * 0.95 * ratio;
+        }, { passive: true });
+
+        document.addEventListener("mouseleave", () => {
+          eyePos.tx = 0;
+          eyePos.ty = 0;
+        });
+
+        btn.addEventListener("click", () => {
+          if (avPhase !== "avatar") return;
+          btn.classList.remove("is-nodding");
+          void btn.offsetWidth;
+          btn.classList.add("is-nodding");
+          triggerBlink(false);
+          if (state.view !== "home") switchView("home");
+        });
+
+        window.__onMechExitedTop = () => {
+          if (avPhase === "waiting") {
+            avPhase = "delay";
+            avT = 0;
+          } else if (avPhase === "avatar") {
+            syncTimer = 0.48;
+            btn.classList.remove("is-nodding");
+            void btn.offsetWidth;
+            btn.classList.add("is-nodding");
+            triggerBlink(true);
+          }
+        };
+
+        function tickAvatar(now) {
+          const dt = Math.min(0.05, Math.max(0.001, (now - lastTs) / 1000));
+          lastTs = now;
+
+          if (avPhase === "delay") {
+            avT += dt;
+            if (avT >= 0.22) {
+              avPhase = "descending";
+              avT = 0;
+              glideStartX = getRightOffsetX();
+              btn.style.transform = `translateX(${glideStartX.toFixed(1)}px)`;
+              btn.classList.add("is-visible");
+            }
+          } else if (avPhase === "descending") {
+            avT += dt;
+            const u = clamp01(avT / 0.86);
+            const easeOut = 1 - Math.pow(1 - u, 3);
+            const y = lerp(-62, 1, easeOut);
+            rootG.setAttribute("transform", `translate(0, ${y.toFixed(2)})`);
+            headG.setAttribute("transform", "translate(0, -8.8) scale(1)");
+            legsG.setAttribute("opacity", "1");
+            armsG.setAttribute("opacity", "1");
+            torsoG.setAttribute("opacity", "1");
+            legsG.removeAttribute("transform");
+            armsG.removeAttribute("transform");
+            torsoG.removeAttribute("transform");
+
+            const brakePower = Math.sin(u * Math.PI) * (1 - u * 0.25);
+            if (brakePower > 0.04) {
+              const flick = 0.85 + 0.3 * Math.abs(Math.sin(now * 0.055));
+              const jLen = (4 + brakePower * 9) * flick;
+              jetsG.setAttribute("opacity", clamp01(brakePower * 1.4).toFixed(2));
+              jetL.setAttribute("d", `M -12.0,6.8 L -8.8,6.8 L -10.4,${(6.8 + jLen).toFixed(1)} Z`);
+              jetR.setAttribute("d", `M 8.8,6.8 L 12.0,6.8 L 10.4,${(6.8 + jLen).toFixed(1)} Z`);
+              jetB.setAttribute("d", `M -2.2,13.8 L 3.8,13.8 L 0.8,${(13.8 + jLen * 0.85).toFixed(1)} Z`);
+            } else {
+              jetsG.setAttribute("opacity", "0");
+            }
+
+            if (u > 0.55) {
+              const bu = (u - 0.55) / 0.45;
+              brakeRing.setAttribute("rx", (6 + bu * 14).toFixed(1));
+              brakeRing.setAttribute("ry", (1.4 + bu * 2.2).toFixed(1));
+              brakeRing.setAttribute("opacity", ((1 - bu) * 0.55).toFixed(2));
+            } else {
+              brakeRing.setAttribute("opacity", "0");
+            }
+
+            if (avT >= 0.86) {
+              avPhase = "morphing";
+              avT = 0;
+              jetsG.setAttribute("opacity", "0");
+              brakeRing.setAttribute("opacity", "0");
+            }
+          } else if (avPhase === "morphing") {
+            avT += dt;
+            const u = clamp01(avT / 0.72);
+            rootG.setAttribute("transform", "translate(0, 0)");
+
+            const foldU = clamp01(u / 0.58);
+            const foldEase = foldU * foldU * (3 - 2 * foldU);
+            legsG.setAttribute("transform", `translate(0, ${(-13 * foldEase).toFixed(1)}) scale(${(1 - 0.35 * foldEase).toFixed(2)}, ${(1 - 0.88 * foldEase).toFixed(2)})`);
+            legsG.setAttribute("opacity", (1 - foldEase).toFixed(2));
+            armsG.setAttribute("transform", `translate(0, ${(-6 * foldEase).toFixed(1)}) scale(${(1 - 0.85 * foldEase).toFixed(2)}, ${(1 - 0.4 * foldEase).toFixed(2)})`);
+            armsG.setAttribute("opacity", (1 - foldEase).toFixed(2));
+            const torsoU = clamp01((u - 0.12) / 0.50);
+            const torsoEase = torsoU * torsoU * (3 - 2 * torsoU);
+            torsoG.setAttribute("transform", `translate(0, ${(-9 * torsoEase).toFixed(1)}) scale(${(1 - 0.35 * torsoEase).toFixed(2)}, ${(1 - 0.9 * torsoEase).toFixed(2)})`);
+            torsoG.setAttribute("opacity", (1 - torsoEase).toFixed(2));
+
+            const headU = clamp01((u - 0.24) / 0.76);
+            const overshoot = headU < 0.78
+              ? lerp(1.0, 1.98, 1 - Math.pow(1 - headU / 0.78, 3))
+              : lerp(1.98, 1.86, (headU - 0.78) / 0.22);
+            const headY = lerp(-8.8, 3.2, 1 - Math.pow(1 - headU, 3));
+            headG.setAttribute("transform", `translate(0, ${headY.toFixed(2)}) scale(${overshoot.toFixed(3)})`);
+
+            if (u >= 0.72) {
+              const su = (u - 0.72) / 0.28;
+              morphSparks.setAttribute("opacity", ((1 - su) * 0.9).toFixed(2));
+              morphRing.setAttribute("r", (9 + su * 11).toFixed(1));
+              morphRing.setAttribute("opacity", ((1 - su) * 0.65).toFixed(2));
+            }
+
+            if (avT >= 0.72) {
+              avPhase = "scanning";
+              avT = 0;
+              legsG.setAttribute("opacity", "0");
+              armsG.setAttribute("opacity", "0");
+              torsoG.setAttribute("opacity", "0");
+              morphSparks.setAttribute("opacity", "0");
+              morphRing.setAttribute("opacity", "0");
+              headG.setAttribute("transform", "translate(0, 3.2) scale(1.86)");
+            }
+          } else if (avPhase === "scanning") {
+            // Twin eyes glow bamboo-cyan & sweep scanner cones across the entire webpage (right -> left)
+            avT += dt;
+            const u = clamp01(avT / 1.12);
+            const beamAlpha = u < 0.12 ? u / 0.12 : u > 0.86 ? (1 - u) / 0.14 : 1;
+            const sweepU = clamp01((u - 0.10) / 0.78);
+            const sweepEase = sweepU < 0.5 ? 2 * sweepU * sweepU : 1 - Math.pow(-2 * sweepU + 2, 2) / 2;
+
+            // Eyes glow bright scanning cyan-green & track the sweep across the page
+            eyeDotL.setAttribute("fill", "#9CEBE6");
+            eyeDotR.setAttribute("fill", "#9CEBE6");
+            const lookX = lerp(0.8, -1.35, sweepEase);
+            const lookY = lerp(0.85, 0.35, sweepEase);
+            eyesTrackG.setAttribute("transform", `translate(${lookX.toFixed(2)}, ${lookY.toFixed(2)})`);
+
+            if (scanConeL) {
+              const r = btn.getBoundingClientRect();
+              const ex1 = r.left + r.width * 0.43;
+              const ex2 = r.left + r.width * 0.57;
+              const ey = r.top + r.height * 0.57;
+              const W = window.innerWidth;
+              const H = window.innerHeight;
+
+              // Leading & trailing edge of the sweeping full-page scan cone
+              const leadX = lerp(W * 0.98, -W * 0.04, sweepEase);
+              const trailX = Math.min(W, leadX + Math.max(150, W * 0.15));
+              const targetY = lerp(H, H * 0.72, Math.pow(sweepEase, 2));
+
+              scanConeL.setAttribute("points", `${ex1.toFixed(1)},${ey.toFixed(1)} ${leadX.toFixed(1)},${targetY.toFixed(1)} ${trailX.toFixed(1)},${H}`);
+              scanConeR.setAttribute("points", `${ex2.toFixed(1)},${ey.toFixed(1)} ${(leadX + 24).toFixed(1)},${targetY.toFixed(1)} ${Math.min(W, trailX + 24).toFixed(1)},${H}`);
+              scanConeL.setAttribute("opacity", (beamAlpha * 0.85).toFixed(2));
+              scanConeR.setAttribute("opacity", (beamAlpha * 0.55).toFixed(2));
+
+              scanRay1.setAttribute("x1", ex1.toFixed(1));
+              scanRay1.setAttribute("y1", ey.toFixed(1));
+              scanRay1.setAttribute("x2", leadX.toFixed(1));
+              scanRay1.setAttribute("y2", targetY.toFixed(1));
+              scanRay1.setAttribute("opacity", (beamAlpha * 0.75).toFixed(2));
+
+              scanRay2.setAttribute("x1", ex2.toFixed(1));
+              scanRay2.setAttribute("y1", ey.toFixed(1));
+              scanRay2.setAttribute("x2", trailX.toFixed(1));
+              scanRay2.setAttribute("y2", String(H));
+              scanRay2.setAttribute("opacity", (beamAlpha * 0.45).toFixed(2));
+
+              scanBand.setAttribute("x1", leadX.toFixed(1));
+              scanBand.setAttribute("y1", "46");
+              scanBand.setAttribute("x2", leadX.toFixed(1));
+              scanBand.setAttribute("y2", String(H));
+              scanBand.setAttribute("opacity", (beamAlpha * 0.35).toFixed(2));
+            }
+
+            if (avT >= 1.12) {
+              avPhase = "gliding";
+              avT = 0;
+              glideStartX = getRightOffsetX();
+              hideScanBeams();
+              eyeDotL.setAttribute("fill", "#FAF8F4");
+              eyeDotR.setAttribute("fill", "#FAF8F4");
+              triggerBlink(false);
+            }
+          } else if (avPhase === "gliding") {
+            // Glide smoothly from top-right to top-left while gradually revealing the nav links at top-right!
+            avT += dt;
+            const u = clamp01(avT / 0.96);
+            const ease = u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2;
+            const curX = lerp(glideStartX, 0, ease);
+            btn.style.transform = `translateX(${curX.toFixed(1)}px)`;
+
+            // Subtle forward-left aerodynamic tilt + eyes looking left + delicate glide trail
+            const tilt = -Math.sin(u * Math.PI) * 6.5;
+            headG.setAttribute("transform", `translate(0, 3.2) scale(1.86) rotate(${tilt.toFixed(1)})`);
+            eyesTrackG.setAttribute("transform", `translate(${(-1.25 * Math.sin(u * Math.PI)).toFixed(2)}, 0)`);
+            glideTrail.setAttribute("opacity", (Math.sin(u * Math.PI) * 0.55).toFixed(2));
+
+            // Gradually reveal nav links right-to-left (关于 -> 全部文章 -> 图谱首页) behind the gliding head!
+            const revCount = navBtns.length;
+            for (let i = 0; i < revCount; i++) {
+              const revIdx = revCount - 1 - i; // 0 = 关于 (rightmost), 1 = 全部文章, 2 = 图谱首页
+              const startU = 0.14 + revIdx * 0.16;
+              const btnU = clamp01((u - startU) / 0.38);
+              const btnEase = 1 - Math.pow(1 - btnU, 3);
+              navBtns[i].style.opacity = btnEase.toFixed(2);
+              navBtns[i].style.transform = `translateX(${lerp(8, 0, btnEase).toFixed(1)}px)`;
+            }
+
+            if (avT >= 0.96) {
+              avPhase = "avatar";
+              btn.style.transform = "";
+              headG.setAttribute("transform", "translate(0, 3.2) scale(1.86)");
+              eyesTrackG.setAttribute("transform", "translate(0, 0)");
+              glideTrail.setAttribute("opacity", "0");
+              navBtns.forEach((nb) => {
+                nb.style.opacity = "1";
+                nb.style.transform = "translateX(0)";
+              });
+              navLinksEl.classList.add("is-revealed");
+              btn.classList.add("is-docked");
+              syncTimer = 0.42;
+              triggerBlink(false);
+            }
+          } else if (avPhase === "avatar") {
+            eyePos.cx += (eyePos.tx - eyePos.cx) * 0.16;
+            eyePos.cy += (eyePos.ty - eyePos.cy) * 0.16;
+            eyesTrackG.setAttribute("transform", `translate(${eyePos.cx.toFixed(2)}, ${eyePos.cy.toFixed(2)})`);
+
+            if (syncTimer > 0) {
+              syncTimer = Math.max(0, syncTimer - dt);
+              const su = 1 - syncTimer / 0.48;
+              morphRing.setAttribute("r", (10 + su * 10).toFixed(1));
+              morphRing.setAttribute("opacity", ((1 - su) * 0.55).toFixed(2));
+            } else {
+              morphRing.setAttribute("opacity", "0");
+            }
+          }
+
+          requestAnimationFrame(tickAvatar);
+        }
+
+        requestAnimationFrame(tickAvatar);
+      }
+
+      initTopRightMechAvatar();
       initEvoWalker();
 
       renderAll();
