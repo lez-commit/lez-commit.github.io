@@ -481,29 +481,9 @@
     const goggleEye = mk("g", { opacity: "0" }, headGroup);
     const gEyeL = mk("circle", { cx: "0.3", cy: "-0.5", r: "1.1", fill: "#FAF8F4" }, goggleEye);
     const gEyeR = mk("circle", { cx: "3.4", cy: "-0.5", r: "1.1", fill: "#FAF8F4" }, goggleEye);
-    // Stage 5: Unified Sculptural Production Mono-Shell Helmet (identical to airborne Production Agent & top-left avatar!)
+    // Stage 5: Sleek Mech V-Crest & Side Ear-Fin (original design preserved!)
     const headCrestEl = mk("g", { opacity: "0" }, headGroup);
-    // Flush recessed side acoustic arcs
-    mk("path", { d: "M -7.6,-1.2 Q -8.3,0 -7.6,1.2 M 7.6,-1.2 Q 8.3,0 7.6,1.2", fill: "none", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linecap": "round", "stroke-opacity": "0.65" }, headCrestEl);
-    // Seamless aerodynamic mono-shell head covering Era 4 CRT box on Wave 4 lock-in!
-    mk("path", {
-      d: "M 0,-6.6 C 4.8,-6.6 7.5,-3.9 7.5,-0.3 C 7.5,3.5 4.9,6.2 0,6.2 C -4.9,6.2 -7.5,3.5 -7.5,-0.3 C -7.5,-3.9 -4.8,-6.6 0,-6.6 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1"
-    }, headCrestEl);
-    // Warm stone-wash lower underside contour
-    mk("path", {
-      d: "M -6.2,2.7 C -4.6,4.9 -2.5,5.7 0,5.7 C 2.5,5.7 4.6,4.9 6.2,2.7 C 4.5,4.0 2.3,4.5 0,4.5 C -2.3,4.5 -4.5,4.0 -6.2,2.7 Z",
-      fill: "#EDE8DE", "fill-opacity": "0.92"
-    }, headCrestEl);
-    // Flush bamboo crown status slit
-    mk("rect", { x: "-1.7", y: "-5.1", width: "3.4", height: "0.9", rx: "0.45", fill: "#2D6A47" }, headCrestEl);
-    // Obsidian OLED wrap visor + luminous mint pill eyes
-    mk("path", {
-      d: "M 0,-3.4 C 3.9,-3.4 6.1,-2.0 6.1,0.1 C 6.1,2.2 3.9,3.6 0,3.6 C -3.9,3.6 -6.1,2.2 -6.1,0.1 C -6.1,-2.0 -3.9,-3.4 0,-3.4 Z",
-      fill: "#181715"
-    }, headCrestEl);
-    mk("rect", { x: "-3.2", y: "-1.25", width: "1.7", height: "2.65", rx: "0.85", fill: "#EBFFF3" }, headCrestEl);
-    mk("rect", { x: "1.5", y: "-1.25", width: "1.7", height: "2.65", rx: "0.85", fill: "#EBFFF3" }, headCrestEl);
+    mk("path", { d: "M -4.4,-4.6 L 0.4,-7.3 L 5.0,-4.6 M -6.9,-2.2 L -8.8,-4.3 L -6.5,0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round" }, headCrestEl);
 
     // Front arm + shoulder socket rivet + mechanical hand caps + attachments + Stage 5 Repulsor Gauntlets + Luminous Jets
     const frontArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
@@ -538,8 +518,8 @@
       // Wave 3: Twin-Nozzle Skills Jetpack (upper-left) + Chamfered Shoulder Pauldrons (upper-right)
       { t0: 0.40, t1: 0.72, sx: -38, sy: -42, cx: -21, cy: -34, tx: -6.2, ty: -22,  rot0: -26, d: "M -2.4,-4.2 L 2.4,-4.2 L 2.4,3.4 L -2.4,3.4 Z M -1.4,-1.8 L 1.4,-1.8 M -1.4,0.8 L 1.4,0.8 M -2.0,3.4 L -2.5,5.2 L -0.6,5.2 L -0.4,3.4 M 0.4,3.4 L 0.6,5.2 L 2.5,5.2 L 2.0,3.4" },
       { t0: 0.42, t1: 0.72, sx: 38,  sy: -44, cx: 20,  cy: -35, tx: 0,    ty: -25.5,rot0: 24,  d: "M -5.8,-1.5 L 5.8,-1.5 L 6.8,1.3 L -6.8,1.3 Z M -4.2,-1.4 L -4.8,1.2 M 4.2,-1.4 L 4.8,1.2" },
-      // Wave 4: Sculptural Production Mono-Shell Helmet descending straight from above!
-      { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 3,   cy: -45, tx: 0,    ty: -32.5,rot0: 0,   d: "M 0,-5.4 C 4.2,-5.4 6.4,-3.1 6.4,-0.2 C 6.4,2.7 4.2,4.6 0,4.6 C -4.2,4.6 -6.4,2.7 -6.4,-0.2 C -6.4,-3.1 -4.2,-5.4 0,-5.4 Z M -1.6,-3.8 L 1.6,-3.8" }
+      // Wave 4: Mech Head V-Crest from straight above!
+      { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 4,   cy: -45, tx: 0.4,  ty: -36.5,rot0: 0,   d: "M -4.6,1.3 L 0.4,-1.8 L 5.2,1.3" }
     ];
     const flyParts = FLY_SPECS.map((sp, idx) => {
       const trail = mk("line", { stroke: "#2D6A47", "stroke-width": "1.15", "stroke-opacity": "0.62", "stroke-dasharray": "4 2", "stroke-linecap": "round", opacity: "0" }, assembleLayer);
@@ -1476,7 +1456,6 @@
         const launchLookUp = b5 === 3 && launchLiftY > 2 ? -8 : 0;
         headGroup.setAttribute("transform", `translate(${headX.toFixed(2)}, ${headY.toFixed(2)}) scale(${hScale.toFixed(3)}) rotate(${(walkTilt + headNodDeg + launchLookUp).toFixed(1)})`);
 
-        antGroup.setAttribute("opacity", hasHeadCrest ? "0" : "1");
         antGroup.setAttribute("transform", `rotate(${(Math.sin(phase * Math.PI * 2) * 5).toFixed(1)}, -0.8, -5.0)`);
         antTip.setAttribute("fill", hasHeadCrest || reasoningNow ? "#2D6A47" : "#FAF8F4");
         cotHeadSpark.setAttribute("opacity", "0");

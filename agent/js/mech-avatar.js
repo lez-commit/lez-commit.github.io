@@ -4,23 +4,20 @@
   const AgentBlog = (window.AgentBlog = window.AgentBlog || {});
 
   /* =======================================================================
-     11. AUTONOMOUS PRODUCTION AGENT — FULL-BODY AERIAL PATROL & SCULPTURAL AVATAR
-         - Flies freely through the open rice-paper airspace above the 5 Eras as
-           a FULL sleek minimalist production robot matching Era 5's evolution
-           (sculpted curved mono-shell torso, swept dorsal stabilizer fins,
-           Harness X-seams + glowing Bamboo Arc Core, articulated repulsor arms
-           & heroic aerodynamic thruster boots with limb-locked bamboo-mint
-           plumes, and an independently yawing/tilting 2.5D head on a precision
-           gimbal neck!).
-         - Dynamically locates the real Flagship Era 4 LangGraph card in the DOM,
-           pauses right above it with a curious head-tilt, 2.5D face sweep,
-           asymmetric OLED eyes, vermilion crown & core sense, and a soft
-           volumetric optical inspection veil locked to the rotating visor.
-         - Upon arriving at the top-left dock, smoothly settles & folds arms,
-           legs, and torso into the clean sculptural minimalist head avatar
-           with zero-snap interpolation, then emits a full-screen radial bamboo
-           sonar wavefront across 100% of the viewport.
-         - Double-click the docked avatar anytime to unfold the full robot body
+     11. UNIFIED ORIGINAL ROBOT — IN-VIEWPORT LIFTOFF, AERIAL PATROL & DOCK AVATAR
+         - Preserves the EXACT original Era 5 evolving ink-art robot identity
+           (rounded CRT head + damped-spring antenna + ear-bolt pods + panoramic
+           dual-optic visor + subtle V-crest + twin-nozzle Skills jetpack +
+           chamfered shoulder pauldrons + X-harness Bamboo Arc Core + repulsor
+           gauntlets + armored thruster boots!).
+         - Never leaves the viewport: lifts seamlessly off the Era 5 pad at 1:1
+           pixel scale, climbs straight up the open right corridor into the
+           rice-paper sky, patrols all 5 Eras with independently turning/tilting
+           head & swaying spring antenna, pauses curiously above Era 4 Flagship
+           LangGraph card, glides into the top-left dock, folds cleanly into its
+           refined CRT head avatar, and emits a 100% full-screen radial bamboo
+           sonar wavefront.
+         - Double-click the docked top-left head anytime to unfold its full body
            and launch a live aerial patrol!
      ======================================================================= */
   function initTopRightMechAvatar() {
@@ -59,7 +56,6 @@
       scanOverlay.setAttribute("shape-rendering", "geometricPrecision");
       const sDefs = mk("defs", null, scanOverlay);
 
-      // Soft top fade-in (0% -> 0.0 -> 14% -> 0.19) eliminates harsh geometric cut-off at beam origin!
       const beamGrad = mk("linearGradient", { id: "agent-beam-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
       mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, beamGrad);
       mk("stop", { offset: "11%", "stop-color": "#2D6A47", "stop-opacity": "0.19" }, beamGrad);
@@ -115,7 +111,7 @@
     }
 
     // =====================================================================
-    // FULL FLYING PRODUCTION AGENT + FOLDABLE SCULPTURAL HEAD AVATAR SVG
+    // EXACT ORIGINAL ERA 5 EVOLVING ROBOT SVG (Unfolded Flight -> Docked CRT Head!)
     // =====================================================================
     const VIEWBOX_H = 44;
     const svg = mk("svg", { viewBox: "-24 -22 48 44", "shape-rendering": "geometricPrecision" }, btn);
@@ -127,199 +123,210 @@
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, jetGrad);
 
     const coreGlow = mk("radialGradient", { id: "agent-core-glow", cx: "50%", cy: "50%", r: "50%" }, defs);
-    mk("stop", { offset: "0%", "stop-color": "#4FA072", "stop-opacity": "0.62" }, coreGlow);
-    mk("stop", { offset: "62%", "stop-color": "#2D6A47", "stop-opacity": "0.16" }, coreGlow);
+    mk("stop", { offset: "0%", "stop-color": "#4FA072", "stop-opacity": "0.65" }, coreGlow);
+    mk("stop", { offset: "60%", "stop-color": "#2D6A47", "stop-opacity": "0.18" }, coreGlow);
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, coreGlow);
 
     const eyeGlow = mk("radialGradient", { id: "agent-eye-glow", cx: "50%", cy: "50%", r: "50%" }, defs);
-    mk("stop", { offset: "0%", "stop-color": "#B5F5D4", "stop-opacity": "0.42" }, eyeGlow);
+    mk("stop", { offset: "0%", "stop-color": "#B5F5D4", "stop-opacity": "0.40" }, eyeGlow);
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, eyeGlow);
 
-    // Dock confirmation ripple & subtle floating ground shadow
-    const dockRing = mk("circle", { cx: "0", cy: "0", r: "10", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, svg);
+    // Dock confirmation ripple & subtle floating shadow
+    const dockRing = mk("circle", { cx: "0", cy: "1", r: "10", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, svg);
     const foldSparks = mk("g", { opacity: "0" }, svg);
     mk("path", {
       d: "M -14,-11 L -18,-14 M 14,-11 L 18,-14 M -14,11 L -18,14 M 14,11 L 18,14",
       fill: "none", stroke: "#2D6A47", "stroke-width": "1.1", "stroke-linecap": "round"
     }, foldSparks);
-    const dockShadow = mk("ellipse", { cx: "0", cy: "14.2", rx: "7.8", ry: "1.3", fill: "#1D1B18", "fill-opacity": "0.095", opacity: "0" }, svg);
+    const dockShadow = mk("ellipse", { cx: "0", cy: "15.2", rx: "8.2", ry: "1.25", fill: "#1D1B18", "fill-opacity": "0.095", opacity: "0" }, svg);
 
-    // Whole-craft root (overall aerodynamic banking & weightless hover)
+    // Whole-craft root (handles aerodynamic body banking & weightless float)
     const craftG = mk("g", null, svg);
 
     // =====================================================================
-    // RETRACTABLE FULL ROBOT BODY (Unfolded in Flight -> Folds into Head on Dock)
-    // Braun × EVE × Astro Bot sculptural minimalism; plumes locked inside limbs!
+    // ORIGINAL ERA 5 FULL ROBOT BODY (Retracts cleanly into CRT Head on Dock!)
+    // Twin-Nozzle Jetpack + Chamfered Pauldrons + X-Harness Arc Core +
+    // Articulated Repulsor Gauntlet Arms + Armored Thruster Boots!
     // =====================================================================
     const bodyRigG = mk("g", { class: "mech-body-rig", opacity: "0" }, craftG);
 
-    // --- Sculpted Rounded-Airfoil Dorsal Stabilizer Pods (unified Braun × EVE curvature!) ---
-    const wingsG = mk("g", null, bodyRigG);
-    mk("path", {
-      d: "M -4.8,-0.4 C -7.0,-1.4 -8.8,-1.5 -9.3,-0.5 C -9.7,0.4 -8.8,2.1 -7.0,2.7 L -4.6,2.2 Z M 4.8,-0.4 C 7.0,-1.4 8.8,-1.5 9.3,-0.5 C 9.7,0.4 8.8,2.1 7.0,2.7 L 4.6,2.2 Z",
-      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round"
-    }, wingsG);
-    mk("path", {
-      d: "M -8.1,-0.2 Q -6.8,0.4 -5.8,0.8 M 8.1,-0.2 Q 6.8,0.4 5.8,0.8",
-      fill: "none", stroke: "#2D6A47", "stroke-width": "0.55", "stroke-linecap": "round", "stroke-opacity": "0.68"
-    }, wingsG);
+    // --- Twin-Nozzle Skills Jetpack peeking behind upper back (matches evo-walker.js!) ---
+    const packG = mk("g", null, bodyRigG);
+    const jetPackPlumeG = mk("g", { opacity: "0" }, packG);
+    const jetPackL = mk("path", { fill: "url(#agent-jet-grad)", opacity: "0.75" }, jetPackPlumeG);
+    const jetPackR = mk("path", { fill: "url(#agent-jet-grad)", opacity: "0.75" }, jetPackPlumeG);
+    mk("rect", { x: "-7.6", y: "-1.0", width: "3.4", height: "7.4", rx: "1.0", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85" }, packG);
+    mk("rect", { x: "4.2", y: "-1.0", width: "3.4", height: "7.4", rx: "1.0", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, packG);
+    mk("path", { d: "M -6.8,1.2 L -5.0,1.2 M -6.8,3.4 L -5.0,3.4 M 5.0,1.2 L 6.8,1.2 M 5.0,3.4 L 6.8,3.4", fill: "none", stroke: "#1D1B18", "stroke-width": "0.55", "stroke-opacity": "0.55", "stroke-linecap": "round" }, packG);
+    mk("path", { d: "M -7.0,6.4 L -7.4,8.2 L -5.2,8.2 L -5.4,6.4 Z M 5.4,6.4 L 5.2,8.2 L 7.4,8.2 L 7.0,6.4 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.75", "stroke-linejoin": "round" }, packG);
 
-    // --- Articulated Flight Legs + Sculpted Aerodynamic Thruster Boots ---
+    // --- Articulated Mechanical Legs + Armored Thruster Boots (limb-locked plumes!) ---
     const legsG = mk("g", null, bodyRigG);
 
-    // Rear / Left thruster leg (subtly staggered higher for heroic flight silhouette!)
+    // Left / Rear leg (staggered slightly higher for heroic Iron Man takeoff stance!)
     const legL = mk("g", null, legsG);
     const jetBootLG = mk("g", { opacity: "0" }, legL);
     const jetBootL = mk("path", { fill: "url(#agent-jet-grad)" }, jetBootLG);
     const jetBootLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetBootLG);
-    mk("circle", { cx: "-2.3", cy: "10.0", r: "0.9", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.6" }, legL);
+    mk("path", { d: "M -2.2,10.2 L -3.1,13.6 L -2.6,15.0", fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, legL);
+    mk("circle", { cx: "-3.1", cy: "13.4", r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.75" }, legL);
+    // Original beveled thruster boot (bootB)
     mk("path", {
-      d: "M -3.4,10.2 C -3.8,12.6 -4.5,14.8 -4.4,16.4 Q -4.3,17.8 -2.6,17.8 L -1.4,17.8 Q -0.5,17.8 -0.6,16.4 C -0.7,14.6 -0.9,12.4 -1.0,10.2 Z",
-      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round"
+      d: "M -4.2,14.2 L -1.0,14.2 L -0.4,18.0 L -4.5,18.0 Z",
+      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.92", "stroke-linejoin": "round"
     }, legL);
-    mk("path", { d: "M -3.9,14.4 Q -2.5,14.8 -0.8,14.4", fill: "none", stroke: "#1D1B18", "stroke-width": "0.5", "stroke-opacity": "0.42" }, legL);
-    mk("ellipse", { cx: "-2.5", cy: "17.9", rx: "1.35", ry: "0.5", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.45" }, legL);
+    mk("line", { x1: "-3.8", y1: "16.1", x2: "-1.1", y2: "16.1", stroke: "#1D1B18", "stroke-width": "0.52", "stroke-opacity": "0.45" }, legL);
+    mk("ellipse", { cx: "-2.45", cy: "18.1", rx: "1.45", ry: "0.52", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.45" }, legL);
 
-    // Front / Right thruster leg (extended gracefully for heroic flight silhouette!)
+    // Right / Front leg (extended gracefully!)
     const legR = mk("g", null, legsG);
     const jetBootRG = mk("g", { opacity: "0" }, legR);
     const jetBootR = mk("path", { fill: "url(#agent-jet-grad)" }, jetBootRG);
     const jetBootRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetBootRG);
-    mk("circle", { cx: "2.3", cy: "10.0", r: "0.9", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.6" }, legR);
+    mk("path", { d: "M 2.2,10.2 L 2.9,14.0 L 2.5,15.6", fill: "none", stroke: "#1D1B18", "stroke-width": "1.4", "stroke-linecap": "round", "stroke-linejoin": "round" }, legR);
+    mk("circle", { cx: "2.9", cy: "13.8", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.78" }, legR);
+    // Original beveled thruster boot (bootF)
     mk("path", {
-      d: "M 1.0,10.2 C 0.9,12.6 0.6,15.2 0.7,17.1 Q 0.8,18.7 2.6,18.7 L 3.8,18.7 Q 4.8,18.7 4.6,17.0 C 4.4,15.0 3.8,12.6 3.5,10.2 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round"
+      d: "M 0.9,15.0 L 4.2,15.0 L 4.9,19.0 L 0.6,19.0 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.96", "stroke-linejoin": "round"
     }, legR);
-    mk("path", { d: "M 1.1,10.6 C 1.0,13.0 0.8,15.5 0.9,18.1 L 1.9,18.1 C 1.9,15.4 2.0,12.8 2.1,10.6 Z", fill: "#EDE8DE", "fill-opacity": "0.75" }, legR);
-    mk("path", { d: "M 0.9,14.9 Q 2.6,15.3 4.2,14.9", fill: "none", stroke: "#1D1B18", "stroke-width": "0.5", "stroke-opacity": "0.42" }, legR);
-    mk("ellipse", { cx: "2.7", cy: "18.8", rx: "1.4", ry: "0.52", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.45" }, legR);
+    mk("line", { x1: "1.3", y1: "17.0", x2: "4.1", y2: "17.0", stroke: "#1D1B18", "stroke-width": "0.52", "stroke-opacity": "0.45" }, legR);
+    mk("ellipse", { cx: "2.75", cy: "19.1", rx: "1.5", ry: "0.54", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.45" }, legR);
 
-    // --- Sculpted Aerodynamic Repulsor Arms (clean floating EVE-style magnetic clearance!) ---
+    // --- Articulated Mechanical Arms + Beveled Repulsor Gauntlets (limb-locked palm plumes!) ---
     const armL = mk("g", null, bodyRigG);
     const jetPalmLG = mk("g", { opacity: "0" }, armL);
     const jetPalmL = mk("path", { fill: "url(#agent-jet-grad)" }, jetPalmLG);
-    const jetPalmLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.9" }, jetPalmLG);
-    mk("path", {
-      d: "M -6.7,0.8 C -10.1,1.6 -12.4,5.0 -12.0,9.1 C -11.8,10.3 -10.1,10.4 -9.3,9.1 C -8.6,7.0 -7.8,4.6 -6.3,3.3 Z",
-      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round"
-    }, armL);
-    mk("path", { d: "M -10.7,6.4 L -8.9,6.8", fill: "none", stroke: "#1D1B18", "stroke-width": "0.48", "stroke-opacity": "0.42" }, armL);
-    mk("circle", { cx: "-10.6", cy: "9.3", r: "1.1", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.46" }, armL);
-    mk("circle", { cx: "-10.6", cy: "9.3", r: "0.44", fill: "#FFFFFF" }, armL);
+    const jetPalmLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetPalmLG);
+    mk("path", { d: "M -5.4,1.2 L -8.4,4.2 L -10.5,7.4", fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, armL);
+    mk("circle", { cx: "-8.4", cy: "4.2", r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72" }, armL);
+    // Original beveled repulsor gauntlet (gauntletB)
+    mk("rect", { x: "-12.6", y: "6.4", width: "4.2", height: "3.2", rx: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.92" }, armL);
+    mk("line", { x1: "-11.5", y1: "8.0", x2: "-9.5", y2: "8.0", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, armL);
+    mk("circle", { cx: "-10.5", cy: "9.8", r: "1.2", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.48" }, armL);
+    mk("circle", { cx: "-10.5", cy: "9.8", r: "0.46", fill: "#FFFFFF" }, armL);
 
     const armR = mk("g", null, bodyRigG);
     const jetPalmRG = mk("g", { opacity: "0" }, armR);
     const jetPalmR = mk("path", { fill: "url(#agent-jet-grad)" }, jetPalmRG);
-    const jetPalmRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.9" }, jetPalmRG);
-    mk("path", {
-      d: "M 6.7,0.8 C 10.1,1.6 12.4,5.0 12.0,9.1 C 11.8,10.3 10.1,10.4 9.3,9.1 C 8.6,7.0 7.8,4.6 6.3,3.3 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round"
-    }, armR);
-    mk("path", { d: "M 8.9,6.8 L 10.7,6.4", fill: "none", stroke: "#1D1B18", "stroke-width": "0.48", "stroke-opacity": "0.42" }, armR);
-    mk("circle", { cx: "10.6", cy: "9.3", r: "1.1", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.46" }, armR);
-    mk("circle", { cx: "10.6", cy: "9.3", r: "0.44", fill: "#FFFFFF" }, armR);
+    const jetPalmRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetPalmRG);
+    mk("path", { d: "M 5.4,1.2 L 8.4,4.2 L 10.5,7.4", fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, armR);
+    mk("circle", { cx: "8.4", cy: "4.2", r: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.75" }, armR);
+    // Original beveled repulsor gauntlet (gauntletF)
+    mk("rect", { x: "8.4", y: "6.4", width: "4.2", height: "3.2", rx: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.96" }, armR);
+    mk("line", { x1: "9.5", y1: "8.0", x2: "11.5", y2: "8.0", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, armR);
+    mk("circle", { cx: "10.5", cy: "9.8", r: "1.2", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.48" }, armR);
+    mk("circle", { cx: "10.5", cy: "9.8", r: "0.46", fill: "#FFFFFF" }, armR);
 
-    // --- Sculpted Curved Mono-Shell Torso + Precision Gimbal Neck + Harness Arc Core ---
+    // --- Original Sculpted Torso Chassis + Chamfered Shoulder Pauldrons + X-Harness Arc Core ---
     const torsoG = mk("g", null, bodyRigG);
-    // Articulated gimbal neck stem (cleanly visible between head & curved collarbone!)
-    mk("rect", { x: "-1.9", y: "-3.4", width: "3.8", height: "2.6", rx: "1.1", fill: "#1D1B18" }, torsoG);
-    mk("rect", { x: "-2.3", y: "-2.1", width: "4.6", height: "1.4", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.68" }, torsoG);
-    // Curved sculptural torso silhouette (soft collarbone arc + tapered athletic waist + rounded pelvis)
+    // Mechanical neck collar (matches evo-walker.js neckEl!)
+    mk("rect", { x: "-2.1", y: "-3.6", width: "4.2", height: "2.6", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85" }, torsoG);
+    mk("line", { x1: "-1.5", y1: "-2.3", x2: "1.5", y2: "-2.3", stroke: "#1D1B18", "stroke-width": "0.6", "stroke-opacity": "0.55" }, torsoG);
+    // Sleek mechanical pelvis band (matches evo-walker.js pelvisEl!)
     mk("path", {
-      d: "M -5.4,-0.3 Q 0,-1.5 5.4,-0.3 C 6.2,4.0 4.7,9.0 2.6,10.5 Q 0,11.3 -2.6,10.5 C -4.7,9.0 -6.2,4.0 -5.4,-0.3 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.94", "stroke-linejoin": "round"
+      d: "M -3.5,9.6 L 3.5,9.6 L 2.6,11.2 L -2.6,11.2 Z",
+      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.88", "stroke-linejoin": "round"
     }, torsoG);
-    // Warm stone-wash left volume contour & collarbone specular highlight
+    // Main chassis torso + warm stone left bevel
+    mk("rect", { x: "-4.7", y: "-0.8", width: "9.4", height: "10.6", rx: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, torsoG);
+    mk("rect", { x: "-4.2", y: "-0.3", width: "2.8", height: "9.6", rx: "0.5", fill: "#EDE8DE", "fill-opacity": "0.85" }, torsoG);
+    // Chamfered Mech Shoulder Pauldrons (matches evo-walker.js shoulderArmorEl!)
     mk("path", {
-      d: "M -5.0,0.1 Q -3.5,-0.5 -2.2,-0.5 C -2.7,3.8 -2.1,8.2 -1.0,10.0 L -2.4,9.9 C -4.3,8.6 -5.5,4.0 -5.0,0.1 Z",
-      fill: "#EDE8DE", "fill-opacity": "0.84"
+      d: "M -6.1,-1.4 L 6.1,-1.4 L 7.2,1.3 L -7.2,1.3 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.96", "stroke-linejoin": "round"
     }, torsoG);
+    mk("path", { d: "M -4.4,-1.2 L -5.0,1.1 M 4.4,-1.2 L 5.0,1.1", fill: "none", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-opacity": "0.5" }, torsoG);
+    // X-Shaped Harness straps + Luminous Bamboo Arc Core!
     mk("path", {
-      d: "M -3.8,-0.4 Q 0,-1.1 3.8,-0.4",
-      fill: "none", stroke: "#FFFFFF", "stroke-width": "0.65", "stroke-opacity": "0.88", "stroke-linecap": "round"
+      d: "M -4.0,0.4 L 4.0,8.8 M 4.0,0.4 L -4.0,8.8",
+      fill: "none", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linecap": "round"
     }, torsoG);
-    // Subtle architectural Harness X-seams + Luminous Bamboo Arc Core
-    mk("path", {
-      d: "M -4.0,0.6 L 3.1,8.5 M 4.0,0.6 L -3.1,8.5",
-      fill: "none", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-opacity": "0.48", "stroke-linecap": "round"
-    }, torsoG);
-    mk("circle", { cx: "0", cy: "4.4", r: "4.4", fill: "url(#agent-core-glow)" }, torsoG);
-    mk("circle", { cx: "0", cy: "4.4", r: "2.15", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.76" }, torsoG);
-    const chestCore = mk("circle", { cx: "0", cy: "4.4", r: "1.32", fill: "#2D6A47" }, torsoG);
-    mk("circle", { cx: "-0.38", cy: "4.0", r: "0.40", fill: "#EBFFF3", "fill-opacity": "0.88" }, torsoG);
+    mk("circle", { cx: "0", cy: "4.6", r: "4.8", fill: "url(#agent-core-glow)" }, torsoG);
+    mk("circle", { cx: "0", cy: "4.6", r: "2.25", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.82" }, torsoG);
+    const chestCore = mk("circle", { cx: "0", cy: "4.6", r: "1.4", fill: "#2D6A47" }, torsoG);
+    mk("circle", { cx: "-0.4", cy: "4.2", r: "0.42", fill: "#EBFFF3", "fill-opacity": "0.85" }, torsoG);
 
     // =====================================================================
-    // SCULPTURAL MINIMALIST MONO-SHELL HEAD (Independently Articulated + 2.5D Yaw!)
+    // ORIGINAL ROBOT CRT HEAD (Independently Articulated + Spring Antenna + 2.5D Yaw!)
+    // Clean, iconic, balanced — same robot from Era 2-5 runway to sky to top-left dock!
     // =====================================================================
-    const DOCKED_HEAD_SCALE = 1.30;
-    const FLIGHT_HEAD_SCALE = 0.88;
-    const FLIGHT_HEAD_Y = -10.5;
-    const LAUNCH_MATCH_SCALE = 1.13; // Exact 1:1 pixel height match (34.6px) with Era 5 runway robot at liftoff!
-    const FLY_SCALE = 1.38;
+    const DOCKED_HEAD_SCALE = 1.26;
+    const FLIGHT_HEAD_SCALE = 0.86;
+    const FLIGHT_HEAD_Y = -9.8;
+    const LAUNCH_MATCH_SCALE = 1.08; // 1:1 height match (~34.6px) with Era 5 runway robot at liftoff!
+    const FLY_SCALE = 1.32;
 
     const headG = mk("g", { transform: `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE})` }, craftG);
 
-    // Flush-mounted recessed side acoustic arcs (subtle 2.5D yaw parallax!)
-    const earL = mk("path", { d: "M -10.5,-1.8 Q -11.4,0 -10.5,1.8", fill: "none", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linecap": "round", "stroke-opacity": "0.65" }, headG);
-    const earR = mk("path", { d: "M 10.5,-1.8 Q 11.4,0 10.5,1.8", fill: "none", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linecap": "round", "stroke-opacity": "0.65" }, headG);
+    // Damped-Spring Upright Antenna (sways physically with flight banking & cursor movement!)
+    const antG = mk("g", null, headG);
+    mk("rect", { x: "-1.5", y: "-7.2", width: "3.0", height: "1.4", rx: "0.5", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.8" }, antG);
+    mk("line", { x1: "0", y1: "-7.2", x2: "0", y2: "-10.5", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round" }, antG);
+    const statusTip = mk("circle", {
+      class: "mech-status-slit",
+      cx: "0", cy: "-11.4", r: "1.45",
+      fill: "#2D6A47", stroke: "#1D1B18", "stroke-width": "0.85"
+    }, antG);
 
-    // Seamless aerodynamic mono-shell silhouette
-    mk("path", {
-      d: "M 0,-9.2 C 6.6,-9.2 10.4,-5.4 10.4,-0.4 C 10.4,4.8 6.8,8.6 0,8.6 C -6.8,8.6 -10.4,4.8 -10.4,-0.4 C -10.4,-5.4 -6.6,-9.2 0,-9.2 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.02"
+    // Subtle compact Mech V-Crest on brow (exact silhouette motif from Era 5, clean & restrained!)
+    const crestEl = mk("path", {
+      d: "M -4.2,-5.8 L 0,-7.8 L 4.2,-5.8",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linecap": "round", "stroke-linejoin": "round"
     }, headG);
 
-    // Warm stone-wash lower underside volume
+    // Compact warm-stone side ear-bolt pods (subtle 2.5D yaw parallax!)
+    const earL = mk("rect", { x: "-9.1", y: "-2.1", width: "1.9", height: "4.2", rx: "0.75", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, headG);
+    const earR = mk("rect", { x: "7.2", y: "-2.1", width: "1.9", height: "4.2", rx: "0.75", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9" }, headG);
+
+    // Iconic Rounded-Rectangle CRT Chassis Head (matches evo-walker.js headGroup!)
+    mk("rect", {
+      x: "-7.3", y: "-5.8", width: "14.6", height: "11.6", rx: "3.3",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.08"
+    }, headG);
+    // Warm stone-wash lower bevel volume
     mk("path", {
-      d: "M -8.6,3.8 C -6.4,6.8 -3.4,7.9 0,7.9 C 3.4,7.9 6.4,6.8 8.6,3.8 C 6.2,5.6 3.2,6.3 0,6.3 C -3.2,6.3 -6.2,5.6 -8.6,3.8 Z",
-      fill: "#EDE8DE", "fill-opacity": "0.92"
+      d: "M -6.4,2.8 Q -6.4,5.0 -4.0,5.0 L 4.0,5.0 Q 6.4,5.0 6.4,2.8 L 6.4,2.0 L -6.4,2.0 Z",
+      fill: "#EDE8DE", "fill-opacity": "0.88"
+    }, headG);
+    // Crisp top paper highlight sheen
+    mk("line", {
+      x1: "-4.2", y1: "-4.8", x2: "4.2", y2: "-4.8",
+      stroke: "#FFFFFF", "stroke-width": "0.65", "stroke-opacity": "0.85", "stroke-linecap": "round"
     }, headG);
 
-    // Crown highlight sheen
-    mk("path", {
-      d: "M -4.2,-7.9 Q 0,-8.6 4.2,-7.9",
-      fill: "none", stroke: "#FFFFFF", "stroke-width": "0.7", "stroke-opacity": "0.85", "stroke-linecap": "round"
-    }, headG);
-
-    // 2.5D Faceplate Group (shifts subtly with yaw/pitch so the head genuinely turns in 3D space!)
+    // 2.5D Faceplate Group (shifts smoothly with yaw/pitch so the CRT head truly turns in space!)
     const facePlateG = mk("g", null, headG);
 
-    // Single flush-inlaid micro crown status slit (bamboo idle / vermilion flagship)
-    const statusSlit = mk("rect", {
-      class: "mech-status-slit",
-      x: "-2.4", y: "-7.0", width: "4.8", height: "1.15", rx: "0.58",
-      fill: "#2D6A47"
-    }, facePlateG);
-
-    // Deep Edge-to-Edge Obsidian OLED Wrap Visor
-    mk("path", {
-      d: "M 0,-4.7 C 5.4,-4.7 8.4,-2.7 8.4,0.2 C 8.4,3.1 5.4,5.0 0,5.0 C -5.4,5.0 -8.4,3.1 -8.4,0.2 C -8.4,-2.7 -5.4,-4.7 0,-4.7 Z",
+    // Deep Obsidian Panoramic Dual-Optic Visor (matches evo-walker.js gogglesEl!)
+    mk("rect", {
+      x: "-5.6", y: "-3.4", width: "11.2", height: "6.6", rx: "2.1",
       fill: "#181715"
     }, facePlateG);
 
-    const visorAura = mk("ellipse", { cx: "0", cy: "0.2", rx: "6.4", ry: "3.2", fill: "url(#agent-eye-glow)", opacity: "0.5" }, facePlateG);
+    const visorAura = mk("ellipse", { cx: "0", cy: "-0.1", rx: "4.8", ry: "2.4", fill: "url(#agent-eye-glow)", opacity: "0.48" }, facePlateG);
     const visorGlint = mk("path", {
-      d: "M -6.4,-1.3 Q -4.6,-3.4 -1.4,-3.7",
-      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.55", "stroke-opacity": "0.32", "stroke-linecap": "round"
+      d: "M -4.4,-2.1 L -1.8,-2.1",
+      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.65", "stroke-opacity": "0.36", "stroke-linecap": "round"
     }, facePlateG);
 
-    // Expressive Luminous OLED Pill Eyes
+    // Expressive Luminous OLED Eyes (crisp round-pill hybrid matching Era 4-5 dual optics!)
     const eyesIdleG = mk("g", { class: "mech-eyes-idle" }, facePlateG);
     const eyesTrackG = mk("g", null, eyesIdleG);
-    const eyeL = mk("rect", { x: "-4.5", y: "-1.75", width: "2.35", height: "3.7", rx: "1.18", fill: "#EBFFF3" }, eyesTrackG);
-    const eyeR = mk("rect", { x: "2.15", y: "-1.75", width: "2.35", height: "3.7", rx: "1.18", fill: "#EBFFF3" }, eyesTrackG);
+    const eyeL = mk("rect", { x: "-3.65", y: "-1.55", width: "2.2", height: "3.1", rx: "1.1", fill: "#EBFFF3" }, eyesTrackG);
+    const eyeR = mk("rect", { x: "1.45", y: "-1.55", width: "2.2", height: "3.1", rx: "1.1", fill: "#EBFFF3" }, eyesTrackG);
 
     const eyesHappyG = mk("g", { class: "mech-eyes-happy" }, facePlateG);
     mk("path", {
-      d: "M -4.7,1.0 Q -3.3,-1.6 -1.9,1.0 M 1.9,1.0 Q 3.3,-1.6 4.7,1.0",
-      fill: "none", stroke: "#B5F5D4", "stroke-width": "1.2", "stroke-linecap": "round"
+      d: "M -3.9,0.7 Q -2.55,-1.4 -1.2,0.7 M 1.2,0.7 Q 2.55,-1.4 3.9,0.7",
+      fill: "none", stroke: "#B5F5D4", "stroke-width": "1.15", "stroke-linecap": "round"
     }, eyesHappyG);
 
     const eyesWinkG = mk("g", { class: "mech-eyes-wink" }, facePlateG);
-    mk("rect", { x: "-4.5", y: "-1.75", width: "2.35", height: "3.7", rx: "1.18", fill: "#B5F5D4" }, eyesWinkG);
+    mk("rect", { x: "-3.65", y: "-1.55", width: "2.2", height: "3.1", rx: "1.1", fill: "#B5F5D4" }, eyesWinkG);
     mk("path", {
-      d: "M 1.9,1.0 Q 3.3,-1.5 4.7,1.0",
-      fill: "none", stroke: "#B5F5D4", "stroke-width": "1.2", "stroke-linecap": "round"
+      d: "M 1.2,0.7 Q 2.55,-1.3 3.9,0.7",
+      fill: "none", stroke: "#B5F5D4", "stroke-width": "1.15", "stroke-linecap": "round"
     }, eyesWinkG);
 
     // =====================================================================
@@ -340,6 +347,8 @@
       headTilt: 0,
       headYaw: 0,
       headPitch: 0,
+      antDeg: 0,
+      antVel: 0,
       eyeX: 0, eyeY: 0,
       curious: 0
     };
@@ -368,7 +377,7 @@
       const nr = topNav.getBoundingClientRect();
       const cs = getComputedStyle(topNav);
       const padL = parseFloat(cs.paddingLeft) || 24;
-      return { x: nr.left + padL + 22, y: nr.top + nr.height * 0.5 };
+      return { x: nr.left + padL + 22, y: nr.top + nr.height * 0.5 + 2 };
     }
 
     // DOM-grounded open rice-paper airspace measurement (strictly clear of heatmap/Recent Posts & era twigs!)
@@ -376,9 +385,8 @@
       const navH = topNav.getBoundingClientRect().height || 46;
       const dockBand = document.querySelector(".bottom-dock");
       const dockBottom = dockBand ? dockBand.getBoundingClientRect().bottom : navH + 136;
-      const skyTop = Math.max(navH + 48, dockBottom + 36);
+      const skyTop = Math.max(navH + 48, dockBottom + 38);
 
-      // Locate real Flagship card (Era 4 LangGraph) in DOM for dead-center inspection!
       let flagX = W * 0.695;
       let flagY = skyTop + 34;
       const flagEl = skeletonGridEl && skeletonGridEl.querySelector(".twig-item.is-flagship");
@@ -386,7 +394,6 @@
         const fr = flagEl.getBoundingClientRect();
         if (fr.width > 10 && fr.height > 10) {
           flagX = fr.left + fr.width * 0.5;
-          // Hover gracefully in the open sky cleanly above the Flagship card!
           flagY = Math.max(skyTop + 10, Math.min(fr.top - 52, skyTop + 62));
         }
       }
@@ -404,6 +411,7 @@
       jetPalmRG.setAttribute("opacity", val);
       jetBootLG.setAttribute("opacity", val);
       jetBootRG.setAttribute("opacity", val);
+      jetPackPlumeG.setAttribute("opacity", (op * 0.72).toFixed(2));
     }
 
     function hideFlightFX() {
@@ -418,10 +426,16 @@
 
     function applyFaceYaw(yaw, pitch) {
       facePlateG.setAttribute("transform", `translate(${yaw.toFixed(2)}, ${pitch.toFixed(2)})`);
-      earL.setAttribute("transform", `translate(${(yaw * 0.25).toFixed(2)}, 0)`);
-      earR.setAttribute("transform", `translate(${(yaw * 0.25).toFixed(2)}, 0)`);
-      earL.setAttribute("stroke-opacity", clamp01(0.65 - yaw * 0.22).toFixed(2));
-      earR.setAttribute("stroke-opacity", clamp01(0.65 + yaw * 0.22).toFixed(2));
+      earL.setAttribute("transform", `translate(${(yaw * 0.22).toFixed(2)}, 0)`);
+      earR.setAttribute("transform", `translate(${(yaw * 0.22).toFixed(2)}, 0)`);
+      crestEl.setAttribute("transform", `translate(${(yaw * 0.35).toFixed(2)}, 0)`);
+    }
+
+    function stepSpringAntenna(dt, targetDeg) {
+      const acc = (targetDeg - drone.antDeg) * 145 - drone.antVel * 13;
+      drone.antVel += acc * dt;
+      drone.antDeg = Math.max(-24, Math.min(24, drone.antDeg + drone.antVel * dt));
+      antG.setAttribute("transform", `rotate(${drone.antDeg.toFixed(2)}, 0, -6.2)`);
     }
 
     function pingEraColumn(colEl) {
@@ -467,39 +481,41 @@
     }
     scheduleBlink();
 
-    // Animate limb-locked thruster plumes & aerodynamic limb lag (plumes stay 100% locked to nozzles!)
+    // Animate limb-locked bamboo plumes & mechanical arm/leg lag (plumes stay 100% seated on emitters!)
     function updateFullBodyKinematics(now, thrust, bankDeg, curiousAmt, foldAmt) {
       const flick = 0.88 + 0.24 * Math.abs(Math.sin(now * 0.055));
-      const pLen = (4.0 + thrust * 5.8) * flick;
+      const pLen = (4.4 + thrust * 6.0) * flick;
       const pCore = pLen * 0.48;
-      const bLen = (6.0 + thrust * 8.6) * flick;
+      const bLen = (5.8 + thrust * 8.4) * flick;
       const bCore = bLen * 0.50;
+      const pkLen = (3.8 + thrust * 5.2) * flick;
 
       const f = foldAmt || 0;
       const armSwing = -bankDeg * 0.34;
-      const armLAngle = lerp(armSwing + 4 + curiousAmt * 8, -24, f);
-      const armRAngle = lerp(armSwing - 4 - curiousAmt * 8, 24, f);
-      armL.setAttribute("transform", `rotate(${armLAngle.toFixed(1)}, -6.5, 1.4)`);
-      armR.setAttribute("transform", `rotate(${armRAngle.toFixed(1)}, 6.5, 1.4)`);
+      const armLAngle = lerp(armSwing + 4 + curiousAmt * 8, -28, f);
+      const armRAngle = lerp(armSwing - 4 - curiousAmt * 8, 28, f);
+      armL.setAttribute("transform", `rotate(${armLAngle.toFixed(1)}, -5.4, 1.2)`);
+      armR.setAttribute("transform", `rotate(${armRAngle.toFixed(1)}, 5.4, 1.2)`);
 
-      const legLag = -bankDeg * 0.58 * (1 - f);
-      const legRetractY = -f * 7.5;
-      legL.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag - 5 * (1 - f)).toFixed(1)}, -2.3, 10.0)`);
-      legR.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag + 4 * (1 - f)).toFixed(1)}, 2.3, 10.0)`);
+      const legLag = -bankDeg * 0.56 * (1 - f);
+      const legRetractY = -f * 8.2;
+      legL.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag - 5 * (1 - f)).toFixed(1)}, -2.2, 10.2)`);
+      legR.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag + 4 * (1 - f)).toFixed(1)}, 2.2, 10.2)`);
 
-      // Subtle dorsal wing tuck during folding
-      wingsG.setAttribute("transform", `scale(${(1 - 0.5 * f).toFixed(3)}, 1)`);
+      packG.setAttribute("transform", `scale(${(1 - 0.45 * f).toFixed(3)}, 1)`);
 
       if (thrust > 0.04) {
         setJetOpacity(clamp01(thrust * 1.15));
-        jetPalmL.setAttribute("d", `M -11.7,9.4 Q -11.1,${(9.4 + pLen * 0.52).toFixed(1)} -10.6,${(9.4 + pLen).toFixed(1)} Q -10.0,${(9.4 + pLen * 0.52).toFixed(1)} -9.4,9.4 Z`);
-        jetPalmLCore.setAttribute("d", `M -11.1,9.4 L -10.6,${(9.4 + pCore).toFixed(1)} L -10.0,9.4 Z`);
-        jetPalmR.setAttribute("d", `M 9.4,9.4 Q 10.0,${(9.4 + pLen * 0.52).toFixed(1)} 10.6,${(9.4 + pLen).toFixed(1)} Q 11.1,${(9.4 + pLen * 0.52).toFixed(1)} 11.7,9.4 Z`);
-        jetPalmRCore.setAttribute("d", `M 10.0,9.4 L 10.6,${(9.4 + pCore).toFixed(1)} L 11.1,9.4 Z`);
-        jetBootL.setAttribute("d", `M -3.9,17.9 Q -3.3,${(17.9 + bLen * 0.5).toFixed(1)} -2.5,${(17.9 + bLen * 0.88).toFixed(1)} Q -1.7,${(17.9 + bLen * 0.5).toFixed(1)} -1.1,17.9 Z`);
-        jetBootLCore.setAttribute("d", `M -3.1,17.9 L -2.5,${(17.9 + bCore * 0.88).toFixed(1)} L -1.9,17.9 Z`);
-        jetBootR.setAttribute("d", `M 1.3,18.8 Q 1.9,${(18.8 + bLen * 0.5).toFixed(1)} 2.7,${(18.8 + bLen).toFixed(1)} Q 3.5,${(18.8 + bLen * 0.5).toFixed(1)} 4.1,18.8 Z`);
-        jetBootRCore.setAttribute("d", `M 2.0,18.8 L 2.7,${(18.8 + bCore).toFixed(1)} L 3.4,18.8 Z`);
+        jetPalmL.setAttribute("d", `M -11.8,9.9 Q -11.2,${(9.9 + pLen * 0.52).toFixed(1)} -10.5,${(9.9 + pLen).toFixed(1)} Q -9.8,${(9.9 + pLen * 0.52).toFixed(1)} -9.2,9.9 Z`);
+        jetPalmLCore.setAttribute("d", `M -11.1,9.9 L -10.5,${(9.9 + pCore).toFixed(1)} L -9.9,9.9 Z`);
+        jetPalmR.setAttribute("d", `M 9.2,9.9 Q 9.8,${(9.9 + pLen * 0.52).toFixed(1)} 10.5,${(9.9 + pLen).toFixed(1)} Q 11.2,${(9.9 + pLen * 0.52).toFixed(1)} 11.8,9.9 Z`);
+        jetPalmRCore.setAttribute("d", `M 9.9,9.9 L 10.5,${(9.9 + pCore).toFixed(1)} L 11.1,9.9 Z`);
+        jetBootL.setAttribute("d", `M -3.9,18.1 Q -3.3,${(18.1 + bLen * 0.5).toFixed(1)} -2.45,${(18.1 + bLen * 0.88).toFixed(1)} Q -1.6,${(18.1 + bLen * 0.5).toFixed(1)} -1.0,18.1 Z`);
+        jetBootLCore.setAttribute("d", `M -3.1,18.1 L -2.45,${(18.1 + bCore * 0.88).toFixed(1)} L -1.8,18.1 Z`);
+        jetBootR.setAttribute("d", `M 1.2,19.1 Q 1.9,${(19.1 + bLen * 0.5).toFixed(1)} 2.75,${(19.1 + bLen).toFixed(1)} Q 3.6,${(19.1 + bLen * 0.5).toFixed(1)} 4.3,19.1 Z`);
+        jetBootRCore.setAttribute("d", `M 2.0,19.1 L 2.75,${(19.1 + bCore).toFixed(1)} L 3.5,19.1 Z`);
+        jetPackL.setAttribute("d", `M -7.3,8.3 L -5.3,8.3 L -6.3,${(8.3 + pkLen).toFixed(1)} Z`);
+        jetPackR.setAttribute("d", `M 5.3,8.3 L 7.3,8.3 L 6.3,${(8.3 + pkLen).toFixed(1)} Z`);
       } else {
         setJetOpacity(0);
       }
@@ -549,9 +565,11 @@
       drone.bodyBank = 0;
       drone.headTilt = fromDock ? 0 : -6;
       drone.headYaw = 0;
-      drone.headPitch = fromDock ? 0 : -0.6;
+      drone.headPitch = fromDock ? 0 : -0.5;
+      drone.antDeg = 0;
+      drone.antVel = 0;
       drone.eyeX = 0;
-      drone.eyeY = fromDock ? 0 : -0.8;
+      drone.eyeY = fromDock ? 0 : -0.7;
       drone.curious = 0;
 
       // Render handoff frame synchronously so there is ZERO 1-frame flash or teleport!
@@ -574,11 +592,11 @@
       const dy = e.clientY - (r.top + r.height / 2);
       const dist = Math.hypot(dx, dy) || 1;
       const ratio = Math.min(1, dist / 280);
-      mouseGoal.ex = (dx / dist) * 1.50 * ratio;
-      mouseGoal.ey = (dy / dist) * 1.00 * ratio;
-      mouseGoal.hx = (dx / dist) * 0.85 * ratio;
-      mouseGoal.hy = (dy / dist) * 0.60 * ratio;
-      mouseGoal.hrot = (dx / dist) * 3.0 * ratio;
+      mouseGoal.ex = (dx / dist) * 1.45 * ratio;
+      mouseGoal.ey = (dy / dist) * 0.95 * ratio;
+      mouseGoal.hx = (dx / dist) * 0.80 * ratio;
+      mouseGoal.hy = (dy / dist) * 0.55 * ratio;
+      mouseGoal.hrot = (dx / dist) * 2.8 * ratio;
     }, { passive: true });
 
     document.addEventListener("mouseleave", () => {
@@ -610,7 +628,7 @@
       }
     });
 
-    // Double-click docked avatar -> unfolds full body & launches a live 2D aerial patrol!
+    // Double-click docked avatar -> unfolds full original robot body & launches live 2D patrol!
     btn.addEventListener("dblclick", (e) => {
       e.preventDefault();
       if (avPhase !== "avatar") return;
@@ -620,7 +638,6 @@
 
     AgentBlog.isAvatarDocked = () => avPhase === "avatar" || avPhase === "sonar";
 
-    // Primary single-robot continuous liftoff handoff from Era 5 launch pad (zero off-screen flight!)
     AgentBlog.onMechLiftoff = (origin) => {
       if (avPhase === "waiting") {
         startAutonomousPatrol(false, origin);
@@ -662,22 +679,18 @@
       // First-run single-robot continuous liftoff from Era 5 pad -> vertical climb straight up contrail -> open-sky patrol!
       const climbX = Math.max(W * 0.88, Math.min(W - 28, launchOrigin.x));
       if (t < 0.86) {
-        // Phase 1: Vertical rocket climb smoothly inside the right margin up into the open rice-paper sky!
         return { x: climbX, y: skyY + 18, lookX: -0.25, lookY: -0.75, curious: 0, beam: 0, stiffness: 20 };
       }
       if (t < 1.66) {
-        // Phase 2: Level out in open rice-paper sky, power on volumetric visor beam, glide to Era 4 Flagship!
         const u = clamp01((t - 0.86) / 0.42);
         return { x: air.flagX, y: air.flagY, lookX: -0.85, lookY: 1.1, curious: 0, beam: u, stiffness: 24 };
       }
       if (t < 2.38) {
-        // Phase 3: Curious hover & mini 2.5D head-sweep dead-center above Flagship Era 4 LangGraph card!
         const u = (t - 1.66) / 0.72;
         const scanSwing = Math.sin(u * Math.PI * 1.5) * 0.55;
         return { x: air.flagX, y: air.flagY, lookX: scanSwing, lookY: 1.18, curious: 1, beam: 0.96, stiffness: 20 };
       }
       if (t < 3.64) {
-        // Phase 4: Sweeps smoothly across Era 3 -> Era 2 -> Era 1 through the wide-open rice-paper sky!
         const u = (t - 2.38) / 1.26;
         return {
           x: lerp(air.flagX - 18, W * 0.14, u),
@@ -690,7 +703,6 @@
         };
       }
       if (t < 4.28) {
-        // Phase 5: Climbs gracefully toward top-left dock!
         return { x: dock.x + 28, y: skyY - 12, lookX: -0.75, lookY: 0.35, curious: 0, beam: 0.48, stiffness: 32 };
       }
       return { x: dock.x, y: dock.y, lookX: 0, lookY: 0, curious: 0, beam: 0, stiffness: 58 };
@@ -712,8 +724,9 @@
         craftG.setAttribute("transform", `translate(${curHx.toFixed(2)}, ${curHy.toFixed(2)}) scale(${curScale.toFixed(3)}) rotate(${curHrot.toFixed(2)})`);
         bodyRigG.setAttribute("opacity", ease.toFixed(2));
         bodyRigG.setAttribute("transform", `translate(0, ${lerp(-10, 0, ease).toFixed(2)}) scale(${lerp(0.45, 1, ease).toFixed(3)}, ${lerp(0.18, 1, ease).toFixed(3)})`);
-        headG.setAttribute("transform", `translate(0, ${lerp(0, FLIGHT_HEAD_Y, ease).toFixed(2)}) scale(${lerp(DOCKED_HEAD_SCALE, FLIGHT_HEAD_SCALE, ease).toFixed(3)})`);
+        headG.setAttribute("transform", `translate(0, ${lerp(2.2, FLIGHT_HEAD_Y, ease).toFixed(2)}) scale(${lerp(DOCKED_HEAD_SCALE, FLIGHT_HEAD_SCALE, ease).toFixed(3)})`);
         updateFullBodyKinematics(now, ease * 0.85, 0, 0, 1 - ease);
+        stepSpringAntenna(dt, 0);
 
         if (foldT >= 0.40) {
           avPhase = "patrolling";
@@ -741,43 +754,42 @@
         const bobFade = climbIn * (1 - clamp01((patrolT - (totalDur - 0.55)) / 0.55));
         const hoverBobY = (Math.sin(now * 0.0062) * 2.4 + Math.cos(now * 0.0037) * 1.1) * bobFade;
 
-        // BODY banks smoothly with horizontal velocity; HEAD moves independently (counter-stabilizes, yaws 2.5D, & tilts curiously!)
+        // BODY banks smoothly with horizontal velocity; HEAD moves independently & antenna lags with inertia!
         drone.curious += (tgt.curious - drone.curious) * Math.min(1, dt * 8);
         const targetBank = Math.max(-18, Math.min(18, drone.vx * 0.034));
         drone.bodyBank += (targetBank - drone.bodyBank) * Math.min(1, dt * 8.5);
 
-        const lookBobTilt = Math.sin(now * 0.0045) * 2.6 * bobFade;
-        const targetHeadTilt = -drone.bodyBank * 0.42 + drone.curious * 11.5 + lookBobTilt;
+        const lookBobTilt = Math.sin(now * 0.0045) * 2.5 * bobFade;
+        const targetHeadTilt = -drone.bodyBank * 0.42 + drone.curious * 11.0 + lookBobTilt;
         drone.headTilt += (targetHeadTilt - drone.headTilt) * Math.min(1, dt * 10);
 
         drone.eyeX += (tgt.lookX - drone.eyeX) * Math.min(1, dt * 10);
         drone.eyeY += (tgt.lookY - drone.eyeY) * Math.min(1, dt * 10);
-        drone.headYaw += (drone.eyeX * 0.95 - drone.headYaw) * Math.min(1, dt * 9);
-        drone.headPitch += (drone.eyeY * 0.55 - drone.headPitch) * Math.min(1, dt * 9);
+        drone.headYaw += (drone.eyeX * 0.82 - drone.headYaw) * Math.min(1, dt * 9);
+        drone.headPitch += (drone.eyeY * 0.42 - drone.headPitch) * Math.min(1, dt * 9);
+
+        stepSpringAntenna(dt, -drone.vx * 0.045 - drone.headTilt * 0.35);
 
         const dx = drone.x - dock.x;
         const dy = drone.y + hoverBobY - dock.y;
         btn.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
 
-        // Smoothly grows from exact 1:1 Era 5 pad height (1.13) to heroic open-sky presence (1.38), then back to 1.0 on dock!
         const riseScale = patrolIsReRun ? FLY_SCALE : lerp(LAUNCH_MATCH_SCALE, FLY_SCALE, smooth(0.0, 0.75, patrolT));
         const flyScale = lerp(riseScale, 1.0, clamp01((patrolT - (totalDur - 0.65)) / 0.65));
         craftG.setAttribute("transform", `scale(${flyScale.toFixed(3)}) rotate(${drone.bodyBank.toFixed(2)})`);
         headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(${drone.headTilt.toFixed(2)})`);
         applyFaceYaw(drone.headYaw, drone.headPitch);
 
-        // Full body limb lag & limb-locked thruster plumes
         const speed = Math.hypot(drone.vx, drone.vy);
         const thrust = clamp01(0.55 + speed / 420);
         bodyRigG.setAttribute("opacity", "1");
         updateFullBodyKinematics(now, thrust, drone.bodyBank, drone.curious, 0);
 
-        // Expressive OLED Eyes + curious asymmetric sizing & vermilion status sense
-        eyesTrackG.setAttribute("transform", `translate(${(drone.eyeX * 0.85).toFixed(2)}, ${(drone.eyeY * 0.72).toFixed(2)})`);
-        visorGlint.setAttribute("transform", `translate(${(-drone.eyeX * 0.25).toFixed(2)}, ${(-drone.eyeY * 0.20).toFixed(2)})`);
+        eyesTrackG.setAttribute("transform", `translate(${(drone.eyeX * 0.78).toFixed(2)}, ${(drone.eyeY * 0.65).toFixed(2)})`);
+        visorGlint.setAttribute("transform", `translate(${(-drone.eyeX * 0.22).toFixed(2)}, ${(-drone.eyeY * 0.18).toFixed(2)})`);
 
-        const lH = lerp(3.7, 2.75, drone.curious);
-        const rH = lerp(3.7, 4.15, drone.curious);
+        const lH = lerp(3.1, 2.35, drone.curious);
+        const rH = lerp(3.1, 3.55, drone.curious);
         eyeL.setAttribute("height", lH.toFixed(2));
         eyeL.setAttribute("y", (-lH * 0.5).toFixed(2));
         eyeR.setAttribute("height", rH.toFixed(2));
@@ -786,11 +798,11 @@
         const eyeFill = isFlagHover ? "#FFE8E3" : "#C9FCE0";
         eyeL.setAttribute("fill", eyeFill);
         eyeR.setAttribute("fill", eyeFill);
-        statusSlit.setAttribute("fill", isFlagHover ? "#B83B2A" : "#2D6A47");
+        statusTip.setAttribute("fill", isFlagHover ? "#B83B2A" : "#2D6A47");
         chestCore.setAttribute("fill", isFlagHover ? "#B83B2A" : "#2D6A47");
-        visorAura.setAttribute("opacity", (0.55 + tgt.beam * 0.35).toFixed(2));
+        visorAura.setAttribute("opacity", (0.50 + tgt.beam * 0.35).toFixed(2));
 
-        // Soft volumetric inspection cone geometrically locked to the rotating robot's visor!
+        // Soft volumetric inspection cone geometrically locked to the rotating CRT visor!
         const pxPerUnit = getPxPerUnit();
         const bankRad = (drone.bodyBank * Math.PI) / 180;
         const headCenterDist = -FLIGHT_HEAD_Y * flyScale * pxPerUnit;
@@ -838,7 +850,7 @@
           coneG.setAttribute("opacity", "0");
         }
 
-        // Boot thruster wake micro-dots spawned cleanly below the rotated thruster boots (active during vertical climb & patrol!)
+        // Boot thruster wake micro-dots spawned cleanly below the rotated thruster boots!
         wakeCooldown -= dt;
         if (speed > 40 && wakeCooldown <= 0) {
           const p = wakeDots[wakeIdx % wakeDots.length];
@@ -905,10 +917,11 @@
         const headScale = headU < 0.78
           ? lerp(FLIGHT_HEAD_SCALE, DOCKED_HEAD_SCALE + 0.08, 1 - Math.pow(1 - headU / 0.78, 3))
           : lerp(DOCKED_HEAD_SCALE + 0.08, DOCKED_HEAD_SCALE, (headU - 0.78) / 0.22);
-        const headY = lerp(FLIGHT_HEAD_Y, 0, 1 - Math.pow(1 - headU, 3));
+        const headY = lerp(FLIGHT_HEAD_Y, 2.2, 1 - Math.pow(1 - headU, 3));
         const curHeadTilt = lerp(foldStart.headTilt, 0, settleEase);
         headG.setAttribute("transform", `translate(0, ${headY.toFixed(2)}) scale(${headScale.toFixed(3)}) rotate(${curHeadTilt.toFixed(2)})`);
         applyFaceYaw(lerp(foldStart.headYaw, 0, settleEase), lerp(foldStart.headPitch, 0, settleEase));
+        stepSpringAntenna(dt, 0);
 
         wakeDots.forEach((p) => {
           if (p.life > 0) {
@@ -936,18 +949,18 @@
           craftG.setAttribute("transform", "translate(0, 0)");
           hideFlightFX();
           bodyRigG.setAttribute("opacity", "0");
-          wingsG.removeAttribute("transform");
+          packG.removeAttribute("transform");
           foldSparks.setAttribute("opacity", "0");
           dockRing.setAttribute("opacity", "0");
-          headG.setAttribute("transform", `translate(0, 0) scale(${DOCKED_HEAD_SCALE})`);
+          headG.setAttribute("transform", `translate(0, 2.2) scale(${DOCKED_HEAD_SCALE})`);
           applyFaceYaw(0, 0);
-          eyeL.setAttribute("height", "3.7");
-          eyeL.setAttribute("y", "-1.75");
-          eyeR.setAttribute("height", "3.7");
-          eyeR.setAttribute("y", "-1.75");
+          eyeL.setAttribute("height", "3.1");
+          eyeL.setAttribute("y", "-1.55");
+          eyeR.setAttribute("height", "3.1");
+          eyeR.setAttribute("y", "-1.55");
           eyeL.setAttribute("fill", "#EBFFF3");
           eyeR.setAttribute("fill", "#EBFFF3");
-          statusSlit.setAttribute("fill", "#2D6A47");
+          statusTip.setAttribute("fill", "#2D6A47");
           chestCore.setAttribute("fill", "#2D6A47");
           eyesTrackG.setAttribute("transform", "translate(0, 0)");
           btn.classList.add("is-docked");
@@ -1020,6 +1033,7 @@
 
         const floatY = Math.sin(now * 0.0028) * 1.1;
         craftG.setAttribute("transform", `translate(0, ${floatY.toFixed(2)})`);
+        stepSpringAntenna(dt, Math.sin(now * 0.0022) * 2.2);
 
         if (sonarT >= 1.25) {
           avPhase = "avatar";
@@ -1032,15 +1046,16 @@
         headState.hy += (mouseGoal.hy - headState.hy) * 0.11;
         headState.hrot += (mouseGoal.hrot - headState.hrot) * 0.11;
 
-        const floatY = Math.sin(now * 0.0028) * 1.15;
+        const floatY = Math.sin(now * 0.0028) * 1.1;
         craftG.setAttribute(
           "transform",
           `translate(${headState.hx.toFixed(2)}, ${(floatY + headState.hy).toFixed(2)}) rotate(${headState.hrot.toFixed(2)})`
         );
-        applyFaceYaw(headState.ex * 0.55, headState.ey * 0.35);
-        dockShadow.setAttribute("rx", (7.8 - floatY * 0.45).toFixed(2));
+        applyFaceYaw(headState.ex * 0.50, headState.ey * 0.30);
+        stepSpringAntenna(dt, -headState.hrot * 1.5 + Math.sin(now * 0.0021) * 1.8);
+        dockShadow.setAttribute("rx", (8.2 - floatY * 0.42).toFixed(2));
         eyesTrackG.setAttribute("transform", `translate(${(headState.ex * 0.72).toFixed(2)}, ${(headState.ey * 0.72).toFixed(2)})`);
-        visorGlint.setAttribute("transform", `translate(${(-headState.ex * 0.28).toFixed(2)}, ${(-headState.ey * 0.22).toFixed(2)})`);
+        visorGlint.setAttribute("transform", `translate(${(-headState.ex * 0.25).toFixed(2)}, ${(-headState.ey * 0.20).toFixed(2)})`);
 
         if (syncTimer > 0) {
           syncTimer = Math.max(0, syncTimer - dt);
