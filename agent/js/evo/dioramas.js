@@ -467,8 +467,9 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
   mk("line", { x1: "-11.4", y1: "-6", x2: "-11.4", y2: "-29", stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "2 3" }, padBeams);
   mk("line", { x1: "11.4", y1: "-6", x2: "11.4", y2: "-29", stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "2 3" }, padBeams);
   const padScanLine = mk("line", { x1: "-12.4", y1: "-6", x2: "12.4", y2: "-6", stroke: "#2D6A47", "stroke-width": "1.05", "stroke-opacity": "0.75", "stroke-dasharray": "3 2", opacity: "0" }, prop5);
-  const padEnergyRing = mk("ellipse", { cx: "0", cy: "-6", rx: "11.5", ry: "2.2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, prop5);
-  // Stepped aerospace launch deck + dark recessed flame trench exhaust pit + ignition glow!
+  const padEnergyRing = mk("ellipse", { cx: "0", cy: "-6", rx: "11.5", ry: "2.2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, prop5);
+  const padEnergyRing2 = mk("ellipse", { cx: "0", cy: "-14", rx: "10.0", ry: "1.9", fill: "none", stroke: "#5CE09B", "stroke-width": "0.85", "stroke-dasharray": "3 2", opacity: "0" }, prop5);
+  // Stepped aerospace launch deck + dark recessed flame trench exhaust pit + blinding overdrive core!
   mk("path", {
     d: "M -18.2,0 L -15.2,-3.6 L 15.2,-3.6 L 18.2,0 Z",
     fill: "url(#evo-porcelain)", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
@@ -477,16 +478,19 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
     d: "M -11.4,-3.6 L -9.6,-1.1 L 9.6,-1.1 L 11.4,-3.6 Z",
     fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.75", "stroke-linejoin": "round"
   }, prop5);
-  const trenchGlow = mk("ellipse", { cx: "0", cy: "-2.3", rx: "9.2", ry: "1.45", fill: "#B5F5D4", opacity: "0" }, prop5);
-  // Symmetrical Horizontal High-Pressure Exhaust Steam Plumes blasting left & right out of launch trench on ignition!
+  const trenchGlow = mk("ellipse", { cx: "0", cy: "-2.3", rx: "9.8", ry: "1.65", fill: "#5CE09B", opacity: "0" }, prop5);
+  const trenchCore = mk("ellipse", { cx: "0", cy: "-2.3", rx: "6.4", ry: "0.95", fill: "#FFFFFF", opacity: "0" }, prop5);
+  // Multi-Layer Symmetrical High-Pressure Exhaust Steam Plumes blasting left & right out of launch trench!
   const launchSteamL = mk("g", { opacity: "0" }, prop5);
-  mk("circle", { cx: "-18.5", cy: "-2.6", r: "2.5", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.65", "fill-opacity": "0.9" }, launchSteamL);
-  mk("circle", { cx: "-22.2", cy: "-4.2", r: "3.1", fill: "#E6EFE8", stroke: "#2D6A47", "stroke-width": "0.55", "fill-opacity": "0.85" }, launchSteamL);
-  mk("circle", { cx: "-25.8", cy: "-2.2", r: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.5", "fill-opacity": "0.75" }, launchSteamL);
+  mk("circle", { cx: "-18.2", cy: "-2.6", r: "2.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.68", "fill-opacity": "0.94" }, launchSteamL);
+  mk("circle", { cx: "-22.0", cy: "-4.6", r: "3.4", fill: "#E6EFE8", stroke: "#2D6A47", "stroke-width": "0.58", "fill-opacity": "0.88" }, launchSteamL);
+  mk("circle", { cx: "-26.4", cy: "-2.6", r: "2.4", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.52", "fill-opacity": "0.80" }, launchSteamL);
+  mk("circle", { cx: "-24.5", cy: "-6.6", r: "2.1", fill: "#E6EFE8", stroke: "#5CE09B", "stroke-width": "0.45", "fill-opacity": "0.68" }, launchSteamL);
   const launchSteamR = mk("g", { opacity: "0" }, prop5);
-  mk("circle", { cx: "18.5", cy: "-2.6", r: "2.5", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.65", "fill-opacity": "0.9" }, launchSteamR);
-  mk("circle", { cx: "22.2", cy: "-4.2", r: "3.1", fill: "#E6EFE8", stroke: "#2D6A47", "stroke-width": "0.55", "fill-opacity": "0.85" }, launchSteamR);
-  mk("circle", { cx: "25.8", cy: "-2.2", r: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.5", "fill-opacity": "0.75" }, launchSteamR);
+  mk("circle", { cx: "18.2", cy: "-2.6", r: "2.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.68", "fill-opacity": "0.94" }, launchSteamR);
+  mk("circle", { cx: "22.0", cy: "-4.6", r: "3.4", fill: "#E6EFE8", stroke: "#2D6A47", "stroke-width": "0.58", "fill-opacity": "0.88" }, launchSteamR);
+  mk("circle", { cx: "26.4", cy: "-2.6", r: "2.4", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.52", "fill-opacity": "0.80" }, launchSteamR);
+  mk("circle", { cx: "24.5", cy: "-6.6", r: "2.1", fill: "#E6EFE8", stroke: "#5CE09B", "stroke-width": "0.45", "fill-opacity": "0.68" }, launchSteamR);
   // Twin sculpted docking clamp pylons
   mk("path", {
     d: "M -16.8,0 L -17.6,-7.6 L -14.2,-7.6 L -13.2,-3.6 M 16.8,0 L 17.6,-7.6 L 14.2,-7.6 L 13.2,-3.6",
@@ -586,6 +590,6 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
 
   return {
     svg,
-    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateS1, gateS2, gateS3, gateS3Rays, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, trenchGlow, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
+    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateS1, gateS2, gateS3, gateS3Rays, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
   };
 }

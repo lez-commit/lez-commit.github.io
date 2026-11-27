@@ -302,6 +302,13 @@ export function buildBotRig({ svg }) {
     fill: "none", stroke: "#2D6A47", "stroke-width": "1.25", "stroke-linecap": "round"
   }, lockSparks);
   const lockGlint = mk("line", { x1: "-7", y1: "-30", x2: "7", y2: "-16", stroke: "#FFFFFF", "stroke-width": "2.4", "stroke-linecap": "round", "stroke-opacity": "0.92", opacity: "0" }, botGroup);
+  // Crisp 4-point anime Impact Star + radial shock circle flashing at each armor-wave snap-lock socket!
+  const impactStarG = mk("g", { opacity: "0" }, botGroup);
+  mk("circle", { cx: "0", cy: "0", r: "5.8", fill: "none", stroke: "#5CE09B", "stroke-width": "1.1" }, impactStarG);
+  mk("path", {
+    d: "M 0,-7.5 L 1.4,-1.4 L 7.5,0 L 1.4,1.4 L 0,7.5 L -1.4,1.4 L -7.5,0 L -1.4,-1.4 Z",
+    fill: "#FFFFFF", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linejoin": "round"
+  }, impactStarG);
 
   // Click happy hop spark
   const clickSpark = mk("g", { opacity: "0" }, botGroup);
@@ -311,6 +318,6 @@ export function buildBotRig({ svg }) {
 
 
   return {
-    botGroup, shadowEl, stuckBang, botBody, keyGroup, keyBowG, backLegGroup, backThigh, backShin, kneeJoint2, backFoot, bootB, backArmGroup, backUpperArm, backForeArm, elbowJointB, gauntletB, torsoGroup, jetpackEl, groundWingL, groundWingR, rpaTopCap, mk1Lamp, mk3BackEl, mk3StowedDrill, mk4BackEl, neckEl, pelvisEl, skirtArmorEl, torsoEl, torsoShade, chestPanel, chestLed, mk1FrontDial, mk1Needle, mk2ProtoEl, mk2CoreAura, mk2PulseBar, mk3RigEl, mk4TactEl, mk4Led1, mk4Led2, mk4Led3, shoulderArmorEl, harnessGroup, harnessX1, harnessX2, harnessGlow, harnessHexG, harnessRipple, harnessRipple2, frontThigh, frontShin, frontFoot, kneeJoint1, bootF, headGroup, antGroup, antTip, cotHeadSpark, mk2HeadFins, mk4EarWings, crtEarsEl, visorScreen, visorGlint1, crtBootLine, eyeEl, eyeFocus, eyeWince, dizzyStars, gogglesEl, visorGlint2, goggleEye, gEyeL, gEyeR, goggleHappy, headCrestEl, frontUpperArm, frontForeArm, elbowJointF, shoulderPin, handTipB, handTipF, pincerEl, mk3ArmCuff, drillGroup, drillFlutes, gauntletF, repulsorJets, leftPalmJet, leftPalmCore, rightPalmJet, rightPalmCore, packJetL, packJetR, bootJetF, bootJetB, palmEmitterL, palmEmitterR, assembleLayer, flyParts, lockSparks, lockGlint, clickSpark
+    botGroup, shadowEl, stuckBang, botBody, keyGroup, keyBowG, backLegGroup, backThigh, backShin, kneeJoint2, backFoot, bootB, backArmGroup, backUpperArm, backForeArm, elbowJointB, gauntletB, torsoGroup, jetpackEl, groundWingL, groundWingR, rpaTopCap, mk1Lamp, mk3BackEl, mk3StowedDrill, mk4BackEl, neckEl, pelvisEl, skirtArmorEl, torsoEl, torsoShade, chestPanel, chestLed, mk1FrontDial, mk1Needle, mk2ProtoEl, mk2CoreAura, mk2PulseBar, mk3RigEl, mk4TactEl, mk4Led1, mk4Led2, mk4Led3, shoulderArmorEl, harnessGroup, harnessX1, harnessX2, harnessGlow, harnessHexG, harnessRipple, harnessRipple2, frontThigh, frontShin, frontFoot, kneeJoint1, bootF, headGroup, antGroup, antTip, cotHeadSpark, mk2HeadFins, mk4EarWings, crtEarsEl, visorScreen, visorGlint1, crtBootLine, eyeEl, eyeFocus, eyeWince, dizzyStars, gogglesEl, visorGlint2, goggleEye, gEyeL, gEyeR, goggleHappy, headCrestEl, frontUpperArm, frontForeArm, elbowJointF, shoulderPin, handTipB, handTipF, pincerEl, mk3ArmCuff, drillGroup, drillFlutes, gauntletF, repulsorJets, leftPalmJet, leftPalmCore, rightPalmJet, rightPalmCore, packJetL, packJetR, bootJetF, bootJetB, palmEmitterL, palmEmitterR, assembleLayer, flyParts, lockSparks, lockGlint, impactStarG, clickSpark
   };
 }

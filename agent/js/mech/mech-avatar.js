@@ -18,7 +18,23 @@ export function initMechAvatar({ getView, switchView }) {
   if (!btn || !topNav) return null;
 
   const {
-    coneG, conePoly, coneCorePoly, coneEdgeL, coneEdgeR, wakeDots, trailGrad, trailPathMain, trailPathCore, sonarG, sonarOuterHalo, sonarRingMain, sonarRingEcho, VIEWBOX_H, svg, dockRing, foldSparks, dockShadow, craftG, bodyRigG, packG, wingL, wingR, legL, shinL, jetBootLG, jetBootL, jetBootLCore, machL1, legR, shinR, jetBootRG, jetBootR, jetBootRCore, machR1, armL, jetPalmLG, jetPalmL, jetPalmLCore, armR, jetPalmRG, jetPalmR, jetPalmRCore, chestDetailG, chestCore, DOCKED_HEAD_SCALE, FLIGHT_HEAD_SCALE, FLIGHT_HEAD_Y, LAUNCH_MATCH_SCALE, FLY_SCALE, headG, antG, statusTip, crestEl, earL, earR, facePlateG, visorAura, visorGlint, eyesTrackG, eyeL, eyeR
+    coneG, conePoly, coneCorePoly, coneEdgeL, coneEdgeR, wakeDots, trailGrad, trailPathMain, trailPathCore,
+    sonarG, sonarOuterHalo, sonarRingMain, sonarRingEcho,
+    VIEWBOX_H, svg, dockRing, foldSparks, dockShadow, craftG,
+    awakeningG, awakeningHalo, awakeningRing, awakeningRing2, awakeningRays,
+    machConeG, machConeOuter, machConeInner,
+    bodyRigG, packG,
+    wingL, wingLUpper, wingLMid, wingLLower, wingPlasmaL, jetWingLG, jetWingL,
+    wingR, wingRUpper, wingRMid, wingRLower, wingPlasmaR, jetWingRG, jetWingR,
+    funnelL, funnelJetL, funnelR, funnelJetR,
+    psychoSlits, chestGlowEl, crestGem,
+    legL, shinL, jetBootLG, jetBootL, jetBootLCore, machL1,
+    legR, shinR, jetBootRG, jetBootR, jetBootRCore, machR1,
+    armL, jetPalmLG, jetPalmL, jetPalmLCore,
+    armR, jetPalmRG, jetPalmR, jetPalmRCore,
+    chestDetailG, chestCore,
+    DOCKED_HEAD_SCALE, FLIGHT_HEAD_SCALE, FLIGHT_HEAD_Y, LAUNCH_MATCH_SCALE, FLY_SCALE,
+    headG, antG, statusTip, crestEl, earL, earR, facePlateG, visorAura, visorGlint, eyesTrackG, eyeL, eyeR
   } = buildMechRig({ btn, scanOverlay });
 
   let trailPts = [];
@@ -109,6 +125,21 @@ export function initMechAvatar({ getView, switchView }) {
     jetPalmRG.setAttribute("opacity", (op * 0.88).toFixed(2));
     jetBootLG.setAttribute("opacity", val);
     jetBootRG.setAttribute("opacity", val);
+    jetWingLG.setAttribute("opacity", (op * 0.84).toFixed(2));
+    jetWingRG.setAttribute("opacity", (op * 0.84).toFixed(2));
+  }
+
+  let overdriveMode = false;
+  function setOverdriveColor(isFlag) {
+    if (isFlag === overdriveMode) return;
+    overdriveMode = isFlag;
+    const accent = isFlag ? "#E85D4A" : "#5CE09B";
+    const deep = isFlag ? "#B83B2A" : "#2D6A47";
+    psychoSlits.forEach((el) => el.setAttribute("stroke", accent));
+    crestGem.setAttribute("fill", deep);
+    chestGlowEl.setAttribute("fill", isFlag ? "url(#agent-core-glow-red)" : "url(#agent-core-glow)");
+    wingPlasmaL.setAttribute("fill", isFlag ? "url(#agent-wing-plasma-l-red)" : "url(#agent-wing-plasma-l)");
+    wingPlasmaR.setAttribute("fill", isFlag ? "url(#agent-wing-plasma-r-red)" : "url(#agent-wing-plasma-r)");
   }
 
   function renderRibbonContrail(fadeMul) {
@@ -140,6 +171,13 @@ export function initMechAvatar({ getView, switchView }) {
 
   function hideFlightFX() {
     setJetOpacity(0);
+    setOverdriveColor(false);
+    awakeningG.setAttribute("opacity", "0");
+    machConeG.setAttribute("opacity", "0");
+    wingPlasmaL.setAttribute("opacity", "0");
+    wingPlasmaR.setAttribute("opacity", "0");
+    funnelL.setAttribute("opacity", "0");
+    funnelR.setAttribute("opacity", "0");
     if (coneG) coneG.setAttribute("opacity", "0");
     trailPts.length = 0;
     if (trailPathMain) trailPathMain.setAttribute("opacity", "0");
@@ -253,17 +291,63 @@ export function initMechAvatar({ getView, switchView }) {
     shinL.setAttribute("transform", `rotate(${(kneeLag - 6 * (1 - f) * (1 - standPose)).toFixed(1)}, -2.65, 14.1)`);
     shinR.setAttribute("transform", `rotate(${(kneeLag + 2 * (1 - f) * (1 - standPose)).toFixed(1)}, 2.65, 14.6)`);
 
-    // Articulated aero wing-binders: unfold smoothly inside gantry right after armor lock-in, then stay 100% open in flight!
+    // 3-Tier Hi-MAT Articulated Aero Wing-Binders: fan open sequentially like Freedom Gundam!
     const wingUnfold = gantryOpts && typeof gantryOpts.wingOpen === "number"
       ? gantryOpts.wingOpen
       : (!patrolIsReRun && avPhase === "patrolling" ? 1 : 1 - f);
-    const openScale = lerp(0.55, 1.0, wingUnfold);
-    const speedSweep = (1 - wingUnfold) * 24 + Math.abs(yawNorm) * 9 - curiousAmt * 6;
+    const fanAmt = gantryOpts && typeof gantryOpts.wingFan === "number"
+      ? gantryOpts.wingFan
+      : clamp01((wingUnfold - 0.15) / 0.85);
+    const funnelDeploy = gantryOpts && typeof gantryOpts.funnelDeploy === "number"
+      ? gantryOpts.funnelDeploy
+      : (1 - f) * clamp01(wingUnfold * 1.15);
+
+    const openScale = lerp(0.50, 1.0, wingUnfold);
+    const speedSweep = (1 - wingUnfold) * 28 + Math.abs(yawNorm) * 10 - curiousAmt * 10;
     const wingScaleL = openScale * (1 - yawNorm * 0.16);
     const wingScaleR = openScale * (1 + yawNorm * 0.16);
     wingL.setAttribute("transform", `translate(-3.8, 0.2) scale(${wingScaleL.toFixed(3)}, ${openScale.toFixed(3)}) rotate(${(-speedSweep).toFixed(1)}) translate(3.8, -0.2)`);
     wingR.setAttribute("transform", `translate(3.8, 0.2) scale(${wingScaleR.toFixed(3)}, ${openScale.toFixed(3)}) rotate(${(speedSweep).toFixed(1)}) translate(-3.8, -0.2)`);
+
+    // Sequential 3-tier fan-out angles (upper sweeps heroically up, mid flares out, lower spreads down!)
+    const uFan = clamp01(fanAmt * 1.25);
+    const mFan = clamp01((fanAmt - 0.14) / 0.86);
+    const lFan = clamp01((fanAmt - 0.28) / 0.72);
+    const hiMatExtra = curiousAmt * 6.5;
+    wingLUpper.setAttribute("transform", `rotate(${lerp(24, -6 - hiMatExtra, uFan).toFixed(1)}, -3.8, -0.4)`);
+    wingRUpper.setAttribute("transform", `rotate(${lerp(-24, 6 + hiMatExtra, uFan).toFixed(1)}, 3.8, -0.4)`);
+    wingLMid.setAttribute("transform", `rotate(${lerp(18, -2, mFan).toFixed(1)}, -3.8, 0.4)`);
+    wingRMid.setAttribute("transform", `rotate(${lerp(-18, 2, mFan).toFixed(1)}, 3.8, 0.4)`);
+    wingLLower.setAttribute("transform", `rotate(${lerp(-24, 5 + hiMatExtra * 0.6, lFan).toFixed(1)}, -4.0, 1.8)`);
+    wingRLower.setAttribute("transform", `rotate(${lerp(24, -5 - hiMatExtra * 0.6, lFan).toFixed(1)}, 4.0, 1.8)`);
+
+    // Luminous Bamboo Plasma Wing Feathers (shimmering softly with thrust & Hi-MAT flare!)
+    const plasmaOp = clamp01((fanAmt * 0.72 + thrust * 0.22 + curiousAmt * 0.25) * (1 - f)) * (0.86 + 0.14 * Math.sin(now * 0.016));
+    wingPlasmaL.setAttribute("opacity", plasmaOp.toFixed(2));
+    wingPlasmaR.setAttribute("opacity", plasmaOp.toFixed(2));
     packG.setAttribute("transform", `translate(${(-yawNorm * 0.65).toFixed(2)}, 0)`);
+
+    // Twin Multi-Agent Micro-Funnels: detach into hovering orbital wingmen beside shoulders!
+    if (funnelDeploy > 0.03) {
+      const fEase = 1 - Math.pow(1 - clamp01(funnelDeploy), 3);
+      const orbitBobL = Math.sin(now * 0.0068) * 1.35 * fEase;
+      const orbitBobR = Math.sin(now * 0.0068 + 1.8) * 1.35 * fEase;
+      const fDistX = lerp(9.5, 20.8 + curiousAmt * 2.4, fEase);
+      const fPosY = lerp(-2.5, -5.2 - curiousAmt * 1.8, fEase);
+      const fTiltL = lerp(16, -8 - bankDeg * 0.38, fEase);
+      const fTiltR = lerp(-16, 8 - bankDeg * 0.38, fEase);
+      const fScale = lerp(0.45, 1.0, fEase);
+      funnelL.setAttribute("opacity", clamp01(fEase * 1.25).toFixed(2));
+      funnelR.setAttribute("opacity", clamp01(fEase * 1.25).toFixed(2));
+      funnelL.setAttribute("transform", `translate(${(-fDistX).toFixed(2)}, ${(fPosY + orbitBobL).toFixed(2)}) scale(${fScale.toFixed(2)}) rotate(${fTiltL.toFixed(1)})`);
+      funnelR.setAttribute("transform", `translate(${fDistX.toFixed(2)}, ${(fPosY + orbitBobR).toFixed(2)}) scale(${fScale.toFixed(2)}) rotate(${fTiltR.toFixed(1)})`);
+      const fjOp = (0.35 + thrust * 0.55).toFixed(2);
+      funnelJetL.setAttribute("opacity", fjOp);
+      funnelJetR.setAttribute("opacity", fjOp);
+    } else {
+      funnelL.setAttribute("opacity", "0");
+      funnelR.setAttribute("opacity", "0");
+    }
 
     if (thrust > 0.04) {
       setJetOpacity(clamp01(thrust * 1.15));
@@ -272,6 +356,10 @@ export function initMechAvatar({ getView, switchView }) {
       jetPalmLCore.setAttribute("d", `M -10.3,9.4 L -10.1,${(9.4 + pCore).toFixed(1)} L -9.4,9.4 Z`);
       jetPalmR.setAttribute("d", `M 8.9,9.4 Q 9.5,${(9.4 + pLen * 0.55).toFixed(1)} 10.3,${(9.4 + pLen).toFixed(1)} Q 10.6,${(9.4 + pLen * 0.55).toFixed(1)} 10.7,9.4 Z`);
       jetPalmRCore.setAttribute("d", `M 9.4,9.4 L 10.1,${(9.4 + pCore).toFixed(1)} L 10.3,9.4 Z`);
+      // Twin mid-wing vernier thruster plumes (6-point propulsion!)
+      const wLen = (4.2 + thrust * 6.5) * flick;
+      jetWingL.setAttribute("d", `M -13.6,0.5 L -10.8,0.9 L ${(-13.8 - wLen * 0.28).toFixed(1)},${(1.0 + wLen).toFixed(1)} Z`);
+      jetWingR.setAttribute("d", `M 10.8,0.9 L 13.6,0.5 L ${(13.8 + wLen * 0.28).toFixed(1)},${(1.0 + wLen).toFixed(1)} Z`);
       // Long sleek aerospace boot thruster plumes + pulsing Mach-diamond shock rings!
       jetBootL.setAttribute("d", `M -3.85,19.0 Q -3.3,${(19.0 + bLen * 0.5).toFixed(1)} -2.65,${(19.0 + bLen * 0.88).toFixed(1)} Q -2.0,${(19.0 + bLen * 0.5).toFixed(1)} -1.45,19.0 Z`);
       jetBootLCore.setAttribute("d", `M -3.2,19.0 L -2.65,${(19.0 + bCore * 0.88).toFixed(1)} L -2.1,19.0 Z`);
@@ -366,7 +454,7 @@ export function initMechAvatar({ getView, switchView }) {
       craftG.setAttribute("transform", `scale(${launchMatchScale.toFixed(3)}) rotate(0)`);
       headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(0)`);
       applyFaceYaw(drone.headYaw, drone.headPitch);
-      updateFullBodyKinematics(performance.now(), avPhase === "gantry" ? 0 : 1.0, 0, 0, 0, { standPose: 1, wingOpen: 0.86, armFlare: 6 });
+      updateFullBodyKinematics(performance.now(), avPhase === "gantry" ? 0 : 1.0, 0, 0, 0, { standPose: 1, wingOpen: 0.72, wingFan: 0.15, funnelDeploy: 0, armFlare: 6 });
     }
   }
 
@@ -569,34 +657,73 @@ export function initMechAvatar({ getView, switchView }) {
       let shudderX = 0;
       let thrust = 0;
       let standPose = 1;
-      let wingOpen = 0.42;
-      let armFlare = 8;
+      let wingOpen = 0.72;
+      let wingFan = 0.15;
+      let funnelDeploy = 0;
+      let armFlare = 6;
       let headLook = 0;
+
+      // Sakuga Awakening Burst (0..0.44s): crisp radial white-emerald halo + 8 anime rays + twin expanding shock rings!
+      if (gantryT < 0.44) {
+        const bu = clamp01(gantryT / 0.44);
+        const bEase = 1 - Math.pow(1 - bu, 2.5);
+        awakeningG.setAttribute("opacity", "1");
+        awakeningHalo.setAttribute("r", (14 + bEase * 14).toFixed(1));
+        awakeningHalo.setAttribute("opacity", ((1 - bu) * 0.92).toFixed(2));
+        awakeningRing.setAttribute("r", (7 + bEase * 23).toFixed(1));
+        awakeningRing.setAttribute("opacity", ((1 - bu) * 0.88).toFixed(2));
+        awakeningRing2.setAttribute("r", (5 + bEase * 17).toFixed(1));
+        awakeningRing2.setAttribute("opacity", ((1 - bu) * 0.65).toFixed(2));
+        awakeningRays.setAttribute("transform", `scale(${(0.65 + bEase * 0.65).toFixed(2)}) rotate(${(bEase * 14).toFixed(1)}, 0, 2)`);
+        awakeningRays.setAttribute("opacity", (Math.sin(bu * Math.PI) * 0.85).toFixed(2));
+      } else {
+        awakeningG.setAttribute("opacity", "0");
+      }
 
       if (gantryT < gantryStandSec) {
         const su = clamp01(gantryT / Math.max(0.01, gantryStandSec));
         const ease = 1 - Math.pow(1 - su, 3);
-        wingOpen = lerp(0.86, 0.96, ease);
-        armFlare = lerp(6, 12, ease);
-        headLook = -ease * 7.5;
-        drone.eyeY = lerp(-0.35, -0.85, ease);
+        // Settle gracefully from anti-gravity hover (3.4*S) down onto the launch deck while 3-tier wings & Funnels fan open!
+        liftPx = (1 - smooth(0.0, 0.38, su)) * 3.4 * launchScaleS;
+        wingOpen = lerp(0.72, 1.0, ease);
+        wingFan = smooth(0.08, 0.88, su);
+        funnelDeploy = smooth(0.26, 0.96, su);
+        armFlare = lerp(6, 13, ease);
+        headLook = -ease * 8.5;
+        drone.eyeY = lerp(-0.35, -0.88, ease);
+        machConeG.setAttribute("opacity", "0");
       } else {
         const iu = clamp01((gantryT - gantryStandSec) / Math.max(0.01, gantryIgniteSec));
-        wingOpen = lerp(0.96, 1.0, clamp01(iu * 2.5));
-        armFlare = lerp(12, 18, clamp01(iu * 2.2));
-        headLook = -7.5;
-        drone.eyeY = -0.85;
-        if (iu < 0.46) {
-          const p = iu / 0.46;
-          thrust = p * 1.15;
-          shudderX = Math.sin(gantryT * 115) * p * 0.65;
+        wingOpen = 1.0;
+        wingFan = 1.0;
+        funnelDeploy = 1.0;
+        armFlare = lerp(13, 19, clamp01(iu * 2.2));
+        headLook = -8.5;
+        drone.eyeY = -0.88;
+        if (iu < 0.44) {
+          const p = iu / 0.44;
+          thrust = p * 1.25;
+          shudderX = Math.sin(gantryT * 125) * p * 0.78;
           standPose = 1;
+          machConeG.setAttribute("opacity", "0");
         } else {
-          const lu = (iu - 0.46) / 0.54;
+          const lu = (iu - 0.44) / 0.56;
           const ease = 1 - Math.pow(1 - lu, 3);
-          liftPx = ease * 20 * launchScaleS;
-          thrust = 1.15 + lu * 0.35;
+          liftPx = ease * 24 * launchScaleS;
+          thrust = 1.25 + lu * 0.40;
           standPose = 1 - ease;
+          // BOOM! Supersonic Prandtl-Glauert Mach-Cone Vapor Ring snaps around waist on breakout!
+          const mcU = clamp01((lu - 0.06) / 0.65);
+          if (mcU > 0 && mcU < 1) {
+            const mcEase = 1 - Math.pow(1 - mcU, 2.2);
+            machConeG.setAttribute("opacity", (Math.sin(mcU * Math.PI) * 0.92).toFixed(2));
+            machConeOuter.setAttribute("rx", (10 + mcEase * 17).toFixed(1));
+            machConeOuter.setAttribute("ry", (2.6 + mcEase * 3.8).toFixed(1));
+            machConeInner.setAttribute("rx", (7 + mcEase * 12).toFixed(1));
+            machConeInner.setAttribute("ry", (1.6 + mcEase * 2.5).toFixed(1));
+          } else {
+            machConeG.setAttribute("opacity", "0");
+          }
         }
       }
 
@@ -613,17 +740,20 @@ export function initMechAvatar({ getView, switchView }) {
       eyeR.setAttribute("fill", "#C9FCE0");
       statusTip.setAttribute("fill", "#2D6A47");
       chestCore.setAttribute("fill", "#2D6A47");
-      visorAura.setAttribute("opacity", (0.52 + thrust * 0.32).toFixed(2));
+      setOverdriveColor(false);
+      visorAura.setAttribute("opacity", (0.55 + thrust * 0.35).toFixed(2));
       bodyRigG.setAttribute("opacity", "1");
-      updateFullBodyKinematics(now, thrust, 0, 0, 0, { standPose, wingOpen, armFlare });
+      updateFullBodyKinematics(now, thrust, 0, 0, 0, { standPose, wingOpen, wingFan, funnelDeploy, armFlare });
       stepSpringAntenna(dt, -shudderX * 4 - headLook * 0.35);
 
       const leftHome = getView() !== "home";
       if (leftHome || gantryT >= totalG) {
+        awakeningG.setAttribute("opacity", "0");
+        machConeG.setAttribute("opacity", "0");
         avPhase = "patrolling";
         patrolT = 0;
         drone.vx = 0;
-        drone.vy = -380;
+        drone.vy = -400;
         drone.headTilt = headLook;
         launchOrigin.y = drone.y;
       }
@@ -719,6 +849,7 @@ export function initMechAvatar({ getView, switchView }) {
       eyeR.setAttribute("fill", eyeFill);
       statusTip.setAttribute("fill", isFlagHover ? "#B83B2A" : "#2D6A47");
       chestCore.setAttribute("fill", isFlagHover ? "#B83B2A" : "#2D6A47");
+      setOverdriveColor(isFlagHover);
       visorAura.setAttribute("opacity", (0.50 + tgt.beam * 0.35).toFixed(2));
 
       // Soft volumetric inspection cone geometrically locked to the rotating CRT visor!

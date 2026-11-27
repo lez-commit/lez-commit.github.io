@@ -50,11 +50,11 @@ export function initEvoWalker({ getView }) {
 
   const {
     svg,
-    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateS1, gateS2, gateS3, gateS3Rays, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, trenchGlow, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
+    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateS1, gateS2, gateS3, gateS3Rays, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
   } = buildDioramas({ evoLayerEl, BASE_Y });
 
   const {
-    botGroup, shadowEl, stuckBang, botBody, keyGroup, keyBowG, backLegGroup, backThigh, backShin, kneeJoint2, backFoot, bootB, backArmGroup, backUpperArm, backForeArm, elbowJointB, gauntletB, torsoGroup, jetpackEl, groundWingL, groundWingR, rpaTopCap, mk1Lamp, mk3BackEl, mk3StowedDrill, mk4BackEl, neckEl, pelvisEl, skirtArmorEl, torsoEl, torsoShade, chestPanel, chestLed, mk1FrontDial, mk1Needle, mk2ProtoEl, mk2CoreAura, mk2PulseBar, mk3RigEl, mk4TactEl, mk4Led1, mk4Led2, mk4Led3, shoulderArmorEl, harnessGroup, harnessX1, harnessX2, harnessGlow, harnessHexG, harnessRipple, harnessRipple2, frontThigh, frontShin, frontFoot, kneeJoint1, bootF, headGroup, antGroup, antTip, cotHeadSpark, mk2HeadFins, mk4EarWings, crtEarsEl, visorScreen, visorGlint1, crtBootLine, eyeEl, eyeFocus, eyeWince, dizzyStars, gogglesEl, visorGlint2, goggleEye, gEyeL, gEyeR, goggleHappy, headCrestEl, frontUpperArm, frontForeArm, elbowJointF, shoulderPin, handTipB, handTipF, pincerEl, mk3ArmCuff, drillGroup, drillFlutes, gauntletF, repulsorJets, leftPalmJet, leftPalmCore, rightPalmJet, rightPalmCore, packJetL, packJetR, bootJetF, bootJetB, palmEmitterL, palmEmitterR, assembleLayer, flyParts, lockSparks, lockGlint, clickSpark
+    botGroup, shadowEl, stuckBang, botBody, keyGroup, keyBowG, backLegGroup, backThigh, backShin, kneeJoint2, backFoot, bootB, backArmGroup, backUpperArm, backForeArm, elbowJointB, gauntletB, torsoGroup, jetpackEl, groundWingL, groundWingR, rpaTopCap, mk1Lamp, mk3BackEl, mk3StowedDrill, mk4BackEl, neckEl, pelvisEl, skirtArmorEl, torsoEl, torsoShade, chestPanel, chestLed, mk1FrontDial, mk1Needle, mk2ProtoEl, mk2CoreAura, mk2PulseBar, mk3RigEl, mk4TactEl, mk4Led1, mk4Led2, mk4Led3, shoulderArmorEl, harnessGroup, harnessX1, harnessX2, harnessGlow, harnessHexG, harnessRipple, harnessRipple2, frontThigh, frontShin, frontFoot, kneeJoint1, bootF, headGroup, antGroup, antTip, cotHeadSpark, mk2HeadFins, mk4EarWings, crtEarsEl, visorScreen, visorGlint1, crtBootLine, eyeEl, eyeFocus, eyeWince, dizzyStars, gogglesEl, visorGlint2, goggleEye, gEyeL, gEyeR, goggleHappy, headCrestEl, frontUpperArm, frontForeArm, elbowJointF, shoulderPin, handTipB, handTipF, pincerEl, mk3ArmCuff, drillGroup, drillFlutes, gauntletF, repulsorJets, leftPalmJet, leftPalmCore, rightPalmJet, rightPalmCore, packJetL, packJetR, bootJetF, bootJetB, palmEmitterL, palmEmitterR, assembleLayer, flyParts, lockSparks, lockGlint, impactStarG, clickSpark
   } = buildBotRig({ svg });
 
   let traceIdx = 0;
@@ -167,6 +167,9 @@ export function initEvoWalker({ getView }) {
   let brainDockTimer = 0;
   let toolSnapTimer = 0;
   let happyCarryTimer = 0;
+  let waveImpactDone = [false, false, false, false];
+  let impactStarTimer = 0;
+  let impactStarY = -18;
 
   function resetCycle(startX) {
     posX = startX;
@@ -210,6 +213,11 @@ export function initEvoWalker({ getView }) {
     launchTrailR.setAttribute("opacity", "0");
     assembleLayer.setAttribute("opacity", "0");
     lockSparks.setAttribute("opacity", "0");
+    impactStarG.setAttribute("opacity", "0");
+    waveImpactDone = [false, false, false, false];
+    impactStarTimer = 0;
+    trenchCore.setAttribute("opacity", "0");
+    padEnergyRing2.setAttribute("opacity", "0");
   }
 
   // Interactive on-demand summon: click any Era prop or spine-dot to replay from that era!
@@ -319,6 +327,9 @@ export function initEvoWalker({ getView }) {
         launchTrailR.setAttribute("opacity", "0");
         groundBounceEl.setAttribute("opacity", "0");
         trenchGlow.setAttribute("opacity", "0");
+        trenchCore.setAttribute("opacity", "0");
+        padEnergyRing2.setAttribute("opacity", "0");
+        impactStarG.setAttribute("opacity", "0");
         launchSteamL.setAttribute("opacity", "0");
         launchSteamR.setAttribute("opacity", "0");
         // Keep idle ambient life gently breathing in resting state (slow tower beacons + live EKG + coffee steam!)
@@ -581,7 +592,7 @@ export function initEvoWalker({ getView }) {
           b4 = 2;
         }
       } else if (b5 === 1) {
-        // Era 5 Beat A (~1.94s): Tall Heroic Upright Suit-Up Convergence inside Launch Gantry -> Unified Ver.Ka Takeover at Lock-In!
+        // Era 5 Beat A (~2.15s): Anti-Gravity Levitation -> 4-Wave Magnetic Snap-Lock w/ Hit-Stop & Impact Stars -> Awakening Burst!
         b5t += dt * 0.64;
         posX = x5;
         activeEraIdx = 4;
@@ -589,19 +600,26 @@ export function initEvoWalker({ getView }) {
         moveSpeed = 0;
         armPose = "dock";
         const waveImpacts = [0.34, 0.52, 0.72, 0.88];
+        const waveY = [-5.5, -18.0, -24.5, -35.5];
         let recoil = 0;
         for (let i = 0; i < waveImpacts.length; i++) {
           const d = b5t - waveImpacts[i];
-          if (d >= 0 && d < 0.12) recoil += Math.sin((d / 0.12) * Math.PI) * 0.45;
+          if (d >= 0 && !waveImpactDone[i]) {
+            waveImpactDone[i] = true;
+            impactStarTimer = 0.22;
+            impactStarY = waveY[i];
+            if (i < 3) triggerImpact(0.028, 1.35 + i * 0.25);
+          }
+          if (d >= 0 && d < 0.12) recoil += Math.sin((d / 0.12) * Math.PI) * 0.55;
         }
         crouchY = recoil;
         if (b5t >= 0.88 && !isEquipped) {
           isEquipped = true;
           claspRippleTimer = 0.72;
           lockSparkTimer = 0.28;
-          triggerImpact(0.040, 1.8);
+          triggerImpact(0.045, 2.4);
           pingStoryTwigs(4);
-          // Hand off at the EXACT armor lock-in flash so ONE SINGLE Ver.Ka Gundam model stands, ignites & flies seamlessly!
+          // Hand off at the EXACT armor lock-in flash so ONE Flagship Freedom Hi-MAT Mech awakens, fans 3-tier wings & blasts off!
           if (!handoffStarted) {
             handoffStarted = true;
             waitingForDock = true;
@@ -620,8 +638,8 @@ export function initEvoWalker({ getView }) {
               padDeckY: a0.padDeckY,
               scale: a0.scale,
               getAnchor,
-              standSec: (1.24 - 0.88) / 0.64,
-              igniteSec: 0.68 / 0.72,
+              standSec: (1.38 - 0.88) / 0.64,
+              igniteSec: 0.76 / 0.72,
               forcePatrol: true
             });
           }
@@ -629,35 +647,35 @@ export function initEvoWalker({ getView }) {
         if (b5t >= 0.88) {
           headNodDeg = Math.sin(clamp01((b5t - 0.88) / 0.30) * Math.PI) * 9;
         }
-        // Directly transition into in-gantry ignition FX (trench glow + horizontal steam plumes + shockwave)!
-        if (b5t >= 1.24) {
+        // Directly transition into in-gantry overdrive ignition FX (blinding trench core + layered steam + Mach shockwave)!
+        if (b5t >= 1.38) {
           b5 = 3;
           b5t = 0;
         }
       } else if (b5 === 3) {
-        // Era 5 Beat B (~0.94s): Launch Gantry Ignition FX synced 1:1 with the unified Ver.Ka Gundam lifting vertically!
+        // Era 5 Beat B (~1.05s): Overdrive Ignition FX synced 1:1 with the Hi-MAT Gundam's Mach-cone liftoff!
         b5t += dt * 0.72;
         posX = x5;
         activeEraIdx = 4;
         isEraBeat = true;
         moveSpeed = 0;
         armPose = "launch";
-        if (b5t < 0.32) {
-          const u = clamp01(b5t / 0.32);
-          jetPower = u * 0.95;
-        } else if (b5t < 0.68) {
-          const u = clamp01((b5t - 0.32) / 0.36);
+        if (b5t < 0.34) {
+          const u = clamp01(b5t / 0.34);
+          jetPower = u * 1.05;
+        } else if (b5t < 0.76) {
+          const u = clamp01((b5t - 0.34) / 0.42);
           const ease = 1 - Math.pow(1 - Math.min(1, u * 1.45), 3);
-          launchLiftY = ease * 14.0;
-          jetPower = 1.05 + u * 0.35;
+          launchLiftY = ease * 16.0;
+          jetPower = 1.15 + u * 0.38;
         } else {
-          launchLiftY = 14.0;
-          jetPower = 1.4;
+          launchLiftY = 16.0;
+          jetPower = 1.5;
           handoffTrailT = 0;
           b5 = 4;
           if (!sonicHitDone) {
             sonicHitDone = true;
-            shakeAmp = Math.max(shakeAmp, 2.2);
+            shakeAmp = Math.max(shakeAmp, 2.8);
           }
           syncEraCaptions(-1, false);
           if (!handoffStarted) {
@@ -698,6 +716,7 @@ export function initEvoWalker({ getView }) {
       if (brainDockTimer > 0) brainDockTimer = Math.max(0, brainDockTimer - dt);
       if (toolSnapTimer > 0) toolSnapTimer = Math.max(0, toolSnapTimer - dt);
       if (happyCarryTimer > 0) happyCarryTimer = Math.max(0, happyCarryTimer - dt);
+      if (impactStarTimer > 0) impactStarTimer = Math.max(0, impactStarTimer - dt);
 
       if (posX >= endX && b5 !== 3 && b5 !== 4) {
         resetWaitTimer = 1.4;
@@ -1104,17 +1123,19 @@ export function initEvoWalker({ getView }) {
       const clampOpenU = b5 >= 2 ? 1 : (b5 === 1 ? smooth(0.84, 1.14, b5t) : 0);
       gantryClampL.setAttribute("transform", `rotate(${(-clampOpenU * 76).toFixed(1)}, -15.4, -17.4)`);
       gantryClampR.setAttribute("transform", `rotate(${(clampOpenU * 76).toFixed(1)}, 15.2, -17.4)`);
-      // Blazing flame-trench exhaust glow & horizontal high-pressure steam plumes during ignition & liftoff!
-      if (b5 === 3 || (b5 === 4 && handoffTrailT < 0.72)) {
-        const steamU = b5 === 3 ? clamp01(b5t / 0.68) : clamp01(0.75 + handoffTrailT * 0.55);
-        const steamOp = b5 === 3 ? clamp01(jetPower * 0.92) : clamp01(1 - handoffTrailT / 0.72) * 0.82;
-        trenchGlow.setAttribute("opacity", (steamOp * 0.92).toFixed(2));
+      // Blazing flame-trench exhaust glow & multi-layer horizontal high-pressure steam plumes during ignition & liftoff!
+      if (b5 === 3 || (b5 === 4 && handoffTrailT < 0.78)) {
+        const steamU = b5 === 3 ? clamp01(b5t / 0.76) : clamp01(0.78 + handoffTrailT * 0.55);
+        const steamOp = b5 === 3 ? clamp01(jetPower * 0.95) : clamp01(1 - handoffTrailT / 0.78) * 0.85;
+        trenchGlow.setAttribute("opacity", (steamOp * 0.96).toFixed(2));
+        trenchCore.setAttribute("opacity", (steamOp * 0.92).toFixed(2));
         launchSteamL.setAttribute("opacity", steamOp.toFixed(2));
         launchSteamR.setAttribute("opacity", steamOp.toFixed(2));
-        launchSteamL.setAttribute("transform", `translate(${(-steamU * 9.5).toFixed(1)}, ${(-steamU * 1.4).toFixed(1)}) scale(${(0.68 + steamU * 0.55).toFixed(2)})`);
-        launchSteamR.setAttribute("transform", `translate(${(steamU * 9.5).toFixed(1)}, ${(-steamU * 1.4).toFixed(1)}) scale(${(0.68 + steamU * 0.55).toFixed(2)})`);
+        launchSteamL.setAttribute("transform", `translate(${(-steamU * 11.2).toFixed(1)}, ${(-steamU * 1.8).toFixed(1)}) scale(${(0.70 + steamU * 0.62).toFixed(2)})`);
+        launchSteamR.setAttribute("transform", `translate(${(steamU * 11.2).toFixed(1)}, ${(-steamU * 1.8).toFixed(1)}) scale(${(0.70 + steamU * 0.62).toFixed(2)})`);
       } else {
         trenchGlow.setAttribute("opacity", "0");
+        trenchCore.setAttribute("opacity", "0");
         launchSteamL.setAttribute("opacity", "0");
         launchSteamR.setAttribute("opacity", "0");
       }
@@ -1125,20 +1146,25 @@ export function initEvoWalker({ getView }) {
       if (b5 === 1 && b5t < 0.94) {
         const fu = clamp01(b5t / 0.94);
         padField.setAttribute("opacity", (Math.sin(fu * Math.PI) * 0.95).toFixed(2));
-        padBeams.setAttribute("opacity", (0.45 + 0.35 * Math.sin(b5t * 24)).toFixed(2));
-        const scanY = -4.5 - ((b5t * 28) % 22);
+        padBeams.setAttribute("opacity", (0.48 + 0.35 * Math.sin(b5t * 24)).toFixed(2));
+        const scanY = -4.5 - ((b5t * 30) % 24);
         padScanLine.setAttribute("y1", scanY.toFixed(1));
         padScanLine.setAttribute("y2", scanY.toFixed(1));
-        padScanLine.setAttribute("opacity", "0.78");
-        const ringU = (b5t * 1.9) % 1;
-        padEnergyRing.setAttribute("cy", (-5.0 - ringU * 20).toFixed(1));
-        padEnergyRing.setAttribute("rx", (12.2 - ringU * 2.0).toFixed(1));
-        padEnergyRing.setAttribute("opacity", (Math.sin(ringU * Math.PI) * 0.65).toFixed(2));
+        padScanLine.setAttribute("opacity", "0.82");
+        const ringU = (b5t * 2.0) % 1;
+        padEnergyRing.setAttribute("cy", (-5.0 - ringU * 23).toFixed(1));
+        padEnergyRing.setAttribute("rx", (12.8 - ringU * 2.4).toFixed(1));
+        padEnergyRing.setAttribute("opacity", (Math.sin(ringU * Math.PI) * 0.78).toFixed(2));
+        const ringU2 = (b5t * 2.0 + 0.5) % 1;
+        padEnergyRing2.setAttribute("cy", (-5.0 - ringU2 * 23).toFixed(1));
+        padEnergyRing2.setAttribute("rx", (11.6 - ringU2 * 2.0).toFixed(1));
+        padEnergyRing2.setAttribute("opacity", (Math.sin(ringU2 * Math.PI) * 0.72).toFixed(2));
       } else {
         padField.setAttribute("opacity", "0");
         padBeams.setAttribute("opacity", "0");
         padScanLine.setAttribute("opacity", "0");
         padEnergyRing.setAttribute("opacity", "0");
+        padEnergyRing2.setAttribute("opacity", "0");
       }
 
       // Stage 5 Flying Modular Parts convergence with Mechanical Snap-Lock Overshoot!
@@ -1176,6 +1202,14 @@ export function initEvoWalker({ getView }) {
         assembleLayer.setAttribute("opacity", "0");
       }
       lockSparks.setAttribute("opacity", lockSparkTimer > 0 ? (lockSparkTimer / 0.28).toFixed(2) : "0");
+      if (impactStarTimer > 0 && !handoffStarted) {
+        const iu = 1 - impactStarTimer / 0.22;
+        const sc = 0.55 + iu * 0.95;
+        impactStarG.setAttribute("transform", `translate(0, ${impactStarY.toFixed(1)}) scale(${sc.toFixed(2)}) rotate(${(iu * 28).toFixed(1)})`);
+        impactStarG.setAttribute("opacity", ((1 - iu) * 0.95).toFixed(2));
+      } else {
+        impactStarG.setAttribute("opacity", "0");
+      }
       if (lockSparkTimer > 0) {
         const gu = 1 - lockSparkTimer / 0.28;
         const shift = lerp(-9, 9, gu);
@@ -1287,9 +1321,12 @@ export function initEvoWalker({ getView }) {
         ? (b5t > 0.64 ? 1 - smooth(1.05, 1.54, b5t) : 1)
         : (b0 === 0 ? 1 : smooth(0, 0.02, progress)) * (1 - smooth(0.96, 1, progress));
 
-      // Smooth vertical step-up onto Era 5 architectural docking pad deck (stays continuous during in-gantry launch!)
+      // Smooth vertical step-up + Anti-Gravity Levitation Pre-Charge during Stage 5 magnetic suit-up!
       const onPadDist = Math.abs(drawX - x5) / S;
-      const padStandY = (1 - smooth(10, 17, onPadDist)) * 3.5;
+      const levitateY = b5 === 1 && !handoffStarted
+        ? smooth(0.02, 0.20, b5t) * 3.4 + Math.sin(b5t * 14) * 0.45 * smooth(0.08, 0.24, b5t)
+        : 0;
+      const padStandY = (1 - smooth(10, 17, onPadDist)) * 3.5 + levitateY;
 
       // Distinct generation proportions:
       // Mark I (squat wide tin-box) -> Mark II (lean lab prototype) -> Mark III (sleek exo-tool mech) -> Mark IV (tall tactician) -> Mark V (heroic Gundam!)
