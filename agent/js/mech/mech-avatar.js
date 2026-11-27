@@ -18,8 +18,8 @@ export function initMechAvatar({ getView, switchView }) {
   if (!btn || !topNav) return null;
 
   const {
-    coneG, conePoly, coneCorePoly, coneEdgeL, coneEdgeR, wakeDots, trailGrad, trailPathMain, trailPathCore,
-    sonarG, sonarOuterHalo, sonarRingMain, sonarRingEcho,
+    coneG, conePoly, coneCorePoly, coneEdgeL, coneEdgeR, coneScanBar, coneScanTicks, coneOriginDot, wakeDots, trailGrad, trailPathMain, trailPathCore,
+    sonarG, sonarWedge, sonarLeadRay, sonarTrailRay, sonarAxisTicks, sonarOriginDot, sonarFanGrad,
     VIEWBOX_H, svg, dockRing, foldSparks, dockShadow, craftG,
     awakeningG, awakeningHalo, awakeningRing, awakeningRing2, awakeningRays,
     machConeG, machConeOuter, machConeInner,
@@ -495,11 +495,16 @@ export function initMechAvatar({ getView, switchView }) {
     btn.classList.remove("is-nodding");
     void btn.offsetWidth;
     btn.classList.add("is-nodding");
-    syncTimer = 0.48;
     if (getView() !== "home") {
       triggerBlink(false);
       switchView("home");
     } else {
+      // Trigger crisp industrial angular laser sweep across the knowledge map from the avatar's visor!
+      avPhase = "sonar";
+      sonarT = 0;
+      sonarColsDone = [];
+      sonarNavDone = [];
+      pingedHeatmapWeeks = [];
       triggerWink();
     }
   });
@@ -854,38 +859,67 @@ export function initMechAvatar({ getView, switchView }) {
       setOverdriveColor(isFlagHover);
       visorAura.setAttribute("opacity", (0.50 + tgt.beam * 0.35).toFixed(2));
 
-      // Soft volumetric inspection cone geometrically locked to the rotating CRT visor!
+      // Focused Industrial V-Angle Optical Laser Scanner emitted directly from the Glowing Hexagonal Chest Core!
       const pxPerUnit = getPxPerUnit();
       const bankRad = (drone.bodyBank * Math.PI) / 180;
-      const headCenterDist = -FLIGHT_HEAD_Y * flyScale * pxPerUnit;
-      const visorWorldX = drone.x + Math.sin(bankRad) * headCenterDist + drone.headYaw * flyScale * pxPerUnit * 0.6;
-      const visorWorldY = drone.y + hoverBobY - Math.cos(bankRad) * headCenterDist + 2.5;
+      const chestCoreY = 2.8 * flyScale * pxPerUnit;
+      const visorWorldX = drone.x - Math.sin(bankRad) * chestCoreY;
+      const visorWorldY = drone.y + hoverBobY + Math.cos(bankRad) * chestCoreY;
 
       if (coneG && tgt.beam > 0.02) {
         const spineEl = skeletonGridEl && skeletonGridEl.querySelector(".timeline-spine");
         const floorY = spineEl ? spineEl.getBoundingClientRect().top : H - 56;
-        const aimShiftX = drone.vx * 0.075 + drone.eyeX * 18;
+        const scanDepth = Math.max(96, Math.min(235, floorY - visorWorldY - 18));
+        const scanY = visorWorldY + scanDepth;
+        const aimShiftX = drone.vx * 0.065 + drone.eyeX * 14;
         const targetCenterX = visorWorldX + aimShiftX;
-        const halfSpread = lerp(74, 48, drone.curious);
-        const coreSpread = halfSpread * 0.42;
+        const halfSpread = lerp(56, 40, drone.curious);
+        const coreSpread = halfSpread * 0.34;
+        const accentColor = isFlagHover ? "#B83B2A" : "#2D6A47";
 
-        coneG.setAttribute("opacity", (tgt.beam * 0.88).toFixed(2));
+        coneG.setAttribute("opacity", (tgt.beam * 0.92).toFixed(2));
         conePoly.setAttribute("fill", isFlagHover ? "url(#agent-beam-flag)" : "url(#agent-beam-grad)");
         coneCorePoly.setAttribute("fill", isFlagHover ? "url(#agent-beam-flag-core)" : "url(#agent-beam-core)");
         coneCorePoly.setAttribute("opacity", "1");
-        conePoly.setAttribute("points", `${(visorWorldX - 6.5).toFixed(1)},${visorWorldY.toFixed(1)} ${(visorWorldX + 6.5).toFixed(1)},${visorWorldY.toFixed(1)} ${(targetCenterX + halfSpread).toFixed(1)},${floorY.toFixed(1)} ${(targetCenterX - halfSpread).toFixed(1)},${floorY.toFixed(1)}`);
-        coneCorePoly.setAttribute("points", `${(visorWorldX - 3.2).toFixed(1)},${visorWorldY.toFixed(1)} ${(visorWorldX + 3.2).toFixed(1)},${visorWorldY.toFixed(1)} ${(targetCenterX + coreSpread).toFixed(1)},${floorY.toFixed(1)} ${(targetCenterX - coreSpread).toFixed(1)},${floorY.toFixed(1)}`);
+        // Sharp geometric triangle apex directly at the visor optic (zero blunt gap!)
+        conePoly.setAttribute("points", `${visorWorldX.toFixed(1)},${visorWorldY.toFixed(1)} ${(targetCenterX + halfSpread).toFixed(1)},${scanY.toFixed(1)} ${(targetCenterX - halfSpread).toFixed(1)},${scanY.toFixed(1)}`);
+        coneCorePoly.setAttribute("points", `${visorWorldX.toFixed(1)},${visorWorldY.toFixed(1)} ${(targetCenterX + coreSpread).toFixed(1)},${scanY.toFixed(1)} ${(targetCenterX - coreSpread).toFixed(1)},${scanY.toFixed(1)}`);
         const edgeStroke = isFlagHover ? "url(#agent-edge-flag)" : "url(#agent-edge-grad)";
         coneEdgeL.setAttribute("stroke", edgeStroke);
         coneEdgeR.setAttribute("stroke", edgeStroke);
-        coneEdgeL.setAttribute("x1", (visorWorldX - 6.5).toFixed(1));
+        coneEdgeL.setAttribute("x1", visorWorldX.toFixed(1));
         coneEdgeL.setAttribute("y1", visorWorldY.toFixed(1));
         coneEdgeL.setAttribute("x2", (targetCenterX - halfSpread).toFixed(1));
-        coneEdgeL.setAttribute("y2", floorY.toFixed(1));
-        coneEdgeR.setAttribute("x1", (visorWorldX + 6.5).toFixed(1));
+        coneEdgeL.setAttribute("y2", scanY.toFixed(1));
+        coneEdgeR.setAttribute("x1", visorWorldX.toFixed(1));
         coneEdgeR.setAttribute("y1", visorWorldY.toFixed(1));
         coneEdgeR.setAttribute("x2", (targetCenterX + halfSpread).toFixed(1));
-        coneEdgeR.setAttribute("y2", floorY.toFixed(1));
+        coneEdgeR.setAttribute("y2", scanY.toFixed(1));
+        if (coneOriginDot) {
+          coneOriginDot.setAttribute("cx", visorWorldX.toFixed(1));
+          coneOriginDot.setAttribute("cy", visorWorldY.toFixed(1));
+          coneOriginDot.setAttribute("fill", isFlagHover ? "#FFE8E3" : "#EBFFF3");
+          coneOriginDot.setAttribute("stroke", accentColor);
+        }
+
+        // Sweeping industrial horizontal laser caliper scan-bar + twin precision corner ticks!
+        const barFrac = 0.56 + 0.36 * (0.5 + 0.5 * Math.sin(now * 0.0095));
+        const barY = visorWorldY + scanDepth * barFrac;
+        const barCenterX = lerp(visorWorldX, targetCenterX, barFrac);
+        const barHalf = halfSpread * barFrac;
+        const bxL = barCenterX - barHalf;
+        const bxR = barCenterX + barHalf;
+        coneScanBar.setAttribute("stroke", accentColor);
+        coneScanBar.setAttribute("x1", bxL.toFixed(1));
+        coneScanBar.setAttribute("y1", barY.toFixed(1));
+        coneScanBar.setAttribute("x2", bxR.toFixed(1));
+        coneScanBar.setAttribute("y2", barY.toFixed(1));
+        coneScanBar.setAttribute("opacity", (0.72 + 0.22 * Math.sin(now * 0.018)).toFixed(2));
+        coneScanTicks.setAttribute("stroke", accentColor);
+        coneScanTicks.setAttribute(
+          "d",
+          `M ${bxL.toFixed(1)},${(barY - 4.5).toFixed(1)} L ${bxL.toFixed(1)},${(barY + 4.5).toFixed(1)} M ${bxR.toFixed(1)},${(barY - 4.5).toFixed(1)} L ${bxR.toFixed(1)},${(barY + 4.5).toFixed(1)} M ${barCenterX.toFixed(1)},${(barY - 3).toFixed(1)} L ${barCenterX.toFixed(1)},${(barY + 3).toFixed(1)}`
+        );
 
         if (skeletonGridEl && (getView() === "home")) {
           const cols = skeletonGridEl.querySelectorAll(".era-col");
@@ -1050,28 +1084,63 @@ export function initMechAvatar({ getView, switchView }) {
         bus.emit("mech:docked");
       }
     } else if (avPhase === "sonar") {
+      // Industrial Angular LiDAR Fan Sweep from Docked Avatar Visor (sharp 15° V-angle sweeping left-to-right 84° -> 2°!)
       sonarT += dt;
-      const u = clamp01(sonarT / 1.25);
-      const ease = 1 - Math.pow(1 - u, 2.2);
+      const sweepDur = 1.08;
+      const u = clamp01(sonarT / sweepDur);
+      const ease = u * u * (3 - 2 * u);
       const dock = getDockCenter();
+      const ox = dock.x;
+      const oy = dock.y + 1.5;
       const W = window.innerWidth;
       const H = window.innerHeight;
-      const maxR = Math.hypot(W, H) * 1.06;
-      const curR = ease * maxR;
-      const fade = u < 0.10 ? u / 0.10 : (1 - smooth(0.55, 1.0, u));
+      const rayLen = Math.hypot(W, H) * 1.12;
+
+      const leadDeg = lerp(84, 2, ease);
+      const trailDeg = Math.min(88, leadDeg + 15.5);
+      const leadRad = (leadDeg * Math.PI) / 180;
+      const trailRad = (trailDeg * Math.PI) / 180;
+      const lx = ox + Math.cos(leadRad) * rayLen;
+      const ly = oy + Math.sin(leadRad) * rayLen;
+      const tx = ox + Math.cos(trailRad) * rayLen;
+      const ty = oy + Math.sin(trailRad) * rayLen;
+      const fade = u < 0.08 ? u / 0.08 : (1 - smooth(0.84, 1.0, u));
 
       if (sonarG) {
         sonarG.setAttribute("opacity", fade.toFixed(2));
-        sonarOuterHalo.setAttribute("cx", dock.x.toFixed(1));
-        sonarOuterHalo.setAttribute("cy", dock.y.toFixed(1));
-        sonarOuterHalo.setAttribute("r", Math.max(2, curR - 14).toFixed(1));
-        sonarRingMain.setAttribute("cx", dock.x.toFixed(1));
-        sonarRingMain.setAttribute("cy", dock.y.toFixed(1));
-        sonarRingMain.setAttribute("r", curR.toFixed(1));
-        sonarRingEcho.setAttribute("cx", dock.x.toFixed(1));
-        sonarRingEcho.setAttribute("cy", dock.y.toFixed(1));
-        sonarRingEcho.setAttribute("r", Math.max(0, curR - 36).toFixed(1));
+        if (sonarFanGrad) {
+          sonarFanGrad.setAttribute("cx", ox.toFixed(1));
+          sonarFanGrad.setAttribute("cy", oy.toFixed(1));
+          sonarFanGrad.setAttribute("r", (rayLen * 0.92).toFixed(1));
+        }
+        sonarWedge.setAttribute("points", `${ox.toFixed(1)},${oy.toFixed(1)} ${lx.toFixed(1)},${ly.toFixed(1)} ${tx.toFixed(1)},${ty.toFixed(1)}`);
+        sonarLeadRay.setAttribute("x1", ox.toFixed(1));
+        sonarLeadRay.setAttribute("y1", oy.toFixed(1));
+        sonarLeadRay.setAttribute("x2", lx.toFixed(1));
+        sonarLeadRay.setAttribute("y2", ly.toFixed(1));
+        sonarTrailRay.setAttribute("x1", ox.toFixed(1));
+        sonarTrailRay.setAttribute("y1", oy.toFixed(1));
+        sonarTrailRay.setAttribute("x2", tx.toFixed(1));
+        sonarTrailRay.setAttribute("y2", ty.toFixed(1));
+        sonarOriginDot.setAttribute("cx", ox.toFixed(1));
+        sonarOriginDot.setAttribute("cy", oy.toFixed(1));
+        // Calibrated perpendicular industrial range ticks along the leading laser ray!
+        const nx = -Math.sin(leadRad) * 5.0;
+        const ny = Math.cos(leadRad) * 5.0;
+        let tickPath = "";
+        for (const dist of [180, 360, 560, 780]) {
+          const px = ox + Math.cos(leadRad) * dist;
+          const py = oy + Math.sin(leadRad) * dist;
+          tickPath += `M ${(px - nx).toFixed(1)},${(py - ny).toFixed(1)} L ${(px + nx).toFixed(1)},${(py + ny).toFixed(1)} `;
+        }
+        sonarAxisTicks.setAttribute("d", tickPath.trim());
       }
+
+      // Docked mech's eyes smoothly track the sweeping industrial laser angle!
+      const lookX = Math.cos(leadRad) * 1.45;
+      const lookY = Math.sin(leadRad) * 0.95;
+      eyesTrackG.setAttribute("transform", `translate(${(lookX * 0.72).toFixed(2)}, ${(lookY * 0.72).toFixed(2)})`);
+      applyFaceYaw(lookX * 0.45, lookY * 0.28);
 
       if (fpCanvasEl && (getView() === "home")) {
         const allSquares = fpCanvasEl.querySelectorAll(".gh-grid .heat-sq");
@@ -1081,8 +1150,8 @@ export function initMechAvatar({ getView, switchView }) {
           const anchorSq = allSquares[wi * 7 + 3] || allSquares[wi * 7];
           if (!anchorSq) continue;
           const hr = anchorSq.getBoundingClientRect();
-          const dist = Math.hypot((hr.left + hr.width * 0.5) - dock.x, (hr.top + hr.height * 0.5) - dock.y);
-          if (curR >= dist) {
+          const deg = Math.atan2((hr.top + hr.height * 0.5) - oy, (hr.left + hr.width * 0.5) - ox) * (180 / Math.PI);
+          if (leadDeg <= deg) {
             pingedHeatmapWeeks[wi] = true;
             shimmerHeatmapCol(wi);
           }
@@ -1092,8 +1161,8 @@ export function initMechAvatar({ getView, switchView }) {
       navBtns.forEach((nb, idx) => {
         if (sonarNavDone[idx]) return;
         const nr = nb.getBoundingClientRect();
-        const dist = Math.hypot((nr.left + nr.width * 0.5) - dock.x, (nr.top + nr.height * 0.5) - dock.y);
-        if (curR >= dist) {
+        const deg = Math.atan2((nr.top + nr.height * 0.5) - oy, (nr.left + nr.width * 0.5) - ox) * (180 / Math.PI);
+        if (leadDeg <= deg + 4) {
           sonarNavDone[idx] = true;
           wakeNavButton(nb);
         }
@@ -1103,10 +1172,9 @@ export function initMechAvatar({ getView, switchView }) {
         const cols = skeletonGridEl.querySelectorAll(".era-col");
         cols.forEach((col, idx) => {
           if (sonarColsDone[idx]) return;
-          const dot = col.querySelector(".spine-dot") || col;
-          const dr = dot.getBoundingClientRect();
-          const dist = Math.hypot(dr.left - dock.x, dr.top - dock.y);
-          if (curR >= dist) {
+          const cr = col.getBoundingClientRect();
+          const deg = Math.atan2((cr.top + cr.height * 0.58) - oy, (cr.left + cr.width * 0.5) - ox) * (180 / Math.PI);
+          if (leadDeg <= deg) {
             sonarColsDone[idx] = true;
             pingEraColumn(col);
           }
@@ -1117,7 +1185,7 @@ export function initMechAvatar({ getView, switchView }) {
       craftG.setAttribute("transform", `translate(0, ${floatY.toFixed(2)})`);
       stepSpringAntenna(dt, Math.sin(now * 0.0022) * 2.2);
 
-      if (sonarT >= 1.25) {
+      if (sonarT >= sweepDur) {
         avPhase = "avatar";
         hideSonarFX();
       }

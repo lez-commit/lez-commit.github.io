@@ -17,55 +17,64 @@ export function buildMechRig({ btn, scanOverlay }) {
   let coneCorePoly = null;
   let coneEdgeL = null;
   let coneEdgeR = null;
+  let coneScanBar = null;
+  let coneScanTicks = null;
+  let coneOriginDot = null;
   let wakeDots = [];
   let trailGrad = null;
   let trailPathMain = null;
   let trailPathCore = null;
   let sonarG = null;
-  let sonarOuterHalo = null;
-  let sonarRingMain = null;
-  let sonarRingEcho = null;
+  let sonarWedge = null;
+  let sonarLeadRay = null;
+  let sonarTrailRay = null;
+  let sonarAxisTicks = null;
+  let sonarOriginDot = null;
+  let sonarFanGrad = null;
 
   if (scanOverlay) {
     scanOverlay.setAttribute("shape-rendering", "geometricPrecision");
     const sDefs = mk("defs", null, scanOverlay);
 
+    // Crisp industrial laser-sheet gradients starting BRIGHT right at the visor focal apex (0%)!
     const beamGrad = mk("linearGradient", { id: "agent-beam-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, beamGrad);
-    mk("stop", { offset: "11%", "stop-color": "#2D6A47", "stop-opacity": "0.20" }, beamGrad);
-    mk("stop", { offset: "50%", "stop-color": "#2D6A47", "stop-opacity": "0.085" }, beamGrad);
-    mk("stop", { offset: "88%", "stop-color": "#2D6A47", "stop-opacity": "0.016" }, beamGrad);
+    mk("stop", { offset: "0%", "stop-color": "#5CE09B", "stop-opacity": "0.26" }, beamGrad);
+    mk("stop", { offset: "38%", "stop-color": "#2D6A47", "stop-opacity": "0.11" }, beamGrad);
+    mk("stop", { offset: "86%", "stop-color": "#2D6A47", "stop-opacity": "0.045" }, beamGrad);
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, beamGrad);
 
     const coreBeamGrad = mk("linearGradient", { id: "agent-beam-core", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#B5F5D4", "stop-opacity": "0.0" }, coreBeamGrad);
-    mk("stop", { offset: "12%", "stop-color": "#B5F5D4", "stop-opacity": "0.30" }, coreBeamGrad);
-    mk("stop", { offset: "52%", "stop-color": "#2D6A47", "stop-opacity": "0.075" }, coreBeamGrad);
+    mk("stop", { offset: "0%", "stop-color": "#C9FFE2", "stop-opacity": "0.34" }, coreBeamGrad);
+    mk("stop", { offset: "45%", "stop-color": "#5CE09B", "stop-opacity": "0.08" }, coreBeamGrad);
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, coreBeamGrad);
 
     const flagBeamGrad = mk("linearGradient", { id: "agent-beam-flag", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, flagBeamGrad);
-    mk("stop", { offset: "11%", "stop-color": "#B83B2A", "stop-opacity": "0.18" }, flagBeamGrad);
-    mk("stop", { offset: "52%", "stop-color": "#B83B2A", "stop-opacity": "0.065" }, flagBeamGrad);
+    mk("stop", { offset: "0%", "stop-color": "#FF9A8A", "stop-opacity": "0.28" }, flagBeamGrad);
+    mk("stop", { offset: "42%", "stop-color": "#B83B2A", "stop-opacity": "0.11" }, flagBeamGrad);
+    mk("stop", { offset: "88%", "stop-color": "#B83B2A", "stop-opacity": "0.04" }, flagBeamGrad);
     mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, flagBeamGrad);
 
     const flagCoreGrad = mk("linearGradient", { id: "agent-beam-flag-core", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#FFDCD4", "stop-opacity": "0.0" }, flagCoreGrad);
-    mk("stop", { offset: "12%", "stop-color": "#FFDCD4", "stop-opacity": "0.36" }, flagCoreGrad);
-    mk("stop", { offset: "52%", "stop-color": "#B83B2A", "stop-opacity": "0.07" }, flagCoreGrad);
+    mk("stop", { offset: "0%", "stop-color": "#FFE4DE", "stop-opacity": "0.38" }, flagCoreGrad);
+    mk("stop", { offset: "48%", "stop-color": "#B83B2A", "stop-opacity": "0.08" }, flagCoreGrad);
     mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, flagCoreGrad);
 
     const edgeBeamGrad = mk("linearGradient", { id: "agent-edge-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, edgeBeamGrad);
-    mk("stop", { offset: "14%", "stop-color": "#2D6A47", "stop-opacity": "0.26" }, edgeBeamGrad);
-    mk("stop", { offset: "82%", "stop-color": "#2D6A47", "stop-opacity": "0.08" }, edgeBeamGrad);
-    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, edgeBeamGrad);
+    mk("stop", { offset: "0%", "stop-color": "#5CE09B", "stop-opacity": "0.72" }, edgeBeamGrad);
+    mk("stop", { offset: "55%", "stop-color": "#2D6A47", "stop-opacity": "0.42" }, edgeBeamGrad);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.06" }, edgeBeamGrad);
 
     const edgeFlagGrad = mk("linearGradient", { id: "agent-edge-flag", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, edgeFlagGrad);
-    mk("stop", { offset: "14%", "stop-color": "#B83B2A", "stop-opacity": "0.26" }, edgeFlagGrad);
-    mk("stop", { offset: "82%", "stop-color": "#B83B2A", "stop-opacity": "0.08" }, edgeFlagGrad);
-    mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, edgeFlagGrad);
+    mk("stop", { offset: "0%", "stop-color": "#FF9482", "stop-opacity": "0.75" }, edgeFlagGrad);
+    mk("stop", { offset: "55%", "stop-color": "#B83B2A", "stop-opacity": "0.44" }, edgeFlagGrad);
+    mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.06" }, edgeFlagGrad);
+
+    // Radial fan gradient for top-left docked industrial angular laser sweep (bright at visor apex -> soft edge)
+    sonarFanGrad = mk("radialGradient", { id: "agent-sonar-fan", gradientUnits: "userSpaceOnUse", cx: "48", cy: "24", r: "1400" }, sDefs);
+    mk("stop", { offset: "0%", "stop-color": "#5CE09B", "stop-opacity": "0.26" }, sonarFanGrad);
+    mk("stop", { offset: "24%", "stop-color": "#2D6A47", "stop-opacity": "0.13" }, sonarFanGrad);
+    mk("stop", { offset: "68%", "stop-color": "#2D6A47", "stop-opacity": "0.045" }, sonarFanGrad);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, sonarFanGrad);
 
     trailGrad = mk("linearGradient", { id: "agent-trail-grad", gradientUnits: "userSpaceOnUse", x1: "0", y1: "0", x2: "100", y2: "0" }, sDefs);
     mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, trailGrad);
@@ -82,16 +91,23 @@ export function buildMechRig({ btn, scanOverlay }) {
       wakeDots.push({ el: d, x: 0, y: 0, vx: 0, vy: 0, life: 0 });
     }
 
+    // Aerial Patrol Industrial V-Angle Optical Laser Scanner (sharp apex at visor + sweeping horizontal caliper bar!)
     coneG = mk("g", { opacity: "0" }, scanOverlay);
     conePoly = mk("polygon", { fill: "url(#agent-beam-grad)" }, coneG);
     coneCorePoly = mk("polygon", { fill: "url(#agent-beam-core)" }, coneG);
-    coneEdgeL = mk("line", { stroke: "url(#agent-edge-grad)", "stroke-width": "0.7" }, coneG);
-    coneEdgeR = mk("line", { stroke: "url(#agent-edge-grad)", "stroke-width": "0.7" }, coneG);
+    coneEdgeL = mk("line", { stroke: "url(#agent-edge-grad)", "stroke-width": "1.05", "stroke-linecap": "round" }, coneG);
+    coneEdgeR = mk("line", { stroke: "url(#agent-edge-grad)", "stroke-width": "1.05", "stroke-linecap": "round" }, coneG);
+    coneScanBar = mk("line", { stroke: "#2D6A47", "stroke-width": "1.35", "stroke-linecap": "round" }, coneG);
+    coneScanTicks = mk("path", { fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", "stroke-linecap": "round", "stroke-linejoin": "round" }, coneG);
+    coneOriginDot = mk("circle", { r: "2.2", fill: "#EBFFF3", stroke: "#2D6A47", "stroke-width": "0.85", opacity: "0.95" }, coneG);
 
+    // Docked / Click Industrial Angular LiDAR Sweep Wedge (sharp V-angle fan — ZERO circular radar arcs!)
     sonarG = mk("g", { opacity: "0" }, scanOverlay);
-    sonarOuterHalo = mk("circle", { fill: "none", stroke: "#2D6A47", "stroke-width": "28", "stroke-opacity": "0.055" }, sonarG);
-    sonarRingMain = mk("circle", { fill: "none", stroke: "#2D6A47", "stroke-width": "1.35", "stroke-opacity": "0.58" }, sonarG);
-    sonarRingEcho = mk("circle", { fill: "none", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "4 4", "stroke-opacity": "0.34" }, sonarG);
+    sonarWedge = mk("polygon", { fill: "url(#agent-sonar-fan)" }, sonarG);
+    sonarTrailRay = mk("line", { stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "5 4", "stroke-opacity": "0.42", "stroke-linecap": "round" }, sonarG);
+    sonarLeadRay = mk("line", { stroke: "#2D6A47", "stroke-width": "1.35", "stroke-opacity": "0.78", "stroke-linecap": "round" }, sonarG);
+    sonarAxisTicks = mk("path", { fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-opacity": "0.52", "stroke-linecap": "round" }, sonarG);
+    sonarOriginDot = mk("circle", { r: "2.4", fill: "#C9FFE2", stroke: "#2D6A47", "stroke-width": "0.9", opacity: "0.9" }, sonarG);
   }
 
   // =====================================================================
@@ -568,8 +584,8 @@ export function buildMechRig({ btn, scanOverlay }) {
   }, eyesWinkG);
 
   return {
-    coneG, conePoly, coneCorePoly, coneEdgeL, coneEdgeR, wakeDots, trailGrad, trailPathMain, trailPathCore,
-    sonarG, sonarOuterHalo, sonarRingMain, sonarRingEcho,
+    coneG, conePoly, coneCorePoly, coneEdgeL, coneEdgeR, coneScanBar, coneScanTicks, coneOriginDot, wakeDots, trailGrad, trailPathMain, trailPathCore,
+    sonarG, sonarWedge, sonarLeadRay, sonarTrailRay, sonarAxisTicks, sonarOriginDot, sonarFanGrad,
     VIEWBOX_H, svg, dockRing, foldSparks, dockShadow, craftG,
     awakeningG, awakeningHalo, awakeningRing, awakeningRing2, awakeningRays,
     machConeG, machConeOuter, machConeInner,
