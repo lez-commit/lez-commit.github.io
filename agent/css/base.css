@@ -305,3 +305,15 @@ body.view-home .site-shell {
 .view-panel.is-visible {
   display: flex;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .mech-status-slit,
+  .mech-avatar-btn.is-nodding,
+  .twig-row.is-just-read,
+  .reader-view,
+  .archive-view,
+  .about-view {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

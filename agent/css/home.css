@@ -97,12 +97,42 @@
 .era-col {
   position: relative;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) var(--era-foot-h);
+  grid-template-rows: minmax(0, 1fr) var(--era-runway-pb) var(--era-foot-h);
   border-left: 1px solid var(--hairline);
   min-width: 0;
   min-height: 0;
   overflow: hidden;
   transition: background-color 0.22s ease;
+}
+
+/* Dedicated runway band below the scrollable catalog with continuous structural stem */
+.era-runway-slot {
+  position: relative;
+  min-height: 0;
+  pointer-events: none;
+}
+
+.era-runway-slot::before {
+  content: "";
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 4px;
+  width: 1px;
+  background-color: var(--hairline-mid);
+  transition: background-color 0.25s ease;
+}
+
+.era-col:first-of-type .era-runway-slot::before {
+  left: 8px;
+}
+
+.era-col.has-published .era-runway-slot::before {
+  background-color: rgba(45, 106, 71, 0.38);
+}
+
+.era-col.has-flagship .era-runway-slot::before {
+  background-color: rgba(184, 59, 42, 0.38);
 }
 
 .era-col:first-of-type {
@@ -217,26 +247,27 @@
   transition: transform 0.24s var(--ease-out), filter 0.24s ease, box-shadow 0.24s ease;
 }
 
-/* True alpha fade mask + clickable micro scroll cue nested cleanly inside the fade zone */
+/* True alpha fade mask + clickable micro scroll cue nested strictly above the runway band */
 .era-scroll-mask {
   display: none;
   appearance: none;
   position: absolute;
   right: 8px;
-  bottom: calc(var(--era-foot-h) + var(--era-runway-pb) - 11px);
+  bottom: calc(var(--era-foot-h) + var(--era-runway-pb) + 4px);
   z-index: 42;
   pointer-events: auto;
   cursor: pointer;
-  padding: 1px 6px;
+  padding: 1.5px 7px;
   border-radius: 999px;
-  background-color: rgba(250, 248, 244, 0.94);
+  background-color: rgba(250, 248, 244, 0.96);
   border: 1px solid rgba(45, 106, 71, 0.24);
   color: var(--bamboo-4);
   font-family: var(--font-mono);
   font-size: 9px;
   line-height: 1.45;
   letter-spacing: 0.02em;
-  opacity: 0.88;
+  opacity: 0.9;
+  box-shadow: 0 2px 6px rgba(29, 27, 24, 0.06);
   transition: opacity 0.16s ease, transform 0.16s ease, background-color 0.16s ease;
 }
 
@@ -252,28 +283,52 @@
   gap: 2px;
 }
 
-.era-col.has-scroll-more .era-lower {
+.era-col.has-scroll-more:not(.has-scroll-up) .era-lower {
   -webkit-mask-image:
     linear-gradient(to right, #000 0, #000 22px, transparent 22px),
-    linear-gradient(to bottom, #000 0%, #000 calc(100% - var(--era-runway-pb) - 18px), transparent calc(100% - var(--era-runway-pb) + 2px), transparent 100%);
+    linear-gradient(to bottom, #000 0%, #000 calc(100% - 22px), transparent 100%);
   -webkit-mask-composite: source-over;
   mask-image:
     linear-gradient(to right, #000 0, #000 22px, transparent 22px),
-    linear-gradient(to bottom, #000 0%, #000 calc(100% - var(--era-runway-pb) - 18px), transparent calc(100% - var(--era-runway-pb) + 2px), transparent 100%);
+    linear-gradient(to bottom, #000 0%, #000 calc(100% - 22px), transparent 100%);
   mask-composite: add;
 }
 
-.era-col:first-of-type.has-scroll-more .era-lower {
+.era-col.has-scroll-up:not(.has-scroll-more) .era-lower {
+  -webkit-mask-image:
+    linear-gradient(to right, #000 0, #000 22px, transparent 22px),
+    linear-gradient(to bottom, transparent 0%, #000 18px, #000 100%);
+  -webkit-mask-composite: source-over;
+  mask-image:
+    linear-gradient(to right, #000 0, #000 22px, transparent 22px),
+    linear-gradient(to bottom, transparent 0%, #000 18px, #000 100%);
+  mask-composite: add;
+}
+
+.era-col.has-scroll-up.has-scroll-more .era-lower {
+  -webkit-mask-image:
+    linear-gradient(to right, #000 0, #000 22px, transparent 22px),
+    linear-gradient(to bottom, transparent 0%, #000 16px, #000 calc(100% - 22px), transparent 100%);
+  -webkit-mask-composite: source-over;
+  mask-image:
+    linear-gradient(to right, #000 0, #000 22px, transparent 22px),
+    linear-gradient(to bottom, transparent 0%, #000 16px, #000 calc(100% - 22px), transparent 100%);
+  mask-composite: add;
+}
+
+.era-col:first-of-type.has-scroll-more:not(.has-scroll-up) .era-lower {
   -webkit-mask-image:
     linear-gradient(to right, #000 0, #000 10px, transparent 10px),
-    linear-gradient(to bottom, #000 0%, #000 calc(100% - var(--era-runway-pb) - 18px), transparent calc(100% - var(--era-runway-pb) + 2px), transparent 100%);
+    linear-gradient(to bottom, #000 0%, #000 calc(100% - 22px), transparent 100%);
   mask-image:
     linear-gradient(to right, #000 0, #000 10px, transparent 10px),
-    linear-gradient(to bottom, #000 0%, #000 calc(100% - var(--era-runway-pb) - 18px), transparent calc(100% - var(--era-runway-pb) + 2px), transparent 100%);
+    linear-gradient(to bottom, #000 0%, #000 calc(100% - 22px), transparent 100%);
 }
 
 /* Spine Milestone Dot aligned directly on each column's left vertical stem (clickable to summon robot!) */
 .spine-dot {
+  appearance: none;
+  padding: 0;
   position: absolute;
   bottom: var(--era-foot-h);
   left: 20.5px;
@@ -285,7 +340,7 @@
   transform: translate(-50%, 50%);
   z-index: 6;
   cursor: pointer;
-  transition: all 0.24s var(--ease-out);
+  transition: transform 0.24s var(--ease-out), box-shadow 0.24s var(--ease-out), background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .spine-dot:hover,
@@ -310,13 +365,26 @@
   box-shadow: 0 0 0 3.5px rgba(184, 59, 42, 0.16);
 }
 
-/* Compact Single-Line Footer Zone (below Timeline Spine — frees +26px height for the robot diorama!) */
+/* Compact Single-Line Footer Zone (clickable to summon robot from this era!) */
 .era-upper {
   padding: 5px clamp(8px, 1vw, 14px) 0 20px;
   display: flex;
   align-items: center;
   min-width: 0;
   overflow: hidden;
+  cursor: pointer;
+}
+
+.era-upper:hover .era-title {
+  color: var(--bamboo-4);
+}
+
+.era-col.has-flagship .era-upper:hover .era-title {
+  color: var(--vermilion);
+}
+
+.era-upper:hover .era-num-tag {
+  color: var(--ink-secondary);
 }
 
 .era-col:first-of-type .era-upper {
@@ -374,9 +442,9 @@
   letter-spacing: 0.01em;
 }
 
-/* Upper Catalog Zone (rising upward from Timeline Spine, bottom-aligned above robot runway) */
+/* Upper Catalog Zone (strictly above .era-runway-slot, bottom-aligned cleanly!) */
 .era-lower {
-  padding: 10px clamp(6px, 0.75vw, 12px) var(--era-runway-pb) 20px;
+  padding: 8px clamp(6px, 0.75vw, 12px) 6px 20px;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -432,20 +500,20 @@
 
 /* Terminate top twig stem cleanly at the horizontal arm of the topmost row */
 .twig-item:first-child::before {
-  top: 15px;
+  top: 15.5px;
 }
 
-/* Connect bottom twig stem down through the runway flush to the top edge of the 8px spine-dot */
+/* Join bottom twig stem seamlessly into .era-runway-slot::before (zero gap, zero runway bleed!) */
 .twig-item:last-child::before {
-  bottom: calc(-1 * var(--era-runway-pb) + 4px);
+  bottom: -6px;
 }
 
 .twig-item:first-child:last-child::before {
-  top: 15px;
-  bottom: calc(-1 * var(--era-runway-pb) + 4px);
+  top: 15.5px;
+  bottom: -6px;
 }
 
-/* Lit trunk path from spine-dot down to the furthest published twig in column */
+/* Lit trunk path from spine-dot up to the furthest published twig in column */
 .twig-item.is-stem-bamboo::before {
   background-color: rgba(45, 106, 71, 0.38);
 }
@@ -459,8 +527,8 @@
   background: linear-gradient(
     to bottom,
     var(--hairline-mid) 0%,
-    var(--hairline-mid) 15px,
-    rgba(45, 106, 71, 0.38) 15px,
+    var(--hairline-mid) 15.5px,
+    rgba(45, 106, 71, 0.38) 15.5px,
     rgba(45, 106, 71, 0.38) 100%
   );
 }
@@ -469,18 +537,18 @@
   background: linear-gradient(
     to bottom,
     var(--hairline-mid) 0%,
-    var(--hairline-mid) 15px,
-    rgba(184, 59, 42, 0.38) 15px,
+    var(--hairline-mid) 15.5px,
+    rgba(184, 59, 42, 0.38) 15.5px,
     rgba(184, 59, 42, 0.38) 100%
   );
 }
 
-/* Crisp horizontal 1px L-connector branching from stem to the status dot */
+/* Crisp horizontal 1px L-connector branching from stem to the status dot center */
 .twig-item::after {
   content: "";
   position: absolute;
   left: 0;
-  top: 15px;
+  top: 15.5px;
   width: 12px;
   height: 1px;
   background-color: var(--hairline-mid);
@@ -573,7 +641,7 @@
   transition: color 0.16s ease;
 }
 
-/* Static right-aligned metadata / collapse caret on published twigs */
+/* Quiet right-aligned collapse caret: recedes softly on single-post rows until hover, clearer on multi-post series */
 .twig-badge {
   appearance: none;
   border: none;
@@ -586,11 +654,23 @@
   border-radius: 3px;
   white-space: nowrap;
   color: var(--ink-muted);
+  opacity: 0.30;
   cursor: pointer;
-  transition: background-color 0.16s ease, color 0.16s ease;
+  transition: opacity 0.16s ease, background-color 0.16s ease, color 0.16s ease;
+}
+
+.twig-item.is-multi-node .twig-badge,
+.twig-item.is-collapsed .twig-badge {
+  opacity: 0.72;
+}
+
+.twig-row:hover .twig-badge,
+.twig-badge:focus-visible {
+  opacity: 0.92;
 }
 
 .twig-badge:hover {
+  opacity: 1;
   background-color: rgba(29, 27, 24, 0.06);
   color: var(--ink-primary);
 }
@@ -827,10 +907,10 @@
 
 /* Strict 1:1 Square GitHub Heatmap Container */
 .fp-canvas {
-  flex: 1 1 auto;
+  flex: 0 0 auto;
   min-height: 0;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: hidden;
 }
 
@@ -1028,14 +1108,20 @@
   gap: 8px;
   text-align: left;
   min-width: 0;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, transform 0.2s var(--ease-out);
 }
 
-.recent-item-btn:hover {
+.recent-item-btn:hover,
+.recent-item-btn.is-linked-recent {
   background-color: var(--bamboo-wash);
 }
 
-.recent-item-btn.is-flagship:hover {
+.recent-item-btn.is-linked-recent {
+  transform: translateX(2px);
+}
+
+.recent-item-btn.is-flagship:hover,
+.recent-item-btn.is-flagship.is-linked-recent {
   background-color: rgba(184, 59, 42, 0.08);
 }
 
@@ -1054,7 +1140,8 @@
   opacity: 0.92;
 }
 
-.recent-item-btn:hover .recent-item-dot {
+.recent-item-btn:hover .recent-item-dot,
+.recent-item-btn.is-linked-recent .recent-item-dot {
   transform: scale(1.28);
   opacity: 1;
 }
@@ -1072,17 +1159,20 @@
   transition: color 0.15s ease;
 }
 
-.recent-item-btn:hover .recent-item-title {
+.recent-item-btn:hover .recent-item-title,
+.recent-item-btn.is-linked-recent .recent-item-title {
   color: var(--bamboo-4);
 }
 
-.recent-item-btn.is-flagship:hover .recent-item-title {
+.recent-item-btn.is-flagship:hover .recent-item-title,
+.recent-item-btn.is-flagship.is-linked-recent .recent-item-title {
   color: var(--vermilion);
 }
 
 .recent-item-date {
   flex-shrink: 0;
   font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
   font-size: 10px;
   color: var(--ink-muted);
 }
@@ -1090,14 +1180,80 @@
 /* =========================================================================
    7. COMPACT & SPLIT-PANE VIEWPORT SAFETY (strict 1:1 heatmap + zero clipping!)
    ========================================================================= */
-@media (max-height: 760px) {
+@media (max-height: 780px) {
   :root {
     --cell-size: 9px;
     --cell-gap: 2.5px;
+    --dock-h: 124px;
   }
   .dock-footprint {
     padding-top: 6px;
     padding-bottom: 6px;
+  }
+  .era-lower {
+    padding-top: 6px;
+    padding-bottom: 4px;
+  }
+  .twig-item {
+    padding: 2px 0 2px 14px;
+  }
+  .twig-row {
+    padding: 2.2px 6px;
+  }
+  .twig-item:first-child::before,
+  .twig-item:first-child:last-child::before,
+  .twig-item::after {
+    top: 13px;
+  }
+  .twig-item:last-child::before,
+  .twig-item:first-child:last-child::before {
+    bottom: -4px;
+  }
+  .twig-item.is-stem-bamboo.is-stem-end:not(:first-child)::before {
+    background: linear-gradient(to bottom, var(--hairline-mid) 0%, var(--hairline-mid) 13px, rgba(45, 106, 71, 0.38) 13px, rgba(45, 106, 71, 0.38) 100%);
+  }
+  .twig-item.is-stem-vermilion.is-stem-end:not(:first-child)::before {
+    background: linear-gradient(to bottom, var(--hairline-mid) 0%, var(--hairline-mid) 13px, rgba(184, 59, 42, 0.38) 13px, rgba(184, 59, 42, 0.38) 100%);
+  }
+  .sub-twig-list {
+    margin: 1px 0 1px 7px;
+    gap: 1px;
+  }
+  .sub-twig-btn {
+    padding: 1.5px 5px 1.5px 2px;
+  }
+  .sub-twig-title {
+    font-size: 11px;
+    line-height: 1.25;
+  }
+}
+
+@media (max-height: 680px) {
+  :root {
+    --cell-size: 7.4px;
+    --cell-gap: 2px;
+    --dock-h: 112px;
+    --era-runway-pb: 74px;
+  }
+  .twig-item {
+    padding: 1.5px 0 1.5px 14px;
+  }
+  .twig-row {
+    padding: 1.8px 6px;
+  }
+  .twig-item:first-child::before,
+  .twig-item:first-child:last-child::before,
+  .twig-item::after {
+    top: 11.5px;
+  }
+  .twig-item.is-stem-bamboo.is-stem-end:not(:first-child)::before {
+    background: linear-gradient(to bottom, var(--hairline-mid) 0%, var(--hairline-mid) 11.5px, rgba(45, 106, 71, 0.38) 11.5px, rgba(45, 106, 71, 0.38) 100%);
+  }
+  .twig-item.is-stem-vermilion.is-stem-end:not(:first-child)::before {
+    background: linear-gradient(to bottom, var(--hairline-mid) 0%, var(--hairline-mid) 11.5px, rgba(184, 59, 42, 0.38) 11.5px, rgba(184, 59, 42, 0.38) 100%);
+  }
+  .sub-twig-btn {
+    padding: 1px 5px 1px 2px;
   }
 }
 
@@ -1158,7 +1314,18 @@
   .era-lower {
     padding-left: 14px;
   }
+  .era-runway-slot::before {
+    left: 14px;
+  }
   .spine-dot {
     left: 14.5px;
+  }
+  .era-col.has-scroll-more:not(.has-scroll-up) .era-lower {
+    -webkit-mask-image:
+      linear-gradient(to right, #000 0, #000 16px, transparent 16px),
+      linear-gradient(to bottom, #000 0%, #000 calc(100% - 22px), transparent 100%);
+    mask-image:
+      linear-gradient(to right, #000 0, #000 16px, transparent 16px),
+      linear-gradient(to bottom, #000 0%, #000 calc(100% - 22px), transparent 100%);
   }
 }

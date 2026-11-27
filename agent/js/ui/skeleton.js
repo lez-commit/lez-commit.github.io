@@ -145,7 +145,7 @@ export function createSkeleton({ skeletonGridEl, tooltip, brushing, openArticle 
             </div>
             <div class="era-runway-slot" aria-hidden="true"></div>
             <button class="spine-dot ${spineCls}" type="button" data-summon-era="${eraIdx}" title="点击召唤机器人从此时代演进" aria-label="从${esc(compact.short)}时代召唤机器人"></button>
-            <header class="era-upper" title="${esc(fullMetaTip)}">
+            <header class="era-upper" data-summon-era="${eraIdx}" title="${esc(fullMetaTip)} · 点击从本时代演进">
               <div class="era-title-row">
                 <span class="era-num-tag">${esc(era.num)}</span>
                 <h2 class="era-title">${esc(compact.short)}</h2>
@@ -245,10 +245,10 @@ export function createSkeleton({ skeletonGridEl, tooltip, brushing, openArticle 
     });
 
     skeletonGridEl.addEventListener("click", (e) => {
-      const summonDot = e.target.closest(".spine-dot[data-summon-era]");
-      if (summonDot) {
+      const summonTrigger = e.target.closest("[data-summon-era]");
+      if (summonTrigger) {
         e.stopPropagation();
-        bus.emit("walker:summon", Number(summonDot.dataset.summonEra));
+        bus.emit("walker:summon", Number(summonTrigger.dataset.summonEra));
         return;
       }
 
