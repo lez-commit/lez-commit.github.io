@@ -57,6 +57,22 @@
     mk("stop", { offset: "38%", "stop-color": "#2D6A47", "stop-opacity": "0.62" }, jetGrad);
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, jetGrad);
 
+    // Unified matte porcelain ceramic gradients (matching airborne v4 mech material language 1:1!)
+    const porcGrad = mk("linearGradient", { id: "evo-porcelain", x1: "12%", y1: "0%", x2: "88%", y2: "100%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#FFFDF9" }, porcGrad);
+    mk("stop", { offset: "58%", "stop-color": "#F7F3EB" }, porcGrad);
+    mk("stop", { offset: "100%", "stop-color": "#E3DACB" }, porcGrad);
+
+    const porcBackGrad = mk("linearGradient", { id: "evo-porcelain-back", x1: "0%", y1: "0%", x2: "100%", y2: "100%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#EFEAE0" }, porcBackGrad);
+    mk("stop", { offset: "100%", "stop-color": "#DCD3C4" }, porcBackGrad);
+
+    // Ambient bamboo ground bounce light along timeline spine for Era 2/4/5 climax beats
+    const groundGlowGrad = mk("radialGradient", { id: "evo-ground-glow", cx: "50%", cy: "50%", r: "50%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#4FA072", "stop-opacity": "0.42" }, groundGlowGrad);
+    mk("stop", { offset: "55%", "stop-color": "#2D6A47", "stop-opacity": "0.14" }, groundGlowGrad);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, groundGlowGrad);
+
     // Clip path for Era 3 brick barrier sinking cleanly into the ground seam (y <= 0)
     const wallClip = mk("clipPath", { id: "evo-wall-clip" }, defs);
     mk("rect", { x: "-24", y: "-38", width: "48", height: "38" }, wallClip);
@@ -65,6 +81,8 @@
     // LAYER 1: 5 EDITORIAL INK-AND-WASH MILESTONE PROPS (behind robot)
     // =====================================================================
     const scenery = mk("g", null, svg);
+    // Subtle ambient bamboo ground bounce light seated flush on timeline spine
+    const groundBounceEl = mk("ellipse", { cx: "0", cy: String(BASE_Y), rx: "28", ry: "4.6", fill: "url(#evo-ground-glow)", opacity: "0" }, scenery);
 
     // --- PROP 1 (Era 1 · 按脚本跑，无大脑): Clean Iconic Faceted Stone Cluster ---
     const prop1 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
@@ -472,21 +490,21 @@
     const keyInner = mk("ellipse", { cx: "-10.1", cy: "-4.2", rx: "0.6", ry: "1.25", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-opacity": "0.55" }, keyGroup);
 
     // Back volumetric mechanical leg (thigh + shin + knee joint) + capsule foot + Stage 5 back boot + back volumetric arm
-    const backLegGroup = mk("g", { opacity: "0.78" }, botBody);
-    const backThigh = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, backLegGroup);
-    const backShin = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, backLegGroup);
-    const kneeJoint2 = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.78", opacity: "0" }, backLegGroup);
-    const backFoot = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
+    const backLegGroup = mk("g", { opacity: "0.82" }, botBody);
+    const backThigh = mk("path", { fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round" }, backLegGroup);
+    const backShin = mk("path", { fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round" }, backLegGroup);
+    const kneeJoint2 = mk("circle", { r: "1.02", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.68", opacity: "0" }, backLegGroup);
+    const backFoot = mk("path", { fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, botBody);
     const bootB = mk("g", { opacity: "0" }, botBody);
-    mk("path", { d: "M -1.9,-4.3 L 1.7,-4.3 L 2.5,0 L -2.2,0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, bootB);
-    mk("polygon", { points: "-1.5,-5.2 1.3,-5.2 1.0,-3.4 -0.1,-2.9 -1.2,-3.4", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-linejoin": "round" }, bootB);
-    const backArmGroup = mk("g", { opacity: "0.76" }, botBody);
-    const backUpperArm = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, backArmGroup);
-    const backForeArm = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, backArmGroup);
-    const elbowJointB = mk("circle", { r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72", opacity: "0" }, backArmGroup);
+    mk("path", { d: "M -1.9,-4.3 L 1.7,-4.3 L 2.5,0 L -2.2,0 Z", fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, bootB);
+    mk("polygon", { points: "-1.5,-5.2 1.3,-5.2 1.0,-3.4 -0.1,-2.9 -1.2,-3.4", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.62", "stroke-linejoin": "round" }, bootB);
+    const backArmGroup = mk("g", { opacity: "0.80" }, botBody);
+    const backUpperArm = mk("path", { fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.76", "stroke-linejoin": "round" }, backArmGroup);
+    const backForeArm = mk("path", { fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.76", "stroke-linejoin": "round" }, backArmGroup);
+    const elbowJointB = mk("circle", { r: "0.82", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.65", opacity: "0" }, backArmGroup);
     const gauntletB = mk("g", { opacity: "0" }, botBody);
-    mk("path", { d: "M -2.2,-2.2 L 2.2,-2.2 L 1.8,1.3 L -1.8,1.3 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, gauntletB);
-    mk("line", { x1: "-1.1", y1: "-0.6", x2: "1.1", y2: "-0.6", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, gauntletB);
+    mk("path", { d: "M -2.2,-2.2 L 2.2,-2.2 L 1.8,1.3 L -1.8,1.3 Z", fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, gauntletB);
+    mk("line", { x1: "-1.1", y1: "-0.6", x2: "1.1", y2: "-0.6", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, gauntletB);
 
     // Torso group (neck + pelvis + sculpted chassis with warm stone bevel + Stage 5 Hardcore Tactical Armor!)
     const torsoGroup = mk("g", null, botBody);
@@ -517,10 +535,10 @@
     mk("polygon", { points: "1.6,-0.3 4.6,-0.3 4.9,1.6 2.0,2.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, skirtArmorEl);
     mk("polygon", { points: "-1.7,-0.5 1.7,-0.5 1.3,2.4 0,2.9 -1.3,2.4", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, skirtArmorEl);
     mk("line", { x1: "0", y1: "0.1", x2: "0", y2: "2.1", stroke: "#5CE09B", "stroke-width": "0.62", "stroke-linecap": "round" }, skirtArmorEl);
-    // Sculpted main chassis torso + subtle warm stone bevel
-    const torsoEl = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linejoin": "round" }, torsoGroup);
-    const torsoShade = mk("path", { fill: "#EDE8DE", "fill-opacity": "0.85" }, torsoGroup);
-    const chestPanel = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-opacity": "0.58", "stroke-linecap": "round" }, torsoGroup);
+    // Sculpted main chassis torso + porcelain gradient & subtle warm stone bevel
+    const torsoEl = mk("path", { fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "1.02", "stroke-linejoin": "round" }, torsoGroup);
+    const torsoShade = mk("path", { fill: "#E4DDD0", "fill-opacity": "0.52" }, torsoGroup);
+    const chestPanel = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-opacity": "0.48", "stroke-linecap": "round" }, torsoGroup);
     const chestLed = mk("circle", { cx: "1.6", cy: "-5.2", r: "0.8", fill: "#2D6A47", opacity: "0" }, torsoGroup);
     // Stage 5: Hardcore Layered Angular Shoulder Pauldrons + High Collar + Chest Vents!
     const shoulderArmorEl = mk("g", { opacity: "0" }, torsoGroup);
@@ -544,14 +562,14 @@
     const harnessRipple = mk("circle", { r: "2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, harnessGroup);
     const harnessRipple2 = mk("circle", { r: "2", fill: "none", stroke: "#1D1B18", "stroke-width": "0.75", opacity: "0" }, harnessGroup);
 
-    // Front volumetric mechanical leg (thigh + shin + knee joint rivet) + capsule front foot + Stage 5 heavy greave boot!
-    const frontThigh = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
-    const frontShin = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
-    const frontFoot = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round" }, botBody);
-    const kneeJoint1 = mk("circle", { r: "1.1", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.82", opacity: "0" }, botBody);
+    // Front volumetric mechanical leg (porcelain gradient + dark knee joint + Stage 5 heavy greave boot!)
+    const frontThigh = mk("path", { fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.84", "stroke-linejoin": "round" }, botBody);
+    const frontShin = mk("path", { fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.84", "stroke-linejoin": "round" }, botBody);
+    const frontFoot = mk("path", { fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.90", "stroke-linejoin": "round" }, botBody);
+    const kneeJoint1 = mk("circle", { r: "1.08", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.70", opacity: "0" }, botBody);
     const bootF = mk("g", { opacity: "0" }, botBody);
-    mk("path", { d: "M -1.9,-4.5 L 1.9,-4.5 L 2.9,0 L -2.2,0 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, bootF);
-    mk("polygon", { points: "-1.5,-5.5 1.5,-5.5 1.2,-3.5 0,-3.0 -1.2,-3.5", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-linejoin": "round" }, bootF);
+    mk("path", { d: "M -1.9,-4.5 L 1.9,-4.5 L 2.9,0 L -2.2,0 Z", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round" }, bootF);
+    mk("polygon", { points: "-1.5,-5.5 1.5,-5.5 1.2,-3.5 0,-3.0 -1.2,-3.5", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-linejoin": "round" }, bootF);
     mk("line", { x1: "-0.7", y1: "-4.6", x2: "0.7", y2: "-4.6", stroke: "#5CE09B", "stroke-width": "0.6", "stroke-linecap": "round" }, bootF);
 
     // Robot Head group (boxy CRT chassis + expressive visor + antenna + Stage 5 Mech Crest)
@@ -569,9 +587,9 @@
     // Ear-bolt pods
     mk("rect", { x: "-6.9", y: "-1.6", width: "1.7", height: "3.4", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, headGroup);
     mk("rect", { x: "5.2", y: "-1.6", width: "1.4", height: "3.2", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, headGroup);
-    // Boxy CRT head dome + subtle bottom-left warm stone shading
-    mk("rect", { x: "-5.7", y: "-4.7", width: "11.4", height: "9.0", rx: "2.6", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.3" }, headGroup);
-    mk("path", { d: "M -5.0,2.2 Q -5.0,3.8 -3.0,3.8 L 3.4,3.8 Q 4.8,3.8 5.0,2.6 L 5.0,1.8 L -5.0,1.8 Z", fill: "#EDE8DE", "fill-opacity": "0.7" }, headGroup);
+    // Boxy CRT head dome (unified matte porcelain ceramic gradient + crisp top specular sheen!)
+    mk("rect", { x: "-5.7", y: "-4.7", width: "11.4", height: "9.0", rx: "2.6", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "1.08" }, headGroup);
+    mk("line", { x1: "-3.4", y1: "-3.8", x2: "2.8", y2: "-3.8", stroke: "#FFFFFF", "stroke-width": "0.7", "stroke-opacity": "0.88", "stroke-linecap": "round" }, headGroup);
     // Stage 1-3 single-eye visor screen + CRT boot scanline + expressive micro-expressions
     const visorScreen = mk("rect", { x: "-1.8", y: "-2.8", width: "6.6", height: "4.8", rx: "1.5", fill: "#1D1B18" }, headGroup);
     const visorGlint1 = mk("line", { x1: "-0.7", y1: "-1.8", x2: "0.2", y2: "-1.8", stroke: "#FAF8F4", "stroke-width": "0.7", "stroke-opacity": "0.35", "stroke-linecap": "round" }, headGroup);
@@ -606,22 +624,22 @@
     mk("path", { d: "M -6.2,-6.8 L -1.2,-4.8 L 0.2,-7.4 L 1.6,-4.8 L 6.4,-6.8 L 1.8,-3.7 L -1.4,-3.7 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, headCrestEl);
     mk("polygon", { points: "0.2,-6.7 1.0,-5.1 0.2,-4.0 -0.6,-5.1", fill: "#2D6A47" }, headCrestEl);
 
-    // Front volumetric mechanical arm (upper arm + forearm + elbow & shoulder bushings) + attachments + Stage 5 Repulsor Gauntlets
-    const frontUpperArm = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, botBody);
-    const frontForeArm = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, botBody);
-    const elbowJointF = mk("circle", { r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.78", opacity: "0" }, botBody);
-    const shoulderPin = mk("circle", { r: "1.15", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, botBody);
-    const handTipB = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", opacity: "0" }, botBody);
-    const handTipF = mk("circle", { r: "1.15", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", opacity: "0" }, botBody);
-    const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
+    // Front volumetric mechanical arm (porcelain gradient + dark elbow bushing + Stage 5 Repulsor Gauntlet)
+    const frontUpperArm = mk("path", { fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, botBody);
+    const frontForeArm = mk("path", { fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, botBody);
+    const elbowJointF = mk("circle", { r: "0.88", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.68", opacity: "0" }, botBody);
+    const shoulderPin = mk("circle", { r: "1.1", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.78" }, botBody);
+    const handTipB = mk("circle", { r: "1.0", fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.78", opacity: "0" }, botBody);
+    const handTipF = mk("circle", { r: "1.1", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.82", opacity: "0" }, botBody);
+    const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
     // Era 3 Big Spiral Mechanical Drill attachment (snaps straight onto forearm!)
     const drillGroup = mk("g", { opacity: "0" }, botBody);
-    mk("rect", { x: "-1.0", y: "-2.3", width: "3.8", height: "4.6", rx: "0.9", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0" }, drillGroup);
-    mk("polygon", { points: "2.8,-2.4 10.6,0 2.8,2.4", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round" }, drillGroup);
+    mk("rect", { x: "-1.0", y: "-2.3", width: "3.8", height: "4.6", rx: "0.9", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.9" }, drillGroup);
+    mk("polygon", { points: "2.8,-2.4 10.6,0 2.8,2.4", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, drillGroup);
     const drillFlutes = mk("path", { d: "M 4.4,-1.9 L 5.2,1.9 M 6.8,-1.2 L 7.4,1.2", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round" }, drillGroup);
     const gauntletF = mk("g", { opacity: "0" }, botBody);
-    mk("path", { d: "M -2.3,-2.2 L 2.3,-2.2 L 1.9,1.4 L -1.9,1.4 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, gauntletF);
-    mk("line", { x1: "-1.2", y1: "-0.5", x2: "1.2", y2: "-0.5", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, gauntletF);
+    mk("path", { d: "M -2.3,-2.2 L 2.3,-2.2 L 1.9,1.4 L -1.9,1.4 Z", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round" }, gauntletF);
+    mk("line", { x1: "-1.2", y1: "-0.5", x2: "1.2", y2: "-0.5", stroke: "#2D6A47", "stroke-width": "0.82", "stroke-linecap": "round" }, gauntletF);
     const repulsorJets = mk("g", { opacity: "0" }, botBody);
     const leftPalmJet = mk("path", { fill: "url(#evo-jet-grad)" }, repulsorJets);
     const leftPalmCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, repulsorJets);
@@ -657,12 +675,13 @@
       }
       return { sp, trail, piece };
     });
-    // System-Online 4-corner lock flash ticks
+    // System-Online 4-corner lock flash ticks + diagonal metallic lock glint sweep!
     const lockSparks = mk("g", { opacity: "0" }, botGroup);
     mk("path", {
       d: "M -12,-28 L -15,-31 M 12,-28 L 15,-31 M -12,-10 L -15,-7 M 12,-10 L 15,-7",
       fill: "none", stroke: "#2D6A47", "stroke-width": "1.25", "stroke-linecap": "round"
     }, lockSparks);
+    const lockGlint = mk("line", { x1: "-7", y1: "-30", x2: "7", y2: "-16", stroke: "#FFFFFF", "stroke-width": "2.4", "stroke-linecap": "round", "stroke-opacity": "0.92", opacity: "0" }, botGroup);
 
     // Click happy hop spark
     const clickSpark = mk("g", { opacity: "0" }, botGroup);
@@ -762,10 +781,50 @@
     let isBlinking = false;
     let clickHopTimer = 0;
     let resetWaitTimer = 0;
-    // Pixar walk-stop momentum lean-and-settle damped spring!
+    // Pixar walk-stop momentum lean-and-settle damped spring + Hit-Stop & Impact Micro-Shake!
     let prevMoveSpeed = 0;
     let velLean = 0;
     let velLeanVel = 0;
+    let hitStopTimer = 0;
+    let shakeAmp = 0;
+    let shakePhase = 0;
+    let sonicHitDone = false;
+    let storyPinged = [false, false, false, false, false];
+
+    const STORY_TWIG_TARGETS = [
+      ["RPA 自动化"],
+      ["思维链 CoT", "ReAct 闭环"],
+      ["Function Calling"],
+      ["Coding Agent", "LangGraph 状态机"],
+      ["Agent Skills", "Harness 驾驭工程"]
+    ];
+
+    function triggerImpact(stopSec, amp) {
+      hitStopTimer = Math.max(hitStopTimer, stopSec);
+      shakeAmp = Math.max(shakeAmp, amp);
+    }
+
+    function pingStoryTwigs(eraIdx) {
+      if (storyPinged[eraIdx] || !skeletonGridEl) return;
+      storyPinged[eraIdx] = true;
+      const targets = STORY_TWIG_TARGETS[eraIdx];
+      if (!targets) return;
+      const col = skeletonGridEl.querySelectorAll(".era-col")[eraIdx];
+      if (!col) return;
+      const items = col.querySelectorAll(".twig-item");
+      let delay = 0;
+      items.forEach((tw) => {
+        const titleEl = tw.querySelector(".twig-title");
+        const txt = titleEl ? titleEl.textContent.trim() : "";
+        if (targets.some((t) => txt.includes(t))) {
+          setTimeout(() => {
+            tw.classList.add("is-story-ping");
+            setTimeout(() => tw.classList.remove("is-story-ping"), 1150);
+          }, delay);
+          delay += 140;
+        }
+      });
+    }
 
     // 5-beat state machine per cycle
     let b1 = 0, b1t = 0; // Era 1 pebble: 0=jog, 1=trip, 2=long belly-slide into Era 2, 3=pop up, 4=done
@@ -835,6 +894,12 @@
       prevMoveSpeed = 0;
       velLean = 0;
       velLeanVel = 0;
+      hitStopTimer = 0;
+      shakeAmp = 0;
+      sonicHitDone = false;
+      storyPinged = [false, false, false, false, false];
+      groundBounceEl.setAttribute("opacity", "0");
+      lockGlint.setAttribute("opacity", "0");
       waitingForDock = false;
       handoffStarted = false;
       handoffTrailT = 0;
@@ -879,6 +944,16 @@
       propEl.addEventListener("click", (e) => {
         e.stopPropagation();
         summonWalkerAtEra(idx);
+      });
+      propEl.addEventListener("mouseenter", () => {
+        if (!skeletonGridEl) return;
+        const dot = skeletonGridEl.querySelectorAll(".spine-dot")[idx];
+        if (dot) dot.classList.add("is-prop-hover");
+      });
+      propEl.addEventListener("mouseleave", () => {
+        if (!skeletonGridEl) return;
+        const dot = skeletonGridEl.querySelectorAll(".spine-dot")[idx];
+        if (dot) dot.classList.remove("is-prop-hover");
       });
     });
 
@@ -936,6 +1011,7 @@
           launchTrail.setAttribute("opacity", "0");
           launchTrailL.setAttribute("opacity", "0");
           launchTrailR.setAttribute("opacity", "0");
+          groundBounceEl.setAttribute("opacity", "0");
           requestAnimationFrame(tick);
           return;
         }
@@ -968,10 +1044,27 @@
         // Direct vertical launch right from the Era 5 Launch Gantry center (x5)!
         const launchX = x5;
 
+        // Hit-Stop impact freeze + damped runway micro-shake for tactile animation weight!
+        if (shakeAmp > 0.04) {
+          shakePhase += dt * 95;
+          const sxOff = Math.sin(shakePhase) * shakeAmp;
+          const syOff = Math.cos(shakePhase * 1.35) * shakeAmp * 0.55;
+          svg.style.transform = `translate3d(${sxOff.toFixed(2)}px, ${syOff.toFixed(2)}px, 0)`;
+          shakeAmp *= Math.exp(-16 * dt);
+        } else if (shakeAmp > 0) {
+          shakeAmp = 0;
+          svg.style.transform = "";
+        }
+        if (hitStopTimer > 0) {
+          hitStopTimer = Math.max(0, hitStopTimer - dt);
+          requestAnimationFrame(tick);
+          return;
+        }
+
         // Trigger each era's silent-film beat once per cycle
-        if (b1 === 0 && posX >= x1 - 7.5 * S) { b1 = 1; b1t = 0; }
+        if (b1 === 0 && posX >= x1 - 7.5 * S) { b1 = 1; b1t = 0; triggerImpact(0.042, 1.5); pingStoryTwigs(0); }
         if (b2 === 0 && posX >= x2 - 18.0 * S){ b2 = 1; b2t = 0; }
-        if (b3 === 0 && posX >= x3 - 13.0 * S){ b3 = 1; b3t = 0; }
+        if (b3 === 0 && posX >= x3 - 13.0 * S){ b3 = 1; b3t = 0; triggerImpact(0.052, 2.3); }
         if (b4 === 0 && posX >= x4 - 16.5 * S){ b4 = 1; b4t = 0; }
         if (b5 === 0 && posX >= x5 - 0.8 * S) { posX = x5; b5 = 1; b5t = 0; }
 
@@ -1064,6 +1157,7 @@
             armPose = "cot";
             extraLean = 4;
             headNodDeg = b2t > 1.26 ? Math.sin((b2t - 1.26) * 18) * 9 : 4;
+            pingStoryTwigs(1);
           }
           if (b2t >= 1.62) b2 = 2;
         } else if (b3 === 1) {
@@ -1107,8 +1201,12 @@
             extraLean = 9;
             armPose = "wrench";
           } else {
-            // SHATTER! Wall bursts cleanly into jagged rubble with celebratory follow-through step & micro bounce!
-            if (!wallBroken) wallBroken = true;
+            // SHATTER! Wall bursts cleanly into jagged rubble with Hit-Stop impact + celebratory follow-through!
+            if (!wallBroken) {
+              wallBroken = true;
+              triggerImpact(0.048, 2.5);
+              pingStoryTwigs(2);
+            }
             const fu = clamp01((b3t - 1.56) / 0.24);
             const fEase = 1 - Math.pow(1 - fu, 3);
             visualDX = lerp(-5.2, -3.2, fEase);
@@ -1139,6 +1237,7 @@
             if (!taskDone) {
               taskDone = true;
               gateRippleTimer = 0.52;
+              pingStoryTwigs(3);
             }
             armPose = b4t < 1.24 ? "type" : "walk";
             extraLean = b4t < 1.24 ? 5 : 0;
@@ -1168,6 +1267,8 @@
             isEquipped = true;
             claspRippleTimer = 0.72;
             lockSparkTimer = 0.28;
+            triggerImpact(0.040, 1.8);
+            pingStoryTwigs(4);
           }
           if (b5t >= 0.88) {
             headNodDeg = Math.sin(clamp01((b5t - 0.88) / 0.30) * Math.PI) * 9;
@@ -1207,6 +1308,10 @@
               waitingForDock = true;
               handoffTrailT = 0;
               b5 = 4;
+              if (!sonicHitDone) {
+                sonicHitDone = true;
+                shakeAmp = Math.max(shakeAmp, 2.2);
+              }
               syncEraCaptions(-1, false);
               const lr = evoLayerEl.getBoundingClientRect();
               const worldX = lr.left + x5;
@@ -1522,21 +1627,24 @@
           padEnergyRing.setAttribute("opacity", "0");
         }
 
-        // Stage 5 Flying Modular Parts convergence animation (during b5 === 1)
+        // Stage 5 Flying Modular Parts convergence with Mechanical Snap-Lock Overshoot!
         if (b5 === 1 && b5t < 0.94) {
           assembleLayer.setAttribute("opacity", "1");
           flyParts.forEach(({ sp, trail, piece }) => {
             if (b5t >= sp.t0 && b5t < sp.t1) {
               const rawU = clamp01((b5t - sp.t0) / (sp.t1 - sp.t0));
-              const u = Math.pow(rawU, 1.65);
+              // Snap-lock overshoot: arrives briskly, overshoots ~5% past socket, then snaps rigidly flush!
+              const u = rawU < 0.84
+                ? Math.pow(rawU / 0.84, 1.55) * 1.055
+                : lerp(1.055, 1.0, (rawU - 0.84) / 0.16);
               const inv = 1 - u;
               const px = inv * inv * sp.sx + 2 * inv * u * sp.cx + u * u * sp.tx;
               const py = inv * inv * sp.sy + 2 * inv * u * sp.cy + u * u * sp.ty;
-              const rot = sp.rot0 * (1 - u);
+              const rot = sp.rot0 * (1 - clamp01(u));
               const fadeIn = clamp01(rawU * 4.5);
               piece.setAttribute("transform", `translate(${px.toFixed(1)}, ${py.toFixed(1)}) rotate(${rot.toFixed(1)})`);
               piece.setAttribute("opacity", fadeIn.toFixed(2));
-              const prevU = Math.max(0, u - 0.22);
+              const prevU = Math.max(0, clamp01(u) - 0.22);
               const pinv = 1 - prevU;
               const tx0 = pinv * pinv * sp.sx + 2 * pinv * prevU * sp.cx + prevU * prevU * sp.tx;
               const ty0 = pinv * pinv * sp.sy + 2 * pinv * prevU * sp.cy + prevU * prevU * sp.ty;
@@ -1554,6 +1662,36 @@
           assembleLayer.setAttribute("opacity", "0");
         }
         lockSparks.setAttribute("opacity", lockSparkTimer > 0 ? (lockSparkTimer / 0.28).toFixed(2) : "0");
+        if (lockSparkTimer > 0) {
+          const gu = 1 - lockSparkTimer / 0.28;
+          const shift = lerp(-9, 9, gu);
+          lockGlint.setAttribute("transform", `translate(${shift.toFixed(1)}, ${(shift * 0.5).toFixed(1)})`);
+          lockGlint.setAttribute("opacity", (Math.sin(gu * Math.PI) * 0.92).toFixed(2));
+        } else {
+          lockGlint.setAttribute("opacity", "0");
+        }
+
+        // Ambient Ground Bounce Light along timeline spine for Era 2 Vat, Era 4 Screen, Era 5 Gantry Ignition!
+        if (b5 === 3 || (b5 === 4 && handoffTrailT < 0.65)) {
+          const gOp = b5 === 3 ? clamp01(0.35 + jetPower * 0.58) : clamp01(1 - handoffTrailT / 0.65) * 0.65;
+          groundBounceEl.setAttribute("cx", x5.toFixed(1));
+          groundBounceEl.setAttribute("rx", ((28 + jetPower * 12) * S).toFixed(1));
+          groundBounceEl.setAttribute("opacity", gOp.toFixed(2));
+        } else if (b5 === 1) {
+          groundBounceEl.setAttribute("cx", x5.toFixed(1));
+          groundBounceEl.setAttribute("rx", (26 * S).toFixed(1));
+          groundBounceEl.setAttribute("opacity", (0.28 + 0.35 * Math.sin(clamp01(b5t / 1.2) * Math.PI)).toFixed(2));
+        } else if (b4 === 1 && (scanningTerminal || typingNow || taskDone)) {
+          groundBounceEl.setAttribute("cx", x4.toFixed(1));
+          groundBounceEl.setAttribute("rx", (22 * S).toFixed(1));
+          groundBounceEl.setAttribute("opacity", "0.42");
+        } else if (b2 === 1 && b2t < 1.38) {
+          groundBounceEl.setAttribute("cx", x2.toFixed(1));
+          groundBounceEl.setAttribute("rx", (20 * S).toFixed(1));
+          groundBounceEl.setAttribute("opacity", (Math.sin(clamp01(b2t / 1.38) * Math.PI) * 0.52).toFixed(2));
+        } else {
+          groundBounceEl.setAttribute("opacity", "0");
+        }
 
         // Ground shockwave, sonic boom ring & triple contrails during liftoff (continues smoothly after handoff in b5 === 4!)
         if ((b5 === 3 || b5 === 4) && b5t > 0.12) {

@@ -47,6 +47,11 @@
     let coneEdgeL = null;
     let coneEdgeR = null;
     let wakeDots = [];
+    let trailPts = [];
+    let trailGrad = null;
+    let trailPathMain = null;
+    let trailPathCore = null;
+    let trailSampleCooldown = 0;
     let sonarG = null;
     let sonarOuterHalo = null;
     let sonarRingMain = null;
@@ -93,9 +98,19 @@
       mk("stop", { offset: "82%", "stop-color": "#B83B2A", "stop-opacity": "0.08" }, edgeFlagGrad);
       mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, edgeFlagGrad);
 
-      for (let i = 0; i < 12; i++) {
-        const d = mk("circle", { r: "1.35", fill: "#2D6A47", opacity: "0" }, scanOverlay);
-        wakeDots.push({ el: d, x: 0, y: 0, life: 0 });
+      trailGrad = mk("linearGradient", { id: "agent-trail-grad", gradientUnits: "userSpaceOnUse", x1: "0", y1: "0", x2: "100", y2: "0" }, sDefs);
+      mk("stop", { offset: "0%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, trailGrad);
+      mk("stop", { offset: "45%", "stop-color": "#2D6A47", "stop-opacity": "0.14" }, trailGrad);
+      mk("stop", { offset: "86%", "stop-color": "#4FA072", "stop-opacity": "0.34" }, trailGrad);
+      mk("stop", { offset: "100%", "stop-color": "#B5F5D4", "stop-opacity": "0.52" }, trailGrad);
+
+      // Calligraphic bamboo ink-wash ribbon contrail (wide translucent brush + bright mint core!)
+      trailPathMain = mk("path", { fill: "none", stroke: "url(#agent-trail-grad)", "stroke-width": "4.2", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0" }, scanOverlay);
+      trailPathCore = mk("path", { fill: "none", stroke: "url(#agent-trail-grad)", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0" }, scanOverlay);
+
+      for (let i = 0; i < 8; i++) {
+        const d = mk("circle", { r: "1.05", fill: i % 2 === 0 ? "#4FA072" : "#B5F5D4", opacity: "0" }, scanOverlay);
+        wakeDots.push({ el: d, x: 0, y: 0, vx: 0, vy: 0, life: 0 });
       }
 
       coneG = mk("g", { opacity: "0" }, scanOverlay);
@@ -553,9 +568,39 @@
       jetBootRG.setAttribute("opacity", val);
     }
 
+    function renderRibbonContrail(fadeMul) {
+      if (!trailPathMain || !trailPathCore || !trailGrad) return;
+      if (trailPts.length < 2) {
+        trailPathMain.setAttribute("opacity", "0");
+        trailPathCore.setAttribute("opacity", "0");
+        return;
+      }
+      const p0 = trailPts[0];
+      const pN = trailPts[trailPts.length - 1];
+      let d = `M ${p0.x.toFixed(1)},${p0.y.toFixed(1)}`;
+      for (let i = 1; i < trailPts.length - 1; i++) {
+        const mx = (trailPts[i].x + trailPts[i + 1].x) * 0.5;
+        const my = (trailPts[i].y + trailPts[i + 1].y) * 0.5;
+        d += ` Q ${trailPts[i].x.toFixed(1)},${trailPts[i].y.toFixed(1)} ${mx.toFixed(1)},${my.toFixed(1)}`;
+      }
+      d += ` L ${pN.x.toFixed(1)},${pN.y.toFixed(1)}`;
+      trailGrad.setAttribute("x1", p0.x.toFixed(1));
+      trailGrad.setAttribute("y1", p0.y.toFixed(1));
+      trailGrad.setAttribute("x2", pN.x.toFixed(1));
+      trailGrad.setAttribute("y2", pN.y.toFixed(1));
+      const f = clamp01(fadeMul);
+      trailPathMain.setAttribute("d", d);
+      trailPathMain.setAttribute("opacity", (f * 0.92).toFixed(2));
+      trailPathCore.setAttribute("d", d);
+      trailPathCore.setAttribute("opacity", (f * 0.72).toFixed(2));
+    }
+
     function hideFlightFX() {
       setJetOpacity(0);
       if (coneG) coneG.setAttribute("opacity", "0");
+      trailPts.length = 0;
+      if (trailPathMain) trailPathMain.setAttribute("opacity", "0");
+      if (trailPathCore) trailPathCore.setAttribute("opacity", "0");
       wakeDots.forEach((d) => { d.life = 0; d.el.setAttribute("opacity", "0"); });
     }
 
@@ -802,11 +847,12 @@
       }
     });
 
-    // Double-click docked avatar -> unfolds full original robot body & launches live 2D patrol!
+    // Double-click docked avatar -> unfolds full hardcore mech body & launches live 2D patrol!
     btn.addEventListener("dblclick", (e) => {
       e.preventDefault();
       if (avPhase !== "avatar") return;
       if (AgentBlog.getView && AgentBlog.getView() !== "home") return;
+      btn.classList.add("has-flown-manual");
       startAutonomousPatrol(true);
     });
 
@@ -1032,26 +1078,44 @@
           coneG.setAttribute("opacity", "0");
         }
 
-        // Boot thruster wake micro-dots spawned cleanly below the rotated thruster boots!
+        // Ink-wash bamboo ribbon contrail + delicate drifting thrust sparks below thruster boots!
+        const bootDist = 20 * flyScale * pxPerUnit;
+        const tailX = drone.x - Math.sin(bankRad) * bootDist;
+        const tailY = drone.y + hoverBobY + Math.cos(bankRad) * bootDist;
+        trailSampleCooldown -= dt;
+        if (speed > 26 && trailSampleCooldown <= 0) {
+          trailPts.push({ x: tailX, y: tailY, life: 0.56 });
+          if (trailPts.length > 22) trailPts.shift();
+          trailSampleCooldown = 0.024;
+        }
+        for (let i = trailPts.length - 1; i >= 0; i--) {
+          trailPts[i].life -= dt;
+          if (trailPts[i].life <= 0) trailPts.splice(i, 1);
+        }
+        renderRibbonContrail(speed > 20 ? 1 : 0.65);
+
         wakeCooldown -= dt;
-        if (speed > 40 && wakeCooldown <= 0) {
+        if (speed > 45 && wakeCooldown <= 0) {
           const p = wakeDots[wakeIdx % wakeDots.length];
           wakeIdx += 1;
-          const bootDist = 20 * flyScale * pxPerUnit;
-          p.x = drone.x - Math.sin(bankRad) * bootDist;
-          p.y = drone.y + hoverBobY + Math.cos(bankRad) * bootDist;
-          p.life = 0.55;
-          wakeCooldown = 0.055;
+          p.x = tailX + (Math.random() - 0.5) * 4;
+          p.y = tailY + (Math.random() - 0.5) * 3;
+          p.vx = -drone.vx * 0.08 + (Math.random() - 0.5) * 26;
+          p.vy = 18 + Math.random() * 22;
+          p.life = 0.44;
+          wakeCooldown = 0.075;
         }
 
         wakeDots.forEach((p) => {
           if (p.life > 0) {
             p.life = Math.max(0, p.life - dt);
-            const u = p.life / 0.55;
+            p.x += p.vx * dt;
+            p.y += p.vy * dt;
+            const u = p.life / 0.44;
             p.el.setAttribute("cx", p.x.toFixed(1));
             p.el.setAttribute("cy", p.y.toFixed(1));
-            p.el.setAttribute("r", (0.75 + u * 0.95).toFixed(2));
-            p.el.setAttribute("opacity", (u * 0.42).toFixed(2));
+            p.el.setAttribute("r", (0.55 + u * 0.85).toFixed(2));
+            p.el.setAttribute("opacity", (u * 0.62).toFixed(2));
           } else {
             p.el.setAttribute("opacity", "0");
           }
@@ -1105,11 +1169,21 @@
         applyFaceYaw(lerp(foldStart.headYaw, 0, settleEase), lerp(foldStart.headPitch, 0, settleEase));
         stepSpringAntenna(dt, 0);
 
+        for (let i = trailPts.length - 1; i >= 0; i--) {
+          trailPts[i].life -= dt * 1.6;
+          if (trailPts[i].life <= 0) trailPts.splice(i, 1);
+        }
+        renderRibbonContrail(1 - u);
+
         wakeDots.forEach((p) => {
           if (p.life > 0) {
             p.life = Math.max(0, p.life - dt);
-            const wu = p.life / 0.55;
-            p.el.setAttribute("opacity", (wu * 0.42).toFixed(2));
+            p.x += p.vx * dt;
+            p.y += p.vy * dt;
+            const wu = p.life / 0.44;
+            p.el.setAttribute("cx", p.x.toFixed(1));
+            p.el.setAttribute("cy", p.y.toFixed(1));
+            p.el.setAttribute("opacity", (wu * 0.55).toFixed(2));
           } else {
             p.el.setAttribute("opacity", "0");
           }
