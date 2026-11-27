@@ -162,9 +162,9 @@
 
     // --- PROP 3 (Era 3 · 撞墙试错，接工具): Solid Brick Wall + Pop-Open Toolbox with Big Spiral Drill -> Shattered Wall! ---
     const prop3 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
-    mk("rect", { x: "-32", y: "-32", width: "46", height: "34", fill: "transparent" }, prop3);
-    // Classic unmistakable Toolbox (pops lid open to present the big conical spiral drill!)
-    const toolRackGroup = mk("g", { transform: "translate(-22.5, 0)" }, prop3);
+    mk("rect", { x: "-36", y: "-32", width: "50", height: "34", fill: "transparent" }, prop3);
+    // Classic unmistakable Toolbox cleanly spaced left of drill stance (ZERO foot overlap!)
+    const toolRackGroup = mk("g", { transform: "translate(-27.0, 0)" }, prop3);
     // Toolbox base body + front latch
     mk("rect", { x: "-5.4", y: "-8.2", width: "10.8", height: "8.2", rx: "1.1", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.05" }, toolRackGroup);
     mk("rect", { x: "-4.9", y: "-4.2", width: "9.8", height: "3.7", rx: "0.5", fill: "#EDE8DE" }, toolRackGroup);
@@ -297,7 +297,7 @@
       d: "M 2.3,-19.4 L 4.6,-17.1 L 8.9,-21.6",
       fill: "none", stroke: "#7CE8B1", "stroke-width": "1.65", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0"
     }, prop4);
-    const gateSavedRipple = mk("circle", { cx: "5.3", cy: "-19.5", r: "3.0", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, prop4);
+    const gateSavedRipple = mk("circle", { cx: "14.2", cy: "-31.2", r: "2.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", opacity: "0" }, prop4);
 
     // Floating 3-Node State-Machine Chain cleanly above the monitor (○ -> || -> ●, fades cleanly after completion!)
     const stateFlowGroup = mk("g", { opacity: "0" }, prop4);
@@ -935,28 +935,28 @@
           }
           if (b2t >= 1.62) b2 = 2;
         } else if (b3 === 1) {
-          // Era 3 Beat (撞墙试错，接工具): BONK -> recoil -> toolbox pops open -> snap Spiral Drill -> drill & SHATTER brick wall!
+          // Era 3 Beat (撞墙试错，接工具): BONK -> recoil cleanly left of Toolbox -> pop open -> snap Spiral Drill -> kiss wall & SHATTER!
           b3t += dt;
           activeEraIdx = 2;
           isEraBeat = true;
           moveSpeed = 0;
           if (b3t < 0.34) {
             const u = b3t / 0.34;
-            visualDX = -Math.sin(u * Math.PI * 0.5) * 16.5;
+            visualDX = -Math.sin(u * Math.PI * 0.5) * 23.0;
             extraLean = -44 * (1 - u * 0.35);
             beatHopH = Math.sin(u * Math.PI) * 1.8;
             armPose = "bonk";
           } else if (b3t < 0.58) {
-            // Brief epiphany beat: head shake -> toolbox pops open -> antenna flashes bamboo green!
+            // Brief epiphany beat: head shake -> toolbox lid flips cleanly upright -> antenna flashes bamboo green!
             const u = (b3t - 0.34) / 0.24;
-            visualDX = -16.5;
+            visualDX = -23.0;
             extraLean = 4;
             armPose = "epiphany";
             epiphanyNow = u > 0.35;
             headNodDeg = u < 0.5 ? Math.sin(u * Math.PI * 4) * 8 : -5;
           } else if (b3t < 0.94) {
-            // Reach into open toolbox & snap big Spiral Drill onto forearm!
-            visualDX = -16.5;
+            // Reach cleanly into open toolbox & snap big Spiral Drill onto forearm!
+            visualDX = -23.0;
             extraLean = 6;
             armPose = "grabTool";
             if (b3t >= 0.74 && !hasWrench) {
@@ -964,20 +964,20 @@
               toolSnapTimer = 0.28;
             }
           } else if (b3t < 1.18) {
-            // Step confidently up to brick wall with Spiral Drill armed!
+            // Step confidently clear of toolbox right up to brick wall with Spiral Drill armed!
             const u = (b3t - 0.94) / 0.24;
-            visualDX = lerp(-16.5, -5.5, u);
-            extraLean = 7;
+            visualDX = lerp(-23.0, -5.2, u);
+            extraLean = 6;
             armPose = "wrench";
           } else if (b3t < 1.56) {
-            // DRILL INTO BRICK WALL! Rapid vibration + jagged crack spreading!
-            visualDX = -5.5 + Math.sin(b3t * 85) * 1.0;
-            extraLean = 11;
+            // DRILL INTO BRICK WALL! Drill cone kisses left brick face dead-on with vibration & jagged crack!
+            visualDX = -5.2 + Math.sin(b3t * 85) * 0.9;
+            extraLean = 9;
             armPose = "wrench";
           } else {
-            // SHATTER! Wall bursts into rubble & flying brick shards!
+            // SHATTER! Wall bursts cleanly into jagged rubble & flying brick shards!
             if (!wallBroken) wallBroken = true;
-            visualDX = -5.5;
+            visualDX = -5.2;
             extraLean = 3;
             armPose = "wrench";
           }
@@ -1227,9 +1227,9 @@
         // Prop 3 updates (撞墙试错，接工具): Toolbox lid pop-open, drill rise/pickup, wall shudder & crack -> dramatic brick shatter!
         const boxOpen = (b3 === 1 && b3t >= 0.40) || b3 === 2;
         const lidAngle = b3 === 1
-          ? -112 * smooth(0.40, 0.58, b3t)
+          ? -92 * smooth(0.40, 0.58, b3t)
           : b3 === 2
-          ? -112
+          ? -92
           : 0;
         toolBoxLid.setAttribute("transform", `rotate(${lidAngle.toFixed(1)}, -5.4, -8.0)`);
         const drillPopU = b3 === 1 ? smooth(0.46, 0.64, b3t) : 0;
@@ -1284,9 +1284,9 @@
           const s1On = b4t >= 0.08;
           const s2On = b4t >= 0.38;
           const s3On = b4t >= 1.10;
-          gateS1.setAttribute("fill", s1On ? "#2D6A47" : "#FAF8F4");
+          gateS1.setAttribute("fill", s1On ? "#E6EFE8" : "#FAF8F4");
           gateLink1.setAttribute("opacity", s2On ? "1" : "0");
-          gateS2.setAttribute("fill", s2On ? "#2D6A47" : "#FAF8F4");
+          gateS2.setAttribute("fill", s2On ? "#E6EFE8" : "#FAF8F4");
           gateS2.setAttribute("opacity", freezeAll ? "0" : "1");
           gateLink2.setAttribute("opacity", s3On ? "1" : "0");
           gateS3.setAttribute("opacity", s3On ? "1" : "0");
@@ -1297,7 +1297,7 @@
         gateFreezeBadge.setAttribute("opacity", freezeAll ? "0.96" : "0");
         if (gateRippleTimer > 0) {
           const gu = 1 - gateRippleTimer / 0.52;
-          gateSavedRipple.setAttribute("r", (3.0 + gu * 7.2).toFixed(1));
+          gateSavedRipple.setAttribute("r", (2.4 + gu * 5.2).toFixed(1));
           gateSavedRipple.setAttribute("opacity", ((1 - gu) * 0.85).toFixed(2));
         } else {
           gateSavedRipple.setAttribute("opacity", "0");
@@ -1728,19 +1728,19 @@
           bHY = bSY + 5.4;
           fBend = 0.7;
         } else if (armPose === "grabTool") {
-          // Era 3: reaches right into the open toolbox to snap on the big Spiral Drill!
-          fHX = fSX + 7.2;
-          fHY = -12.2;
+          // Era 3: reaches cleanly into the open toolbox to snap on the big Spiral Drill!
+          fHX = fSX + 8.4;
+          fHY = -12.4;
           bHX = bSX - 2.0;
           bHY = bSY + 5.6;
           fBend = 0.45;
         } else if (armPose === "wrench") {
-          // Era 3: extends right forearm horizontally with spinning Spiral Drill pressing into brick wall!
-          fHX = fSX + 7.2;
+          // Era 3: extends right forearm so Spiral Drill tip kisses the left brick face dead-on (ZERO wall clipping!)
+          fHX = fSX + 1.2;
           fHY = -13.6;
           bHX = bSX - 2.4;
           bHY = bSY + 5.8;
-          fBend = 0.3;
+          fBend = 0.25;
         } else if (armPose === "scan") {
           // Era 4: poised alert stance while dual-optic visor scans big desktop monitor
           fHX = fSX + 3.6;
