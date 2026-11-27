@@ -45,8 +45,14 @@
   --era-foot-h: clamp(46px, 6.2vh, 52px);
   --era-runway-pb: 58px;
   --dock-h: clamp(124px, 16.5vh, 136px);
-  --colophon-h: 0px;
   --page-px: clamp(18px, 2.4vw, 32px);
+}
+
+/* Unified Keyboard Focus-Visible Ring (Bamboo Editorial Accent) */
+:focus-visible {
+  outline: 1.5px solid var(--bamboo-4);
+  outline-offset: 2px;
+  border-radius: 3px;
 }
 
 *, *::before, *::after {
@@ -108,20 +114,66 @@ body.view-home .site-shell {
 }
 
 .brand-cluster {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 10px;
   min-width: 0;
 }
 
+/* Quiet miniature dock reticle holding the top-left slot gracefully before Mark V lands */
+.brand-cluster::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 50%;
+  width: 26px;
+  height: 20px;
+  transform: translateY(-50%);
+  border-radius: 5px;
+  border: 1px dashed rgba(29, 27, 24, 0.16);
+  background-color: rgba(243, 239, 231, 0.45);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.brand-cluster:has(.mech-avatar-btn.is-visible)::before {
+  opacity: 0;
+}
+
 .brand-link {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 2px 0;
   display: inline-flex;
-  align-items: center;
-  gap: 9px;
+  align-items: baseline;
+  gap: 8px;
   min-width: 0;
   text-decoration: none;
   color: inherit;
   cursor: pointer;
+}
+
+.brand-title {
+  font-family: var(--font-serif);
+  font-size: clamp(14px, 1.15vw, 15.5px);
+  font-weight: 600;
+  color: var(--ink-primary);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  transition: color 0.16s ease;
+}
+
+.brand-link:hover .brand-title {
+  color: var(--bamboo-4);
+}
+
+.brand-divider {
+  font-size: 11px;
+  color: var(--ink-hollow);
+  user-select: none;
+  flex-shrink: 0;
 }
 
 /* Top-Right Live Mech Head Avatar (descends & morphs after Stage 5 takeoff!) */
@@ -162,27 +214,27 @@ body.view-home .site-shell {
 .mech-avatar-btn.is-docked:not(.has-flown-manual)::after {
   content: "双击起飞巡检";
   position: absolute;
-  left: 48px;
-  top: 50%;
-  transform: translateY(-50%) translateX(-4px);
+  left: 0;
+  top: calc(100% + 4px);
+  transform: translateY(-3px);
   white-space: nowrap;
-  padding: 2px 7px;
+  padding: 2.5px 8px;
   border-radius: 999px;
-  background-color: rgba(250, 248, 244, 0.94);
-  border: 1px solid rgba(45, 106, 71, 0.26);
+  background-color: rgba(250, 248, 244, 0.96);
+  border: 1px solid rgba(45, 106, 71, 0.28);
   color: var(--bamboo-4);
   font-family: var(--font-sans);
   font-size: 10.5px;
   letter-spacing: 0.02em;
   opacity: 0;
   pointer-events: none;
-  box-shadow: 0 2px 6px rgba(29, 27, 24, 0.06);
+  box-shadow: 0 3px 10px rgba(29, 27, 24, 0.08);
   transition: opacity 0.2s ease, transform 0.22s var(--ease-out);
 }
 
 .mech-avatar-btn.is-docked:not(.has-flown-manual):hover::after {
   opacity: 1;
-  transform: translateY(-50%) translateX(0);
+  transform: translateY(0);
 }
 
 .mech-avatar-btn.is-nodding {

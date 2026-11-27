@@ -81,6 +81,7 @@
   };
 
   /* DOM Elements */
+  const brandHomeBtnEl = document.getElementById("brand-home-btn");
   const navLinksEl = document.getElementById("nav-links");
   const views = {
     home: document.getElementById("view-home"),
@@ -228,14 +229,14 @@
       .map((era) => {
         let eraHasFlagship = false;
         let litNodeCount = 0;
-        let lastPubIdx = -1;
+        let firstPubIdx = -1;
 
         era.nodes.forEach((rawNode, idx) => {
           const node = NODE_MAP.get(rawNode.id);
           const pubs = getPublishedPostsForNode(node);
           if (pubs.length > 0) {
             litNodeCount += 1;
-            lastPubIdx = idx;
+            if (firstPubIdx === -1) firstPubIdx = idx;
             if (pubs.some((p) => p.isFlagship)) eraHasFlagship = true;
           }
         });
@@ -250,13 +251,13 @@
             const isCollapsed = pub && state.collapsedNodes.has(node.id);
 
             const stemCls =
-              idx <= lastPubIdx
+              firstPubIdx !== -1 && idx >= firstPubIdx
                 ? eraHasFlagship
                   ? "is-stem-vermilion"
                   : "is-stem-bamboo"
                 : "";
 
-            const stemEndCls = idx === lastPubIdx ? "is-stem-end" : "";
+            const stemEndCls = idx === firstPubIdx ? "is-stem-end" : "";
 
             const itemCls = [
               "twig-item",
@@ -274,7 +275,7 @@
             let badgeHtml = "";
             if (pub) {
               const caret = isCollapsed ? "▸" : "▾";
-              badgeHtml = `<span class="twig-badge" title="点击折叠或展开文章分支">${caret}</span>`;
+              badgeHtml = `<button class="twig-badge" type="button" data-toggle-node="${node.id}" aria-label="折叠或展开文章分支" title="折叠/展开分支">${caret}</button>`;
             }
 
             let subListHtml = "";
@@ -337,7 +338,7 @@
               </div>
               <p class="era-whisper">${esc(era.whisper)}</p>
             </header>
-            <div class="era-scroll-mask" aria-hidden="true"></div>
+            <button class="era-scroll-mask" type="button" aria-label="向下滚动查看更多节点">↓ 更多</button>
           </section>
         `;
       })
@@ -446,19 +447,27 @@
 
     const recentThree = publishedPosts.slice(0, 3);
     const listHtml = recentThree
-      .map(
-        (p) => `
+      .map((p) => {
+        const cls = ["recent-item-btn", p.isFlagship ? "is-flagship" : ""].filter(Boolean).join(" ");
+        return `
           <li>
-            <button class="recent-item-btn" type="button" data-open-article="${p.id}" title="${esc(p.title)}">
+            <button class="${cls}" type="button" data-open-article="${p.id}" data-node-id="${p.nodeId}" data-post-date="${p.date}" title="${esc(p.title)}">
+              <span class="recent-item-dot" aria-hidden="true"></span>
               <span class="recent-item-title">${esc(p.shortTitle)}</span>
               <span class="recent-item-date">${esc(p.date.slice(5))}</span>
             </button>
           </li>
-        `
-      )
+        `;
+      })
       .join("");
 
-    dockLatestEl.innerHTML = `<ul class="recent-list">${listHtml}</ul>`;
+    dockLatestEl.innerHTML = `
+      <div class="recent-head">
+        <span class="recent-head-label">最近发布</span>
+        <button class="recent-all-btn" type="button" data-jump-view="articles">全部 ${publishedPosts.length} 篇 →</button>
+      </div>
+      <ul class="recent-list">${listHtml}</ul>
+    `;
   }
 
   /* =======================================================================
@@ -812,7 +821,8 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
         }
       </div>`;
 
-    switchView("reader");
+    switchView("reader", { skipHash: true });
+    syncHash(`#post/${encodeURIComponent(post.id)}`);
     window.scrollTo({ top: 0, behavior: "instant" });
 
     const footBtn = document.getElementById("foot-back-map");
@@ -858,7 +868,26 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
     }
   }
 
-  function switchView(nextView) {
+  let suppressHashSync = false;
+
+  function syncHash(nextHash) {
+    if (suppressHashSync) return;
+    try {
+      const target = nextHash || "";
+      if (window.location.hash !== target) {
+        if (target) {
+          window.history.pushState(null, "", target);
+        } else if (window.location.hash) {
+          window.history.pushState(null, "", window.location.pathname + window.location.search);
+        }
+      }
+    } catch (e) {
+      // Ignore history restrictions on file:// origins
+    }
+  }
+
+  function switchView(nextView, options) {
+    const opts = options || {};
     state.view = nextView;
     document.body.classList.toggle("view-home", nextView === "home");
 
@@ -872,6 +901,11 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
 
     clearHoverLinks();
     hideTip();
+    if (!opts.skipHash) {
+      if (nextView === "home") syncHash("");
+      else if (nextView === "articles") syncHash("#articles");
+      else if (nextView === "about") syncHash("#about");
+    }
     if (nextView === "home") requestAnimationFrame(updateColumnScrollMasks);
     if (nextView === "articles") renderArchive();
     if (nextView === "about") renderAbout();
@@ -947,13 +981,20 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
     }
 
     const titles = dayRec.posts.map((p) => `《${esc(p.shortTitle)}》`).join("");
+    let scrolledOnce = false;
     dayRec.posts.forEach((p) => {
       const node = p.node;
       if (node && isPublished(node)) {
         const eraEl = skeletonGridEl.querySelector(`.era-col[data-era-id="${node.era.id}"]`);
         const twigEl = skeletonGridEl.querySelector(`.twig-item[data-node-id="${node.id}"]`);
         if (eraEl) eraEl.classList.add("is-linked-era");
-        if (twigEl) twigEl.classList.add("is-linked-twig");
+        if (twigEl) {
+          twigEl.classList.add("is-linked-twig");
+          if (!scrolledOnce) {
+            scrolledOnce = true;
+            twigEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          }
+        }
       }
     });
 
@@ -973,10 +1014,52 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
     if (state.view === "about") renderAbout();
   }
 
+  if (brandHomeBtnEl) {
+    brandHomeBtnEl.addEventListener("click", () => {
+      if (state.view !== "home") {
+        returnToHomeWithAfterglow();
+      }
+    });
+  }
+
   navLinksEl.addEventListener("click", (e) => {
     const btn = e.target.closest(".nav-btn[data-view]");
     if (!btn) return;
     switchView(btn.dataset.view);
+  });
+
+  // Recent Posts 3-Way Brushing (illuminates heatmap square + knowledge-graph twig + readout!)
+  dockLatestEl.addEventListener("mouseover", (e) => {
+    const btn = e.target.closest(".recent-item-btn[data-open-article]");
+    if (!btn) return;
+    const post = POST_MAP.get(btn.dataset.openArticle);
+    if (!post) return;
+    clearHoverLinks();
+    const sq = fpCanvasEl.querySelector(`.heat-sq[data-iso="${post.date}"]`);
+    if (sq) sq.classList.add("is-linked-sq");
+    const eraEl = skeletonGridEl.querySelector(`.era-col[data-era-id="${post.era.id}"]`);
+    const twigEl = skeletonGridEl.querySelector(`.twig-item[data-node-id="${post.nodeId}"]`);
+    if (eraEl) eraEl.classList.add("is-linked-era");
+    if (twigEl) {
+      twigEl.classList.add("is-linked-twig");
+      twigEl.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    }
+    fpReadoutEl.classList.add("is-active");
+    fpReadoutEl.innerHTML = `<strong>${post.date}</strong> · ${esc(post.era.title)} › 《${esc(post.shortTitle)}》`;
+  });
+
+  dockLatestEl.addEventListener("mouseout", (e) => {
+    if (!dockLatestEl.contains(e.relatedTarget)) {
+      clearHoverLinks();
+      resetReadout();
+    } else {
+      const leftBtn = e.target.closest(".recent-item-btn");
+      const enteredBtn = e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(".recent-item-btn");
+      if (leftBtn && !enteredBtn) {
+        clearHoverLinks();
+        resetReadout();
+      }
+    }
   });
 
   // Twig & Sub-twig Hover
@@ -1003,10 +1086,8 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
     const pubs = getPublishedPostsForNode(node);
     if (pubs.length > 0) {
       highlightFromTwig(node.id);
-      showTip(
-        `<div class="qt-meta">${esc(node.milestone)}</div><div>已收录 ${pubs.length} 篇 · 点击折叠/展开</div>`,
-        row
-      );
+      const hint = pubs.length === 1 ? "已收录 1 篇 · 点击直达阅读" : `已收录 ${pubs.length} 篇 · 点击展开/折叠`;
+      showTip(`<div class="qt-meta">${esc(node.milestone)}</div><div>${hint}</div>`, row);
     } else {
       clearHoverLinks();
       resetReadout();
@@ -1030,11 +1111,44 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
     }
   });
 
-  // Twig Click: single-post opens immediately; multi-post toggles collapse/expand
+  function toggleNodeBranch(nodeId, itemEl) {
+    const collapsed = state.collapsedNodes.has(nodeId);
+    if (collapsed) {
+      state.collapsedNodes.delete(nodeId);
+    } else {
+      state.collapsedNodes.add(nodeId);
+    }
+    if (itemEl) {
+      itemEl.classList.toggle("is-collapsed", !collapsed);
+      const badge = itemEl.querySelector(".twig-badge");
+      if (badge) {
+        badge.textContent = !collapsed ? "▸" : "▾";
+      }
+    }
+    requestAnimationFrame(updateColumnScrollMasks);
+  }
+
+  // Twig Click: scroll-more pill scrolls column; caret toggles collapse; single-post row opens directly; multi-post row toggles!
   skeletonGridEl.addEventListener("click", (e) => {
+    const scrollCue = e.target.closest(".era-scroll-mask");
+    if (scrollCue) {
+      const lower = scrollCue.closest(".era-col") && scrollCue.closest(".era-col").querySelector(".era-lower");
+      if (lower) {
+        lower.scrollBy({ top: Math.max(120, lower.clientHeight * 0.55), behavior: "smooth" });
+      }
+      return;
+    }
+
     const subBtn = e.target.closest(".sub-twig-btn[data-open-article]");
     if (subBtn) {
       openArticle(subBtn.dataset.openArticle);
+      return;
+    }
+
+    const caretBtn = e.target.closest(".twig-badge[data-toggle-node]");
+    if (caretBtn) {
+      e.stopPropagation();
+      toggleNodeBranch(caretBtn.dataset.toggleNode, caretBtn.closest(".twig-item"));
       return;
     }
 
@@ -1046,21 +1160,11 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
     const pubs = getPublishedPostsForNode(node);
     if (pubs.length === 0) return;
 
-    const itemEl = row.closest(".twig-item");
-    const collapsed = state.collapsedNodes.has(node.id);
-    if (collapsed) {
-      state.collapsedNodes.delete(node.id);
-    } else {
-      state.collapsedNodes.add(node.id);
+    if (pubs.length === 1) {
+      openArticle(pubs[0].id);
+      return;
     }
-    if (itemEl) {
-      itemEl.classList.toggle("is-collapsed", !collapsed);
-      const badge = itemEl.querySelector(".twig-badge");
-      if (badge) {
-        badge.textContent = !collapsed ? "▸" : "▾";
-      }
-    }
-    requestAnimationFrame(updateColumnScrollMasks);
+    toggleNodeBranch(node.id, row.closest(".twig-item"));
   });
 
   // GitHub Heatmap Hover & Click
@@ -1101,6 +1205,12 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
 
   // Delegated clicks for Recent Posts, Archive rows, Reader next button & Series switchers
   document.addEventListener("click", (e) => {
+    const jumpViewBtn = e.target.closest("[data-jump-view]");
+    if (jumpViewBtn) {
+      switchView(jumpViewBtn.dataset.jumpView);
+      return;
+    }
+
     const switchBtn = e.target.closest("[data-switch-post]");
     if (switchBtn) {
       openArticle(switchBtn.dataset.switchPost, {
@@ -1118,16 +1228,62 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
 
   btnBackMapEl.addEventListener("click", () => returnToHomeWithAfterglow());
 
+  // Escape key returns cleanly from reader/subpages to the homepage map!
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && state.view !== "home") {
+      returnToHomeWithAfterglow();
+    }
+  });
+
+  // Sync browser Back/Forward & deep links (#articles, #about, #post/<id>)
+  function applyRouteFromHash() {
+    const h = window.location.hash || "";
+    suppressHashSync = true;
+    try {
+      if (h === "#articles") {
+        switchView("articles", { skipHash: true });
+      } else if (h === "#about") {
+        switchView("about", { skipHash: true });
+      } else if (h.startsWith("#post/")) {
+        const postId = decodeURIComponent(h.slice(6));
+        if (resolveTarget(postId)) {
+          openArticle(postId);
+        } else {
+          switchView("home", { skipHash: true });
+        }
+      } else if (state.view !== "home") {
+        returnToHomeWithAfterglow();
+      }
+    } finally {
+      suppressHashSync = false;
+    }
+  }
+  window.addEventListener("hashchange", applyRouteFromHash);
+  window.addEventListener("popstate", applyRouteFromHash);
+
   window.addEventListener("resize", () => {
     if (state.view === "home") {
       requestAnimationFrame(updateColumnScrollMasks);
     }
   });
 
-  // Copy JSON Skeleton
-  btnCopyJsonEl.addEventListener("click", () => {
+  // Copy JSON Skeleton (Modern Clipboard API with graceful fallback)
+  btnCopyJsonEl.addEventListener("click", async () => {
     const text = exportSkeletonJSON();
+    const markCopied = () => {
+      btnCopyJsonEl.classList.add("is-copied");
+      btnCopyJsonEl.textContent = "已复制 JSON";
+      setTimeout(() => {
+        btnCopyJsonEl.classList.remove("is-copied");
+        btnCopyJsonEl.textContent = "一键复制 JSON";
+      }, 1800);
+    };
     try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(text);
+        markCopied();
+        return;
+      }
       const ta = document.createElement("textarea");
       ta.value = text;
       ta.setAttribute("readonly", "");
@@ -1137,13 +1293,7 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
       ta.select();
       document.execCommand("copy");
       document.body.removeChild(ta);
-
-      btnCopyJsonEl.classList.add("is-copied");
-      btnCopyJsonEl.textContent = "已复制 JSON";
-      setTimeout(() => {
-        btnCopyJsonEl.classList.remove("is-copied");
-        btnCopyJsonEl.textContent = "一键复制 JSON";
-      }, 1800);
+      markCopied();
     } catch (err) {
       btnCopyJsonEl.textContent = "请手动选择复制";
     }
@@ -1154,4 +1304,7 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
   AgentBlog.switchView = switchView;
 
   renderAll();
+  if (window.location.hash) {
+    applyRouteFromHash();
+  }
 })();

@@ -910,6 +910,7 @@
 
     // Cycle state
     let posX = 16;
+    let lastSpan = 0;
     let phase = 0;
     let keyPhase = 0;
     let lastTime = performance.now();
@@ -1145,6 +1146,11 @@
         if (!initPositioned) {
           initPositioned = true;
           posX = botStartX;
+          lastSpan = span;
+        } else if (lastSpan > 0 && Math.abs(span - lastSpan) > 1) {
+          const ratio = clamp01((posX - startX) / lastSpan);
+          posX = startX + ratio * span;
+          lastSpan = span;
         }
 
         // Calm post-ceremony resting state: keep all 5 resolved props neatly positioned & quiet until user summons!

@@ -638,11 +638,14 @@
 
     function shimmerHeatmapCol(weekIdx) {
       if (!fpCanvasEl) return;
-      const cells = fpCanvasEl.querySelectorAll(`.fp-col:nth-child(${weekIdx + 1}) .fp-cell`);
-      cells.forEach((c) => {
+      const allSquares = fpCanvasEl.querySelectorAll(".gh-grid .heat-sq");
+      const start = weekIdx * 7;
+      for (let i = start; i < start + 7 && i < allSquares.length; i++) {
+        const c = allSquares[i];
+        if (!c || c.classList.contains("is-future")) continue;
         c.classList.add("is-sonar-shimmer");
         setTimeout(() => c.classList.remove("is-sonar-shimmer"), 320);
-      });
+      }
     }
 
     function wakeNavButton(nb) {
@@ -1251,10 +1254,13 @@
         }
 
         if (fpCanvasEl && (!AgentBlog.getView || AgentBlog.getView() === "home")) {
-          const hmCols = fpCanvasEl.querySelectorAll(".fp-col");
-          for (let wi = 0; wi < hmCols.length; wi += 2) {
+          const allSquares = fpCanvasEl.querySelectorAll(".gh-grid .heat-sq");
+          const weekCount = Math.floor(allSquares.length / 7);
+          for (let wi = 0; wi < weekCount; wi += 2) {
             if (pingedHeatmapWeeks[wi]) continue;
-            const hr = hmCols[wi].getBoundingClientRect();
+            const anchorSq = allSquares[wi * 7 + 3] || allSquares[wi * 7];
+            if (!anchorSq) continue;
+            const hr = anchorSq.getBoundingClientRect();
             const dist = Math.hypot((hr.left + hr.width * 0.5) - dock.x, (hr.top + hr.height * 0.5) - dock.y);
             if (curR >= dist) {
               pingedHeatmapWeeks[wi] = true;
