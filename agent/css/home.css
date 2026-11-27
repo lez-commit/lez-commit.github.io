@@ -53,7 +53,8 @@
   display: block;
 }
 
-.evo-bot-hit {
+.evo-bot-hit,
+.evo-prop-hit {
   pointer-events: auto;
   cursor: pointer;
 }
@@ -103,11 +104,11 @@
 
 /* Living optical scan pulse as autonomous aerial agent inspects each era column */
 .era-col.is-scan-ping {
-  background-color: rgba(45, 106, 71, 0.055);
+  background-color: rgba(45, 106, 71, 0.052);
 }
 
 .era-col.is-scan-ping.has-flagship {
-  background-color: rgba(184, 59, 42, 0.055);
+  background-color: rgba(184, 59, 42, 0.052);
 }
 
 .era-col.is-scan-ping .spine-dot {
@@ -119,51 +120,90 @@
   box-shadow: 0 0 0 6px rgba(184, 59, 42, 0.26);
 }
 
+/* Real-time silent-film subtitle sync as the evolving robot acts in each era */
+.era-col.is-era-active .era-title {
+  color: var(--bamboo-4);
+}
+
+.era-col.is-era-active.has-flagship .era-title {
+  color: var(--vermilion);
+}
+
+.era-col.is-era-active .era-whisper {
+  color: var(--ink-primary);
+  opacity: 1;
+  font-weight: 500;
+}
+
+.era-col.is-era-active .spine-dot {
+  transform: translate(-50%, 50%) scale(1.22);
+  box-shadow: 0 0 0 4.5px rgba(45, 106, 71, 0.20);
+}
+
+.era-col.is-era-active .spine-dot.is-lit-vermilion {
+  box-shadow: 0 0 0 4.5px rgba(184, 59, 42, 0.24);
+}
+
+.era-col.is-era-beat .spine-dot {
+  transform: translate(-50%, 50%) scale(1.42);
+  box-shadow: 0 0 0 7px rgba(45, 106, 71, 0.28);
+}
+
+.era-col.is-era-beat .spine-dot.is-lit-vermilion {
+  box-shadow: 0 0 0 7px rgba(184, 59, 42, 0.32);
+}
+
+/* Individual published twig illumination as the aerial Agent inventories each era */
+.twig-item.is-twig-ping .twig-row {
+  background-color: rgba(45, 106, 71, 0.075);
+  transform: translateX(1.5px);
+}
+
+.twig-item.is-twig-ping.is-flagship .twig-row {
+  background-color: rgba(184, 59, 42, 0.085);
+}
+
+.twig-item.is-twig-ping .twig-dot {
+  transform: scale(1.48);
+  box-shadow: 0 0 0 4px rgba(45, 106, 71, 0.26);
+}
+
+.twig-item.is-twig-ping.is-flagship .twig-dot {
+  box-shadow: 0 0 0 4.5px rgba(184, 59, 42, 0.30);
+}
+
 .fp-cell.is-sonar-shimmer {
   transform: scale(1.22);
   filter: brightness(1.08);
   transition: transform 0.24s var(--ease-out), filter 0.24s ease;
 }
 
-/* Warm rice-paper fade mask keeping overflowing twig rows clear of the robot runway */
+/* True alpha fade mask keeping overflowing twig rows clear of the robot runway (ZERO color seam on tinted columns!) */
 .era-scroll-mask {
-  position: absolute;
-  left: 22px;
-  right: 0;
-  bottom: calc(var(--era-foot-h) + 1px);
-  height: calc(var(--era-runway-pb) + 18px);
-  background: linear-gradient(
-    to bottom,
-    rgba(250, 248, 244, 0) 0%,
-    rgba(250, 248, 244, 0.94) 18px,
-    var(--paper) 26px,
-    var(--paper) 100%
-  );
-  pointer-events: none;
-  opacity: 0;
-  z-index: 5;
-  transition: opacity 0.2s ease;
+  display: none;
 }
 
-.era-col:first-of-type .era-scroll-mask {
-  left: 10px;
+.era-col.has-scroll-more .era-lower {
+  -webkit-mask-image:
+    linear-gradient(to right, #000 0, #000 22px, transparent 22px),
+    linear-gradient(to bottom, #000 0%, #000 calc(100% - var(--era-runway-pb) - 18px), transparent calc(100% - var(--era-runway-pb) + 2px), transparent 100%);
+  -webkit-mask-composite: source-over;
+  mask-image:
+    linear-gradient(to right, #000 0, #000 22px, transparent 22px),
+    linear-gradient(to bottom, #000 0%, #000 calc(100% - var(--era-runway-pb) - 18px), transparent calc(100% - var(--era-runway-pb) + 2px), transparent 100%);
+  mask-composite: add;
 }
 
-.era-col.is-linked-era .era-scroll-mask {
-  background: linear-gradient(
-    to bottom,
-    rgba(242, 245, 241, 0) 0%,
-    rgba(242, 245, 241, 0.94) 18px,
-    #F2F5F1 26px,
-    #F2F5F1 100%
-  );
+.era-col:first-of-type.has-scroll-more .era-lower {
+  -webkit-mask-image:
+    linear-gradient(to right, #000 0, #000 10px, transparent 10px),
+    linear-gradient(to bottom, #000 0%, #000 calc(100% - var(--era-runway-pb) - 18px), transparent calc(100% - var(--era-runway-pb) + 2px), transparent 100%);
+  mask-image:
+    linear-gradient(to right, #000 0, #000 10px, transparent 10px),
+    linear-gradient(to bottom, #000 0%, #000 calc(100% - var(--era-runway-pb) - 18px), transparent calc(100% - var(--era-runway-pb) + 2px), transparent 100%);
 }
 
-.era-col.has-scroll-more .era-scroll-mask {
-  opacity: 1;
-}
-
-/* Spine Milestone Dot aligned directly on each column's left vertical stem */
+/* Spine Milestone Dot aligned directly on each column's left vertical stem (clickable to summon robot!) */
 .spine-dot {
   position: absolute;
   bottom: var(--era-foot-h);
@@ -174,8 +214,13 @@
   background-color: var(--paper);
   border: 1.5px solid var(--ink-hollow);
   transform: translate(-50%, 50%);
-  z-index: 4;
+  z-index: 6;
+  cursor: pointer;
   transition: all 0.24s var(--ease-out);
+}
+
+.spine-dot:hover {
+  transform: translate(-50%, 50%) scale(1.36);
 }
 
 .era-col:first-of-type .spine-dot {

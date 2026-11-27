@@ -66,7 +66,8 @@
     const scenery = mk("g", null, svg);
 
     // --- PROP 1 (Era 1 · 按脚本跑，无大脑): Fixed Script Track Rail + Blocking Stone Cluster ---
-    const prop1 = mk("g", { color: "#8A8275", opacity: "0.42" }, scenery);
+    const prop1 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    mk("rect", { x: "-36", y: "-14", width: "48", height: "16", fill: "transparent" }, prop1);
     // Rigid miniature script rail leading right up to the blocking stone
     mk("line", { x1: "-35", y1: "-1.5", x2: "-4.5", y2: "-1.5", stroke: "currentColor", "stroke-width": "1.1", "stroke-linecap": "round" }, prop1);
     mk("path", {
@@ -107,7 +108,8 @@
     mk("line", { x1: "5.6", y1: "-5.2", x2: "8.4", y2: "-7.2", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round" }, pebbleDust);
 
     // --- PROP 2 (Era 2 · 缸中之脑，会推理): Glass Bell-Jar Brain-in-a-Vat Pedestal + 3-Step CoT Chain ---
-    const prop2 = mk("g", { color: "#8A8275", opacity: "0.42" }, scenery);
+    const prop2 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    mk("rect", { x: "-16", y: "-32", width: "32", height: "34", fill: "transparent" }, prop2);
     mk("line", { x1: "-13.5", y1: "0", x2: "13.5", y2: "0", stroke: "currentColor", "stroke-width": "0.9", "stroke-opacity": "0.3", "stroke-linecap": "round" }, prop2);
     // Stepped scientific pedestal base
     mk("path", {
@@ -165,26 +167,30 @@
       fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0"
     }, cotChainGroup);
 
-    // --- PROP 3 (Era 3 · 撞墙试错，接工具): Brick Barrier Wall + Wall-Side Function-Calling Tool Socket ---
-    const prop3 = mk("g", { color: "#8A8275", opacity: "0.42" }, scenery);
-    // Wall-side Function-Calling Tool Socket Stand (holding resting C-spanner wrench!)
+    // --- PROP 3 (Era 3 · 撞墙试错，接工具): Brick Barrier Wall + Engraved Function-Calling Tool Workbench ---
+    const prop3 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    mk("rect", { x: "-29", y: "-32", width: "42", height: "34", fill: "transparent" }, prop3);
+    // Wall-side Function-Calling Tool Workbench (remains unmistakably recognizable even after wrench pickup!)
     const toolRackGroup = mk("g", { transform: "translate(-21.5, 0)" }, prop3);
-    mk("path", { d: "M -3.4,0 L -2.4,-2.0 L 2.4,-2.0 L 3.4,0 Z", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round" }, toolRackGroup);
-    mk("rect", { x: "-1.5", y: "-13.6", width: "3.0", height: "11.6", rx: "0.6", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0" }, toolRackGroup);
-    mk("rect", { x: "-2.3", y: "-14.8", width: "4.6", height: "2.2", rx: "0.6", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.9" }, toolRackGroup);
-    const rackPortLed = mk("circle", { cx: "0", cy: "-13.7", r: "0.75", fill: "#2D6A47", opacity: "0.75" }, toolRackGroup);
-    // Resting C-spanner wrench docked horizontally on the socket stand
+    mk("path", { d: "M -4.2,0 L -3.2,-2.2 L 3.2,-2.2 L 4.2,0 Z", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round" }, toolRackGroup);
+    mk("rect", { x: "-2.8", y: "-14.2", width: "5.6", height: "12.0", rx: "0.8", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0" }, toolRackGroup);
+    // Engraved recessed tool-bay window + faint wrench outline slot (always visible so it never reads as a bare post!)
+    mk("rect", { x: "-1.9", y: "-12.2", width: "3.8", height: "8.4", rx: "0.5", fill: "#EDE8DE", "fill-opacity": "0.85", stroke: "currentColor", "stroke-width": "0.55", "stroke-opacity": "0.45" }, toolRackGroup);
+    mk("path", { d: "M -0.6,-10.8 L 0.6,-10.8 L 0.6,-9.8 L 0.0,-9.8 L 0.0,-5.4 L -0.6,-5.4 Z", fill: "none", stroke: "currentColor", "stroke-width": "0.65", "stroke-opacity": "0.45", "stroke-linejoin": "round" }, toolRackGroup);
+    mk("rect", { x: "-3.4", y: "-15.8", width: "6.8", height: "2.0", rx: "0.6", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.9" }, toolRackGroup);
+    const rackPortLed = mk("circle", { cx: "0", cy: "-14.8", r: "0.85", fill: "#2D6A47", opacity: "0.8" }, toolRackGroup);
+    // Resting C-spanner wrench docked horizontally on the right hook of the workbench
     const rackWrenchEl = mk("path", {
-      d: "M 2.0,-14.8 L 5.6,-14.8 L 5.6,-13.6 L 3.6,-13.6 L 3.6,-11.6 L 5.6,-11.6 L 5.6,-10.4 L 2.0,-10.4 Z",
+      d: "M 2.8,-14.8 L 6.6,-14.8 L 6.6,-13.6 L 4.6,-13.6 L 4.6,-11.6 L 6.6,-11.6 L 6.6,-10.4 L 2.8,-10.4 Z",
       fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0", "stroke-linejoin": "round"
     }, toolRackGroup);
     // Bamboo plug-in click flash when robot snaps wrench onto forearm
     const toolSnapSpark = mk("g", { opacity: "0" }, toolRackGroup);
     mk("path", {
-      d: "M 2,-16.8 L 2,-19.2 M 5.2,-15.8 L 7.2,-17.4 M -1.2,-15.8 L -3.2,-17.4",
+      d: "M 2.5,-17.2 L 2.5,-19.8 M 5.8,-16.2 L 7.8,-17.8 M -0.8,-16.2 L -2.8,-17.8",
       fill: "none", stroke: "#2D6A47", "stroke-width": "1.15", "stroke-linecap": "round"
     }, toolSnapSpark);
-    // Slotted ground seam where wall retracts
+    // Slotted ground seam where brick barrier lowers halfway (keeping unlocked valve + bricks clearly readable!)
     mk("line", { x1: "-10.5", y1: "0", x2: "10.5", y2: "0", stroke: "currentColor", "stroke-width": "1.1", "stroke-opacity": "0.45", "stroke-linecap": "round" }, prop3);
     const wallClipWrap = mk("g", { "clip-path": "url(#evo-wall-clip)" }, prop3);
     const wallBody = mk("g", null, wallClipWrap);
@@ -208,13 +214,13 @@
       x: "-8.7", y: "-28.6", width: "17.4", height: "2.3", rx: "0.6",
       fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.1"
     }, wallBody);
-    // Recessed industrial cross-valve wheel at waist height (y = -13.6)
+    // Recessed industrial cross-valve wheel at waist height (y = -13.6) — stays visible when barrier lowers halfway!
     mk("circle", { cx: "0", cy: "-13.6", r: "4.2", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1" }, wallBody);
     mk("circle", { cx: "0", cy: "-13.6", r: "2.9", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.75", "stroke-opacity": "0.75" }, wallBody);
     const wallBolt = mk("g", null, wallBody);
     mk("line", { x1: "-2.7", y1: "-13.6", x2: "2.7", y2: "-13.6", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, wallBolt);
     mk("line", { x1: "0", y1: "-16.3", x2: "0", y2: "-10.9", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, wallBolt);
-    mk("circle", { cx: "0", cy: "-13.6", r: "0.95", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.85" }, wallBolt);
+    const wallBoltCore = mk("circle", { cx: "0", cy: "-13.6", r: "1.05", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.8" }, wallBolt);
     // Curved bamboo-green torque motion arcs with crisp arrowheads outside valve flange
     const wallTorqueArcs = mk("g", { opacity: "0" }, prop3);
     mk("path", {
@@ -234,73 +240,77 @@
     mk("circle", { cx: "-11.4", cy: "-3.2", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
     mk("circle", { cx: "11.2", cy: "-3.4", r: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
 
-    // --- PROP 4 (Era 4 · 手眼脑通，状态机): State-Machine Terminal Gate (Micro-Screen + 3-State Flow + Boom) ---
-    const prop4 = mk("g", { color: "#8A8275", opacity: "0.42" }, scenery);
-    // Crisp dual-optic vision scan cone + twin laser rays projected from robot goggles to terminal screen
+    // --- PROP 4 (Era 4 · 手眼脑通，状态机): Clear Computer Terminal + 3-Node State-Machine Flow + Separate Boom Post ---
+    const prop4 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    mk("rect", { x: "-18", y: "-32", width: "36", height: "34", fill: "transparent" }, prop4);
+    // Crisp dual-optic vision scan cone + twin laser rays projected cleanly across gap from robot goggles onto wide monitor!
     const gateScanBeam = mk("g", { opacity: "0" }, prop4);
-    mk("polygon", { points: "-13.2,-25.4 -3.8,-17.2 -3.8,-12.8", fill: "url(#evo-scan-beam)" }, gateScanBeam);
-    mk("line", { x1: "-13.2", y1: "-25.4", x2: "-3.8", y2: "-17.2", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.85" }, gateScanBeam);
-    mk("line", { x1: "-13.2", y1: "-25.4", x2: "-3.8", y2: "-12.8", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.75" }, gateScanBeam);
-    mk("line", { x1: "-13.2", y1: "-25.4", x2: "-3.8", y2: "-15.0", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "2 2", "stroke-opacity": "0.85" }, gateScanBeam);
-    // Gate boom arm + counterweight pivoting cleanly at y = -11.0
-    const gateArmGroup = mk("g", { transform: "rotate(0, 0, -11.0)" }, prop4);
+    mk("polygon", { points: "-19.2,-25.4 -8.2,-20.5 -8.2,-13.7", fill: "url(#evo-scan-beam)" }, gateScanBeam);
+    mk("line", { x1: "-19.2", y1: "-25.4", x2: "-8.2", y2: "-20.5", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.85" }, gateScanBeam);
+    mk("line", { x1: "-19.2", y1: "-25.4", x2: "-8.2", y2: "-13.7", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.75" }, gateScanBeam);
+    mk("line", { x1: "-19.2", y1: "-25.4", x2: "-8.2", y2: "-17.1", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "2 2", "stroke-opacity": "0.85" }, gateScanBeam);
+    // Dedicated Right-Side Gate Boom Arm pivoting cleanly at (8.5, -7.2) — never tangles behind the monitor when raised!
+    const gateArmGroup = mk("g", { transform: "rotate(0, 8.5, -7.2)" }, prop4);
     mk("rect", {
-      x: "2.4", y: "-12.6", width: "3.8", height: "3.2", rx: "0.7",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.0"
+      x: "10.0", y: "-8.6", width: "3.2", height: "2.8", rx: "0.6",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95"
     }, gateArmGroup);
     mk("rect", {
-      x: "-15.0", y: "-12.2", width: "17.4", height: "2.4", rx: "1.1",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.05"
+      x: "-12.0", y: "-8.3", width: "22.2", height: "2.2", rx: "1.0",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0"
     }, gateArmGroup);
     mk("path", {
-      d: "M -12.6,-12.1 L -11.2,-9.9 M -9.0,-12.1 L -7.6,-9.9 M -5.4,-12.1 L -4.0,-9.9",
-      fill: "none", stroke: "currentColor", "stroke-width": "1.1", "stroke-linecap": "butt"
+      d: "M -9.2,-8.2 L -8.0,-6.2 M -5.6,-8.2 L -4.4,-6.2 M -2.0,-8.2 L -0.8,-6.2 M 1.6,-8.2 L 2.8,-6.2",
+      fill: "none", stroke: "currentColor", "stroke-width": "1.0", "stroke-linecap": "butt"
     }, gateArmGroup);
-    // Ground plinth base
+    // Right boom pivot stanchion
+    mk("rect", { x: "6.9", y: "-9.2", width: "3.2", height: "9.2", rx: "0.7", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95" }, prop4);
+    mk("circle", { cx: "8.5", cy: "-7.2", r: "1.1", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.85" }, prop4);
+    // Wide Console Plinth + Slim Desk Base (Left/Center)
     mk("rect", {
-      x: "-6.6", y: "-2.2", width: "13.2", height: "2.2", rx: "0.6",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.05"
+      x: "-10.2", y: "-2.2", width: "16.4", height: "2.2", rx: "0.6",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.0"
     }, prop4);
-    // State-Machine Terminal housing
+    // Lower State-Machine Console Cabinet housing 3 spacious flow nodes (S1 -> S2 -> S3)
     mk("rect", {
-      x: "-5.2", y: "-18.4", width: "10.4", height: "16.2", rx: "1.2",
+      x: "-8.8", y: "-10.6", width: "13.6", height: "8.4", rx: "1.1",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1"
+    }, prop4);
+    mk("line", { x1: "-5.8", y1: "-6.4", x2: "1.8", y2: "-6.4", stroke: "currentColor", "stroke-width": "0.85", "stroke-opacity": "0.55" }, prop4);
+    const gateS1 = mk("circle", { cx: "-5.8", cy: "-6.4", r: "1.45", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop4);
+    const gateS2 = mk("circle", { cx: "-2.0", cy: "-6.4", r: "1.45", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop4);
+    const gateS3 = mk("circle", { cx: "1.8", cy: "-6.4", r: "1.45", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop4);
+    const gateSavedRipple = mk("circle", { cx: "1.8", cy: "-6.4", r: "2.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", opacity: "0" }, prop4);
+    // Monitor neck stem
+    mk("rect", { x: "-3.6", y: "-12.6", width: "3.2", height: "2.1", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85" }, prop4);
+    // Unmistakable Wide Computer-Use Desktop Monitor (instantly recognizable even at 1x resting state!)
+    mk("rect", {
+      x: "-9.4", y: "-21.8", width: "14.8", height: "9.4", rx: "1.5",
       fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15"
     }, prop4);
-    mk("rect", {
-      x: "2.6", y: "-17.7", width: "2.0", height: "14.8", rx: "0.4",
-      fill: "#EDE8DE"
-    }, prop4);
-    // Embedded Computer-Use micro terminal screen (upper face)
-    mk("rect", { x: "-3.8", y: "-17.1", width: "6.4", height: "4.2", rx: "0.8", fill: "#1D1B18" }, prop4);
+    mk("rect", { x: "-8.1", y: "-20.5", width: "12.2", height: "6.8", rx: "0.9", fill: "#1D1B18" }, prop4);
     const gateScreenLines = mk("path", {
-      d: "M -2.8,-15.6 L 1.4,-15.6 M -2.8,-14.3 L 0.2,-14.3",
-      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.85", "stroke-linecap": "round", opacity: "0.7"
+      d: "M -6.6,-18.4 L -5.4,-17.5 L -6.6,-16.6 M -4.2,-17.5 L 1.6,-17.5 M -6.4,-15.3 L -0.4,-15.3",
+      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.85", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0.75"
     }, prop4);
-    // Top plunger collar & depressible HITL checkpoint button
+    // Top depressible checkpoint button on monitor crown
     mk("rect", {
-      x: "-3.0", y: "-19.6", width: "6.0", height: "1.3", rx: "0.4",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85"
+      x: "-4.6", y: "-22.9", width: "5.2", height: "1.1", rx: "0.4",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8"
     }, prop4);
     const gateBtnEl = mk("rect", {
-      x: "-2.2", y: "-21.6", width: "4.4", height: "2.1", rx: "0.8",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0"
+      x: "-3.8", y: "-24.7", width: "3.6", height: "1.8", rx: "0.7",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.95"
     }, prop4);
-    // Pivot axle pin
-    mk("circle", { cx: "0", cy: "-11.0", r: "1.25", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.95" }, prop4);
-    // 3-State Machine flow indicator (S1 — S2 — S3) in lower terminal window
-    mk("line", { x1: "-2.8", y1: "-6.2", x2: "2.8", y2: "-6.2", stroke: "currentColor", "stroke-width": "0.75", "stroke-opacity": "0.55" }, prop4);
-    const gateS1 = mk("circle", { cx: "-2.8", cy: "-6.2", r: "1.25", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.75" }, prop4);
-    const gateS2 = mk("circle", { cx: "0", cy: "-6.2", r: "1.25", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.75" }, prop4);
-    const gateS3 = mk("circle", { cx: "2.8", cy: "-6.2", r: "1.25", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.75" }, prop4);
-    const gateSavedRipple = mk("circle", { cx: "2.8", cy: "-6.2", r: "2.2", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", opacity: "0" }, prop4);
-    // Pill-framed stateless-interrupt freeze cue (||) above checkpoint button
+    // Pill-framed stateless-interrupt freeze cue (||) cleanly above checkpoint button
     const gateFreezeBadge = mk("g", { opacity: "0" }, prop4);
-    mk("rect", { x: "-4.6", y: "-28.8", width: "9.2", height: "5.8", rx: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-opacity": "0.6" }, gateFreezeBadge);
-    mk("line", { x1: "-1.5", y1: "-27.4", x2: "-1.5", y2: "-24.4", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
-    mk("line", { x1: "1.5", y1: "-27.4", x2: "1.5", y2: "-24.4", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
+    mk("rect", { x: "-6.6", y: "-31.6", width: "9.2", height: "5.6", rx: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-opacity": "0.65" }, gateFreezeBadge);
+    mk("line", { x1: "-3.5", y1: "-30.2", x2: "-3.5", y2: "-27.4", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
+    mk("line", { x1: "-0.5", y1: "-30.2", x2: "-0.5", y2: "-27.4", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
 
     // --- PROP 5 (Era 5 · 卷马具，进生产): Production Harness Launch Gantry (Docking Pad + Twin Rails + 3 Pre-Flight LEDs) ---
-    const prop5 = mk("g", { color: "#8A8275", opacity: "0.42" }, scenery);
+    const prop5 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    mk("rect", { x: "-20", y: "-30", width: "40", height: "32", fill: "transparent" }, prop5);
     // Soft holographic projection cone behind pad
     const padField = mk("polygon", {
       points: "-12.2,-3.6 -15.0,-29 15.0,-29 12.2,-3.6",
@@ -627,17 +637,36 @@
     let waitingForDock = false;
     let handoffStarted = false;
     let handoffTrailT = 0;
+    let restingCompleted = false; // Calm post-ceremony resting state (no distracting infinite loop; click any era prop/dot to replay!)
+
+    const skeletonGridEl = document.getElementById("skeleton-grid");
+    let lastActiveEra = -1;
+    let lastBeatActive = false;
+
+    function syncEraCaptions(activeIdx, isBeat) {
+      if (activeIdx === lastActiveEra && isBeat === lastBeatActive) return;
+      lastActiveEra = activeIdx;
+      lastBeatActive = isBeat;
+      if (!skeletonGridEl) return;
+      const cols = skeletonGridEl.querySelectorAll(".era-col");
+      cols.forEach((col, i) => {
+        const isAct = i === activeIdx;
+        col.classList.toggle("is-era-active", isAct);
+        col.classList.toggle("is-era-beat", isAct && isBeat);
+      });
+    }
 
     AgentBlog.onMechDocked = () => {
       if (waitingForDock) {
         waitingForDock = false;
-        resetWaitTimer = 2.6;
+        restingCompleted = true;
+        syncEraCaptions(-1, false);
       }
     };
 
-    let wallSink = 0;    // 0..27px sunk into ground (persists until cycle reset)
+    let wallSink = 0;    // 0..14.5px lowered mechanical barrier (leaves unlocked valve + bricks clearly readable!)
     let wallBoltDeg = 0; // 0..90 deg
-    let gateAngle = 0;   // 0..76 deg raised (persists until cycle reset)
+    let gateAngle = 0;   // 0..78 deg raised (persists until cycle reset)
     let hasBrain = false;   // Physical brain docked from Era 2 Glass Vat!
     let hasWrench = false;  // Physical C-spanner plugged from Era 3 Tool Socket!
     let isEquipped = false;
@@ -667,6 +696,7 @@
       waitingForDock = false;
       handoffStarted = false;
       handoffTrailT = 0;
+      restingCompleted = false;
       skidPool.forEach((p) => { p.life = 0; p.el.setAttribute("opacity", "0"); });
       launchShock.setAttribute("opacity", "0");
       sonicRing.setAttribute("opacity", "0");
@@ -676,6 +706,52 @@
       assembleLayer.setAttribute("opacity", "0");
       lockSparks.setAttribute("opacity", "0");
     }
+
+    // Interactive on-demand summon: click any Era prop or spine-dot to replay from that era!
+    function summonWalkerAtEra(eraIdx) {
+      const w = evoLayerEl.clientWidth || 1280;
+      const startX = 14;
+      const endX = Math.max(240, w - 18);
+      const span = endX - startX;
+      const anchors = [
+        startX,
+        startX + span * 0.31 - 56,
+        startX + span * 0.51 - 56,
+        startX + span * 0.71 - 56,
+        startX + span * 0.89 - 46
+      ];
+      resetCycle(startX);
+      const idx = Math.max(0, Math.min(4, eraIdx || 0));
+      posX = Math.max(startX, anchors[idx]);
+      if (idx >= 1) { b1 = 4; }
+      if (idx >= 2) { b2 = 2; hasBrain = true; }
+      if (idx >= 3) { b3 = 2; hasWrench = false; wallBoltDeg = 90; wallSink = 14.5; }
+      if (idx >= 4) { b4 = 2; gateAngle = 78; }
+      botGroup.setAttribute("opacity", "1");
+    }
+
+    [prop1, prop2, prop3, prop4, prop5].forEach((propEl, idx) => {
+      propEl.setAttribute("data-era-idx", String(idx));
+      const titleNode = mk("title", null, propEl);
+      titleNode.textContent = "点击召唤机器人从此时代演进";
+      propEl.addEventListener("click", (e) => {
+        e.stopPropagation();
+        summonWalkerAtEra(idx);
+      });
+    });
+
+    if (skeletonGridEl) {
+      const dots = skeletonGridEl.querySelectorAll(".spine-dot");
+      dots.forEach((dot, idx) => {
+        dot.setAttribute("title", "点击召唤机器人从此时代演进");
+        dot.addEventListener("click", (e) => {
+          e.stopPropagation();
+          summonWalkerAtEra(idx);
+        });
+      });
+    }
+
+    AgentBlog.summonWalkerAtEra = summonWalkerAtEra;
 
     botGroup.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -699,11 +775,35 @@
         const x4 = startX + span * 0.71; // Checkpoint Gate
         const x5 = startX + span * 0.89; // Harness Docking Pad
 
-        // End-of-cycle breath pause before respawning cleanly
+        // Calm post-ceremony resting state: keep all 5 resolved props neatly positioned & quiet until user summons!
+        if (restingCompleted) {
+          botGroup.setAttribute("opacity", "0");
+          syncEraCaptions(-1, false);
+          const setRestProp = (el, px) => {
+            el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y})`);
+            el.setAttribute("opacity", "0.52");
+            el.setAttribute("color", "#7C7468");
+          };
+          setRestProp(prop1, x1);
+          setRestProp(prop2, x2);
+          setRestProp(prop3, x3);
+          setRestProp(prop4, x4);
+          setRestProp(prop5, x5);
+          launchShock.setAttribute("opacity", "0");
+          sonicRing.setAttribute("opacity", "0");
+          launchTrail.setAttribute("opacity", "0");
+          launchTrailL.setAttribute("opacity", "0");
+          launchTrailR.setAttribute("opacity", "0");
+          requestAnimationFrame(tick);
+          return;
+        }
+
+        // End-of-cycle breath pause before settling cleanly
         if (resetWaitTimer > 0) {
           resetWaitTimer = Math.max(0, resetWaitTimer - dt);
           botGroup.setAttribute("opacity", "0");
-          if (resetWaitTimer <= 0) resetCycle(startX);
+          syncEraCaptions(-1, false);
+          if (resetWaitTimer <= 0) restingCompleted = true;
           requestAnimationFrame(tick);
           return;
         }
@@ -729,7 +829,7 @@
         if (b1 === 0 && posX >= x1 - 7.5) { b1 = 1; b1t = 0; }
         if (b2 === 0 && posX >= x2 - 18.0){ b2 = 1; b2t = 0; }
         if (b3 === 0 && posX >= x3 - 13.0){ b3 = 1; b3t = 0; }
-        if (b4 === 0 && posX >= x4 - 17.0){ b4 = 1; b4t = 0; }
+        if (b4 === 0 && posX >= x4 - 21.5){ b4 = 1; b4t = 0; }
         if (b5 === 0 && posX >= x5 - 1)   { b5 = 1; b5t = 0; }
         if (b5 === 2 && posX >= launchX)  { b5 = 3; b5t = 0; }
 
@@ -753,24 +853,40 @@
           extraLean = 10;
         }
 
+        let activeEraIdx = Math.min(4, Math.floor(progress * 5));
+        let isEraBeat = false;
+        let epiphanyNow = false;
+        let awakeNow = false;
+
         if (clickHopTimer > 0 && b5 !== 3) {
           clickHopTimer = Math.max(0, clickHopTimer - dt);
           moveSpeed = 0;
           beatHopH = Math.sin((clickHopTimer / 0.5) * Math.PI) * 7.5;
         } else if (b1 === 1) {
-          // Era 1 Step 1: Jog-trip over stone cluster, pitching cleanly into flat Superman belly-slide above spine
+          // Era 1 Step 1: Rigid script bump-push against stone (0..0.14s) -> trip into Superman belly-slide (0.14..0.36s)!
           b1t += dt;
-          const u = clamp01(b1t / 0.22);
-          posX += 116 * dt;
-          moveSpeed = 0;
-          beatHopH = Math.sin(u * Math.PI) * 6.8;
-          bodyRollDeg = u * 78;
-          bodyDropY = -u * 2.4;
-          pincerSnap = 0.9;
-          if (b1t >= 0.22) { b1 = 2; b1t = 0; }
+          activeEraIdx = 0;
+          isEraBeat = true;
+          if (b1t < 0.14) {
+            // Stubbornly marches in place against stone like a blind RPA script!
+            moveSpeed = 95;
+            extraLean = 18;
+            pincerSnap = 0.7;
+            visualDX = Math.sin(b1t * 60) * 1.1;
+          } else {
+            const u = clamp01((b1t - 0.14) / 0.22);
+            posX += 116 * dt;
+            moveSpeed = 0;
+            beatHopH = Math.sin(u * Math.PI) * 6.8;
+            bodyRollDeg = u * 78;
+            bodyDropY = -u * 2.4;
+            pincerSnap = 0.9;
+          }
+          if (b1t >= 0.36) { b1 = 2; b1t = 0; }
         } else if (b1 === 2) {
           // Era 1 Step 2: Long friction belly-slide strictly flush atop the timeline spine (never below y=0!)
           b1t += dt;
+          activeEraIdx = 0;
           const slideTargetX = startX + span * 0.225;
           const u = clamp01(b1t / 1.15);
           const slideSpeed = lerp(142, 36, u * u);
@@ -783,6 +899,7 @@
         } else if (b1 === 3) {
           // Era 1 Step 3: Pop cleanly upright inside Era 2
           b1t += dt;
+          activeEraIdx = 1;
           const u = clamp01(b1t / 0.34);
           const ease = u * u * (3 - 2 * u);
           posX += lerp(30, 54, ease) * dt;
@@ -792,71 +909,90 @@
           beatHopH = Math.sin(u * Math.PI) * 3.0;
           if (b1t >= 0.34) b1 = 4;
         } else if (b2 === 1) {
-          // Era 2 Beat (缸中之脑，会推理): Bell-jar opens -> CRT brain arcs onto neck -> 3-step CoT chain lights up!
+          // Era 2 Beat (缸中之脑，会推理): Bell-jar lifts -> Brain docks -> 0.26s awakening blink & glance at hands -> 3-step CoT!
           b2t += dt;
+          activeEraIdx = 1;
+          isEraBeat = true;
           moveSpeed = 0;
           if (b2t < 0.72) {
             extraLean = 4;
             armPose = "walk";
-          } else {
+          } else if (b2t < 0.98) {
             if (!hasBrain) {
               hasBrain = true;
               brainDockTimer = 0.28;
             }
+            awakeNow = true;
+            armPose = "awake";
+            extraLean = 5;
+            headNodDeg = 11 * Math.sin(clamp01((b2t - 0.72) / 0.26) * Math.PI);
+          } else {
             armPose = "cot";
             extraLean = 4;
-            headNodDeg = b2t > 1.04 ? Math.sin((b2t - 1.04) * 18) * 9 : 4;
+            headNodDeg = b2t > 1.26 ? Math.sin((b2t - 1.26) * 18) * 9 : 4;
           }
-          if (b2t >= 1.38) b2 = 2;
+          if (b2t >= 1.62) b2 = 2;
         } else if (b3 === 1) {
-          // Era 3 Beat (撞墙试错，接工具): BONK -> recoil cleanly LEFT of Tool Socket -> snap C-spanner -> turn valve 90° -> wall sinks!
+          // Era 3 Beat (撞墙试错，接工具): BONK -> recoil -> 0.22s epiphany glance -> snap wrench -> turn valve -> half-lower barrier!
           b3t += dt;
+          activeEraIdx = 2;
+          isEraBeat = true;
           moveSpeed = 0;
-          if (b3t < 0.36) {
-            const u = b3t / 0.36;
+          if (b3t < 0.34) {
+            const u = b3t / 0.34;
             visualDX = -Math.sin(u * Math.PI * 0.5) * 16.5;
             extraLean = -44 * (1 - u * 0.35);
             beatHopH = Math.sin(u * Math.PI) * 1.8;
             armPose = "bonk";
-          } else if (b3t < 0.74) {
-            // Stand cleanly LEFT of Tool Socket (x3 - 29.5 vs rack at x3 - 21.5) & reach forward to plug in C-spanner!
+          } else if (b3t < 0.56) {
+            // Brief epiphany beat: head shake -> notices Tool Workbench -> antenna lights bamboo green!
+            const u = (b3t - 0.34) / 0.22;
+            visualDX = -16.5;
+            extraLean = 4;
+            armPose = "epiphany";
+            epiphanyNow = u > 0.35;
+            headNodDeg = u < 0.5 ? Math.sin(u * Math.PI * 4) * 8 : -5;
+          } else if (b3t < 0.94) {
+            // Reach forward cleanly to snap C-spanner off Tool Workbench!
             visualDX = -16.5;
             extraLean = 6;
             armPose = "grabTool";
-            if (b3t >= 0.54 && !hasWrench) {
+            if (b3t >= 0.74 && !hasWrench) {
               hasWrench = true;
               toolSnapTimer = 0.28;
             }
-          } else if (b3t < 1.00) {
+          } else if (b3t < 1.20) {
             // Step forward up to brick wall with newly plugged wrench
-            const u = (b3t - 0.74) / 0.26;
+            const u = (b3t - 0.94) / 0.26;
             visualDX = lerp(-16.5, -4.0, u);
             extraLean = 5;
             armPose = "wrench";
-          } else if (b3t < 1.32) {
+          } else if (b3t < 1.52) {
             // Turn cross-valve 90°
-            const u = (b3t - 1.00) / 0.32;
+            const u = (b3t - 1.20) / 0.32;
             visualDX = -4.0;
             extraLean = 5;
             armPose = "wrench";
             wallBoltDeg = u * 90;
           } else {
-            // Brick wall sinks cleanly into ground seam
-            const u = clamp01((b3t - 1.32) / 0.38);
+            // Brick barrier lowers halfway (14.5px), keeping unlocked green valve & brick courses clearly readable!
+            const u = clamp01((b3t - 1.52) / 0.38);
             const ease = u * u * (3 - 2 * u);
             visualDX = -4.0;
             extraLean = 2;
             armPose = "wrench";
             wallBoltDeg = 90;
-            wallSink = ease * 27;
+            wallSink = ease * 14.5;
           }
-          if (b3t >= 1.70) {
-            wallSink = 27;
+          if (b3t >= 1.90) {
+            wallSink = 14.5;
             b3 = 2;
           }
         } else if (b4 === 1) {
-          // Era 4 Beat (手眼脑通，状态机): Dual-optic scan terminal (S1) -> press plunger (S2) -> 0.28s || freeze -> S3 & boom lift 76°
+          // Era 4 Beat (手眼脑通，状态机): Dual-optic scan wide monitor (S1) -> press plunger (S2) -> 0.28s || freeze -> S3 & right boom lift 78°
           b4t += dt;
+          activeEraIdx = 3;
+          isEraBeat = true;
           moveSpeed = 0;
           if (b4t < 0.34) {
             armPose = "scan";
@@ -869,16 +1005,18 @@
             if (gateRippleTimer <= 0 && b4t < 0.92) gateRippleTimer = 0.52;
             const u = clamp01((b4t - 0.84) / 0.44);
             const ease = 1 - Math.pow(1 - u, 3);
-            gateAngle = ease * 76;
+            gateAngle = ease * 78;
             armPose = "walk";
           }
           if (b4t >= 1.28) {
-            gateAngle = 76;
+            gateAngle = 78;
             b4 = 2;
           }
         } else if (b5 === 1) {
           // Era 5 Beat A: Modular Armor Convergence (7 pieces fly in & lock on!)
           b5t += dt;
+          activeEraIdx = 4;
+          isEraBeat = true;
           moveSpeed = 0;
           armPose = "dock";
           const waveImpacts = [0.34, 0.52, 0.72, 0.88];
@@ -898,31 +1036,34 @@
           }
           if (b5t >= 1.22) b5 = 2;
         } else if (b5 === 3) {
-          // Era 5 Beat B: Palms-down repulsor ignition -> hover -> seamless single-robot liftoff inside viewport!
+          // Era 5 Beat B: Anticipation crouch (0..0.32s) -> Stabilized hover poise (0.32..0.68s) -> Snap liftoff inside viewport!
           b5t += dt;
+          activeEraIdx = 4;
+          isEraBeat = true;
           moveSpeed = 0;
           armPose = "launch";
           const alreadyDocked = !!(AgentBlog.isAvatarDocked && AgentBlog.isAvatarDocked());
-          if (b5t < 0.34) {
-            const u = clamp01(b5t / 0.34);
-            crouchY = Math.sin(u * Math.PI * 0.5) * 2.8;
-            jetPower = u * 0.9;
-          } else if (b5t < 0.64) {
-            const u = clamp01((b5t - 0.34) / 0.30);
-            crouchY = lerp(2.8, 0, clamp01(u * 3));
-            const ease = 1 - Math.pow(1 - u, 3);
-            launchLiftY = ease * 13.0 + Math.sin(u * Math.PI * 2.5) * 0.5;
-            jetPower = 1.0 + u * 0.35;
+          if (b5t < 0.32) {
+            const u = clamp01(b5t / 0.32);
+            crouchY = Math.sin(u * Math.PI * 0.5) * 3.1;
+            jetPower = u * 0.95;
+          } else if (b5t < 0.68) {
+            const u = clamp01((b5t - 0.32) / 0.36);
+            crouchY = lerp(3.1, 0, clamp01(u * 3.2));
+            const ease = 1 - Math.pow(1 - Math.min(1, u * 1.45), 3);
+            launchLiftY = ease * 13.5 + Math.sin(u * Math.PI * 2.4) * 0.55;
+            jetPower = 1.05 + u * 0.35;
           } else if (!alreadyDocked) {
             // Cycle 1 Hero Liftoff: ZERO off-screen exit! Hand off exact screen coords to the SAME robot in mech-avatar.js!
             crouchY = 0;
-            launchLiftY = 13.0;
-            jetPower = 1.35;
+            launchLiftY = 13.5;
+            jetPower = 1.4;
             if (!handoffStarted) {
               handoffStarted = true;
               waitingForDock = true;
               handoffTrailT = 0;
               b5 = 4;
+              syncEraCaptions(-1, false);
               const lr = evoLayerEl.getBoundingClientRect();
               const worldX = lr.left + posX;
               const worldY = lr.top + BASE_Y - launchLiftY - 17.5;
@@ -934,30 +1075,35 @@
               }
             }
           } else {
-            // Cycle 2+ (avatar already docked): graceful in-viewport ascent & sky dissolve sync pulse (never flies off top!)
-            const au = clamp01((b5t - 0.64) / 0.92);
+            // Summoned replay (avatar already docked): graceful in-viewport ascent & sky dissolve sync pulse, then settle calm!
+            const au = clamp01((b5t - 0.68) / 0.88);
             crouchY = 0;
-            launchLiftY = 13.0 + Math.pow(au, 1.85) * 185;
+            launchLiftY = 13.5 + Math.pow(au, 1.85) * 185;
             jetPower = 1.25 * (1 - au * 0.5);
             if (b5t >= 1.56) {
-              resetWaitTimer = 2.6;
+              resetWaitTimer = 0.6;
+              syncEraCaptions(-1, false);
               if (typeof AgentBlog.onMechExitedTop === "function") {
                 AgentBlog.onMechExitedTop();
               }
             }
           }
         } else if (b5 === 4) {
-          // Single robot is currently airborne & patrolling the open sky -> keep runway quiet until it docks!
+          // Single robot is airborne & patrolling -> keep runway quiet until docked!
           b5t += dt;
           handoffTrailT += dt;
+          activeEraIdx = -1;
           moveSpeed = 0;
           if (!waitingForDock || b5t >= 9.5) {
             waitingForDock = false;
-            resetWaitTimer = 2.4;
+            restingCompleted = true;
+            syncEraCaptions(-1, false);
           }
         } else {
           posX += baseSpeed * dt;
         }
+
+        syncEraCaptions(activeEraIdx, isEraBeat);
 
         if (claspRippleTimer > 0) claspRippleTimer = Math.max(0, claspRippleTimer - dt);
         if (lockSparkTimer > 0) lockSparkTimer = Math.max(0, lockSparkTimer - dt);
@@ -998,9 +1144,9 @@
           pebbleDust.setAttribute("opacity", "0");
         }
 
-        // Prop 2 updates (缸中之脑，会推理): Bell-jar lift, brain arc-transfer, 3-step CoT chain
+        // Prop 2 updates (缸中之脑，会推理): Bell-jar lift, brain arc-transfer, awakening beat, 3-step CoT chain
         const vatIdleBob = Math.sin(now * 0.0035) * 0.7;
-        const reasoningNow = b2 === 1 && b2t >= 0.72;
+        const reasoningNow = b2 === 1 && b2t >= 0.98;
         if (b2 === 0) {
           vatDomeGroup.setAttribute("transform", "translate(0, 0)");
           vatDomeGroup.setAttribute("opacity", "1");
@@ -1054,8 +1200,8 @@
 
           // Sequential 3-step Chain-of-Thought reasoning nodes (○ -> ○ -> ●)
           if (reasoningNow) {
-            const rt = b2t - 0.72;
-            const fadeOut = 1 - smooth(0.54, 0.66, rt);
+            const rt = b2t - 0.98;
+            const fadeOut = 1 - smooth(0.52, 0.64, rt);
             cotChainGroup.setAttribute("opacity", fadeOut.toFixed(2));
             cotNode1.setAttribute("opacity", smooth(0.02, 0.10, rt).toFixed(2));
             cotLink1.setAttribute("opacity", smooth(0.10, 0.18, rt).toFixed(2));
@@ -1077,36 +1223,37 @@
         }
         brainDockSpark.setAttribute("opacity", brainDockTimer > 0 ? (brainDockTimer / 0.28).toFixed(2) : "0");
 
-        // Prop 3 updates (撞墙试错，接工具): Tool socket wrench pickup, bonk sparks, cross-valve rotation, wall sink
+        // Prop 3 updates (撞墙试错，接工具): Tool workbench wrench pickup, bonk sparks, valve rotation + unlocked bamboo hub, half-retract wall
         rackWrenchEl.setAttribute("opacity", hasWrench ? "0" : "1");
-        rackPortLed.setAttribute("opacity", hasWrench ? "0.25" : "0.85");
+        rackPortLed.setAttribute("opacity", hasWrench ? "0.35" : "0.9");
         toolSnapSpark.setAttribute("opacity", toolSnapTimer > 0 ? (toolSnapTimer / 0.28).toFixed(2) : "0");
         wallBody.setAttribute("transform", `translate(0, ${wallSink.toFixed(1)})`);
         wallBolt.setAttribute("transform", `rotate(${wallBoltDeg.toFixed(1)}, 0, -13.6)`);
-        const showBonk = b3 === 1 && b3t < 0.36;
-        const bonkOp = showBonk ? (b3t < 0.18 ? 0.96 : (1 - (b3t - 0.18) / 0.18) * 0.96) : 0;
+        wallBoltCore.setAttribute("fill", wallBoltDeg >= 85 ? "#2D6A47" : "#FAF8F4");
+        const showBonk = b3 === 1 && b3t < 0.34;
+        const bonkOp = showBonk ? (b3t < 0.17 ? 0.96 : (1 - (b3t - 0.17) / 0.17) * 0.96) : 0;
         wallSparks.setAttribute("opacity", bonkOp.toFixed(2));
-        const turningValve = b3 === 1 && b3t >= 1.00 && b3t < 1.32;
-        wallTorqueArcs.setAttribute("opacity", turningValve ? (Math.sin(((b3t - 1.00) / 0.32) * Math.PI) * 0.85).toFixed(2) : "0");
-        const wallSinkingNow = b3 === 1 && b3t >= 1.32 && b3t < 1.70;
+        const turningValve = b3 === 1 && b3t >= 1.20 && b3t < 1.52;
+        wallTorqueArcs.setAttribute("opacity", turningValve ? (Math.sin(((b3t - 1.20) / 0.32) * Math.PI) * 0.85).toFixed(2) : "0");
+        const wallSinkingNow = b3 === 1 && b3t >= 1.52 && b3t < 1.90;
         if (wallSinkingNow) {
-          const wu = clamp01((b3t - 1.32) / 0.38);
+          const wu = clamp01((b3t - 1.52) / 0.38);
           wallDust.setAttribute("opacity", (Math.sin(wu * Math.PI) * 0.75).toFixed(2));
           wallDust.setAttribute("transform", `translate(0, ${(-wu * 3.2).toFixed(1)})`);
         } else {
           wallDust.setAttribute("opacity", "0");
         }
 
-        // Prop 4 updates (手眼脑通，状态机): Dual-optic scan beam, terminal screen glow, S1->S2->S3 state machine, freeze & boom lift
+        // Prop 4 updates (手眼脑通，状态机): Wide monitor dual-optic scan, S1->S2->S3 flow, freeze & right-side boom lift
         const scanningTerminal = b4 === 1 && b4t < 0.34;
         const scanOp = scanningTerminal ? Math.sin(clamp01(b4t / 0.34) * Math.PI) : 0;
         gateScanBeam.setAttribute("opacity", (scanOp * 0.95).toFixed(2));
-        gateScreenLines.setAttribute("stroke", scanningTerminal || (b4 === 1 && b4t < 0.84) ? "#B5F5D4" : "#FAF8F4");
-        gateScreenLines.setAttribute("opacity", scanningTerminal ? "1" : "0.72");
+        gateScreenLines.setAttribute("stroke", scanningTerminal || (b4 === 1 && b4t < 0.84) || b4 === 2 ? "#B5F5D4" : "#FAF8F4");
+        gateScreenLines.setAttribute("opacity", scanningTerminal ? "1" : "0.78");
 
         const btnPressed = b4 === 1 && b4t >= 0.44 && b4t <= 0.84;
-        gateBtnEl.setAttribute("y", btnPressed ? "-20.4" : "-21.6");
-        gateArmGroup.setAttribute("transform", `rotate(${gateAngle.toFixed(1)}, 0, -11.0)`);
+        gateBtnEl.setAttribute("y", btnPressed ? "-23.6" : "-24.7");
+        gateArmGroup.setAttribute("transform", `rotate(${gateAngle.toFixed(1)}, 8.5, -7.2)`);
         gateFreezeBadge.setAttribute("opacity", freezeAll ? "0.96" : "0");
 
         const s1Lit = (b4 === 1 && b4t >= 0.12) || b4 === 2;
@@ -1207,8 +1354,8 @@
           } else {
             launchShock.setAttribute("opacity", "0");
           }
-          if (b5t >= 0.62 && b5t < 1.04) {
-            const ru = (b5t - 0.62) / 0.42;
+          if (b5t >= 0.66 && b5t < 1.08) {
+            const ru = (b5t - 0.66) / 0.42;
             sonicRing.setAttribute("cx", launchX.toFixed(1));
             sonicRing.setAttribute("cy", String(BASE_Y - 13.5));
             sonicRing.setAttribute("rx", (6 + ru * 20).toFixed(1));
@@ -1457,8 +1604,8 @@
         headGroup.setAttribute("transform", `translate(${headX.toFixed(2)}, ${headY.toFixed(2)}) scale(${hScale.toFixed(3)}) rotate(${(walkTilt + headNodDeg + launchLookUp).toFixed(1)})`);
 
         antGroup.setAttribute("transform", `rotate(${(Math.sin(phase * Math.PI * 2) * 5).toFixed(1)}, -0.8, -5.0)`);
-        antTip.setAttribute("fill", hasHeadCrest || reasoningNow ? "#2D6A47" : "#FAF8F4");
-        cotHeadSpark.setAttribute("opacity", "0");
+        antTip.setAttribute("fill", hasHeadCrest || reasoningNow || epiphanyNow || awakeNow ? "#2D6A47" : "#FAF8F4");
+        cotHeadSpark.setAttribute("opacity", epiphanyNow ? "0.92" : "0");
         headCrestEl.setAttribute("opacity", hasHeadCrest ? "1" : "0");
 
         if (!freezeAll) {
@@ -1469,14 +1616,15 @@
           }
         }
 
-        const isWincing = (b3 === 1 && b3t < 0.36) || b1 === 1;
+        const awakeBlink = awakeNow && ((b2t >= 0.77 && b2t < 0.82) || (b2t >= 0.87 && b2t < 0.92));
+        const isWincing = (b3 === 1 && b3t < 0.34) || b1 === 1;
         const useGoggles = gogglesW > 0.5;
         visorScreen.setAttribute("opacity", useGoggles ? "0" : "1");
         visorGlint1.setAttribute("opacity", useGoggles ? "0" : "1");
         eyeEl.setAttribute("opacity", !useGoggles && !isWincing ? "1" : "0");
-        eyeEl.setAttribute("cx", reasoningNow ? "2.6" : "2.3");
-        eyeEl.setAttribute("cy", reasoningNow ? "-0.8" : "-0.4");
-        eyeEl.setAttribute("r", isBlinking ? "0.18" : "1.15");
+        eyeEl.setAttribute("cx", reasoningNow || epiphanyNow ? "2.6" : "2.3");
+        eyeEl.setAttribute("cy", awakeNow ? "0.3" : (reasoningNow ? "-0.8" : "-0.4"));
+        eyeEl.setAttribute("r", isBlinking || awakeBlink ? "0.18" : "1.15");
         eyeWince.setAttribute("opacity", !useGoggles && isWincing ? "1" : "0");
 
         gogglesEl.setAttribute("opacity", gogglesW.toFixed(2));
@@ -1517,6 +1665,14 @@
             bHY = bSY + 4.0;
             fBend = 0.2;
           }
+        } else if (armPose === "awake") {
+          // Era 2 Awakening: raises hands slightly in front while glancing curiously down at them!
+          fHX = fSX + 5.2;
+          fHY = fSY + 2.2;
+          bHX = bSX + 2.8;
+          bHY = bSY + 3.0;
+          fBend = 0.9;
+          bBend = 0.8;
         } else if (armPose === "cot") {
           // Era 2: visible foreground arm props chin while 3-step CoT chain lights up above!
           fHX = headX + 3.0;
@@ -1531,9 +1687,16 @@
           bHX = bSX + 3.5;
           bHY = bSY + 4.8;
           fBend = 1.0;
+        } else if (armPose === "epiphany") {
+          // Era 3 Epiphany: lowers hand slightly & spots the Tool Workbench ahead!
+          fHX = fSX + 4.2;
+          fHY = fSY + 3.6;
+          bHX = bSX - 1.6;
+          bHY = bSY + 5.4;
+          fBend = 0.7;
         } else if (armPose === "grabTool") {
-          // Era 3: stands cleanly left of Tool Socket (x3 - 29.5) and reaches straight to rack socket (x3 - 21.5)!
-          fHX = fSX + 7.4;
+          // Era 3: stands cleanly left of Tool Workbench and reaches straight to wrench hook!
+          fHX = fSX + 7.8;
           fHY = -12.8;
           bHX = bSX - 2.0;
           bHY = bSY + 5.6;
@@ -1546,16 +1709,16 @@
           bHY = bSY + 5.8;
           fBend = 0.35;
         } else if (armPose === "scan") {
-          // Era 4: poised alert stance while dual-optic visor scans terminal screen
+          // Era 4: poised alert stance while dual-optic visor scans wide monitor screen
           fHX = fSX + 3.6;
           fHY = fSY + 5.6;
           bHX = bSX - 2.0;
           bHY = bSY + 6.2;
           fBend = 0.5;
         } else if (armPose === "press") {
-          // Era 4: right hand arcs cleanly OVER lowered boom to land dead-center on checkpoint plunger
-          fHX = fSX + 15.8;
-          fHY = -20.8;
+          // Era 4: right hand arcs cleanly to press the top checkpoint button on the wide monitor crown!
+          fHX = fSX + 18.2;
+          fHY = -23.8;
           bHX = bSX - 2.0;
           bHY = bSY + 6.2;
           fBend = -0.85;

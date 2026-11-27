@@ -441,7 +441,15 @@
     function pingEraColumn(colEl) {
       if (!colEl) return;
       colEl.classList.add("is-scan-ping");
-      setTimeout(() => colEl.classList.remove("is-scan-ping"), 520);
+      setTimeout(() => colEl.classList.remove("is-scan-ping"), 540);
+      // Cascade crisp dot-bloom across published twigs in this era so the Agent visibly inventories the graph!
+      const pubTwigs = colEl.querySelectorAll(".twig-item.is-published");
+      pubTwigs.forEach((tw, idx) => {
+        setTimeout(() => {
+          tw.classList.add("is-twig-ping");
+          setTimeout(() => tw.classList.remove("is-twig-ping"), 420);
+        }, idx * 55);
+      });
     }
 
     function shimmerHeatmapCol(weekIdx) {
