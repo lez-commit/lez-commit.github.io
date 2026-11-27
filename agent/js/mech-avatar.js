@@ -144,122 +144,169 @@
     const craftG = mk("g", null, svg);
 
     // =====================================================================
-    // ORIGINAL ERA 5 FULL ROBOT BODY (Retracts cleanly into CRT Head on Dock!)
-    // Twin-Nozzle Jetpack + Chamfered Pauldrons + X-Harness Arc Core +
-    // Articulated Repulsor Gauntlet Arms + Armored Thruster Boots!
+    // STUDIO-CRAFTED ERA 5 FULL ROBOT BODY (Retracts cleanly into CRT Head on Dock!)
+    // Clean stroke hierarchy + dark inner-frame joints + swept aero wing-pack +
+    // sculpted tapered chest with Bamboo Arc Core + rounded capsule limbs!
     // =====================================================================
     const bodyRigG = mk("g", { class: "mech-body-rig", opacity: "0" }, craftG);
 
-    // --- Twin-Nozzle Skills Jetpack peeking behind upper back (matches evo-walker.js!) ---
+    // --- Swept-Back Aero Flight Wing-Pack (peeks cleanly ABOVE shoulders — ZERO armpit clutter!) ---
     const packG = mk("g", null, bodyRigG);
-    const jetPackPlumeG = mk("g", { opacity: "0" }, packG);
-    const jetPackL = mk("path", { fill: "url(#agent-jet-grad)", opacity: "0.75" }, jetPackPlumeG);
-    const jetPackR = mk("path", { fill: "url(#agent-jet-grad)", opacity: "0.75" }, jetPackPlumeG);
-    mk("rect", { x: "-7.6", y: "-1.0", width: "3.4", height: "7.4", rx: "1.0", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85" }, packG);
-    mk("rect", { x: "4.2", y: "-1.0", width: "3.4", height: "7.4", rx: "1.0", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, packG);
-    mk("path", { d: "M -6.8,1.2 L -5.0,1.2 M -6.8,3.4 L -5.0,3.4 M 5.0,1.2 L 6.8,1.2 M 5.0,3.4 L 6.8,3.4", fill: "none", stroke: "#1D1B18", "stroke-width": "0.55", "stroke-opacity": "0.55", "stroke-linecap": "round" }, packG);
-    mk("path", { d: "M -7.0,6.4 L -7.4,8.2 L -5.2,8.2 L -5.4,6.4 Z M 5.4,6.4 L 5.2,8.2 L 7.4,8.2 L 7.0,6.4 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.75", "stroke-linejoin": "round" }, packG);
+    // Left swept aero wing-fin
+    mk("path", {
+      d: "M -4.2,-1.0 L -9.6,-3.5 Q -10.8,-3.8 -10.4,-2.4 L -8.6,1.8 Q -8.1,2.8 -6.8,2.6 L -4.2,2.0 Z",
+      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round"
+    }, packG);
+    mk("line", { x1: "-5.8", y1: "-1.1", x2: "-9.4", y2: "-2.6", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, packG);
+    // Right swept aero wing-fin
+    mk("path", {
+      d: "M 4.2,-1.0 L 9.6,-3.5 Q 10.8,-3.8 10.4,-2.4 L 8.6,1.8 Q 8.1,2.8 6.8,2.6 L 4.2,2.0 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round"
+    }, packG);
+    mk("path", { d: "M 4.5,0.6 L 9.1,0.4 L 8.3,2.2 L 4.4,1.8 Z", fill: "#E5DEC9", "fill-opacity": "0.7" }, packG);
+    mk("line", { x1: "5.8", y1: "-1.1", x2: "9.4", y2: "-2.6", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, packG);
 
-    // --- Articulated Mechanical Legs + Armored Thruster Boots (limb-locked plumes!) ---
+    // --- Sculpted Heroic Mecha Legs + Contoured Thruster Boots (clean hip gap & dynamic flight pose!) ---
     const legsG = mk("g", null, bodyRigG);
 
-    // Left / Rear volumetric mechanical leg (staggered slightly higher for heroic Iron Man takeoff stance!)
+    // Left / Rear leg (warm-stone shaded, bent slightly higher for dynamic weightless flight!)
     const legL = mk("g", null, legsG);
     const jetBootLG = mk("g", { opacity: "0" }, legL);
     const jetBootL = mk("path", { fill: "url(#agent-jet-grad)" }, jetBootLG);
-    const jetBootLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetBootLG);
-    mk("path", { d: "M -3.2,10.0 L -1.1,10.0 L -2.0,13.6 L -4.1,13.5 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, legL);
-    mk("path", { d: "M -3.9,13.3 L -2.1,13.4 L -1.7,15.0 L -3.5,15.0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, legL);
-    mk("circle", { cx: "-3.1", cy: "13.4", r: "0.95", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.75" }, legL);
-    // Original beveled thruster boot (bootB)
+    const jetBootLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.94" }, jetBootLG);
+    // Dark inner-frame hip & knee joints
+    mk("circle", { cx: "-2.5", cy: "10.6", r: "1.1", fill: "#2E2B27" }, legL);
+    // Tapered thigh armor
     mk("path", {
-      d: "M -4.2,14.2 L -1.0,14.2 L -0.4,18.0 L -4.5,18.0 Z",
-      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.92", "stroke-linejoin": "round"
+      d: "M -3.7,10.8 Q -3.8,10.2 -2.5,10.2 Q -1.2,10.2 -1.3,10.8 L -1.6,13.8 L -3.5,13.8 Z",
+      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round"
     }, legL);
-    mk("line", { x1: "-3.8", y1: "16.1", x2: "-1.1", y2: "16.1", stroke: "#1D1B18", "stroke-width": "0.52", "stroke-opacity": "0.45" }, legL);
-    mk("ellipse", { cx: "-2.45", cy: "18.1", rx: "1.45", ry: "0.52", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.45" }, legL);
+    mk("circle", { cx: "-2.6", cy: "13.9", r: "1.05", fill: "#2E2B27" }, legL);
+    // Sleek flared aerospace thruster boot (rear)
+    mk("path", {
+      d: "M -3.7,14.3 L -1.4,14.3 L -0.9,18.2 Q -2.6,18.8 -4.2,18.2 Z",
+      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.88", "stroke-linejoin": "round"
+    }, legL);
+    mk("line", { x1: "-3.6", y1: "16.5", x2: "-1.4", y2: "16.5", stroke: "#1D1B18", "stroke-width": "0.5", "stroke-opacity": "0.42" }, legL);
+    // Recessed thruster nozzle bell + luminous glow
+    mk("ellipse", { cx: "-2.55", cy: "18.5", rx: "1.35", ry: "0.52", fill: "#1D1B18" }, legL);
+    mk("ellipse", { cx: "-2.55", cy: "18.6", rx: "1.0", ry: "0.38", fill: "#B5F5D4" }, legL);
 
-    // Right / Front volumetric mechanical leg (extended gracefully!)
+    // Right / Front leg (extended gracefully downward in cream-white with subtle stone bevel!)
     const legR = mk("g", null, legsG);
     const jetBootRG = mk("g", { opacity: "0" }, legR);
     const jetBootR = mk("path", { fill: "url(#agent-jet-grad)" }, jetBootRG);
-    const jetBootRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetBootRG);
-    mk("path", { d: "M 1.1,10.0 L 3.3,10.0 L 3.9,13.9 L 1.8,13.9 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, legR);
-    mk("path", { d: "M 1.9,13.8 L 3.8,13.8 L 3.5,15.6 L 1.6,15.6 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, legR);
-    mk("circle", { cx: "2.9", cy: "13.8", r: "0.98", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.78" }, legR);
-    // Original beveled thruster boot (bootF)
+    const jetBootRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.94" }, jetBootRG);
+    mk("circle", { cx: "2.5", cy: "10.6", r: "1.1", fill: "#2E2B27" }, legR);
     mk("path", {
-      d: "M 0.9,15.0 L 4.2,15.0 L 4.9,19.0 L 0.6,19.0 Z",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.96", "stroke-linejoin": "round"
+      d: "M 1.3,10.8 Q 1.2,10.2 2.5,10.2 Q 3.8,10.2 3.7,10.8 L 3.5,14.4 L 1.6,14.4 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.84", "stroke-linejoin": "round"
     }, legR);
-    mk("line", { x1: "1.3", y1: "17.0", x2: "4.1", y2: "17.0", stroke: "#1D1B18", "stroke-width": "0.52", "stroke-opacity": "0.45" }, legR);
-    mk("ellipse", { cx: "2.75", cy: "19.1", rx: "1.5", ry: "0.54", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.45" }, legR);
+    mk("circle", { cx: "2.55", cy: "14.5", r: "1.08", fill: "#2E2B27" }, legR);
+    // Sleek flared aerospace thruster boot (front)
+    mk("path", {
+      d: "M 1.4,15.0 L 3.7,15.0 L 4.3,19.4 Q 2.55,20.0 0.8,19.4 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.90", "stroke-linejoin": "round"
+    }, legR);
+    mk("path", { d: "M 2.8,15.3 L 3.5,15.3 L 4.0,19.1 L 2.9,19.3 Z", fill: "#E5DEC9", "fill-opacity": "0.75" }, legR);
+    mk("line", { x1: "1.4", y1: "17.4", x2: "3.8", y2: "17.4", stroke: "#1D1B18", "stroke-width": "0.5", "stroke-opacity": "0.42" }, legR);
+    mk("ellipse", { cx: "2.55", cy: "19.7", rx: "1.42", ry: "0.54", fill: "#1D1B18" }, legR);
+    mk("ellipse", { cx: "2.55", cy: "19.8", rx: "1.05", ry: "0.40", fill: "#B5F5D4" }, legR);
 
-    // --- Volumetric Mechanical Arms + Beveled Repulsor Gauntlets (limb-locked palm plumes!) ---
+    // --- Sculpted Rounded Capsule Arms + Repulsor Gauntlets (dark inner joints + cream armor shells!) ---
     const armL = mk("g", null, bodyRigG);
     const jetPalmLG = mk("g", { opacity: "0" }, armL);
     const jetPalmL = mk("path", { fill: "url(#agent-jet-grad)" }, jetPalmLG);
-    const jetPalmLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetPalmLG);
-    mk("path", { d: "M -4.7,0.5 L -6.1,1.9 L -9.1,4.8 L -7.7,3.5 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, armL);
-    mk("path", { d: "M -7.6,3.7 L -9.2,4.7 L -11.3,7.7 L -9.7,6.8 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, armL);
-    mk("circle", { cx: "-8.4", cy: "4.2", r: "0.92", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72" }, armL);
-    // Original beveled repulsor gauntlet (gauntletB)
-    mk("rect", { x: "-12.6", y: "6.4", width: "4.2", height: "3.2", rx: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.92" }, armL);
-    mk("line", { x1: "-11.5", y1: "8.0", x2: "-9.5", y2: "8.0", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, armL);
-    mk("circle", { cx: "-10.5", cy: "9.8", r: "1.2", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.48" }, armL);
-    mk("circle", { cx: "-10.5", cy: "9.8", r: "0.46", fill: "#FFFFFF" }, armL);
+    const jetPalmLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.94" }, jetPalmLG);
+    // Dark inner-frame upper arm & elbow ball
+    mk("line", { x1: "-5.8", y1: "0.4", x2: "-8.0", y2: "4.2", stroke: "#2E2B27", "stroke-width": "1.9", "stroke-linecap": "round" }, armL);
+    mk("circle", { cx: "-8.0", cy: "4.2", r: "1.05", fill: "#2E2B27" }, armL);
+    // Rounded shoulder pauldron dome
+    mk("path", {
+      d: "M -4.9,-1.3 Q -7.2,-1.2 -7.4,1.2 Q -7.4,2.2 -5.8,2.1 Q -4.8,2.0 -4.8,0.6 Z",
+      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round"
+    }, armL);
+    // Contoured tapered repulsor forearm gauntlet
+    mk("path", {
+      d: "M -7.1,3.9 L -8.9,4.7 L -10.8,8.5 Q -10.0,9.5 -8.5,8.8 L -6.8,5.1 Z",
+      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round"
+    }, armL);
+    mk("line", { x1: "-8.3", y1: "6.4", x2: "-9.7", y2: "7.0", stroke: "#2D6A47", "stroke-width": "0.68", "stroke-linecap": "round" }, armL);
+    // Glowing palm stabilizer disc
+    mk("circle", { cx: "-9.7", cy: "9.0", r: "1.15", fill: "#1D1B18" }, armL);
+    mk("circle", { cx: "-9.7", cy: "9.0", r: "0.78", fill: "#B5F5D4" }, armL);
+    mk("circle", { cx: "-9.7", cy: "9.0", r: "0.35", fill: "#FFFFFF" }, armL);
 
     const armR = mk("g", null, bodyRigG);
     const jetPalmRG = mk("g", { opacity: "0" }, armR);
     const jetPalmR = mk("path", { fill: "url(#agent-jet-grad)" }, jetPalmRG);
-    const jetPalmRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetPalmRG);
-    mk("path", { d: "M 4.7,0.5 L 6.1,1.9 L 9.1,4.8 L 7.7,3.5 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.84", "stroke-linejoin": "round" }, armR);
-    mk("path", { d: "M 7.6,3.7 L 9.2,4.7 L 11.3,7.7 L 9.7,6.8 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.84", "stroke-linejoin": "round" }, armR);
-    mk("circle", { cx: "8.4", cy: "4.2", r: "0.92", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.75" }, armR);
-    // Original beveled repulsor gauntlet (gauntletF)
-    mk("rect", { x: "8.4", y: "6.4", width: "4.2", height: "3.2", rx: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.96" }, armR);
-    mk("line", { x1: "9.5", y1: "8.0", x2: "11.5", y2: "8.0", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, armR);
-    mk("circle", { cx: "10.5", cy: "9.8", r: "1.2", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.48" }, armR);
-    mk("circle", { cx: "10.5", cy: "9.8", r: "0.46", fill: "#FFFFFF" }, armR);
+    const jetPalmRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.94" }, jetPalmRG);
+    mk("line", { x1: "5.8", y1: "0.4", x2: "8.0", y2: "4.2", stroke: "#2E2B27", "stroke-width": "1.9", "stroke-linecap": "round" }, armR);
+    mk("circle", { cx: "8.0", cy: "4.2", r: "1.05", fill: "#2E2B27" }, armR);
+    // Rounded shoulder pauldron dome
+    mk("path", {
+      d: "M 4.9,-1.3 Q 7.2,-1.2 7.4,1.2 Q 7.4,2.2 5.8,2.1 Q 4.8,2.0 4.8,0.6 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.88", "stroke-linejoin": "round"
+    }, armR);
+    // Contoured tapered repulsor forearm gauntlet
+    mk("path", {
+      d: "M 7.1,3.9 L 8.9,4.7 L 10.8,8.5 Q 10.0,9.5 8.5,8.8 L 6.8,5.1 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.88", "stroke-linejoin": "round"
+    }, armR);
+    mk("line", { x1: "8.3", y1: "6.4", x2: "9.7", y2: "7.0", stroke: "#2D6A47", "stroke-width": "0.68", "stroke-linecap": "round" }, armR);
+    // Glowing palm stabilizer disc
+    mk("circle", { cx: "9.7", cy: "9.0", r: "1.15", fill: "#1D1B18" }, armR);
+    mk("circle", { cx: "9.7", cy: "9.0", r: "0.78", fill: "#B5F5D4" }, armR);
+    mk("circle", { cx: "9.7", cy: "9.0", r: "0.35", fill: "#FFFFFF" }, armR);
 
-    // --- Original Sculpted Torso Chassis + Chamfered Shoulder Pauldrons + X-Harness Arc Core ---
+    // --- Sculpted Tapered Heroic Chest Armor + Seamless Ball-Neck + Waist Gimbal + Bamboo Arc Core ---
     const torsoG = mk("g", null, bodyRigG);
-    // Mechanical neck collar (matches evo-walker.js neckEl!)
-    mk("rect", { x: "-2.1", y: "-3.6", width: "4.2", height: "2.6", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85" }, torsoG);
-    mk("line", { x1: "-1.5", y1: "-2.3", x2: "1.5", y2: "-2.3", stroke: "#1D1B18", "stroke-width": "0.6", "stroke-opacity": "0.55" }, torsoG);
-    // Sleek mechanical pelvis band (matches evo-walker.js pelvisEl!)
+    // Seamless dark inner-frame mechanical ball-neck (zero gap under chin even at ±14° head tilt!)
     mk("path", {
-      d: "M -3.5,9.6 L 3.5,9.6 L 2.6,11.2 L -2.6,11.2 Z",
-      fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.88", "stroke-linejoin": "round"
+      d: "M -2.2,-4.4 L 2.2,-4.4 L 2.7,-1.2 L -2.7,-1.2 Z",
+      fill: "#2E2B27", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-linejoin": "round"
     }, torsoG);
-    // Main chassis torso + warm stone left bevel
-    mk("rect", { x: "-4.7", y: "-0.8", width: "9.4", height: "10.6", rx: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, torsoG);
-    mk("rect", { x: "-4.2", y: "-0.3", width: "2.8", height: "9.6", rx: "0.5", fill: "#EDE8DE", "fill-opacity": "0.85" }, torsoG);
-    // Chamfered Mech Shoulder Pauldrons (matches evo-walker.js shoulderArmorEl!)
+    mk("line", { x1: "-1.5", y1: "-2.7", x2: "1.5", y2: "-2.7", stroke: "#FAF8F4", "stroke-width": "0.45", "stroke-opacity": "0.35", "stroke-linecap": "round" }, torsoG);
+    // Dark mechanical waist gimbal separating chest and pelvis cleanly
+    mk("rect", { x: "-2.8", y: "6.8", width: "5.6", height: "2.6", rx: "0.9", fill: "#2E2B27" }, torsoG);
+    // Sculpted Pelvis Armor Plate
     mk("path", {
-      d: "M -6.1,-1.4 L 6.1,-1.4 L 7.2,1.3 L -7.2,1.3 Z",
+      d: "M -3.9,8.7 L 3.9,8.7 L 3.2,10.7 Q 0,11.5 -3.2,10.7 Z",
+      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.88", "stroke-linejoin": "round"
+    }, torsoG);
+    mk("path", { d: "M -3.2,9.7 L 3.2,9.7 L 2.8,10.6 Q 0,11.2 -2.8,10.6 Z", fill: "#E5DEC9", "fill-opacity": "0.8" }, torsoG);
+    // Unified Heroic Tapered Chest Shell (broad rounded upper torso -> sleek waist, crisp studio contour!)
+    mk("path", {
+      d: "M -4.2,-1.6 L 4.2,-1.6 Q 5.5,-1.6 5.4,-0.1 L 4.3,6.3 Q 4.1,7.4 2.9,7.4 L -2.9,7.4 Q -4.1,7.4 -4.3,6.3 L -5.4,-0.1 Q -5.5,-1.6 -4.2,-1.6 Z",
       fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.96", "stroke-linejoin": "round"
     }, torsoG);
-    mk("path", { d: "M -4.4,-1.2 L -5.0,1.1 M 4.4,-1.2 L 5.0,1.1", fill: "none", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-opacity": "0.5" }, torsoG);
-    // X-Shaped Harness straps + Luminous Bamboo Arc Core!
+    // Soft warm-stone 3D lower/side bevel shading inside chest (no heavy internal strokes!)
     mk("path", {
-      d: "M -4.0,0.4 L 4.0,8.8 M 4.0,0.4 L -4.0,8.8",
-      fill: "none", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linecap": "round"
+      d: "M -4.5,4.2 L -3.9,6.2 Q -3.7,6.9 -2.8,6.9 L 2.8,6.9 Q 3.7,6.9 3.9,6.2 L 4.8,0.4 L 3.4,0.4 L 2.7,5.2 L -3.8,5.2 Z",
+      fill: "#E5DEC9", "fill-opacity": "0.78"
     }, torsoG);
-    mk("circle", { cx: "0", cy: "4.6", r: "4.8", fill: "url(#agent-core-glow)" }, torsoG);
-    mk("circle", { cx: "0", cy: "4.6", r: "2.25", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.82" }, torsoG);
-    const chestCore = mk("circle", { cx: "0", cy: "4.6", r: "1.4", fill: "#2D6A47" }, torsoG);
-    mk("circle", { cx: "-0.4", cy: "4.2", r: "0.42", fill: "#EBFFF3", "fill-opacity": "0.85" }, torsoG);
+    // Crisp top paper specular highlight on collar edge
+    mk("line", { x1: "-3.2", y1: "-0.8", x2: "3.2", y2: "-0.8", stroke: "#FFFFFF", "stroke-width": "0.65", "stroke-opacity": "0.85", "stroke-linecap": "round" }, torsoG);
+    // Delicate etched X-harness seams (clean low-contrast panel lines converging into Arc Core!)
+    mk("path", {
+      d: "M -4.3,-0.6 L -1.5,1.6 M 4.3,-0.6 L 1.5,1.6 M -3.5,6.2 L -1.5,4.2 M 3.5,6.2 L 1.5,4.2",
+      fill: "none", stroke: "#1D1B18", "stroke-width": "0.58", "stroke-opacity": "0.42", "stroke-linecap": "round"
+    }, torsoG);
+    // Recessed Luminous Bamboo Arc Reactor Core
+    mk("circle", { cx: "0", cy: "2.9", r: "4.5", fill: "url(#agent-core-glow)" }, torsoG);
+    mk("circle", { cx: "0", cy: "2.9", r: "2.15", fill: "#1D1B18" }, torsoG);
+    const chestCore = mk("circle", { cx: "0", cy: "2.9", r: "1.42", fill: "#2D6A47" }, torsoG);
+    mk("circle", { cx: "-0.42", cy: "2.48", r: "0.44", fill: "#EBFFF3", "fill-opacity": "0.90" }, torsoG);
 
     // =====================================================================
     // ORIGINAL ROBOT CRT HEAD (Independently Articulated + Spring Antenna + 2.5D Yaw!)
     // Clean, iconic, balanced — same robot from Era 2-5 runway to sky to top-left dock!
     // =====================================================================
     const DOCKED_HEAD_SCALE = 1.26;
-    const FLIGHT_HEAD_SCALE = 0.86;
-    const FLIGHT_HEAD_Y = -9.8;
-    const LAUNCH_MATCH_SCALE = 1.34; // 1:1 height match (~42.9px) with enlarged 1.24x Era 5 runway robot at liftoff!
-    const FLY_SCALE = 1.52;
+    const FLIGHT_HEAD_SCALE = 0.88;
+    const FLIGHT_HEAD_Y = -8.4;
+    const LAUNCH_MATCH_SCALE = 1.32; // 1:1 height match with enlarged 1.24x Era 5 runway robot at liftoff!
+    const FLY_SCALE = 1.46;
 
     const headG = mk("g", { transform: `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE})` }, craftG);
 
@@ -411,11 +458,10 @@
 
     function setJetOpacity(op) {
       const val = op.toFixed(2);
-      jetPalmLG.setAttribute("opacity", val);
-      jetPalmRG.setAttribute("opacity", val);
+      jetPalmLG.setAttribute("opacity", (op * 0.88).toFixed(2));
+      jetPalmRG.setAttribute("opacity", (op * 0.88).toFixed(2));
       jetBootLG.setAttribute("opacity", val);
       jetBootRG.setAttribute("opacity", val);
-      jetPackPlumeG.setAttribute("opacity", (op * 0.72).toFixed(2));
     }
 
     function hideFlightFX() {
@@ -493,41 +539,41 @@
     }
     scheduleBlink();
 
-    // Animate limb-locked bamboo plumes & mechanical arm/leg lag (plumes stay 100% seated on emitters!)
+    // Animate 4 clean limb-locked plasma plumes & aerodynamic arm/leg/wing lag (zero visual clutter!)
     function updateFullBodyKinematics(now, thrust, bankDeg, curiousAmt, foldAmt) {
-      const flick = 0.88 + 0.24 * Math.abs(Math.sin(now * 0.055));
-      const pLen = (4.4 + thrust * 6.0) * flick;
-      const pCore = pLen * 0.48;
-      const bLen = (5.8 + thrust * 8.4) * flick;
+      const flick = 0.90 + 0.20 * Math.abs(Math.sin(now * 0.055));
+      const pLen = (3.4 + thrust * 4.4) * flick;
+      const pCore = pLen * 0.46;
+      const bLen = (5.8 + thrust * 8.6) * flick;
       const bCore = bLen * 0.50;
-      const pkLen = (3.8 + thrust * 5.2) * flick;
 
       const f = foldAmt || 0;
-      const armSwing = -bankDeg * 0.34;
-      const armLAngle = lerp(armSwing + 4 + curiousAmt * 8, -28, f);
-      const armRAngle = lerp(armSwing - 4 - curiousAmt * 8, 28, f);
-      armL.setAttribute("transform", `rotate(${armLAngle.toFixed(1)}, -5.4, 1.2)`);
-      armR.setAttribute("transform", `rotate(${armRAngle.toFixed(1)}, 5.4, 1.2)`);
+      const armSwing = -bankDeg * 0.30;
+      const armLAngle = lerp(armSwing + 3 + curiousAmt * 7, -28, f);
+      const armRAngle = lerp(armSwing - 3 - curiousAmt * 7, 28, f);
+      armL.setAttribute("transform", `rotate(${armLAngle.toFixed(1)}, -5.8, 0.4)`);
+      armR.setAttribute("transform", `rotate(${armRAngle.toFixed(1)}, 5.8, 0.4)`);
 
-      const legLag = -bankDeg * 0.56 * (1 - f);
-      const legRetractY = -f * 8.2;
-      legL.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag - 5 * (1 - f)).toFixed(1)}, -2.2, 10.2)`);
-      legR.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag + 4 * (1 - f)).toFixed(1)}, 2.2, 10.2)`);
+      const legLag = -bankDeg * 0.54 * (1 - f);
+      const legRetractY = -f * 8.6;
+      legL.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag - 6 * (1 - f)).toFixed(1)}, -2.5, 10.6)`);
+      legR.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag + 3 * (1 - f)).toFixed(1)}, 2.5, 10.6)`);
 
-      packG.setAttribute("transform", `scale(${(1 - 0.45 * f).toFixed(3)}, 1)`);
+      const wingShift = (-bankDeg * 0.05).toFixed(2);
+      packG.setAttribute("transform", `translate(${wingShift}, 0) scale(${(1 - 0.52 * f).toFixed(3)}, 1)`);
 
       if (thrust > 0.04) {
         setJetOpacity(clamp01(thrust * 1.15));
-        jetPalmL.setAttribute("d", `M -11.8,9.9 Q -11.2,${(9.9 + pLen * 0.52).toFixed(1)} -10.5,${(9.9 + pLen).toFixed(1)} Q -9.8,${(9.9 + pLen * 0.52).toFixed(1)} -9.2,9.9 Z`);
-        jetPalmLCore.setAttribute("d", `M -11.1,9.9 L -10.5,${(9.9 + pCore).toFixed(1)} L -9.9,9.9 Z`);
-        jetPalmR.setAttribute("d", `M 9.2,9.9 Q 9.8,${(9.9 + pLen * 0.52).toFixed(1)} 10.5,${(9.9 + pLen).toFixed(1)} Q 11.2,${(9.9 + pLen * 0.52).toFixed(1)} 11.8,9.9 Z`);
-        jetPalmRCore.setAttribute("d", `M 9.9,9.9 L 10.5,${(9.9 + pCore).toFixed(1)} L 11.1,9.9 Z`);
-        jetBootL.setAttribute("d", `M -3.9,18.1 Q -3.3,${(18.1 + bLen * 0.5).toFixed(1)} -2.45,${(18.1 + bLen * 0.88).toFixed(1)} Q -1.6,${(18.1 + bLen * 0.5).toFixed(1)} -1.0,18.1 Z`);
-        jetBootLCore.setAttribute("d", `M -3.1,18.1 L -2.45,${(18.1 + bCore * 0.88).toFixed(1)} L -1.8,18.1 Z`);
-        jetBootR.setAttribute("d", `M 1.2,19.1 Q 1.9,${(19.1 + bLen * 0.5).toFixed(1)} 2.75,${(19.1 + bLen).toFixed(1)} Q 3.6,${(19.1 + bLen * 0.5).toFixed(1)} 4.3,19.1 Z`);
-        jetBootRCore.setAttribute("d", `M 2.0,19.1 L 2.75,${(19.1 + bCore).toFixed(1)} L 3.5,19.1 Z`);
-        jetPackL.setAttribute("d", `M -7.3,8.3 L -5.3,8.3 L -6.3,${(8.3 + pkLen).toFixed(1)} Z`);
-        jetPackR.setAttribute("d", `M 5.3,8.3 L 7.3,8.3 L 6.3,${(8.3 + pkLen).toFixed(1)} Z`);
+        // Compact outward-angled palm stabilizer flames
+        jetPalmL.setAttribute("d", `M -10.6,9.2 Q -10.5,${(9.2 + pLen * 0.55).toFixed(1)} -10.2,${(9.2 + pLen).toFixed(1)} Q -9.4,${(9.2 + pLen * 0.55).toFixed(1)} -8.8,9.2 Z`);
+        jetPalmLCore.setAttribute("d", `M -10.2,9.2 L -10.0,${(9.2 + pCore).toFixed(1)} L -9.3,9.2 Z`);
+        jetPalmR.setAttribute("d", `M 8.8,9.2 Q 9.4,${(9.2 + pLen * 0.55).toFixed(1)} 10.2,${(9.2 + pLen).toFixed(1)} Q 10.5,${(9.2 + pLen * 0.55).toFixed(1)} 10.6,9.2 Z`);
+        jetPalmRCore.setAttribute("d", `M 9.3,9.2 L 10.0,${(9.2 + pCore).toFixed(1)} L 10.2,9.2 Z`);
+        // Long sleek aerospace boot thruster plumes
+        jetBootL.setAttribute("d", `M -3.7,18.7 Q -3.2,${(18.7 + bLen * 0.5).toFixed(1)} -2.55,${(18.7 + bLen * 0.88).toFixed(1)} Q -1.9,${(18.7 + bLen * 0.5).toFixed(1)} -1.4,18.7 Z`);
+        jetBootLCore.setAttribute("d", `M -3.1,18.7 L -2.55,${(18.7 + bCore * 0.88).toFixed(1)} L -2.0,18.7 Z`);
+        jetBootR.setAttribute("d", `M 1.35,19.9 Q 1.9,${(19.9 + bLen * 0.5).toFixed(1)} 2.55,${(19.9 + bLen).toFixed(1)} Q 3.2,${(19.9 + bLen * 0.5).toFixed(1)} 3.75,19.9 Z`);
+        jetBootRCore.setAttribute("d", `M 2.0,19.9 L 2.55,${(19.9 + bCore).toFixed(1)} L 3.1,19.9 Z`);
       } else {
         setJetOpacity(0);
       }
