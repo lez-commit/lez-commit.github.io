@@ -375,8 +375,8 @@ export function buildMechRig({ btn, scanOverlay }) {
   // Clean, iconic, balanced — same robot from Era 2-5 runway to sky to top-left dock!
   // =====================================================================
   const DOCKED_HEAD_SCALE = 1.26;
-  const FLIGHT_HEAD_SCALE = 0.88;
-  const FLIGHT_HEAD_Y = -8.4;
+  const FLIGHT_HEAD_SCALE = 0.94;
+  const FLIGHT_HEAD_Y = -8.8;
   const LAUNCH_MATCH_SCALE = 1.32; // 1:1 height match with enlarged 1.24x Era 5 runway robot at liftoff!
   const FLY_SCALE = 1.46;
 

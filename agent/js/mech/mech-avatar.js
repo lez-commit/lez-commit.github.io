@@ -366,7 +366,7 @@ export function initMechAvatar({ getView, switchView }) {
       craftG.setAttribute("transform", `scale(${launchMatchScale.toFixed(3)}) rotate(0)`);
       headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(0)`);
       applyFaceYaw(drone.headYaw, drone.headPitch);
-      updateFullBodyKinematics(performance.now(), avPhase === "gantry" ? 0 : 1.0, 0, 0, 0, { standPose: 1, wingOpen: 0.42, armFlare: 8 });
+      updateFullBodyKinematics(performance.now(), avPhase === "gantry" ? 0 : 1.0, 0, 0, 0, { standPose: 1, wingOpen: 0.86, armFlare: 6 });
     }
   }
 
@@ -406,7 +406,7 @@ export function initMechAvatar({ getView, switchView }) {
     void btn.offsetWidth;
     btn.classList.add("is-nodding");
     syncTimer = 0.48;
-    if (getView() !== "home" && AgentBlog.switchView) {
+    if (getView() !== "home") {
       triggerBlink(false);
       switchView("home");
     } else {
@@ -576,13 +576,13 @@ export function initMechAvatar({ getView, switchView }) {
       if (gantryT < gantryStandSec) {
         const su = clamp01(gantryT / Math.max(0.01, gantryStandSec));
         const ease = 1 - Math.pow(1 - su, 3);
-        wingOpen = lerp(0.42, 0.92, ease);
-        armFlare = lerp(8, 12, ease);
+        wingOpen = lerp(0.86, 0.96, ease);
+        armFlare = lerp(6, 12, ease);
         headLook = -ease * 7.5;
         drone.eyeY = lerp(-0.35, -0.85, ease);
       } else {
         const iu = clamp01((gantryT - gantryStandSec) / Math.max(0.01, gantryIgniteSec));
-        wingOpen = lerp(0.92, 1.0, clamp01(iu * 2.5));
+        wingOpen = lerp(0.96, 1.0, clamp01(iu * 2.5));
         armFlare = lerp(12, 18, clamp01(iu * 2.2));
         headLook = -7.5;
         drone.eyeY = -0.85;
@@ -1019,6 +1019,7 @@ export function initMechAvatar({ getView, switchView }) {
     requestAnimationFrame(tickAvatar);
   }
 
+  requestAnimationFrame(tickAvatar);
 
   return {
     isDocked: () => avPhase === "avatar" || avPhase === "sonar",

@@ -37,9 +37,10 @@ export function initEvoWalker({ getView }) {
   function computeEraAnchors(startX, span, scale) {
     const colW = (evoLayerEl.clientWidth || (startX + span + 18)) / 5;
     const x1 = Math.max(startX + 46 * scale, colW * 0.56);
-    const x2 = colW * 1.54;
-    const x3 = colW * 2.54;
-    const x4 = colW * 3.54;
+    const x2 = Math.max(colW * 1.54, colW * 1 + 20.5 + 16 * scale);
+    // Era 3 toolbox extends ~26*S left of x3: keep strictly clear of Era 3's .spine-dot!
+    const x3 = Math.max(colW * 2.56, colW * 2 + 20.5 + 29 * scale);
+    const x4 = Math.max(colW * 3.54, colW * 3 + 20.5 + 18 * scale);
     // Era 5 gantry (~21*S half-width + horizontal steam): center cleanly between col 4's dot & right edge!
     const minX5 = colW * 4 + 20.5 + 24 * scale;
     const maxX5 = colW * 5 - 16 - 21 * scale;
