@@ -91,7 +91,7 @@
     const groundBounceEl = mk("ellipse", { cx: "0", cy: String(BASE_Y), rx: "28", ry: "4.6", fill: "url(#evo-ground-glow)", opacity: "0" }, scenery);
 
     // --- PROP 1 (Era 1 · 按脚本跑，无大脑): Clean Iconic Faceted Stone Cluster ---
-    const prop1 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    const prop1 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
     mk("rect", { x: "-14", y: "-14", width: "28", height: "16", fill: "transparent" }, prop1);
     mk("ellipse", { cx: "0.4", cy: "0.35", rx: "9.8", ry: "1.15", fill: "#1D1B18", "fill-opacity": "0.11" }, prop1);
     // Companion micro-pebble on left
@@ -127,7 +127,7 @@
     mk("line", { x1: "5.6", y1: "-5.2", x2: "8.4", y2: "-7.2", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round" }, pebbleDust);
 
     // --- PROP 2 (Era 2 · 缸中之脑，会推理): 2.5D Glass Bell-Jar Brain-in-a-Vat with Swaying Nutrient Liquid & Bubbles ---
-    const prop2 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    const prop2 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
     mk("rect", { x: "-16", y: "-32", width: "32", height: "34", fill: "transparent" }, prop2);
     mk("ellipse", { cx: "0", cy: "0.4", rx: "12.8", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop2);
     // Stepped 2.5D scientific neural pod pedestal + side curved dark-gunmetal power/nutrient conduit!
@@ -205,7 +205,7 @@
     }, cotChainGroup);
 
     // --- PROP 3 (Era 3 · 撞墙试错，接工具): 2.5D Side-Thickness Brick Wall + Deep Open Toolbox + Spiral Drill ---
-    const prop3 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    const prop3 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
     mk("rect", { x: "-42", y: "-32", width: "58", height: "34", fill: "transparent" }, prop3);
     // Classic 2.5D Toolbox cleanly spaced left of drill stance (ZERO foot overlap!)
     const toolRackGroup = mk("g", { transform: "translate(-33.0, 0)" }, prop3);
@@ -334,7 +334,7 @@
     mk("circle", { cx: "11.8", cy: "-4.8", r: "0.95", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
 
     // --- PROP 4 (Era 4 · 手眼脑通，状态机): 2.5D Architect's Computer Desk + Steaming Coffee Mug + Live Code Typing -> Big ✓ ---
-    const prop4 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    const prop4 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
     mk("rect", { x: "-20", y: "-36", width: "42", height: "38", fill: "transparent" }, prop4);
     // Crisp dual-optic vision scan cone projected from robot goggles onto the big desktop monitor!
     const gateScanBeam = mk("g", { opacity: "0" }, prop4);
@@ -410,7 +410,7 @@
     mk("line", { x1: "6.8", y1: "-32.6", x2: "6.8", y2: "-29.8", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
 
     // --- PROP 5 (Era 5 · 卷马具，进生产): 2.5D Production Harness Launch Gantry with Swing-Open Clamps ---
-    const prop5 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
+    const prop5 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
     mk("rect", { x: "-21", y: "-30", width: "42", height: "32", fill: "transparent" }, prop5);
     mk("ellipse", { cx: "0", cy: "0.45", rx: "19.6", ry: "1.35", fill: "#1D1B18", "fill-opacity": "0.12" }, prop5);
     // Soft holographic projection cone behind pad
@@ -809,18 +809,19 @@
     const palmEmitterL = mk("circle", { r: "1.5", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.6" }, repulsorJets);
     const palmEmitterR = mk("circle", { r: "1.5", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.6" }, repulsorJets);
 
-    // Stage 5 Converging Hardcore Armor Modules (7 angular tactical pieces matching airborne v4 mech 1:1!)
+    // Stage 5 Converging Hardcore Armor Modules (8 symmetrical angular tactical pieces matching airborne v4 mech 1:1!)
     const assembleLayer = mk("g", { opacity: "0" }, botGroup);
     const FLY_SPECS = [
       // Wave 1: Heavy Vernier Greaves & Knee Shields from lower-left & lower-right
-      { t0: 0.06, t1: 0.34, sx: -44, sy: -8,  cx: -22, cy: -16, tx: -3.0, ty: -4,   rot0: -38, d: "M -2.1,-4.8 L 1.9,-4.8 L 2.7,0 L -2.2,0 Z M -1.3,-3.2 L 1.3,-3.2" },
-      { t0: 0.08, t1: 0.36, sx: 44,  sy: -8,  cx: 22,  cy: -16, tx: 3.0,  ty: -4,   rot0: 38,  d: "M -2.1,-4.8 L 2.1,-4.8 L 2.9,0 L -2.2,0 Z M -1.3,-3.2 L 1.5,-3.2" },
+      { t0: 0.06, t1: 0.34, sx: -44, sy: -8,  cx: -22, cy: -16, tx: -3.2, ty: -4,   rot0: -38, d: "M -2.1,-4.8 L 1.9,-4.8 L 2.7,0 L -2.2,0 Z M -1.3,-3.2 L 1.3,-3.2" },
+      { t0: 0.08, t1: 0.36, sx: 44,  sy: -8,  cx: 22,  cy: -16, tx: 3.2,  ty: -4,   rot0: 38,  d: "M -2.1,-4.8 L 2.1,-4.8 L 2.9,0 L -2.2,0 Z M -1.3,-3.2 L 1.5,-3.2" },
       // Wave 2: Angular Repulsor Vambraces from mid-left & mid-right
       { t0: 0.22, t1: 0.52, sx: -48, sy: -19, cx: -24, cy: -24, tx: -6.8, ty: -18,  rot0: -48, d: "M -2.4,-2.2 L 2.4,-2.2 L 1.9,1.5 L -1.9,1.5 Z M -1.2,-0.5 L 1.2,-0.5" },
       { t0: 0.24, t1: 0.54, sx: 48,  sy: -19, cx: 24,  cy: -24, tx: 6.8,  ty: -18,  rot0: 48,  d: "M -2.4,-2.2 L 2.4,-2.2 L 1.9,1.5 L -1.9,1.5 Z M -1.2,-0.5 L 1.2,-0.5" },
-      // Wave 3: Twin Wing-Binder Pack (upper-left) + Layered Angular Shoulder Pauldrons (upper-right)
-      { t0: 0.40, t1: 0.72, sx: -40, sy: -44, cx: -22, cy: -34, tx: -6.2, ty: -23,  rot0: -28, d: "M 0,-1.8 L -7.4,-5.4 L -8.4,-3.6 L -6.0,0.4 L 0,1.2 Z" },
-      { t0: 0.42, t1: 0.72, sx: 40,  sy: -44, cx: 22,  cy: -34, tx: 0,    ty: -25.5,rot0: 24,  d: "M -7.6,-2.0 L -3.6,-1.2 L 3.6,-1.2 L 7.6,-2.0 L 8.6,0.8 L 6.8,2.2 L -6.8,2.2 L -8.6,0.8 Z" },
+      // Wave 3: Symmetrical Twin Wing-Binders (upper-left & upper-right) + Layered Angular Shoulder Pauldrons (top center!)
+      { t0: 0.38, t1: 0.72, sx: -44, sy: -46, cx: -24, cy: -35, tx: -6.2, ty: -23.5,rot0: -28, d: "M 0,-1.8 L -7.4,-5.4 L -8.4,-3.6 L -6.0,0.4 L 0,1.2 Z" },
+      { t0: 0.38, t1: 0.72, sx: 44,  sy: -46, cx: 24,  cy: -35, tx: 6.2,  ty: -23.5,rot0: 28,  d: "M 0,-1.8 L 7.4,-5.4 L 8.4,-3.6 L 6.0,0.4 L 0,1.2 Z" },
+      { t0: 0.42, t1: 0.72, sx: 0,   sy: -52, cx: 0,   cy: -38, tx: 0,    ty: -25.5,rot0: 0,   d: "M -7.6,-2.0 L -3.6,-1.2 L 3.6,-1.2 L 7.6,-2.0 L 8.6,0.8 L 6.8,2.2 L -6.8,2.2 L -8.6,0.8 Z" },
       // Wave 4: Sharp Twin-Blade V-Fin Crest from straight above!
       { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 4,   cy: -45, tx: 0.2,  ty: -36.5,rot0: 0,   d: "M -6.2,-2.2 L -1.2,-0.2 L 0.2,-2.8 L 1.6,-0.2 L 6.4,-2.2 L 1.6,1.0 L -1.4,1.0 Z" }
     ];
@@ -828,8 +829,11 @@
       const trail = mk("line", { stroke: "#2D6A47", "stroke-width": "1.15", "stroke-opacity": "0.62", "stroke-dasharray": "4 2", "stroke-linecap": "round", opacity: "0" }, assembleLayer);
       const piece = mk("g", { opacity: "0" }, assembleLayer);
       mk("path", { d: sp.d, fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round", "stroke-linecap": "round" }, piece);
-      if (idx === 2 || idx === 3 || idx === 5) {
-        mk("circle", { cx: "0", cy: idx === 5 ? "0" : "-0.4", r: "0.95", fill: "#2D6A47" }, piece);
+      if (idx === 2 || idx === 3 || idx === 6) {
+        mk("circle", { cx: "0", cy: idx === 6 ? "0" : "-0.4", r: "0.95", fill: "#2D6A47" }, piece);
+      } else if (idx === 4 || idx === 5) {
+        const dir = idx === 4 ? -1 : 1;
+        mk("line", { x1: String(dir * 1.4), y1: "-1.4", x2: String(dir * 6.4), y2: "-3.8", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, piece);
       }
       return { sp, trail, piece };
     });
@@ -1175,15 +1179,15 @@
           lastSpan = span;
         }
 
-        // Calm post-ceremony resting state: keep all 5 resolved props neatly positioned & quiet until user summons!
+        // Calm post-ceremony resting state: keep all 5 resolved diorama scenes crisp & solid ink until user summons!
         if (restingCompleted) {
           botGroup.setAttribute("opacity", "0");
           humanGroup.setAttribute("opacity", "0");
           syncEraCaptions(-1, false);
           const setRestProp = (el, px) => {
             el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y}) scale(${S})`);
-            el.setAttribute("opacity", "0.52");
-            el.setAttribute("color", "#7C7468");
+            el.setAttribute("opacity", "1");
+            el.setAttribute("color", "#1D1B18");
           };
           setRestProp(prop1, x1);
           setRestProp(prop2, x2);
@@ -1554,14 +1558,14 @@
         const drawX = posX + visualDX * S;
 
         // =================================================================
-        // SMOOTH SPOTLIGHT FOCUS: Muted ink (0.40, #8A8275) -> Crisp ink (0.96, #1D1B18)
+        // ALL 5 2.5D DIORAMA SCENES ALWAYS CRISP SOLID INK (no ghostly fade!)
         // =================================================================
         const setPropFocus = (el, px) => {
           const near = clamp01(1 - Math.abs(drawX - px) / (86 * S));
           const easedNear = near * near * (3 - 2 * near);
           el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y}) scale(${S})`);
-          el.setAttribute("opacity", (0.40 + easedNear * 0.56).toFixed(2));
-          el.setAttribute("color", lerpInk(easedNear));
+          el.setAttribute("opacity", "1");
+          el.setAttribute("color", "#1D1B18");
           return easedNear;
         };
 
@@ -2294,10 +2298,10 @@
         skirtArmorEl.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
         harnessGroup.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
         if (hasTorsoArmor) {
-          // Wing-binders stay sleekly tucked during armor lock-in, then fan heroically outward as thrusters ignite!
+          // Symmetrical twin wing-binders are clearly visible on lock-in, then flare to full 100% span on ignition!
           const wingFan = b5 === 3 ? smooth(0.05, 0.56, b5t) : 0;
-          const ws = lerp(0.32, 1.0, wingFan);
-          const wRot = lerp(34, 0, wingFan);
+          const ws = lerp(0.78, 1.0, wingFan);
+          const wRot = lerp(16, 0, wingFan);
           groundWingL.setAttribute("transform", `translate(-4.2, -8.4) scale(${ws.toFixed(3)}, ${ws.toFixed(3)}) rotate(${(-wRot).toFixed(1)}) translate(4.2, 8.4)`);
           groundWingR.setAttribute("transform", `translate(4.2, -8.4) scale(${ws.toFixed(3)}, ${ws.toFixed(3)}) rotate(${wRot.toFixed(1)}) translate(-4.2, 8.4)`);
           harnessX1.setAttribute("x1", (-topW + 0.7).toFixed(1));
