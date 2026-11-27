@@ -440,42 +440,42 @@ export function initEvoWalker({ getView }) {
         moveSpeed = 0;
         beatHopH = Math.sin((clickHopTimer / 0.5) * Math.PI) * 7.5;
       } else if (b1 === 1) {
-        // Era 1 Step 1 (Restored Original Snappy Beat!): Immediate jog-trip over stone into flat Superman belly-slide!
+        // Era 1 Step 1 (Snappy Trip Beat): Jog-trip over stone landing smoothly tangent on top of the rail!
         b1t += dt;
         activeEraIdx = 0;
         isEraBeat = true;
         const u = clamp01(b1t / 0.22);
         posX += 116 * dt;
         moveSpeed = 0;
-        beatHopH = Math.sin(u * Math.PI) * 6.8;
-        bodyRollDeg = u * 78;
-        bodyDropY = -u * 2.4;
+        beatHopH = Math.sin(u * Math.PI) * 5.8;
+        bodyRollDeg = u * 86;
+        bodyDropY = -u * 0.3;
         pincerSnap = 0.9;
         if (b1t >= 0.22) { b1 = 2; b1t = 0; }
       } else if (b1 === 2) {
-        // Era 1 Step 2: Long friction belly-slide strictly flush atop the timeline spine (never below y=0!)
+        // Era 1 Step 2: Friction belly-slide DEAD TANGENT atop the timeline spine (never sinks below or floats above y=0, stops before Era 2 green dot!)
         b1t += dt;
         activeEraIdx = 0;
-        const slideTargetX = startX + span * 0.225;
-        const u = clamp01(b1t / 1.15);
-        const slideSpeed = lerp(142, 36, u * u);
+        const slideTargetX = startX + span * 0.172;
+        const u = clamp01(b1t / 1.05);
+        const slideSpeed = lerp(136, 32, u * u);
         posX += slideSpeed * dt;
         moveSpeed = 0;
-        bodyRollDeg = 78;
-        bodyDropY = -2.6;
+        bodyRollDeg = 86;
+        bodyDropY = -0.3;
         isSliding = true;
-        if (posX >= slideTargetX || b1t >= 1.20) { b1 = 3; b1t = 0; }
+        if (posX >= slideTargetX || b1t >= 1.08) { b1 = 3; b1t = 0; }
       } else if (b1 === 3) {
-        // Era 1 Step 3: Pop cleanly upright inside Era 2
+        // Era 1 Step 3: Pop cleanly upright before crossing Era 2 spine dot
         b1t += dt;
-        activeEraIdx = 1;
+        activeEraIdx = 0;
         const u = clamp01(b1t / 0.34);
         const ease = u * u * (3 - 2 * u);
-        posX += lerp(30, 54, ease) * dt;
-        moveSpeed = lerp(30, 54, ease);
-        bodyRollDeg = lerp(78, 0, ease);
-        bodyDropY = lerp(-2.6, 0, ease);
-        beatHopH = Math.sin(u * Math.PI) * 3.0;
+        posX += lerp(28, 54, ease) * dt;
+        moveSpeed = lerp(28, 54, ease);
+        bodyRollDeg = lerp(86, 0, ease);
+        bodyDropY = lerp(-0.3, 0, ease);
+        beatHopH = Math.sin(u * Math.PI) * 2.6;
         if (b1t >= 0.34) b1 = 4;
       } else if (b2 === 1) {
         // Era 2 Beat (缸中之脑，会推理): Unhurried ~2.38s beat (bell-jar lift -> brain dock -> blink -> 3-step CoT!)
@@ -1642,10 +1642,10 @@ export function initEvoWalker({ getView }) {
       const launchLookUp = (b5 === 3 && launchLiftY > 1) || (b5 === 1 && b5t >= 0.98) ? -9 : 0;
       headGroup.setAttribute("transform", `translate(${headX.toFixed(2)}, ${headY.toFixed(2)}) scale(${hScale.toFixed(3)}) rotate(${(walkTilt + headNodDeg + launchLookUp).toFixed(1)})`);
 
-      // Distinct Head Silhouette Evolution: Mark II-III Heatsink Fins -> Mark IV Aerodynamic Ear-Wing -> Mark V Symmetric Front Head!
+      // Distinct Head Silhouette Evolution: Mark II-III 3/4 Headphone Pod -> Mark IV Aerodynamic Ear-Wing -> Mark V Symmetric Front Head!
       const isMk5Head = armPose === "dock" || armPose === "launch" || hasHeadCrest;
-      mk2HeadFins.setAttribute("opacity", headW > 0.5 && !isMk4 ? "1" : "0");
-      crtEarsEl.setAttribute("opacity", !isMk4 || isMk5Head ? "1" : "0");
+      mk2HeadFins.setAttribute("opacity", headW > 0.5 && !isMk4 && !isMk5Head ? "1" : "0");
+      crtEarsEl.setAttribute("opacity", isMk5Head ? "1" : "0");
       mk4EarWings.setAttribute("opacity", isMk4 && !isMk5Head ? "1" : "0");
       // Center antenna cleanly flush on crown above V-Fin emerald gem in Mark V front stance!
       if (isMk5Head) {
@@ -1686,9 +1686,10 @@ export function initEvoWalker({ getView }) {
       const showFocus = !useGoggles && drillingNow;
       eyeFocus.setAttribute("opacity", showFocus ? "1" : "0");
       eyeEl.setAttribute("opacity", !useGoggles && !isWincing && !showFocus ? "1" : "0");
-      eyeEl.setAttribute("cx", reasoningNow || epiphanyNow ? "2.6" : "2.3");
-      eyeEl.setAttribute("cy", awakeNow ? "0.3" : (reasoningNow ? "-0.8" : "-0.4"));
-      eyeEl.setAttribute("r", isBlinking || awakeBlink ? "0.18" : "1.15");
+      const eyeOffX = reasoningNow || epiphanyNow ? 0.35 : 0;
+      const eyeOffY = awakeNow ? 0.45 : (reasoningNow ? -0.45 : 0);
+      const eyeScaleY = isBlinking || awakeBlink ? 0.14 : 1;
+      eyeEl.setAttribute("transform", `translate(${eyeOffX.toFixed(2)}, ${eyeOffY.toFixed(2)}) translate(0, -0.35) scale(1, ${eyeScaleY.toFixed(2)}) translate(0, 0.35)`);
       eyeWince.setAttribute("opacity", !useGoggles && isWincing ? "1" : "0");
       // Era 3 orbiting dizzy stars immediately after wall bonk!
       if (b3 === 1 && b3t >= 0.08 && b3t < 0.44) {

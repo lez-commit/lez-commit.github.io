@@ -186,32 +186,38 @@ export function buildBotRig({ svg }) {
     d: "M -1.5,-12.0 L -1.5,-13.6 M -4.0,-11.0 L -5.2,-12.2 M 1.0,-11.0 L 2.2,-12.2",
     fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", "stroke-linecap": "round"
   }, cotHeadSpark);
-  // Mark II–III Raw Rear Neural Heatsink Fins behind CRT Head (visibly distinguishes prototype era!)
+  // Mark II–III Sleek 3/4 Near-Side Round Headphone/Sensor Pod + Subtle Rear Bevel Seam (clean 3/4 profile, zero spiky sticks!)
   const mk2HeadFins = mk("g", { opacity: "0" }, headGroup);
-  mk("path", { d: "M -5.8,-3.4 L -8.2,-4.0 M -5.8,-1.4 L -8.5,-1.6 M -5.8,0.6 L -8.0,1.0", fill: "none", stroke: "#2B2825", "stroke-width": "1.1", "stroke-linecap": "round" }, mk2HeadFins);
+  mk("rect", { x: "-6.4", y: "-1.9", width: "2.3", height: "3.8", rx: "1.1", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.92" }, mk2HeadFins);
+  mk("circle", { cx: "-5.25", cy: "0.0", r: "0.95", fill: "#2B2825" }, mk2HeadFins);
+  mk("circle", { cx: "-5.25", cy: "0.0", r: "0.42", fill: "#5CE09B" }, mk2HeadFins);
   // Mark IV–V Aerodynamic Swept Sensor Ear-Wings + Sleek Visor Brow Hood!
   const mk4EarWings = mk("g", { opacity: "0" }, headGroup);
   mk("path", { d: "M -5.6,-2.2 L -8.4,-4.4 L -7.6,0.8 L -5.6,1.4 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.75", "stroke-linejoin": "round" }, mk4EarWings);
   mk("path", { d: "M -5.2,-4.7 L 5.4,-4.7 L 6.2,-3.2 L -4.4,-3.2 Z", fill: "#2B2825" }, mk4EarWings);
   mk("line", { x1: "-7.6", y1: "-2.8", x2: "-6.6", y2: "-0.8", stroke: "#5CE09B", "stroke-width": "0.65", "stroke-linecap": "round" }, mk4EarWings);
-  // Ear-bolt pods (Mark II–III boxy CRT ears, replaced by Mark IV ear-wings in Era 4–5!)
-  const crtEarsEl = mk("g", null, headGroup);
+  // Symmetric ear-bolt pods (ONLY shown in Stage 5 front-facing stance so 3/4 side view never has a protruding nose-ear!)
+  const crtEarsEl = mk("g", { opacity: "0" }, headGroup);
   mk("rect", { x: "-6.9", y: "-1.6", width: "1.7", height: "3.4", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, crtEarsEl);
   mk("rect", { x: "5.2", y: "-1.6", width: "1.4", height: "3.2", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, crtEarsEl);
-  // Boxy CRT head dome (unified matte porcelain ceramic gradient + crisp top specular sheen!)
-  mk("rect", { x: "-5.7", y: "-4.7", width: "11.4", height: "9.0", rx: "2.6", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "1.08" }, headGroup);
-  mk("line", { x1: "-3.4", y1: "-3.8", x2: "2.8", y2: "-3.8", stroke: "#FFFFFF", "stroke-width": "0.7", "stroke-opacity": "0.88", "stroke-linecap": "round" }, headGroup);
-  // Stage 1-3 single-eye visor screen + CRT boot scanline + expressive micro-expressions
-  const visorScreen = mk("rect", { x: "-1.8", y: "-2.8", width: "6.6", height: "4.8", rx: "1.5", fill: "#1D1B18" }, headGroup);
-  const visorGlint1 = mk("line", { x1: "-0.7", y1: "-1.8", x2: "0.2", y2: "-1.8", stroke: "#FAF8F4", "stroke-width": "0.7", "stroke-opacity": "0.35", "stroke-linecap": "round" }, headGroup);
-  const crtBootLine = mk("line", { x1: "-1.2", y1: "-0.4", x2: "4.2", y2: "-0.4", stroke: "#B5F5D4", "stroke-width": "1.1", "stroke-linecap": "round", opacity: "0" }, headGroup);
-  const eyeEl = mk("circle", { cx: "2.3", cy: "-0.4", r: "1.15", fill: "#FAF8F4" }, headGroup);
-  // Determined narrowed focus eye during Era 3 drilling!
-  const eyeFocus = mk("rect", { x: "0.9", y: "-0.95", width: "2.7", height: "1.15", rx: "0.55", fill: "#B5F5D4", opacity: "0" }, headGroup);
-  // Expressive wince eye (> < / ×) for Era 1 trip & Era 3 bonk
+  // Rounded retro-CRT head chassis (matte porcelain ceramic + crisp top specular sheen + clean 3/4 proportion!)
+  mk("rect", { x: "-5.6", y: "-4.7", width: "11.2", height: "9.0", rx: "2.8", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "1.08" }, headGroup);
+  mk("line", { x1: "-3.2", y1: "-3.75", x2: "2.6", y2: "-3.75", stroke: "#FFFFFF", "stroke-width": "0.75", "stroke-opacity": "0.90", "stroke-linecap": "round" }, headGroup);
+  // Stage 2-3 cohesive 3/4 recessed CRT visor + foreshortened twin pill LED eyes + expressive micro-expressions
+  const visorScreen = mk("rect", { x: "-1.3", y: "-2.85", width: "6.4", height: "4.9", rx: "1.75", fill: "#1D1B18" }, headGroup);
+  const visorGlint1 = mk("line", { x1: "-0.3", y1: "-1.95", x2: "0.7", y2: "-1.95", stroke: "#FAF8F4", "stroke-width": "0.7", "stroke-opacity": "0.34", "stroke-linecap": "round" }, headGroup);
+  const crtBootLine = mk("line", { x1: "-0.8", y1: "-0.4", x2: "4.5", y2: "-0.4", stroke: "#B5F5D4", "stroke-width": "1.1", "stroke-linecap": "round", opacity: "0" }, headGroup);
+  const eyeEl = mk("g", null, headGroup);
+  mk("rect", { x: "0.3", y: "-1.45", width: "1.45", height: "2.15", rx: "0.72", fill: "#FAF8F4" }, eyeEl);
+  mk("rect", { x: "2.7", y: "-1.38", width: "1.22", height: "2.02", rx: "0.61", fill: "#FAF8F4" }, eyeEl);
+  // Determined narrowed twin focus eyes during Era 3 drilling!
+  const eyeFocus = mk("g", { opacity: "0" }, headGroup);
+  mk("rect", { x: "0.15", y: "-0.9", width: "1.75", height: "0.95", rx: "0.45", fill: "#B5F5D4" }, eyeFocus);
+  mk("rect", { x: "2.55", y: "-0.88", width: "1.50", height: "0.90", rx: "0.42", fill: "#B5F5D4" }, eyeFocus);
+  // Expressive twin wince eyes (> <) for Era 3 wall bonk
   const eyeWince = mk("path", {
-    d: "M 1.4,-1.2 L 3.1,0.4 M 3.1,-1.2 L 1.4,0.4",
-    fill: "none", stroke: "#FAF8F4", "stroke-width": "1.0", "stroke-linecap": "round", opacity: "0"
+    d: "M 0.25,-1.1 L 1.45,-0.35 L 0.25,0.4 M 3.85,-1.05 L 2.75,-0.35 L 3.85,0.35",
+    fill: "none", stroke: "#FAF8F4", "stroke-width": "0.98", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0"
   }, headGroup);
   // Orbiting mini dizzy stars above head right after Era 3 bonk!
   const dizzyStars = mk("g", { opacity: "0" }, headGroup);

@@ -167,12 +167,14 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
   const vatBrainGroup = mk("g", { transform: "translate(0, -16.8)" }, prop2);
   mk("line", { x1: "-0.7", y1: "-4.4", x2: "-1.2", y2: "-7.6", stroke: "currentColor", "stroke-width": "1.05", "stroke-linecap": "round" }, vatBrainGroup);
   const vatAntTip = mk("circle", { cx: "-1.3", cy: "-8.3", r: "1.15", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.95" }, vatBrainGroup);
-  mk("rect", { x: "-6.2", y: "-1.4", width: "1.4", height: "3.0", rx: "0.55", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85" }, vatBrainGroup);
-  mk("rect", { x: "4.8", y: "-1.4", width: "1.3", height: "2.8", rx: "0.5", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85" }, vatBrainGroup);
-  mk("rect", { x: "-5.2", y: "-4.3", width: "10.4", height: "8.2", rx: "2.4", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.2" }, vatBrainGroup);
-  mk("rect", { x: "-1.6", y: "-2.5", width: "5.8", height: "4.3", rx: "1.3", fill: "#1D1B18" }, vatBrainGroup);
-  const vatEyeSleep = mk("line", { x1: "0.4", y1: "-0.3", x2: "2.8", y2: "-0.3", stroke: "#B5F5D4", "stroke-width": "1.05", "stroke-linecap": "round", opacity: "0.85" }, vatBrainGroup);
-  const vatEyeAwake = mk("circle", { cx: "1.8", cy: "-0.3", r: "1.1", fill: "#FAF8F4", opacity: "0" }, vatBrainGroup);
+  // Matching 3/4 near-side headphone pod (1:1 silhouette with Mark II's docked head!)
+  mk("rect", { x: "-6.0", y: "-1.7", width: "2.0", height: "3.4", rx: "1.0", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85" }, vatBrainGroup);
+  mk("rect", { x: "-5.2", y: "-4.3", width: "10.4", height: "8.2", rx: "2.6", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15" }, vatBrainGroup);
+  mk("rect", { x: "-1.2", y: "-2.6", width: "5.9", height: "4.5", rx: "1.6", fill: "#1D1B18" }, vatBrainGroup);
+  const vatEyeSleep = mk("path", { d: "M 0.1,-0.3 L 1.4,-0.3 M 2.4,-0.3 L 3.6,-0.3", fill: "none", stroke: "#B5F5D4", "stroke-width": "1.0", "stroke-linecap": "round", opacity: "0.85" }, vatBrainGroup);
+  const vatEyeAwake = mk("g", { opacity: "0" }, vatBrainGroup);
+  mk("rect", { x: "0.2", y: "-1.3", width: "1.3", height: "1.95", rx: "0.65", fill: "#FAF8F4" }, vatEyeAwake);
+  mk("rect", { x: "2.4", y: "-1.24", width: "1.12", height: "1.82", rx: "0.56", fill: "#FAF8F4" }, vatEyeAwake);
   // Scientific Bell-Jar Glass Dome (lifts smoothly when awakening)
   const vatDomeGroup = mk("g", null, prop2);
   mk("path", {
