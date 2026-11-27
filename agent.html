@@ -17,14 +17,7 @@
          BAND 1: MINIMAL TOP NAVIGATION BAR (~48px)
          ===================================================================== -->
     <header class="top-nav" id="top-nav">
-      <div class="brand-cluster">
-        <button class="mech-avatar-btn" id="mech-avatar-btn" type="button" aria-label="动态机械头像 · 返回首页" title="点击返回首页 · 双击展开机体空中巡检"></button>
-        <button class="brand-link" id="brand-home-btn" type="button" aria-label="Agent 演进手札 · 返回首页">
-          <span class="brand-title">Agent 演进手札</span>
-          <span class="brand-divider" aria-hidden="true">·</span>
-          <span class="brand-sub">以时间轴为骨，以长文为血肉</span>
-        </button>
-      </div>
+      <button class="mech-avatar-btn" id="mech-avatar-btn" type="button" aria-label="动态机械头像 · 返回首页" title="点击返回首页 · 双击展开机体空中巡检"></button>
       <nav class="nav-links" id="nav-links" aria-label="主导航">
         <button class="nav-btn is-active" type="button" data-view="home">图谱首页</button>
         <button class="nav-btn" type="button" data-view="articles">全部文章</button>
@@ -38,20 +31,10 @@
     <div class="view-panel home-view is-visible" id="view-home">
       <!-- BAND 2: UPPER OVERVIEW BAND (53-week 1:1 GitHub Publish Graph + Recent Posts) -->
       <section class="bottom-dock" aria-label="发文足迹与最近发布">
-        <!-- Left: Pure Publish GitHub Contribution Graph + Inline Readout & Legend -->
+        <!-- Left: Pure Publish GitHub Contribution Graph + Inline Readout -->
         <div class="dock-footprint">
           <div class="fp-canvas" id="fp-canvas"></div>
-          <div class="fp-meta-row">
-            <span class="fp-readout" id="fp-readout"></span>
-            <span class="fp-legend" aria-hidden="true">
-              <span>少</span>
-              <i class="fp-leg-sq lvl-0"></i>
-              <i class="fp-leg-sq lvl-1"></i>
-              <i class="fp-leg-sq lvl-2"></i>
-              <i class="fp-leg-sq lvl-3"></i>
-              <span>多</span>
-            </span>
-          </div>
+          <span class="fp-readout" id="fp-readout"></span>
         </div>
 
         <!-- Right: 最近发布 -->

@@ -113,70 +113,7 @@ body.view-home .site-shell {
   z-index: 45;
 }
 
-.brand-cluster {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
-/* Quiet miniature dock reticle holding the top-left slot gracefully before Mark V lands */
-.brand-cluster::before {
-  content: "";
-  position: absolute;
-  left: 9px;
-  top: 50%;
-  width: 26px;
-  height: 20px;
-  transform: translateY(-50%);
-  border-radius: 5px;
-  border: 1px dashed rgba(29, 27, 24, 0.16);
-  background-color: rgba(243, 239, 231, 0.45);
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-.brand-cluster:has(.mech-avatar-btn.is-visible)::before {
-  opacity: 0;
-}
-
-.brand-link {
-  appearance: none;
-  border: none;
-  background: transparent;
-  padding: 2px 0;
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
-  min-width: 0;
-  text-decoration: none;
-  color: inherit;
-  cursor: pointer;
-}
-
-.brand-title {
-  font-family: var(--font-serif);
-  font-size: clamp(14px, 1.15vw, 15.5px);
-  font-weight: 600;
-  color: var(--ink-primary);
-  letter-spacing: 0.03em;
-  white-space: nowrap;
-  transition: color 0.16s ease;
-}
-
-.brand-link:hover .brand-title {
-  color: var(--bamboo-4);
-}
-
-.brand-divider {
-  font-size: 11px;
-  color: var(--ink-hollow);
-  user-select: none;
-  flex-shrink: 0;
-}
-
-/* Top-Right Live Mech Head Avatar (descends & morphs after Stage 5 takeoff!) */
+/* Top-Left Live Mech Head Avatar (descends & morphs after Stage 5 takeoff!) */
 .mech-avatar-btn {
   appearance: none;
   border: none;
@@ -295,15 +232,6 @@ body.view-home .site-shell {
 
 .mech-avatar-btn.is-winking .mech-eyes-wink {
   opacity: 1;
-}
-
-.brand-sub {
-  font-size: clamp(11px, 0.9vw, 12px);
-  color: var(--ink-muted);
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .nav-links {

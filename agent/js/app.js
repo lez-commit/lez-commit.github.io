@@ -81,7 +81,6 @@
   };
 
   /* DOM Elements */
-  const brandHomeBtnEl = document.getElementById("brand-home-btn");
   const navLinksEl = document.getElementById("nav-links");
   const views = {
     home: document.getElementById("view-home"),
@@ -471,13 +470,7 @@
       })
       .join("");
 
-    dockLatestEl.innerHTML = `
-      <div class="recent-head">
-        <span class="recent-head-label">最近发布</span>
-        <button class="recent-all-btn" type="button" data-jump-view="articles">全部 ${publishedPosts.length} 篇 →</button>
-      </div>
-      <ul class="recent-list">${listHtml}</ul>
-    `;
+    dockLatestEl.innerHTML = `<ul class="recent-list">${listHtml}</ul>`;
   }
 
   /* =======================================================================
@@ -1024,14 +1017,6 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
     if (state.view === "about") renderAbout();
   }
 
-  if (brandHomeBtnEl) {
-    brandHomeBtnEl.addEventListener("click", () => {
-      if (state.view !== "home") {
-        returnToHomeWithAfterglow();
-      }
-    });
-  }
-
   navLinksEl.addEventListener("click", (e) => {
     const btn = e.target.closest(".nav-btn[data-view]");
     if (!btn) return;
@@ -1215,12 +1200,6 @@ print(chunk, end=<span class="c-str">""</span>, flush=<span class="c-kw">True</s
 
   // Delegated clicks for Recent Posts, Archive rows, Reader next button & Series switchers
   document.addEventListener("click", (e) => {
-    const jumpViewBtn = e.target.closest("[data-jump-view]");
-    if (jumpViewBtn) {
-      switchView(jumpViewBtn.dataset.jumpView);
-      return;
-    }
-
     const switchBtn = e.target.closest("[data-switch-post]");
     if (switchBtn) {
       openArticle(switchBtn.dataset.switchPost, {
