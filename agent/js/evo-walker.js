@@ -477,55 +477,82 @@
     const backShin = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, backLegGroup);
     const kneeJoint2 = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.78", opacity: "0" }, backLegGroup);
     const backFoot = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
-    const bootB = mk("path", { d: "M -1.7,-4.0 L 1.6,-4.0 L 2.5,0 L -1.9,0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    const bootB = mk("g", { opacity: "0" }, botBody);
+    mk("path", { d: "M -1.9,-4.3 L 1.7,-4.3 L 2.5,0 L -2.2,0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, bootB);
+    mk("polygon", { points: "-1.5,-5.2 1.3,-5.2 1.0,-3.4 -0.1,-2.9 -1.2,-3.4", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-linejoin": "round" }, bootB);
     const backArmGroup = mk("g", { opacity: "0.76" }, botBody);
     const backUpperArm = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, backArmGroup);
     const backForeArm = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, backArmGroup);
     const elbowJointB = mk("circle", { r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72", opacity: "0" }, backArmGroup);
-    const gauntletB = mk("rect", { x: "-2.0", y: "-2.1", width: "4.0", height: "3.1", rx: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", opacity: "0" }, botBody);
+    const gauntletB = mk("g", { opacity: "0" }, botBody);
+    mk("path", { d: "M -2.2,-2.2 L 2.2,-2.2 L 1.8,1.3 L -1.8,1.3 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, gauntletB);
+    mk("line", { x1: "-1.1", y1: "-0.6", x2: "1.1", y2: "-0.6", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, gauntletB);
 
-    // Torso group (neck + pelvis + sculpted chassis with warm stone bevel + Stage 5 Modular Armor)
+    // Torso group (neck + pelvis + sculpted chassis with warm stone bevel + Stage 5 Hardcore Tactical Armor!)
     const torsoGroup = mk("g", null, botBody);
-    // Stage 5: Modular Skills Jetpack mounted behind torso
+    // Stage 5: Hardcore Twin Wing-Binder Back Pack (unfolds cleanly outward on ignition!)
     const jetpackEl = mk("g", { opacity: "0" }, torsoGroup);
-    mk("rect", { x: "-8.6", y: "-10.1", width: "4.6", height: "8.2", rx: "1.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1" }, jetpackEl);
-    mk("rect", { x: "-8.2", y: "-9.6", width: "1.7", height: "7.2", rx: "0.5", fill: "#EDE8DE" }, jetpackEl);
-    mk("path", { d: "M -7.4,-7.5 L -5.0,-7.5 M -7.4,-5.1 L -5.0,-5.1 M -7.8,-1.9 L -8.4,0.6 L -6.5,0.6 L -6.3,-1.9 M -5.9,-1.9 L -5.7,0.6 L -4.1,0.6 L -4.6,-1.9", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round", "stroke-linejoin": "round" }, jetpackEl);
+    const groundWingL = mk("g", null, jetpackEl);
+    mk("path", { d: "M -4.2,-9.2 L -11.4,-13.0 L -12.4,-11.2 L -10.2,-7.6 L -5.6,-6.8 L -4.2,-7.2 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, groundWingL);
+    mk("polygon", { points: "-5.4,-9.1 -10.8,-11.8 -10.1,-10.2 -5.5,-8.0", fill: "#2B2825" }, groundWingL);
+    mk("line", { x1: "-6.0", y1: "-8.8", x2: "-10.1", y2: "-10.9", stroke: "#5CE09B", "stroke-width": "0.72", "stroke-linecap": "round" }, groundWingL);
+    const groundWingR = mk("g", null, jetpackEl);
+    mk("path", { d: "M 4.2,-9.2 L 11.4,-13.0 L 12.4,-11.2 L 10.2,-7.6 L 5.6,-6.8 L 4.2,-7.2 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, groundWingR);
+    mk("polygon", { points: "5.4,-9.1 10.8,-11.8 10.1,-10.2 5.5,-8.0", fill: "#2B2825" }, groundWingR);
+    mk("line", { x1: "6.0", y1: "-8.8", x2: "10.1", y2: "-10.9", stroke: "#5CE09B", "stroke-width": "0.72", "stroke-linecap": "round" }, groundWingR);
+    mk("rect", { x: "-3.6", y: "-9.8", width: "7.2", height: "6.8", rx: "0.9", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.8" }, jetpackEl);
     // Stage 1: Retro tin-toy top lid + micro gauge (fades smoothly as CRT head emerges in Era 2)
     const rpaTopCap = mk("g", { opacity: "1" }, torsoGroup);
     mk("rect", { x: "-4.6", y: "-9.1", width: "9.2", height: "1.5", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0" }, rpaTopCap);
     mk("circle", { cx: "0", cy: "-9.6", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, rpaTopCap);
     // Mechanical neck collar connecting torso to CRT head
     const neckEl = mk("g", { opacity: "0" }, torsoGroup);
-    mk("rect", { x: "-1.9", y: "-12.2", width: "3.8", height: "2.4", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, neckEl);
-    mk("line", { x1: "-1.4", y1: "-11.0", x2: "1.4", y2: "-11.0", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-opacity": "0.55" }, neckEl);
+    mk("rect", { x: "-1.9", y: "-12.2", width: "3.8", height: "2.4", rx: "0.6", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.85" }, neckEl);
+    mk("line", { x1: "-1.4", y1: "-11.0", x2: "1.4", y2: "-11.0", stroke: "#FAF8F4", "stroke-width": "0.55", "stroke-opacity": "0.45" }, neckEl);
     // Sleek mechanical waist / hip band (grounds IK legs cleanly without crowding knees)
     const pelvisEl = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, torsoGroup);
+    // Stage 5: 3-Piece Hardcore Mech Skirt Armor (left/right tassets + gunmetal center codpiece)
+    const skirtArmorEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("polygon", { points: "-4.6,-0.3 -1.6,-0.3 -2.0,2.2 -4.9,1.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, skirtArmorEl);
+    mk("polygon", { points: "1.6,-0.3 4.6,-0.3 4.9,1.6 2.0,2.2", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, skirtArmorEl);
+    mk("polygon", { points: "-1.7,-0.5 1.7,-0.5 1.3,2.4 0,2.9 -1.3,2.4", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, skirtArmorEl);
+    mk("line", { x1: "0", y1: "0.1", x2: "0", y2: "2.1", stroke: "#5CE09B", "stroke-width": "0.62", "stroke-linecap": "round" }, skirtArmorEl);
     // Sculpted main chassis torso + subtle warm stone bevel
     const torsoEl = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linejoin": "round" }, torsoGroup);
     const torsoShade = mk("path", { fill: "#EDE8DE", "fill-opacity": "0.85" }, torsoGroup);
     const chestPanel = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-opacity": "0.58", "stroke-linecap": "round" }, torsoGroup);
     const chestLed = mk("circle", { cx: "1.6", cy: "-5.2", r: "0.8", fill: "#2D6A47", opacity: "0" }, torsoGroup);
-    // Stage 5: Chamfered Mech Shoulder Pauldrons
+    // Stage 5: Hardcore Layered Angular Shoulder Pauldrons + High Collar + Chest Vents!
     const shoulderArmorEl = mk("g", { opacity: "0" }, torsoGroup);
-    mk("path", { d: "M -5.8,-10.8 L 5.8,-10.8 L 6.8,-8.2 L -6.8,-8.2 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linejoin": "round" }, shoulderArmorEl);
-    mk("path", { d: "M -4.2,-10.6 L -4.8,-8.4 M 4.2,-10.6 L 4.8,-8.4", fill: "none", stroke: "#1D1B18", "stroke-width": "0.75", "stroke-opacity": "0.5" }, shoulderArmorEl);
-    // Stage 5: X-shaped Harness straps + Bamboo Arc Core Glow + Double Ripple
+    mk("path", { d: "M -4.2,-10.6 L -7.6,-11.4 L -8.6,-8.8 L -7.2,-7.0 L -4.4,-7.6 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, shoulderArmorEl);
+    mk("polygon", { points: "-7.4,-10.8 -8.2,-8.9 -7.1,-7.4 -6.4,-7.8 -7.0,-9.2", fill: "#2B2825" }, shoulderArmorEl);
+    mk("path", { d: "M 4.2,-10.6 L 7.6,-11.4 L 8.6,-8.8 L 7.2,-7.0 L 4.4,-7.6 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, shoulderArmorEl);
+    mk("polygon", { points: "7.4,-10.8 8.2,-8.9 7.1,-7.4 6.4,-7.8 7.0,-9.2", fill: "#2B2825" }, shoulderArmorEl);
+    mk("line", { x1: "-5.2", y1: "-9.9", x2: "-7.1", y2: "-10.3", stroke: "#2D6A47", "stroke-width": "0.7", "stroke-linecap": "round" }, shoulderArmorEl);
+    mk("line", { x1: "5.2", y1: "-9.9", x2: "7.1", y2: "-10.3", stroke: "#2D6A47", "stroke-width": "0.7", "stroke-linecap": "round" }, shoulderArmorEl);
+    mk("polygon", { points: "-4.1,-8.4 -2.2,-8.0 -2.2,-6.7 -3.9,-7.1", fill: "#2B2825" }, shoulderArmorEl);
+    mk("polygon", { points: "4.1,-8.4 2.2,-8.0 2.2,-6.7 3.9,-7.1", fill: "#2B2825" }, shoulderArmorEl);
+    // Stage 5: Hardcore Hexagonal Bamboo Arc Reactor Core + Double Lock Ripple!
     const harnessGroup = mk("g", { opacity: "0" }, torsoGroup);
-    const harnessX1 = mk("line", { stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linecap": "round" }, harnessGroup);
-    const harnessX2 = mk("line", { stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linecap": "round" }, harnessGroup);
-    const harnessGlow = mk("circle", { r: "5.2", fill: "url(#evo-arc-glow)" }, harnessGroup);
-    const harnessClaspOuter = mk("circle", { r: "2.3", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, harnessGroup);
-    const harnessClasp = mk("circle", { r: "1.45", fill: "#2D6A47" }, harnessGroup);
+    const harnessX1 = mk("line", { stroke: "#1D1B18", "stroke-width": "0.75", "stroke-opacity": "0.52", "stroke-linecap": "round" }, harnessGroup);
+    const harnessX2 = mk("line", { stroke: "#1D1B18", "stroke-width": "0.75", "stroke-opacity": "0.52", "stroke-linecap": "round" }, harnessGroup);
+    const harnessGlow = mk("circle", { r: "5.4", fill: "url(#evo-arc-glow)" }, harnessGroup);
+    const harnessHexG = mk("g", null, harnessGroup);
+    mk("polygon", { points: "0,-2.4 2.2,-1.2 2.2,1.2 0,2.4 -2.2,1.2 -2.2,-1.2", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.75", "stroke-linejoin": "round" }, harnessHexG);
+    mk("polygon", { points: "0,-1.55 1.4,-0.78 1.4,0.78 0,1.55 -1.4,0.78 -1.4,-0.78", fill: "#2D6A47" }, harnessHexG);
+    mk("circle", { cx: "-0.4", cy: "-0.45", r: "0.45", fill: "#EBFFF3", "fill-opacity": "0.92" }, harnessHexG);
     const harnessRipple = mk("circle", { r: "2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, harnessGroup);
     const harnessRipple2 = mk("circle", { r: "2", fill: "none", stroke: "#1D1B18", "stroke-width": "0.75", opacity: "0" }, harnessGroup);
 
-    // Front volumetric mechanical leg (thigh + shin + knee joint rivet) + capsule front foot + Stage 5 front boot
+    // Front volumetric mechanical leg (thigh + shin + knee joint rivet) + capsule front foot + Stage 5 heavy greave boot!
     const frontThigh = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
     const frontShin = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
     const frontFoot = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round" }, botBody);
     const kneeJoint1 = mk("circle", { r: "1.1", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.82", opacity: "0" }, botBody);
-    const bootF = mk("path", { d: "M -1.7,-4.1 L 1.8,-4.1 L 2.8,0 L -1.9,0 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    const bootF = mk("g", { opacity: "0" }, botBody);
+    mk("path", { d: "M -1.9,-4.5 L 1.9,-4.5 L 2.9,0 L -2.2,0 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, bootF);
+    mk("polygon", { points: "-1.5,-5.5 1.5,-5.5 1.2,-3.5 0,-3.0 -1.2,-3.5", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-linejoin": "round" }, bootF);
+    mk("line", { x1: "-0.7", y1: "-4.6", x2: "0.7", y2: "-4.6", stroke: "#5CE09B", "stroke-width": "0.6", "stroke-linecap": "round" }, bootF);
 
     // Robot Head group (boxy CRT chassis + expressive visor + antenna + Stage 5 Mech Crest)
     const headGroup = mk("g", { opacity: "0" }, botBody);
@@ -574,9 +601,10 @@
       d: "M -0.8,0.1 Q 0.3,-1.6 1.4,0.1 M 2.3,0.1 Q 3.4,-1.6 4.5,0.1",
       fill: "none", stroke: "#B5F5D4", "stroke-width": "1.15", "stroke-linecap": "round", opacity: "0"
     }, headGroup);
-    // Stage 5: Sleek Mech V-Crest & Side Ear-Fin (original design preserved!)
+    // Stage 5: Hardcore Swept Mech V-Fin Crest (matches airborne mech-avatar.js v4 1:1!)
     const headCrestEl = mk("g", { opacity: "0" }, headGroup);
-    mk("path", { d: "M -4.4,-4.6 L 0.4,-7.3 L 5.0,-4.6 M -6.9,-2.2 L -8.8,-4.3 L -6.5,0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round" }, headCrestEl);
+    mk("path", { d: "M -6.2,-6.8 L -1.2,-4.8 L 0.2,-7.4 L 1.6,-4.8 L 6.4,-6.8 L 1.8,-3.7 L -1.4,-3.7 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, headCrestEl);
+    mk("polygon", { points: "0.2,-6.7 1.0,-5.1 0.2,-4.0 -0.6,-5.1", fill: "#2D6A47" }, headCrestEl);
 
     // Front volumetric mechanical arm (upper arm + forearm + elbow & shoulder bushings) + attachments + Stage 5 Repulsor Gauntlets
     const frontUpperArm = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, botBody);
@@ -592,8 +620,8 @@
     mk("polygon", { points: "2.8,-2.4 10.6,0 2.8,2.4", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round" }, drillGroup);
     const drillFlutes = mk("path", { d: "M 4.4,-1.9 L 5.2,1.9 M 6.8,-1.2 L 7.4,1.2", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round" }, drillGroup);
     const gauntletF = mk("g", { opacity: "0" }, botBody);
-    mk("rect", { x: "-2.0", y: "-2.1", width: "4.0", height: "3.1", rx: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, gauntletF);
-    mk("line", { x1: "-1.0", y1: "-0.5", x2: "1.0", y2: "-0.5", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, gauntletF);
+    mk("path", { d: "M -2.3,-2.2 L 2.3,-2.2 L 1.9,1.4 L -1.9,1.4 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, gauntletF);
+    mk("line", { x1: "-1.2", y1: "-0.5", x2: "1.2", y2: "-0.5", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, gauntletF);
     const repulsorJets = mk("g", { opacity: "0" }, botBody);
     const leftPalmJet = mk("path", { fill: "url(#evo-jet-grad)" }, repulsorJets);
     const leftPalmCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, repulsorJets);
@@ -605,20 +633,20 @@
     const palmEmitterL = mk("circle", { r: "1.5", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.6" }, repulsorJets);
     const palmEmitterR = mk("circle", { r: "1.5", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.6" }, repulsorJets);
 
-    // Stage 5 Converging Modular Parts Layer (7 sculpted pieces flying in from all directions!)
+    // Stage 5 Converging Hardcore Armor Modules (7 angular tactical pieces matching airborne v4 mech 1:1!)
     const assembleLayer = mk("g", { opacity: "0" }, botGroup);
     const FLY_SPECS = [
-      // Wave 1: Sculpted Thruster Boots from lower-left & lower-right
-      { t0: 0.06, t1: 0.34, sx: -44, sy: -8,  cx: -22, cy: -16, tx: -3.0, ty: -4,   rot0: -38, d: "M -2.0,-4.0 L 1.8,-4.0 L 2.6,0 L -2.0,0 Z M -1.2,-2.0 L 1.4,-2.0" },
-      { t0: 0.08, t1: 0.36, sx: 44,  sy: -8,  cx: 22,  cy: -16, tx: 3.0,  ty: -4,   rot0: 38,  d: "M -2.0,-4.0 L 2.0,-4.0 L 2.8,0 L -2.0,0 Z M -1.2,-2.0 L 1.6,-2.0" },
-      // Wave 2: Beveled Repulsor Gauntlets from mid-left & mid-right
-      { t0: 0.22, t1: 0.52, sx: -48, sy: -19, cx: -24, cy: -24, tx: -6.8, ty: -18,  rot0: -48, d: "M -2.4,-2.1 L 2.4,-2.1 L 2.0,1.4 L -2.0,1.4 Z M -1.2,-0.5 L 1.2,-0.5" },
-      { t0: 0.24, t1: 0.54, sx: 48,  sy: -19, cx: 24,  cy: -24, tx: 6.8,  ty: -18,  rot0: 48,  d: "M -2.4,-2.1 L 2.4,-2.1 L 2.0,1.4 L -2.0,1.4 Z M -1.2,-0.5 L 1.2,-0.5" },
-      // Wave 3: Twin-Nozzle Skills Jetpack (upper-left) + Chamfered Shoulder Pauldrons (upper-right)
-      { t0: 0.40, t1: 0.72, sx: -38, sy: -42, cx: -21, cy: -34, tx: -6.2, ty: -22,  rot0: -26, d: "M -2.4,-4.2 L 2.4,-4.2 L 2.4,3.4 L -2.4,3.4 Z M -1.4,-1.8 L 1.4,-1.8 M -1.4,0.8 L 1.4,0.8 M -2.0,3.4 L -2.5,5.2 L -0.6,5.2 L -0.4,3.4 M 0.4,3.4 L 0.6,5.2 L 2.5,5.2 L 2.0,3.4" },
-      { t0: 0.42, t1: 0.72, sx: 38,  sy: -44, cx: 20,  cy: -35, tx: 0,    ty: -25.5,rot0: 24,  d: "M -5.8,-1.5 L 5.8,-1.5 L 6.8,1.3 L -6.8,1.3 Z M -4.2,-1.4 L -4.8,1.2 M 4.2,-1.4 L 4.8,1.2" },
-      // Wave 4: Mech Head V-Crest from straight above!
-      { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 4,   cy: -45, tx: 0.4,  ty: -36.5,rot0: 0,   d: "M -4.6,1.3 L 0.4,-1.8 L 5.2,1.3" }
+      // Wave 1: Heavy Vernier Greaves & Knee Shields from lower-left & lower-right
+      { t0: 0.06, t1: 0.34, sx: -44, sy: -8,  cx: -22, cy: -16, tx: -3.0, ty: -4,   rot0: -38, d: "M -2.1,-4.8 L 1.9,-4.8 L 2.7,0 L -2.2,0 Z M -1.3,-3.2 L 1.3,-3.2" },
+      { t0: 0.08, t1: 0.36, sx: 44,  sy: -8,  cx: 22,  cy: -16, tx: 3.0,  ty: -4,   rot0: 38,  d: "M -2.1,-4.8 L 2.1,-4.8 L 2.9,0 L -2.2,0 Z M -1.3,-3.2 L 1.5,-3.2" },
+      // Wave 2: Angular Repulsor Vambraces from mid-left & mid-right
+      { t0: 0.22, t1: 0.52, sx: -48, sy: -19, cx: -24, cy: -24, tx: -6.8, ty: -18,  rot0: -48, d: "M -2.4,-2.2 L 2.4,-2.2 L 1.9,1.5 L -1.9,1.5 Z M -1.2,-0.5 L 1.2,-0.5" },
+      { t0: 0.24, t1: 0.54, sx: 48,  sy: -19, cx: 24,  cy: -24, tx: 6.8,  ty: -18,  rot0: 48,  d: "M -2.4,-2.2 L 2.4,-2.2 L 1.9,1.5 L -1.9,1.5 Z M -1.2,-0.5 L 1.2,-0.5" },
+      // Wave 3: Twin Wing-Binder Pack (upper-left) + Layered Angular Shoulder Pauldrons (upper-right)
+      { t0: 0.40, t1: 0.72, sx: -40, sy: -44, cx: -22, cy: -34, tx: -6.2, ty: -23,  rot0: -28, d: "M 0,-1.8 L -7.4,-5.4 L -8.4,-3.6 L -6.0,0.4 L 0,1.2 Z" },
+      { t0: 0.42, t1: 0.72, sx: 40,  sy: -44, cx: 22,  cy: -34, tx: 0,    ty: -25.5,rot0: 24,  d: "M -7.6,-2.0 L -3.6,-1.2 L 3.6,-1.2 L 7.6,-2.0 L 8.6,0.8 L 6.8,2.2 L -6.8,2.2 L -8.6,0.8 Z" },
+      // Wave 4: Sharp Twin-Blade V-Fin Crest from straight above!
+      { t0: 0.60, t1: 0.88, sx: 0,   sy: -58, cx: 4,   cy: -45, tx: 0.2,  ty: -36.5,rot0: 0,   d: "M -6.2,-2.2 L -1.2,-0.2 L 0.2,-2.8 L 1.6,-0.2 L 6.4,-2.2 L 1.6,1.0 L -1.4,1.0 Z" }
     ];
     const flyParts = FLY_SPECS.map((sp, idx) => {
       const trail = mk("line", { stroke: "#2D6A47", "stroke-width": "1.15", "stroke-opacity": "0.62", "stroke-dasharray": "4 2", "stroke-linecap": "round", opacity: "0" }, assembleLayer);
@@ -785,6 +813,7 @@
     let gateRippleTimer = 0;
     let brainDockTimer = 0;
     let toolSnapTimer = 0;
+    let happyCarryTimer = 0;
 
     function resetCycle(startX) {
       posX = startX;
@@ -801,6 +830,7 @@
       gateRippleTimer = 0;
       brainDockTimer = 0;
       toolSnapTimer = 0;
+      happyCarryTimer = 0;
       resetWaitTimer = 0;
       prevMoveSpeed = 0;
       velLean = 0;
@@ -923,27 +953,27 @@
         const progress = clamp01((posX - startX) / span);
         const evo = progress * 4.0; // 0..4 across 5 eras
 
-        // Dramatic speed curve (Era 1 brisk jog -> Era 2 steady -> Era 3 sprint -> Era 4 measured -> Era 5 heroic stride)
+        // Tighter, punchier evolution speed curve (~15% brisker transit so zero dead air between beats!)
         const baseSpeed =
           evo < 0.85
-            ? 74
+            ? 84
             : evo < 1.75
-            ? 54
-            : evo < 2.65
-            ? 82
-            : evo < 3.45
             ? 64
-            : 58;
+            : evo < 2.65
+            ? 94
+            : evo < 3.45
+            ? 74
+            : 68;
 
-        const launchX = Math.max(x5 + 34 * S, endX - 24 * S);
+        // Direct vertical launch right from the Era 5 Launch Gantry center (x5)!
+        const launchX = x5;
 
         // Trigger each era's silent-film beat once per cycle
         if (b1 === 0 && posX >= x1 - 7.5 * S) { b1 = 1; b1t = 0; }
         if (b2 === 0 && posX >= x2 - 18.0 * S){ b2 = 1; b2t = 0; }
         if (b3 === 0 && posX >= x3 - 13.0 * S){ b3 = 1; b3t = 0; }
         if (b4 === 0 && posX >= x4 - 16.5 * S){ b4 = 1; b4t = 0; }
-        if (b5 === 0 && posX >= x5 - 1.0 * S) { b5 = 1; b5t = 0; }
-        if (b5 === 2 && posX >= launchX)  { b5 = 3; b5t = 0; }
+        if (b5 === 0 && posX >= x5 - 0.8 * S) { posX = x5; b5 = 1; b5t = 0; }
 
         let moveSpeed = baseSpeed;
         let visualDX = 0;
@@ -1116,11 +1146,13 @@
           }
           if (b4t >= 1.56) {
             taskDone = true;
+            happyCarryTimer = 0.55; // Carry happy ^ ^ smile briskly as he steps away toward Launch Gantry!
             b4 = 2;
           }
         } else if (b5 === 1) {
-          // Era 5 Beat A: Modular Armor Convergence (7 pieces fly in & lock on!)
+          // Era 5 Beat A: Hardcore Modular Armor Convergence right inside the Launch Gantry -> Clamps swing open!
           b5t += dt;
+          posX = x5;
           activeEraIdx = 4;
           isEraBeat = true;
           moveSpeed = 0;
@@ -1140,15 +1172,19 @@
           if (b5t >= 0.88) {
             headNodDeg = Math.sin(clamp01((b5t - 0.88) / 0.30) * Math.PI) * 9;
           }
-          if (b5t >= 1.22) b5 = 2;
+          // Directly transition into in-gantry vertical ignition right as clamps finish swinging open!
+          if (b5t >= 1.24) {
+            b5 = 3;
+            b5t = 0;
+          }
         } else if (b5 === 3) {
-          // Era 5 Beat B: Anticipation crouch (0..0.32s) -> Stabilized hover poise (0.32..0.68s) -> Snap liftoff inside viewport!
+          // Era 5 Beat B: Direct In-Gantry Ignition Crouch (0..0.32s) -> Hover Surge (0.32..0.68s) -> Unified Aerial Liftoff!
           b5t += dt;
+          posX = x5;
           activeEraIdx = 4;
           isEraBeat = true;
           moveSpeed = 0;
           armPose = "launch";
-          const alreadyDocked = !!(AgentBlog.isAvatarDocked && AgentBlog.isAvatarDocked());
           if (b5t < 0.32) {
             const u = clamp01(b5t / 0.32);
             crouchY = Math.sin(u * Math.PI * 0.5) * 3.1;
@@ -1159,12 +1195,12 @@
             const u = clamp01((b5t - 0.32) / 0.36);
             crouchY = lerp(3.1, 0, clamp01(u * 3.2));
             const ease = 1 - Math.pow(1 - Math.min(1, u * 1.45), 3);
-            launchLiftY = ease * 13.5 + Math.sin(u * Math.PI * 2.4) * 0.55;
+            launchLiftY = ease * 14.0 + Math.sin(u * Math.PI * 2.4) * 0.5;
             jetPower = 1.05 + u * 0.35;
-          } else if (!alreadyDocked) {
-            // Cycle 1 Hero Liftoff: ZERO off-screen exit! Hand off exact screen coords to the SAME robot in mech-avatar.js!
+          } else {
+            // Bidirectional Hero Liftoff (works BOTH on first run AND on every user-summoned replay!):
             crouchY = 0;
-            launchLiftY = 13.5;
+            launchLiftY = 14.0;
             jetPower = 1.4;
             if (!handoffStarted) {
               handoffStarted = true;
@@ -1173,25 +1209,12 @@
               b5 = 4;
               syncEraCaptions(-1, false);
               const lr = evoLayerEl.getBoundingClientRect();
-              const worldX = lr.left + posX;
-              const worldY = lr.top + BASE_Y - (launchLiftY + 17.5) * S;
+              const worldX = lr.left + x5;
+              const worldY = lr.top + BASE_Y - (launchLiftY + 3.5 + 17.5) * S;
               botGroup.setAttribute("opacity", "0");
               if (typeof AgentBlog.onMechLiftoff === "function") {
-                AgentBlog.onMechLiftoff({ x: worldX, y: worldY, padX: lr.left + launchX, padY: lr.top + BASE_Y });
+                AgentBlog.onMechLiftoff({ x: worldX, y: worldY, padX: lr.left + x5, padY: lr.top + BASE_Y, forcePatrol: true });
               } else if (typeof AgentBlog.onMechExitedTop === "function") {
-                AgentBlog.onMechExitedTop();
-              }
-            }
-          } else {
-            // Summoned replay (avatar already docked): graceful in-viewport ascent & sky dissolve sync pulse, then settle calm!
-            const au = clamp01((b5t - 0.68) / 0.88);
-            crouchY = 0;
-            launchLiftY = 13.5 + Math.pow(au, 1.85) * 185;
-            jetPower = 1.25 * (1 - au * 0.5);
-            if (b5t >= 1.56) {
-              resetWaitTimer = 0.6;
-              syncEraCaptions(-1, false);
-              if (typeof AgentBlog.onMechExitedTop === "function") {
                 AgentBlog.onMechExitedTop();
               }
             }
@@ -1218,6 +1241,7 @@
         if (gateRippleTimer > 0) gateRippleTimer = Math.max(0, gateRippleTimer - dt);
         if (brainDockTimer > 0) brainDockTimer = Math.max(0, brainDockTimer - dt);
         if (toolSnapTimer > 0) toolSnapTimer = Math.max(0, toolSnapTimer - dt);
+        if (happyCarryTimer > 0) happyCarryTimer = Math.max(0, happyCarryTimer - dt);
 
         if (posX >= endX && b5 !== 3 && b5 !== 4) {
           resetWaitTimer = 1.4;
@@ -1610,9 +1634,9 @@
           ? (b5t > 0.64 ? 1 - smooth(1.05, 1.54, b5t) : 1)
           : smooth(0, 0.03, progress) * (1 - smooth(0.96, 1, progress));
 
-        // Smooth vertical step-up onto Era 5 architectural docking pad deck (height 3.5px)
+        // Smooth vertical step-up onto Era 5 architectural docking pad deck (stays continuous during in-gantry launch!)
         const onPadDist = Math.abs(drawX - x5) / S;
-        const padStandY = b5 === 3 ? 0 : (1 - smooth(10, 17, onPadDist)) * 3.5;
+        const padStandY = (1 - smooth(10, 17, onPadDist)) * 3.5;
 
         // Proportions: total height scales smoothly 17 -> 23 -> 26 -> 29 -> 33px
         const legSeg = lerp(3.4, 7.2, smooth(0.2, 3.4, evo));
@@ -1789,11 +1813,18 @@
           bootB.setAttribute("transform", `translate(${f2.x.toFixed(1)}, ${(f2.y - totalLift).toFixed(1)})`);
         }
 
-        // Modular Skills Jetpack + Shoulder Pauldrons + X-Harness + Bamboo Arc Core
+        // Modular Hardcore Wing-Binder Pack + Layered Shoulder Pauldrons + Skirt Armor + Hexagonal Bamboo Arc Core!
         jetpackEl.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
         shoulderArmorEl.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
+        skirtArmorEl.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
         harnessGroup.setAttribute("opacity", hasTorsoArmor ? "1" : "0");
         if (hasTorsoArmor) {
+          // Wing-binders stay sleekly tucked during armor lock-in, then fan heroically outward as thrusters ignite!
+          const wingFan = b5 === 3 ? smooth(0.05, 0.56, b5t) : 0;
+          const ws = lerp(0.32, 1.0, wingFan);
+          const wRot = lerp(34, 0, wingFan);
+          groundWingL.setAttribute("transform", `translate(-4.2, -8.4) scale(${ws.toFixed(3)}, ${ws.toFixed(3)}) rotate(${(-wRot).toFixed(1)}) translate(4.2, 8.4)`);
+          groundWingR.setAttribute("transform", `translate(4.2, -8.4) scale(${ws.toFixed(3)}, ${ws.toFixed(3)}) rotate(${wRot.toFixed(1)}) translate(-4.2, 8.4)`);
           harnessX1.setAttribute("x1", (-topW + 0.7).toFixed(1));
           harnessX1.setAttribute("y1", (-torsoH + 0.9).toFixed(1));
           harnessX1.setAttribute("x2", (hw - 0.7).toFixed(1));
@@ -1805,10 +1836,7 @@
           const cy = (-torsoH * 0.52).toFixed(1);
           harnessGlow.setAttribute("cx", "0");
           harnessGlow.setAttribute("cy", cy);
-          harnessClaspOuter.setAttribute("cx", "0");
-          harnessClaspOuter.setAttribute("cy", cy);
-          harnessClasp.setAttribute("cx", "0");
-          harnessClasp.setAttribute("cy", cy);
+          harnessHexG.setAttribute("transform", `translate(0, ${cy})`);
           if (claspRippleTimer > 0) {
             const rp = 1 - claspRippleTimer / 0.72;
             harnessRipple.setAttribute("cx", "0");
@@ -1836,7 +1864,9 @@
         headGroup.setAttribute("transform", `translate(${headX.toFixed(2)}, ${headY.toFixed(2)}) scale(${hScale.toFixed(3)}) rotate(${(walkTilt + headNodDeg + launchLookUp).toFixed(1)})`);
 
         antGroup.setAttribute("transform", `rotate(${(Math.sin(phase * Math.PI * 2) * 5).toFixed(1)}, -0.8, -5.0)`);
-        antTip.setAttribute("fill", hasHeadCrest || reasoningNow || epiphanyNow || awakeNow ? "#2D6A47" : "#FAF8F4");
+        // Era 2->3 carryover: gentle thinking pulse on antenna tip while striding with newly docked brain!
+        const brainPulse = b2 === 2 && b3 === 0 && Math.sin(now * 0.0085) > 0.15;
+        antTip.setAttribute("fill", hasHeadCrest || reasoningNow || epiphanyNow || awakeNow ? "#2D6A47" : (brainPulse ? "#6BC492" : "#FAF8F4"));
         cotHeadSpark.setAttribute("opacity", epiphanyNow ? "0.92" : "0");
         headCrestEl.setAttribute("opacity", hasHeadCrest ? "1" : "0");
 
@@ -1880,8 +1910,8 @@
           dizzyStars.setAttribute("opacity", "0");
         }
 
-        // Era 4-5 dual-optic visor + typing eye-darting + happy victory ^ ^ smile arcs!
-        const showHappy = useGoggles && b4 === 1 && taskDone && b4t >= 1.12 && b4t < 1.54;
+        // Era 4-5 dual-optic visor + typing eye-darting + happy victory ^ ^ smile arcs (carries briefly into stride!)
+        const showHappy = useGoggles && ((b4 === 1 && taskDone && b4t >= 1.12 && b4t < 1.54) || happyCarryTimer > 0);
         gogglesEl.setAttribute("opacity", gogglesW.toFixed(2));
         visorGlint2.setAttribute("opacity", useGoggles ? "1" : "0");
         goggleHappy.setAttribute("opacity", showHappy ? "1" : "0");
@@ -1964,9 +1994,10 @@
           bHY = bSY + 5.6;
           fBend = 0.45;
         } else if (armPose === "wrench") {
-          // Era 3: extends right forearm so Spiral Drill tip kisses the left brick face dead-on (ZERO wall clipping!)
+          // Era 3: extends right forearm so Spiral Drill tip kisses brick face dead-on -> proud slight raise on shatter!
+          const triumphRaise = b3 === 1 && b3t >= 1.56 ? 1.8 : 0;
           fHX = fSX + 1.2;
-          fHY = -13.6;
+          fHY = -13.6 - triumphRaise;
           bHX = bSX - 2.4;
           bHY = bSY + 5.8;
           fBend = 0.25;

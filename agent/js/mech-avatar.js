@@ -815,6 +815,10 @@
     AgentBlog.onMechLiftoff = (origin) => {
       if (avPhase === "waiting") {
         startAutonomousPatrol(false, origin);
+      } else if ((avPhase === "avatar" || avPhase === "sonar") && origin && origin.forcePatrol) {
+        // Bidirectional replay loop: smoothly release docked top-left avatar and launch directly from Era 5 gantry!
+        hideSonarFX();
+        startAutonomousPatrol(false, origin);
       } else if (avPhase === "avatar") {
         syncTimer = 0.48;
         btn.classList.remove("is-nodding");
@@ -850,8 +854,8 @@
         return { x: dock.x, y: dock.y, lookX: 0, lookY: 0, curious: 0, beam: 0, stiffness: 58 };
       }
 
-      // First-run single-robot continuous liftoff from Era 5 pad -> vertical climb straight up contrail -> open-sky patrol!
-      const climbX = Math.max(W * 0.88, Math.min(W - 28, launchOrigin.x));
+      // Unified single-robot continuous liftoff straight up out of Era 5 launch gantry -> open-sky patrol!
+      const climbX = Math.max(W * 0.84, Math.min(W - 28, launchOrigin.x));
       if (t < 0.86) {
         return { x: climbX, y: skyY + 18, lookX: -0.25, lookY: -0.75, curious: 0, beam: 0, stiffness: 20 };
       }
