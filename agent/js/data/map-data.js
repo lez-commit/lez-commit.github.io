@@ -1,5 +1,3 @@
-(function () {
-  "use strict";
 
   /* =======================================================================
      1. SINGLE SOURCE OF TRUTH: AGENT_MAP_DATA (5 Eras · 32 Nodes · 35 Posts)
@@ -9,7 +7,7 @@
             stage 2 — 半年: 18 posts across 5 eras (incl. multi-post nodes & 2-post day)
             stage 3 — 满载: 35 posts across all 32 nodes (incl. 2-post & 3-post days)
      ======================================================================= */
-  const AGENT_MAP_DATA = {
+export const AGENT_MAP_DATA = {
     blog: "Agent 演进手札",
     subtitle: "以时间轴为骨，以长文为血肉",
     readingNow: "Context Engineering & LLM Wiki",
@@ -570,7 +568,7 @@
     ]
   };
 
-  const NODE_MILESTONES = {
+export const NODE_MILESTONES = {
     n01:  "1970s–1980s · 符号主义与专家系统",
     n01b: "1950s · Moore / Mealy 有限状态机",
     n02:  "2000s–2010s · 桌面流程自动化 RPA",
@@ -605,7 +603,11 @@
     n22:  "2025–2026 · Harness 驾驭工程与 AG-UI / A2A"
   };
 
-  window.AgentBlog = window.AgentBlog || {};
-  window.AgentBlog.DATA = AGENT_MAP_DATA;
-  window.AgentBlog.NODE_MILESTONES = NODE_MILESTONES;
-})();
+
+export const SHORT_ERA_LABELS = {
+  "era-01": { short: "规则脚本", yr: "50s–16" },
+  "era-02": { short: "通用大脑", yr: "17–22" },
+  "era-03": { short: "工具破壁", yr: "2023" },
+  "era-04": { short: "自主干活", yr: "2024" },
+  "era-05": { short: "驾驭工程", yr: "25–26" }
+};
