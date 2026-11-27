@@ -734,6 +734,10 @@
     let isBlinking = false;
     let clickHopTimer = 0;
     let resetWaitTimer = 0;
+    // Pixar walk-stop momentum lean-and-settle damped spring!
+    let prevMoveSpeed = 0;
+    let velLean = 0;
+    let velLeanVel = 0;
 
     // 5-beat state machine per cycle
     let b1 = 0, b1t = 0; // Era 1 pebble: 0=jog, 1=trip, 2=long belly-slide into Era 2, 3=pop up, 4=done
@@ -798,6 +802,9 @@
       brainDockTimer = 0;
       toolSnapTimer = 0;
       resetWaitTimer = 0;
+      prevMoveSpeed = 0;
+      velLean = 0;
+      velLeanVel = 0;
       waitingForDock = false;
       handoffStarted = false;
       handoffTrailT = 0;
@@ -1070,10 +1077,13 @@
             extraLean = 9;
             armPose = "wrench";
           } else {
-            // SHATTER! Wall bursts cleanly into jagged rubble & flying brick shards!
+            // SHATTER! Wall bursts cleanly into jagged rubble with celebratory follow-through step & micro bounce!
             if (!wallBroken) wallBroken = true;
-            visualDX = -5.2;
-            extraLean = 3;
+            const fu = clamp01((b3t - 1.56) / 0.24);
+            const fEase = 1 - Math.pow(1 - fu, 3);
+            visualDX = lerp(-5.2, -3.2, fEase);
+            beatHopH = Math.sin(fu * Math.PI) * 1.4;
+            extraLean = lerp(12, 3, fEase);
             armPose = "wrench";
           }
           if (b3t >= 1.92) {
@@ -1142,6 +1152,8 @@
           if (b5t < 0.32) {
             const u = clamp01(b5t / 0.32);
             crouchY = Math.sin(u * Math.PI * 0.5) * 3.1;
+            // Subtle high-frequency thruster ignition shudder during anticipation crouch!
+            visualDX = Math.sin(b5t * 115) * u * 0.45;
             jetPower = u * 0.95;
           } else if (b5t < 0.68) {
             const u = clamp01((b5t - 0.32) / 0.36);
@@ -1613,7 +1625,19 @@
           keyPhase += 5.2 * dt;
         }
 
-        // Spinal lean arc: +22° -> +5° -> +26° -> +6° -> 0°
+        // Pixar inertia & follow-through: damped spring impulse on abrupt walk-stops / starts!
+        const speedDelta = prevMoveSpeed - moveSpeed;
+        if (!freezeAll && Math.abs(speedDelta) > 12 && b1 !== 1 && b1 !== 2 && b5 !== 3) {
+          velLeanVel += Math.max(-180, Math.min(180, speedDelta * 2.1));
+        }
+        prevMoveSpeed = moveSpeed;
+        if (!freezeAll) {
+          const springAcc = -velLean * 165 - velLeanVel * 14.5;
+          velLeanVel += springAcc * dt;
+          velLean = Math.max(-9, Math.min(9, velLean + velLeanVel * dt));
+        }
+
+        // Spinal lean arc: +22° -> +5° -> +26° -> +6° -> 0° (+ Pixar inertia lean!)
         const baseLean =
           evo < 1
             ? lerp(22, 6, smooth(0.5, 1.0, evo))
@@ -1622,7 +1646,7 @@
             : evo < 3
             ? lerp(24, 6, smooth(2.2, 2.9, evo))
             : lerp(6, 0, smooth(3.1, 3.65, evo));
-        const leanDeg = b5 === 3 || armPose === "dock" ? 0 : baseLean + extraLean;
+        const leanDeg = b5 === 3 || armPose === "dock" ? 0 : baseLean + extraLean + velLean;
         const leanRad = (leanDeg * Math.PI) / 180;
 
         const bob = freezeAll || b5 === 3 ? 0 : kneeW * Math.abs(Math.sin(phase * Math.PI * 2)) * 1.35;
@@ -1631,7 +1655,20 @@
         const shoulderX = Math.sin(leanRad) * torsoH;
         const shoulderY = hipY - Math.cos(leanRad) * torsoH;
 
-        botGroup.setAttribute("transform", `translate(${drawX.toFixed(2)}, ${BASE_Y}) scale(${S})`);
+        // Pixar squash-and-stretch during Era 5 ignition crouch & vertical surge!
+        let sx = S, sy = S;
+        if (b5 === 3) {
+          if (b5t < 0.32) {
+            const su = clamp01(b5t / 0.32);
+            sx = S * (1 + su * 0.045);
+            sy = S * (1 - su * 0.048);
+          } else {
+            const lu = clamp01((b5t - 0.32) / 0.22);
+            sx = S * lerp(1.045, 0.96, lu);
+            sy = S * lerp(0.952, 1.05, lu);
+          }
+        }
+        botGroup.setAttribute("transform", `translate(${drawX.toFixed(2)}, ${BASE_Y}) scale(${sx.toFixed(3)}, ${sy.toFixed(3)})`);
         botGroup.setAttribute("opacity", edgeFade.toFixed(3));
         if (Math.abs(bodyRollDeg) > 0.1 || Math.abs(bodyDropY) > 0.1) {
           const pivotY = isSliding ? -6.2 : -8.0;
@@ -1657,13 +1694,17 @@
         }
         stuckBang.setAttribute("opacity", b1 === 1 ? "0.95" : "0");
 
-        // Legs: Era 1 jog/slide -> Era 2–5 articulated IK gait -> Heroic Iron Man flight pose
+        // Legs: Era 1 jog/slide -> Era 2–5 articulated IK gait -> Era 3 bonk recoil stumble -> Heroic Iron Man flight pose
         const liftH = b1 === 0 ? 2.4 : lerp(0.5, 3.6, kneeW);
         const isFlying = b5 === 3 && launchLiftY > 2;
+        const isBonkRecoil = b3 === 1 && b3t < 0.34;
+        const bonkU = isBonkRecoil ? clamp01(b3t / 0.34) : 0;
         const f1 = isSliding
           ? { x: -1.8, y: -1.8, pitch: 0 }
           : isFlying
           ? { x: 2.5, y: 0.4, pitch: 0.28 }
+          : isBonkRecoil
+          ? { x: lerp(3.4, 1.8, bonkU), y: -Math.sin(bonkU * Math.PI) * 2.2, pitch: -0.22 }
           : armPose === "dock"
           ? { x: 3.1, y: 0, pitch: 0 }
           : moveSpeed > 0
@@ -1673,6 +1714,8 @@
           ? { x: -0.4, y: -1.2, pitch: 0 }
           : isFlying
           ? { x: -2.8, y: -4.2, pitch: 0.40 }
+          : isBonkRecoil
+          ? { x: lerp(-1.2, -3.6, bonkU), y: -Math.sin(Math.max(0, bonkU - 0.25) / 0.75 * Math.PI) * 1.6, pitch: 0.14 }
           : armPose === "dock"
           ? { x: -3.1, y: 0, pitch: 0 }
           : moveSpeed > 0

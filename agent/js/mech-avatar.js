@@ -163,13 +163,14 @@
     // --- Articulated Mechanical Legs + Armored Thruster Boots (limb-locked plumes!) ---
     const legsG = mk("g", null, bodyRigG);
 
-    // Left / Rear leg (staggered slightly higher for heroic Iron Man takeoff stance!)
+    // Left / Rear volumetric mechanical leg (staggered slightly higher for heroic Iron Man takeoff stance!)
     const legL = mk("g", null, legsG);
     const jetBootLG = mk("g", { opacity: "0" }, legL);
     const jetBootL = mk("path", { fill: "url(#agent-jet-grad)" }, jetBootLG);
     const jetBootLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetBootLG);
-    mk("path", { d: "M -2.2,10.2 L -3.1,13.6 L -2.6,15.0", fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, legL);
-    mk("circle", { cx: "-3.1", cy: "13.4", r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.75" }, legL);
+    mk("path", { d: "M -3.2,10.0 L -1.1,10.0 L -2.0,13.6 L -4.1,13.5 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, legL);
+    mk("path", { d: "M -3.9,13.3 L -2.1,13.4 L -1.7,15.0 L -3.5,15.0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, legL);
+    mk("circle", { cx: "-3.1", cy: "13.4", r: "0.95", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.75" }, legL);
     // Original beveled thruster boot (bootB)
     mk("path", {
       d: "M -4.2,14.2 L -1.0,14.2 L -0.4,18.0 L -4.5,18.0 Z",
@@ -178,13 +179,14 @@
     mk("line", { x1: "-3.8", y1: "16.1", x2: "-1.1", y2: "16.1", stroke: "#1D1B18", "stroke-width": "0.52", "stroke-opacity": "0.45" }, legL);
     mk("ellipse", { cx: "-2.45", cy: "18.1", rx: "1.45", ry: "0.52", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.45" }, legL);
 
-    // Right / Front leg (extended gracefully!)
+    // Right / Front volumetric mechanical leg (extended gracefully!)
     const legR = mk("g", null, legsG);
     const jetBootRG = mk("g", { opacity: "0" }, legR);
     const jetBootR = mk("path", { fill: "url(#agent-jet-grad)" }, jetBootRG);
     const jetBootRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetBootRG);
-    mk("path", { d: "M 2.2,10.2 L 2.9,14.0 L 2.5,15.6", fill: "none", stroke: "#1D1B18", "stroke-width": "1.4", "stroke-linecap": "round", "stroke-linejoin": "round" }, legR);
-    mk("circle", { cx: "2.9", cy: "13.8", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.78" }, legR);
+    mk("path", { d: "M 1.1,10.0 L 3.3,10.0 L 3.9,13.9 L 1.8,13.9 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, legR);
+    mk("path", { d: "M 1.9,13.8 L 3.8,13.8 L 3.5,15.6 L 1.6,15.6 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, legR);
+    mk("circle", { cx: "2.9", cy: "13.8", r: "0.98", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.78" }, legR);
     // Original beveled thruster boot (bootF)
     mk("path", {
       d: "M 0.9,15.0 L 4.2,15.0 L 4.9,19.0 L 0.6,19.0 Z",
@@ -193,13 +195,14 @@
     mk("line", { x1: "1.3", y1: "17.0", x2: "4.1", y2: "17.0", stroke: "#1D1B18", "stroke-width": "0.52", "stroke-opacity": "0.45" }, legR);
     mk("ellipse", { cx: "2.75", cy: "19.1", rx: "1.5", ry: "0.54", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.45" }, legR);
 
-    // --- Articulated Mechanical Arms + Beveled Repulsor Gauntlets (limb-locked palm plumes!) ---
+    // --- Volumetric Mechanical Arms + Beveled Repulsor Gauntlets (limb-locked palm plumes!) ---
     const armL = mk("g", null, bodyRigG);
     const jetPalmLG = mk("g", { opacity: "0" }, armL);
     const jetPalmL = mk("path", { fill: "url(#agent-jet-grad)" }, jetPalmLG);
     const jetPalmLCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetPalmLG);
-    mk("path", { d: "M -5.4,1.2 L -8.4,4.2 L -10.5,7.4", fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, armL);
-    mk("circle", { cx: "-8.4", cy: "4.2", r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72" }, armL);
+    mk("path", { d: "M -4.7,0.5 L -6.1,1.9 L -9.1,4.8 L -7.7,3.5 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, armL);
+    mk("path", { d: "M -7.6,3.7 L -9.2,4.7 L -11.3,7.7 L -9.7,6.8 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, armL);
+    mk("circle", { cx: "-8.4", cy: "4.2", r: "0.92", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72" }, armL);
     // Original beveled repulsor gauntlet (gauntletB)
     mk("rect", { x: "-12.6", y: "6.4", width: "4.2", height: "3.2", rx: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.92" }, armL);
     mk("line", { x1: "-11.5", y1: "8.0", x2: "-9.5", y2: "8.0", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, armL);
@@ -210,8 +213,9 @@
     const jetPalmRG = mk("g", { opacity: "0" }, armR);
     const jetPalmR = mk("path", { fill: "url(#agent-jet-grad)" }, jetPalmRG);
     const jetPalmRCore = mk("path", { fill: "#E6FFF1", "fill-opacity": "0.92" }, jetPalmRG);
-    mk("path", { d: "M 5.4,1.2 L 8.4,4.2 L 10.5,7.4", fill: "none", stroke: "#1D1B18", "stroke-width": "1.35", "stroke-linecap": "round", "stroke-linejoin": "round" }, armR);
-    mk("circle", { cx: "8.4", cy: "4.2", r: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.75" }, armR);
+    mk("path", { d: "M 4.7,0.5 L 6.1,1.9 L 9.1,4.8 L 7.7,3.5 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.84", "stroke-linejoin": "round" }, armR);
+    mk("path", { d: "M 7.6,3.7 L 9.2,4.7 L 11.3,7.7 L 9.7,6.8 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.84", "stroke-linejoin": "round" }, armR);
+    mk("circle", { cx: "8.4", cy: "4.2", r: "0.92", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.75" }, armR);
     // Original beveled repulsor gauntlet (gauntletF)
     mk("rect", { x: "8.4", y: "6.4", width: "4.2", height: "3.2", rx: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.96" }, armR);
     mk("line", { x1: "9.5", y1: "8.0", x2: "11.5", y2: "8.0", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, armR);
@@ -784,7 +788,11 @@
 
         const riseScale = patrolIsReRun ? FLY_SCALE : lerp(LAUNCH_MATCH_SCALE, FLY_SCALE, smooth(0.0, 0.75, patrolT));
         const flyScale = lerp(riseScale, 1.0, clamp01((patrolT - (totalDur - 0.65)) / 0.65));
-        craftG.setAttribute("transform", `scale(${flyScale.toFixed(3)}) rotate(${drone.bodyBank.toFixed(2)})`);
+        // Subtle Pixar aerodynamic ascent stretch during vertical rocket surge!
+        const ascentStretch = clamp01(-drone.vy / 560) * 0.072;
+        const flySX = flyScale * (1 - ascentStretch * 0.55);
+        const flySY = flyScale * (1 + ascentStretch);
+        craftG.setAttribute("transform", `scale(${flySX.toFixed(3)}, ${flySY.toFixed(3)}) rotate(${drone.bodyBank.toFixed(2)})`);
         headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(${drone.headTilt.toFixed(2)})`);
         applyFaceYaw(drone.headYaw, drone.headPitch);
 
