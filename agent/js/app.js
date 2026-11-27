@@ -325,18 +325,28 @@
           .filter(Boolean)
           .join(" ");
 
+        const SHORT_ERA_LABELS = {
+          "era-01": { short: "规则脚本", yr: "50s–16" },
+          "era-02": { short: "通用大脑", yr: "17–22" },
+          "era-03": { short: "工具破壁", yr: "2023" },
+          "era-04": { short: "自主干活", yr: "2024" },
+          "era-05": { short: "驾驭工程", yr: "25–26" }
+        };
+        const compact = SHORT_ERA_LABELS[era.id] || { short: era.title, yr: era.year };
+        const fullMetaTip = `${era.num} ${era.title}（${era.year}）· ${era.whisper}`;
+
         return `
           <section class="${colCls}" data-era-id="${era.id}">
             <div class="era-lower">
               <ul class="twig-list">${twigsHtml}</ul>
             </div>
             <span class="spine-dot ${spineCls}" aria-hidden="true"></span>
-            <header class="era-upper">
+            <header class="era-upper" title="${esc(fullMetaTip)}">
               <div class="era-title-row">
-                <h2 class="era-title">${esc(era.title)}</h2>
-                <span class="era-year">${esc(era.year)}</span>
+                <span class="era-num-tag">${esc(era.num)}</span>
+                <h2 class="era-title">${esc(compact.short)}</h2>
+                <span class="era-year">${esc(compact.yr)}</span>
               </div>
-              <p class="era-whisper">${esc(era.whisper)}</p>
             </header>
             <button class="era-scroll-mask" type="button" aria-label="向下滚动查看更多节点">↓ 更多</button>
           </section>

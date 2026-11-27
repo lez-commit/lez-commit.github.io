@@ -34,13 +34,13 @@
   overflow: hidden;
 }
 
-/* Evolving Ink-Art Robot Runway seated flush atop .timeline-spine */
+/* Evolving Ink-Art Robot Runway seated flush atop .timeline-spine (expanded via compact footer!) */
 .evo-walker-layer {
   position: absolute;
   left: var(--page-px);
   right: var(--page-px);
   bottom: calc(clamp(4px, 0.8vh, 8px) + var(--era-foot-h) - 2px);
-  height: 56px;
+  height: 74px;
   pointer-events: none;
   z-index: 40;
   overflow: visible;
@@ -306,12 +306,11 @@
   box-shadow: 0 0 0 3.5px rgba(184, 59, 42, 0.16);
 }
 
-/* Footer Zone (below Timeline Spine): Era Title + Era Year + Concise Whisper */
+/* Compact Single-Line Footer Zone (below Timeline Spine — frees +26px height for the robot diorama!) */
 .era-upper {
-  padding: 10px clamp(10px, 1.1vw, 16px) 2px 20px;
+  padding: 5px clamp(8px, 1vw, 14px) 0 20px;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  align-items: center;
   min-width: 0;
   overflow: hidden;
 }
@@ -323,42 +322,52 @@
 .era-title-row {
   display: flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 5px;
   min-width: 0;
+  width: 100%;
+}
+
+.era-num-tag {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+
+.era-col.is-era-active .era-num-tag {
+  color: var(--bamboo-4);
+}
+
+.era-col.is-era-active.has-flagship .era-num-tag {
+  color: var(--vermilion);
 }
 
 .era-title {
   flex: 0 1 auto;
   min-width: 0;
   font-family: var(--font-serif);
-  font-size: clamp(13px, 1.12vw, 15px);
+  font-size: clamp(11.5px, 0.94vw, 12.6px);
   font-weight: 600;
   color: var(--ink-primary);
   letter-spacing: 0.02em;
-  line-height: 1.25;
+  line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.2s ease;
 }
 
 .era-year {
   font-family: var(--font-mono);
-  font-size: clamp(9.5px, 0.76vw, 10.5px);
+  font-size: clamp(9px, 0.72vw, 9.8px);
   color: var(--ink-muted);
+  opacity: 0.82;
   white-space: nowrap;
   flex-shrink: 0;
   letter-spacing: 0.01em;
-}
-
-.era-whisper {
-  margin-top: 2px;
-  font-size: clamp(10px, 0.8vw, 11.2px);
-  color: var(--ink-secondary);
-  opacity: 0.82;
-  line-height: 1.28;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* Upper Catalog Zone (rising upward from Timeline Spine, bottom-aligned above robot runway) */

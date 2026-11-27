@@ -23,8 +23,9 @@
       return node;
     };
 
-    const BASE_Y = 54;
-    const S = 1.24; // Enlarged sculptural world scale (~41px tall robot, ~33px props — zero scroll!)
+    const BASE_Y = 72;
+    const getScale = (span) => Math.min(1.44, Math.max(1.06, (span / 1180) * 1.44));
+    let S = 1.40; // Dynamically scaled per viewport (1.06 on narrow split-pane -> 1.44 on desktop!)
     const svg = mk("svg", { class: "evo-svg", "shape-rendering": "geometricPrecision" }, evoLayerEl);
     const defs = mk("defs", null, svg);
 
@@ -120,19 +121,38 @@
       points: "5.8,0 6.5,-1.8 7.8,-1.5 8.2,0",
       fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85", "stroke-linejoin": "round"
     }, prop1);
+    // Tiny vintage hardcoded "IF ->" wooden signpost right behind the stone (blind script humor!)
+    const ifSign = mk("g", { transform: "translate(10.6, 0) rotate(5)" }, prop1);
+    mk("line", { x1: "0", y1: "0", x2: "0", y2: "-10.8", stroke: "currentColor", "stroke-width": "1.05", "stroke-linecap": "round" }, ifSign);
+    mk("path", {
+      d: "M -4.2,-10.2 L 3.4,-10.2 L 5.2,-8.0 L 3.4,-5.8 L -4.2,-5.8 Z",
+      fill: "url(#evo-porcelain)", stroke: "currentColor", "stroke-width": "0.88", "stroke-linejoin": "round"
+    }, ifSign);
+    // Crisp micro "IF →" vector glyph inside signpost
+    mk("path", {
+      d: "M -2.7,-9.0 L -2.7,-7.0 M -1.3,-9.0 L -1.3,-7.0 M -1.3,-9.0 L -0.1,-9.0 M -1.3,-8.0 L -0.3,-8.0 M 1.0,-8.0 L 3.1,-8.0 M 2.4,-8.7 L 3.2,-8.0 L 2.4,-7.3",
+      fill: "none", stroke: "#B83B2A", "stroke-width": "0.68", "stroke-linecap": "round", "stroke-linejoin": "round"
+    }, ifSign);
     // Trip kick dust puffs (Era 1)
     const pebbleDust = mk("g", { opacity: "0" }, prop1);
     mk("circle", { cx: "7.0", cy: "-2.4", r: "1.2", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.75" }, pebbleDust);
     mk("circle", { cx: "10.0", cy: "-4.4", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.7" }, pebbleDust);
     mk("line", { x1: "5.6", y1: "-5.2", x2: "8.4", y2: "-7.2", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round" }, pebbleDust);
 
-    // --- PROP 2 (Era 2 · 缸中之脑，会推理): 2.5D Glass Bell-Jar Brain-in-a-Vat with Swaying Nutrient Liquid & Bubbles ---
+    // --- PROP 2 (Era 2 · 缸中之脑，会推理): 2.5D Neural Lab Pod + Overhead Mechanical Crane Arm + Live EKG ---
     const prop2 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
-    mk("rect", { x: "-16", y: "-32", width: "32", height: "34", fill: "transparent" }, prop2);
-    mk("ellipse", { cx: "0", cy: "0.4", rx: "12.8", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop2);
+    mk("rect", { x: "-16", y: "-38", width: "36", height: "40", fill: "transparent" }, prop2);
+    mk("ellipse", { cx: "0", cy: "0.4", rx: "13.2", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop2);
+    // Overhead L-Shaped Lab Mechanical Suspension Crane Arm (physically lifts the glass bell-jar!)
+    mk("path", {
+      d: "M 12.2,0 L 12.2,-33.8 Q 12.2,-35.6 10.4,-35.6 L 0,-35.6",
+      fill: "none", stroke: "#2B2825", "stroke-width": "1.55", "stroke-linecap": "round", "stroke-linejoin": "round"
+    }, prop2);
+    mk("path", { d: "M 10.4,0 L 14.0,0 L 13.4,-2.4 L 11.0,-2.4 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.78", "stroke-linejoin": "round" }, prop2);
+    mk("circle", { cx: "12.2", cy: "-35.4", r: "1.15", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.72" }, prop2);
+    const vatCranePiston = mk("line", { x1: "0", y1: "-35.6", x2: "0", y2: "-30.4", stroke: "#2B2825", "stroke-width": "1.15", "stroke-linecap": "round" }, prop2);
     // Stepped 2.5D scientific neural pod pedestal + side curved dark-gunmetal power/nutrient conduit!
-    mk("path", { d: "M 8.6,-5.4 C 12.2,-5.4 13.0,-3.2 13.0,-0.5", fill: "none", stroke: "#2B2825", "stroke-width": "1.25", "stroke-linecap": "round" }, prop2);
-    mk("rect", { x: "11.6", y: "-1.5", width: "2.8", height: "1.5", rx: "0.4", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.7" }, prop2);
+    mk("path", { d: "M 8.6,-5.4 C 10.8,-5.4 11.6,-4.2 12.0,-2.4", fill: "none", stroke: "#2B2825", "stroke-width": "1.1", "stroke-linecap": "round" }, prop2);
     mk("path", {
       d: "M -11.4,0 L -10.2,-2.4 L 10.2,-2.4 L 11.4,0 Z",
       fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
@@ -143,9 +163,9 @@
     }, prop2);
     // Right-side 2.5D depth shade on pedestal body
     mk("rect", { x: "5.2", y: "-8.0", width: "3.2", height: "5.2", rx: "0.4", fill: "#E4DDD0", "fill-opacity": "0.85" }, prop2);
-    // Pedestal dark-obsidian neural pulse oscilloscope + twin micro-conduits
-    mk("rect", { x: "-7.0", y: "-7.1", width: "6.0", height: "3.4", rx: "0.55", fill: "#181715", stroke: "currentColor", "stroke-width": "0.65" }, prop2);
-    mk("path", { d: "M -6.2,-5.4 L -5.0,-5.4 L -4.4,-6.5 L -3.6,-4.4 L -2.9,-5.4 L -1.8,-5.4", fill: "none", stroke: "#5CE09B", "stroke-width": "0.75", "stroke-linecap": "round", "stroke-linejoin": "round" }, prop2);
+    // Pedestal dark-obsidian neural pulse oscilloscope (LIVE animated green EKG waveform!) + twin micro-conduits
+    mk("rect", { x: "-7.0", y: "-7.1", width: "6.2", height: "3.4", rx: "0.55", fill: "#181715", stroke: "currentColor", "stroke-width": "0.65" }, prop2);
+    const vatEkgWave = mk("path", { d: "M -6.3,-5.4 L -5.0,-5.4 L -4.4,-6.5 L -3.6,-4.4 L -2.9,-5.4 L -1.5,-5.4", fill: "none", stroke: "#5CE09B", "stroke-width": "0.75", "stroke-linecap": "round", "stroke-linejoin": "round" }, prop2);
     mk("path", { d: "M 0.4,-6.2 L 5.8,-6.2 M 0.4,-4.6 L 4.4,-4.6", fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-linecap": "round" }, prop2);
     // Vat rim collar & bamboo neural emitter strip
     mk("rect", { x: "-9.6", y: "-10.0", width: "19.2", height: "1.8", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.95" }, prop2);
@@ -160,7 +180,11 @@
       mk("circle", { cx: "1.2", cy: "-12.8", r: "0.5", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.48", opacity: "0.65" }, vatLiquidGroup)
     ];
     const vatEmitter = mk("line", { x1: "-5.0", y1: "-10.0", x2: "5.0", y2: "-10.0", stroke: "#2D6A47", "stroke-width": "1.6", "stroke-linecap": "round", opacity: "0.65" }, prop2);
-    // Floating CRT Brain Head inside the Glass Vat (physically arcs onto the robot's neck in Era 2!)
+    // Floating CRT Brain Head inside the Glass Vat + 5 trailing bamboo neural light particles during transfer!
+    const brainTrailDots = [];
+    for (let i = 0; i < 5; i++) {
+      brainTrailDots.push(mk("circle", { cx: "0", cy: "-20", r: (1.05 - i * 0.14).toFixed(2), fill: i % 2 === 0 ? "#5CE09B" : "#2D6A47", opacity: "0" }, prop2));
+    }
     const vatBrainGroup = mk("g", { transform: "translate(0, -16.8)" }, prop2);
     mk("line", { x1: "-0.7", y1: "-4.4", x2: "-1.2", y2: "-7.6", stroke: "currentColor", "stroke-width": "1.05", "stroke-linecap": "round" }, vatBrainGroup);
     const vatAntTip = mk("circle", { cx: "-1.3", cy: "-8.3", r: "1.15", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.95" }, vatBrainGroup);
@@ -210,8 +234,10 @@
     // Classic 2.5D Toolbox cleanly spaced left of drill stance (ZERO foot overlap!)
     const toolRackGroup = mk("g", { transform: "translate(-33.0, 0)" }, prop3);
     mk("ellipse", { cx: "0.5", cy: "0.35", rx: "7.2", ry: "1.0", fill: "#1D1B18", "fill-opacity": "0.11" }, toolRackGroup);
-    // Open interior depth tray visible when lid flips up!
-    const toolBoxCavity = mk("polygon", { points: "-5.2,-8.2 -3.6,-9.6 6.8,-9.6 5.4,-8.2", fill: "#D7CEC0", stroke: "currentColor", "stroke-width": "0.75", "stroke-linejoin": "round", opacity: "0" }, toolRackGroup);
+    // Open interior depth tray + glowing bamboo API tool-socket inner light when lid flips up!
+    const toolBoxCavity = mk("g", { opacity: "0" }, toolRackGroup);
+    mk("polygon", { points: "-5.2,-8.2 -3.6,-9.6 6.8,-9.6 5.4,-8.2", fill: "#D7CEC0", stroke: "currentColor", "stroke-width": "0.75", "stroke-linejoin": "round" }, toolBoxCavity);
+    mk("polygon", { points: "-4.4,-8.2 -3.2,-9.2 5.4,-9.2 4.4,-8.2", fill: "#5CE09B", "fill-opacity": "0.35" }, toolBoxCavity);
     // 2.5D right-side thickness bevel on toolbox body
     mk("polygon", { points: "5.2,-8.2 7.0,-7.3 7.0,-0.8 5.2,0", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, toolRackGroup);
     // Toolbox base body + reinforced dark-gunmetal corner brackets + front latch
@@ -276,6 +302,10 @@
       fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.1"
     }, wallBody);
     mk("line", { x1: "-7.6", y1: "-27.6", x2: "7.2", y2: "-27.6", stroke: "#FAF8F4", "stroke-width": "0.75", "stroke-linecap": "round", "stroke-opacity": "0.8" }, wallBody);
+    // Steel barrier corner reinforcement + mini vermilion warning beacon perched atop brick bulkhead!
+    mk("path", { d: "M -8.0,-26.2 L -8.0,-22.6 M 8.0,-26.2 L 8.0,-22.6", fill: "none", stroke: "#2B2825", "stroke-width": "1.25", "stroke-linecap": "round" }, wallBody);
+    mk("rect", { x: "-2.2", y: "-30.6", width: "4.4", height: "2.2", rx: "0.7", fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.68" }, wallBody);
+    const wallBeacon = mk("circle", { cx: "0", cy: "-29.5", r: "0.85", fill: "#B83B2A" }, wallBody);
     // Dramatic jagged crack spreading from drill contact point during drilling!
     const wallCrack = mk("path", {
       d: "M -7.8,-13.6 L -3.2,-15.2 L -0.4,-12.6 L 3.6,-16.4 L 6.8,-13.2 M -0.4,-12.6 L -2.2,-7.6 L 1.4,-3.2 M -3.2,-15.2 L -1.6,-21.8 L 2.2,-25.4",
@@ -314,12 +344,16 @@
     const shard3 = mk("rect", { x: "-4", y: "-22", width: "3.4", height: "2.4", rx: "0.4", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, wallShardsG);
     const shard4 = mk("rect", { x: "2", y: "-12", width: "3.8", height: "2.6", rx: "0.4", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9" }, wallShardsG);
 
-    // Drilling bamboo sparks + dust puffs at drill contact point
+    // Drilling bamboo sparks + live spraying stone-chip particles at drill contact point!
     const wallTorqueArcs = mk("g", { opacity: "0" }, prop3);
     mk("path", {
       d: "M -8.6,-15.6 L -12.6,-18.8 M -8.8,-13.4 L -13.4,-13.8 M -8.6,-11.2 L -12.2,-8.4 M -6.8,-16.8 L -8.4,-20.6",
       fill: "none", stroke: "#2D6A47", "stroke-width": "1.15", "stroke-linecap": "round"
     }, wallTorqueArcs);
+    const drillChips = [];
+    for (let i = 0; i < 6; i++) {
+      drillChips.push(mk("rect", { x: "-8", y: "-14", width: "1.4", height: "1.1", rx: "0.25", fill: i % 2 === 0 ? "#E4DDD0" : "#5CE09B", stroke: "#1D1B18", "stroke-width": "0.45", opacity: "0" }, prop3));
+    }
     // Vermilion bonk impact star-sparks positioned cleanly at forehead collision zone
     const wallSparks = mk("g", { opacity: "0" }, prop3);
     mk("line", { x1: "-9.2", y1: "-24.8", x2: "-14.2", y2: "-28.8", stroke: "#B83B2A", "stroke-width": "1.4", "stroke-linecap": "round" }, wallSparks);
@@ -345,24 +379,33 @@
     // Subtle mint screen-glow wash cast leftward while actively typing/working!
     const deskScreenGlow = mk("polygon", { points: "-0.6,-23.2 -12.6,-21.0 -12.6,-12.2 -0.6,-15.2", fill: "#2D6A47", "fill-opacity": "0.09", opacity: "0" }, prop4);
 
-    // 2.5D Architectural Minimalist AI Workstation Desk + Mini Server Tower under right bay + Coffee Mug!
-    mk("ellipse", { cx: "2.2", cy: "0.4", rx: "16.2", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop4);
+    // 2.5D Dual-Screen AI Coding Workstation Desk + Blinking Mini Server Tower + Vertical Graph Side-Monitor + Coffee Mug!
+    mk("ellipse", { cx: "3.4", cy: "0.4", rx: "18.2", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop4);
     mk("line", { x1: "-10.4", y1: "-10.4", x2: "-10.4", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
-    mk("line", { x1: "14.4", y1: "-10.4", x2: "14.4", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
-    mk("line", { x1: "-10.4", y1: "-3.6", x2: "14.4", y2: "-3.6", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.45" }, prop4);
-    // Compact dark-gunmetal mini workstation tower tucked cleanly under right side of desk
-    mk("rect", { x: "8.2", y: "-6.6", width: "4.6", height: "6.6", rx: "0.65", fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.75" }, prop4);
-    mk("line", { x1: "9.2", y1: "-4.8", x2: "11.8", y2: "-4.8", stroke: "#FAF8F4", "stroke-width": "0.5", "stroke-opacity": "0.45", "stroke-linecap": "round" }, prop4);
-    mk("circle", { cx: "9.6", cy: "-2.2", r: "0.48", fill: "#5CE09B" }, prop4);
-    mk("circle", { cx: "11.2", cy: "-2.2", r: "0.48", fill: "#E4DDD0" }, prop4);
-    mk("rect", { x: "-12.2", y: "-12.0", width: "29.4", height: "2.1", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05" }, prop4);
-    mk("line", { x1: "-11.4", y1: "-11.3", x2: "16.0", y2: "-11.3", stroke: "#FAF8F4", "stroke-width": "0.65", "stroke-linecap": "round", "stroke-opacity": "0.75" }, prop4);
+    mk("line", { x1: "17.6", y1: "-10.4", x2: "17.6", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
+    mk("line", { x1: "-10.4", y1: "-3.6", x2: "17.6", y2: "-3.6", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.45" }, prop4);
+    // Compact dark-gunmetal mini workstation tower tucked cleanly under right side of desk (live blinking disk/CPU LEDs!)
+    mk("rect", { x: "11.2", y: "-6.6", width: "4.8", height: "6.6", rx: "0.65", fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.75" }, prop4);
+    mk("line", { x1: "12.2", y1: "-4.8", x2: "15.0", y2: "-4.8", stroke: "#FAF8F4", "stroke-width": "0.5", "stroke-opacity": "0.45", "stroke-linecap": "round" }, prop4);
+    const towerLed1 = mk("circle", { cx: "12.6", cy: "-2.2", r: "0.52", fill: "#5CE09B" }, prop4);
+    const towerLed2 = mk("circle", { cx: "14.4", cy: "-2.2", r: "0.52", fill: "#E4DDD0" }, prop4);
+    mk("rect", { x: "-12.2", y: "-12.0", width: "33.0", height: "2.1", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05" }, prop4);
+    mk("line", { x1: "-11.4", y1: "-11.3", x2: "19.8", y2: "-11.3", stroke: "#FAF8F4", "stroke-width": "0.65", "stroke-linecap": "round", "stroke-opacity": "0.75" }, prop4);
+
+    // Vertical Side-Monitor showing live miniature LangGraph vertical node flow!
+    mk("line", { x1: "14.4", y1: "-12.0", x2: "14.4", y2: "-13.6", stroke: "currentColor", "stroke-width": "0.95" }, prop4);
+    mk("rect", { x: "12.1", y: "-23.6", width: "5.2", height: "10.0", rx: "0.9", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.92" }, prop4);
+    mk("rect", { x: "12.9", y: "-22.7", width: "3.6", height: "8.2", rx: "0.45", fill: "#181715" }, prop4);
+    mk("line", { x1: "14.7", y1: "-21.3", x2: "14.7", y2: "-15.9", stroke: "#2D6A47", "stroke-width": "0.65" }, prop4);
+    const sideGraphN1 = mk("circle", { cx: "14.7", cy: "-21.2", r: "0.78", fill: "#5CE09B" }, prop4);
+    const sideGraphN2 = mk("circle", { cx: "14.7", cy: "-18.6", r: "0.78", fill: "#E4DDD0" }, prop4);
+    const sideGraphN3 = mk("circle", { cx: "14.7", cy: "-16.0", r: "0.78", fill: "#E4DDD0" }, prop4);
 
     // Tiny Steaming Architect's Coffee Mug cleanly clear on far right corner of desk!
-    mk("rect", { x: "13.3", y: "-14.7", width: "2.5", height: "2.7", rx: "0.5", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.8" }, prop4);
-    mk("path", { d: "M 15.8,-14.1 Q 16.9,-14.1 16.9,-13.3 Q 16.9,-12.5 15.8,-12.5", fill: "none", stroke: "currentColor", "stroke-width": "0.72", "stroke-linecap": "round" }, prop4);
-    const mugSteam1 = mk("path", { d: "M 14.0,-15.4 Q 13.5,-16.6 14.1,-17.7", fill: "none", stroke: "currentColor", "stroke-width": "0.6", "stroke-linecap": "round", opacity: "0.48" }, prop4);
-    const mugSteam2 = mk("path", { d: "M 15.1,-15.3 Q 15.6,-16.4 15.0,-17.4", fill: "none", stroke: "currentColor", "stroke-width": "0.55", "stroke-linecap": "round", opacity: "0.42" }, prop4);
+    mk("rect", { x: "18.1", y: "-14.7", width: "2.3", height: "2.7", rx: "0.5", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.78" }, prop4);
+    mk("path", { d: "M 20.4,-14.1 Q 21.4,-14.1 21.4,-13.3 Q 21.4,-12.5 20.4,-12.5", fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-linecap": "round" }, prop4);
+    const mugSteam1 = mk("path", { d: "M 18.8,-15.4 Q 18.3,-16.6 18.9,-17.7", fill: "none", stroke: "currentColor", "stroke-width": "0.6", "stroke-linecap": "round", opacity: "0.48" }, prop4);
+    const mugSteam2 = mk("path", { d: "M 19.8,-15.3 Q 20.3,-16.4 19.7,-17.4", fill: "none", stroke: "currentColor", "stroke-width": "0.55", "stroke-linecap": "round", opacity: "0.42" }, prop4);
 
     // Angled Desktop Keyboard right where robot's hands rapidly type!
     mk("path", { d: "M -10.6,-12.0 L -9.8,-13.5 L -3.6,-13.5 L -3.0,-12.0 Z", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, prop4);
@@ -419,34 +462,34 @@
       fill: "url(#evo-pad-grad)",
       opacity: "0"
     }, prop5);
-    // Aerospace Cross-Braced Twin Launch Gantry Towers (SpaceX / Gundam Hangar Truss Lattice!)
+    // Aerospace Tall Cross-Braced Twin Launch Gantry Towers (SpaceX / Gundam Hangar Truss Lattice!)
     mk("path", {
-      d: "M -15.4,-7.6 L -15.4,-24.2 M -18.0,-7.6 L -18.0,-22.4 M -18.0,-13.0 L -15.4,-13.0 M -18.0,-18.0 L -15.4,-18.0 M -18.0,-8.0 L -15.4,-13.0 M -15.4,-13.0 L -18.0,-18.0 M -18.0,-18.0 L -15.4,-22.4 M 15.2,-7.6 L 15.2,-24.2 M 17.8,-7.6 L 17.8,-22.4 M 15.2,-13.0 L 17.8,-13.0 M 15.2,-18.0 L 17.8,-18.0 M 17.8,-8.0 L 15.2,-13.0 M 15.2,-13.0 L 17.8,-18.0 M 17.8,-18.0 L 15.2,-22.4",
+      d: "M -15.4,-7.6 L -15.4,-29.2 M -18.0,-7.6 L -18.0,-27.4 M -18.0,-13.0 L -15.4,-13.0 M -18.0,-18.0 L -15.4,-18.0 M -18.0,-23.0 L -15.4,-23.0 M -18.0,-8.0 L -15.4,-13.0 M -15.4,-13.0 L -18.0,-18.0 M -18.0,-18.0 L -15.4,-23.0 M -15.4,-23.0 L -18.0,-27.4 M 15.2,-7.6 L 15.2,-29.2 M 17.8,-7.6 L 17.8,-27.4 M 15.2,-13.0 L 17.8,-13.0 M 15.2,-18.0 L 17.8,-18.0 M 15.2,-23.0 L 17.8,-23.0 M 17.8,-8.0 L 15.2,-13.0 M 15.2,-13.0 L 17.8,-18.0 M 17.8,-18.0 L 15.2,-23.0 M 15.2,-23.0 L 17.8,-27.4",
       fill: "none", stroke: "currentColor", "stroke-width": "0.78", "stroke-linecap": "round"
     }, prop5);
-    // Tiny aviation beacon masts atop twin towers
-    mk("path", { d: "M -15.4,-26.3 L -15.4,-28.0 M 15.2,-26.3 L 15.2,-28.0", fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-linecap": "round" }, prop5);
+    // Tall aviation beacon masts atop twin towers
+    mk("path", { d: "M -15.4,-31.4 L -15.4,-33.4 M 15.2,-31.4 L 15.2,-33.4", fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-linecap": "round" }, prop5);
     // Articulated Swing-Open Mechanical Launch Clamps (swing crisply outward like umbilical arms!)
     const gantryClampL = mk("g", null, prop5);
-    mk("path", { d: "M -15.4,-17.2 L -11.6,-17.2 L -11.0,-15.7 L -15.4,-15.7 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round" }, gantryClampL);
-    mk("circle", { cx: "-15.4", cy: "-16.4", r: "0.85", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.75" }, gantryClampL);
+    mk("path", { d: "M -15.4,-18.2 L -11.4,-18.2 L -10.8,-16.7 L -15.4,-16.7 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round" }, gantryClampL);
+    mk("circle", { cx: "-15.4", cy: "-17.4", r: "0.85", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.75" }, gantryClampL);
     const gantryClampR = mk("g", null, prop5);
-    mk("path", { d: "M 15.2,-17.2 L 11.4,-17.2 L 10.8,-15.7 L 15.2,-15.7 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round" }, gantryClampR);
-    mk("circle", { cx: "15.2", cy: "-16.4", r: "0.85", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.75" }, gantryClampR);
-    const gantryBeaconL = mk("circle", { cx: "-15.4", cy: "-25.2", r: "1.15", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8" }, prop5);
-    const gantryBeaconR = mk("circle", { cx: "15.2", cy: "-25.2", r: "1.15", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8" }, prop5);
+    mk("path", { d: "M 15.2,-18.2 L 11.2,-18.2 L 10.6,-16.7 L 15.2,-16.7 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round" }, gantryClampR);
+    mk("circle", { cx: "15.2", cy: "-17.4", r: "0.85", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.75" }, gantryClampR);
+    const gantryBeaconL = mk("circle", { cx: "-15.4", cy: "-30.3", r: "1.18", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8" }, prop5);
+    const gantryBeaconR = mk("circle", { cx: "15.2", cy: "-30.3", r: "1.18", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8" }, prop5);
     // Dedicated Side Status Housing for 3 Sequential Pre-Flight Check LEDs (ZERO truss line overlap!)
-    mk("rect", { x: "18.3", y: "-22.4", width: "3.0", height: "13.8", rx: "0.75", fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.68" }, prop5);
-    const padCheck1 = mk("circle", { cx: "19.8", cy: "-10.8", r: "1.0", fill: "#EDE8DE" }, prop5);
-    const padCheck2 = mk("circle", { cx: "19.8", cy: "-15.5", r: "1.0", fill: "#EDE8DE" }, prop5);
-    const padCheck3 = mk("circle", { cx: "19.8", cy: "-20.2", r: "1.0", fill: "#EDE8DE" }, prop5);
+    mk("rect", { x: "18.3", y: "-23.4", width: "3.0", height: "14.4", rx: "0.75", fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.68" }, prop5);
+    const padCheck1 = mk("circle", { cx: "19.8", cy: "-11.4", r: "1.0", fill: "#EDE8DE" }, prop5);
+    const padCheck2 = mk("circle", { cx: "19.8", cy: "-16.2", r: "1.0", fill: "#EDE8DE" }, prop5);
+    const padCheck3 = mk("circle", { cx: "19.8", cy: "-21.0", r: "1.0", fill: "#EDE8DE" }, prop5);
     // Vertical alignment ticks + sweeping horizontal scan line + rising energy ellipse
     const padBeams = mk("g", { opacity: "0" }, prop5);
-    mk("line", { x1: "-11.4", y1: "-6", x2: "-11.4", y2: "-27", stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "2 3" }, padBeams);
-    mk("line", { x1: "11.4", y1: "-6", x2: "11.4", y2: "-27", stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "2 3" }, padBeams);
+    mk("line", { x1: "-11.4", y1: "-6", x2: "-11.4", y2: "-29", stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "2 3" }, padBeams);
+    mk("line", { x1: "11.4", y1: "-6", x2: "11.4", y2: "-29", stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "2 3" }, padBeams);
     const padScanLine = mk("line", { x1: "-12.4", y1: "-6", x2: "12.4", y2: "-6", stroke: "#2D6A47", "stroke-width": "1.05", "stroke-opacity": "0.75", "stroke-dasharray": "3 2", opacity: "0" }, prop5);
     const padEnergyRing = mk("ellipse", { cx: "0", cy: "-6", rx: "11.5", ry: "2.2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, prop5);
-    // Stepped aerospace launch deck + dark recessed flame trench exhaust pit!
+    // Stepped aerospace launch deck + dark recessed flame trench exhaust pit + ignition glow!
     mk("path", {
       d: "M -18.2,0 L -15.2,-3.6 L 15.2,-3.6 L 18.2,0 Z",
       fill: "url(#evo-porcelain)", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
@@ -455,6 +498,16 @@
       d: "M -11.4,-3.6 L -9.6,-1.1 L 9.6,-1.1 L 11.4,-3.6 Z",
       fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.75", "stroke-linejoin": "round"
     }, prop5);
+    const trenchGlow = mk("ellipse", { cx: "0", cy: "-2.3", rx: "9.2", ry: "1.45", fill: "#B5F5D4", opacity: "0" }, prop5);
+    // Symmetrical Horizontal High-Pressure Exhaust Steam Plumes blasting left & right out of launch trench on ignition!
+    const launchSteamL = mk("g", { opacity: "0" }, prop5);
+    mk("circle", { cx: "-18.5", cy: "-2.6", r: "2.5", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.65", "fill-opacity": "0.9" }, launchSteamL);
+    mk("circle", { cx: "-22.2", cy: "-4.2", r: "3.1", fill: "#E6EFE8", stroke: "#2D6A47", "stroke-width": "0.55", "fill-opacity": "0.85" }, launchSteamL);
+    mk("circle", { cx: "-25.8", cy: "-2.2", r: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.5", "fill-opacity": "0.75" }, launchSteamL);
+    const launchSteamR = mk("g", { opacity: "0" }, prop5);
+    mk("circle", { cx: "18.5", cy: "-2.6", r: "2.5", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.65", "fill-opacity": "0.9" }, launchSteamR);
+    mk("circle", { cx: "22.2", cy: "-4.2", r: "3.1", fill: "#E6EFE8", stroke: "#2D6A47", "stroke-width": "0.55", "fill-opacity": "0.85" }, launchSteamR);
+    mk("circle", { cx: "25.8", cy: "-2.2", r: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.5", "fill-opacity": "0.75" }, launchSteamR);
     // Twin sculpted docking clamp pylons
     mk("path", {
       d: "M -16.8,0 L -17.6,-7.6 L -14.2,-7.6 L -13.2,-3.6 M 16.8,0 L 17.6,-7.6 L 14.2,-7.6 L 13.2,-3.6",
@@ -543,9 +596,11 @@
     // Front stickman arm + crisp white cartoon fist/hand (locks mathematically onto Mark I's key!)
     const humanArmF = mk("path", { d: "M 2.6,-6.6 L 5.6,-4.4 L 8.2,-3.8", fill: "none", stroke: "#1D1B18", "stroke-width": "1.42", "stroke-linecap": "round", "stroke-linejoin": "round" }, humanTorsoG);
     const humanHand = mk("circle", { cx: "8.2", cy: "-3.8", r: "1.18", fill: "#FFFDF9", stroke: "#1D1B18", "stroke-width": "0.88" }, humanTorsoG);
-    // Mechanical ratchet crank arcs centered cleanly at (0,0) -> positioned dynamically on Mark I's exact wind-up key!
+    // Mechanical ratchet crank arcs + golden full-wind sparkle star centered cleanly at (0,0) on Mark I's brass key!
     const windTicks = mk("g", { opacity: "0" }, humanGroup);
     mk("path", { d: "M -2.2,-4.0 A 4.4,4.4 0 0,1 3.6,-2.4 M -2.0,4.0 A 4.4,4.4 0 0,0 3.6,2.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round" }, windTicks);
+    const keyFullSpark = mk("g", { opacity: "0" }, humanGroup);
+    mk("path", { d: "M 0,-5.4 L 1.0,-1.2 L 5.0,0 L 1.0,1.2 L 0,5.4 L -1.0,1.2 L -5.0,0 L -1.0,-1.2 Z", fill: "#F6D365", stroke: "#1D1B18", "stroke-width": "0.55", "stroke-linejoin": "round" }, keyFullSpark);
     // Comedic sweat-drop + "..." exasperation reaction cleanly above engineer's hardhat!
     const humanSweat = mk("g", { opacity: "0" }, humanGroup);
     mk("path", { d: "M 6.2,-27.4 Q 7.2,-25.4 6.2,-24.8 Q 5.2,-25.4 6.2,-27.4 Z", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.72" }, humanSweat);
@@ -628,16 +683,14 @@
     mk("rect", { x: "-1.5", y: "-1.2", width: "3.0", height: "1.8", rx: "0.4", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.68" }, mk3StowedDrill);
     mk("polygon", { points: "-1.3,-1.2 0,-6.4 1.3,-1.2", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round" }, mk3StowedDrill);
     mk("line", { x1: "-0.7", y1: "-2.7", x2: "0.7", y2: "-3.3", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, mk3StowedDrill);
-    // Mark IV Side-Profile Swept Twin-Blade Rear Dorsal Stabilizer Fins (drawn BEHIND torsoEl on -x!)
+    // Mark IV Compact Dual-Layer State-Machine Compute Backpack (NO WINGS — keeps wings 100% exclusive to Stage 5 Mark V!)
     const mk4BackEl = mk("g", { opacity: "0" }, torsoGroup);
-    mk("path", { d: "M -3.4,-7.8 L -7.6,-8.6 L -6.8,-5.4 L -3.4,-5.4 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-linejoin": "round" }, mk4BackEl);
-    mk("path", { d: "M -3.4,-10.0 L -9.4,-13.0 L -8.4,-8.8 L -3.4,-7.4 Z", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, mk4BackEl);
-    mk("line", { x1: "-4.8", y1: "-10.1", x2: "-8.2", y2: "-11.8", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, mk4BackEl);
-    // Mirrored right-side Mark IV dorsal fin (ONLY shown when turning front-facing symmetric in Era 5 gantry!)
-    const mk4BackRightEl = mk("g", { opacity: "0" }, torsoGroup);
-    mk("path", { d: "M 3.4,-7.8 L 7.6,-8.6 L 6.8,-5.4 L 3.4,-5.4 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-linejoin": "round" }, mk4BackRightEl);
-    mk("path", { d: "M 3.4,-10.0 L 9.4,-13.0 L 8.4,-8.8 L 3.4,-7.4 Z", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, mk4BackRightEl);
-    mk("line", { x1: "4.8", y1: "-10.1", x2: "8.2", y2: "-11.8", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, mk4BackRightEl);
+    mk("rect", { x: "-7.2", y: "-9.8", width: "3.8", height: "7.6", rx: "0.75", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.82" }, mk4BackEl);
+    mk("rect", { x: "-6.6", y: "-8.9", width: "2.3", height: "5.8", rx: "0.4", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.55" }, mk4BackEl);
+    mk("line", { x1: "-5.5", y1: "-7.6", x2: "-5.5", y2: "-4.4", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-dasharray": "1.2 1.0", "stroke-linecap": "round" }, mk4BackEl);
+    // Tiny folded telemetry antenna mast on top of compute pack
+    mk("line", { x1: "-5.6", y1: "-9.8", x2: "-6.4", y2: "-13.4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linecap": "round" }, mk4BackEl);
+    mk("circle", { cx: "-6.5", cy: "-13.9", r: "0.75", fill: "#5CE09B", stroke: "#1D1B18", "stroke-width": "0.55" }, mk4BackEl);
     // Mechanical neck collar connecting torso to CRT head
     const neckEl = mk("g", { opacity: "0" }, torsoGroup);
     mk("rect", { x: "-1.9", y: "-12.2", width: "3.8", height: "2.4", rx: "0.6", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.85" }, neckEl);
@@ -664,11 +717,14 @@
     mk("circle", { cx: "-4.0", cy: "-2.4", r: "0.45", fill: "#1D1B18" }, mk1FrontDial);
     mk("circle", { cx: "4.0", cy: "-2.4", r: "0.45", fill: "#1D1B18" }, mk1FrontDial);
     mk("circle", { cx: "0.5", cy: "-4.3", r: "2.35", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.82" }, mk1FrontDial);
+    // Vintage analog gauge tick marks inside dial
+    mk("path", { d: "M 0.5,-6.2 L 0.5,-5.7 M -1.2,-4.3 L -0.7,-4.3 M 2.2,-4.3 L 1.7,-4.3", fill: "none", stroke: "#1D1B18", "stroke-width": "0.48", "stroke-linecap": "round" }, mk1FrontDial);
     const mk1Needle = mk("line", { x1: "0.5", y1: "-4.3", x2: "-0.8", y2: "-5.6", stroke: "#B83B2A", "stroke-width": "1.0", "stroke-linecap": "round" }, mk1FrontDial);
     mk("circle", { cx: "0.5", cy: "-4.3", r: "0.55", fill: "#1D1B18" }, mk1FrontDial);
-    // Mark II Lab Prototype Skeletal Collar & Glowing Vertical Neural Bar (Era 2)
+    // Mark II Lab Prototype Skeletal Collar & Glowing Vertical Neural Bar (with soft breathing aura!)
     const mk2ProtoEl = mk("g", { opacity: "0" }, torsoGroup);
     mk("path", { d: "M -3.9,-10.0 L 3.9,-10.0 L 3.1,-7.8 L -3.1,-7.8 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-linejoin": "round" }, mk2ProtoEl);
+    const mk2CoreAura = mk("ellipse", { cx: "0", cy: "-4.6", rx: "2.8", ry: "3.4", fill: "url(#evo-arc-glow)", opacity: "0.45" }, mk2ProtoEl);
     mk("rect", { x: "-1.3", y: "-7.2", width: "2.6", height: "5.2", rx: "0.9", fill: "#1D1B18" }, mk2ProtoEl);
     const mk2PulseBar = mk("rect", { x: "-0.65", y: "-6.4", width: "1.3", height: "3.6", rx: "0.5", fill: "#5CE09B" }, mk2ProtoEl);
     // Mark III Sleek Industrial Exo-Collar & Dual-Cell Power Core (replaces bulky apron — crisp ceramic+gunmetal mech!)
@@ -1095,6 +1151,7 @@
       const startX = 14;
       const endX = Math.max(240, w - 18);
       const span = endX - startX;
+      S = getScale(span);
       const x1 = startX + span * 0.11;
       const humanX = Math.max(startX + 9, x1 - 50 * S);
       const botStartX = Math.max(humanX + 16.5 * S, x1 - 33.5 * S);
@@ -1163,6 +1220,7 @@
         const startX = 14;
         const endX = Math.max(240, w - 18);
         const span = endX - startX;
+        S = getScale(span);
 
         // 5 Concrete prop anchor X positions (centered in each era column)
         const x1 = startX + span * 0.11; // Stone Cluster
@@ -1205,6 +1263,17 @@
           launchTrailL.setAttribute("opacity", "0");
           launchTrailR.setAttribute("opacity", "0");
           groundBounceEl.setAttribute("opacity", "0");
+          trenchGlow.setAttribute("opacity", "0");
+          launchSteamL.setAttribute("opacity", "0");
+          launchSteamR.setAttribute("opacity", "0");
+          // Keep idle ambient life gently breathing in resting state (slow tower beacons + live EKG + coffee steam!)
+          const restBeacon = Math.sin(now * 0.0032) > 0.25 ? "#5CE09B" : "#2D6A47";
+          gantryBeaconL.setAttribute("fill", restBeacon);
+          gantryBeaconR.setAttribute("fill", restBeacon);
+          const rst1 = Math.sin(now * 0.0026) * 0.65;
+          const rst2 = Math.cos(now * 0.0022) * 0.55;
+          mugSteam1.setAttribute("transform", `translate(${(rst1 * 0.5).toFixed(2)}, ${(-Math.abs(rst1) * 0.9).toFixed(2)})`);
+          mugSteam2.setAttribute("transform", `translate(${(rst2 * 0.5).toFixed(2)}, ${(-Math.abs(rst2) * 0.8).toFixed(2)})`);
           requestAnimationFrame(tick);
           return;
         }
@@ -1618,10 +1687,18 @@
           humanArmB.setAttribute("d", `M 1.4,-6.6 L ${eBx.toFixed(1)},${eBy.toFixed(1)} L ${hB.x.toFixed(1)},${hB.y.toFixed(1)}`);
           humanHandB.setAttribute("cx", hB.x.toFixed(1));
           humanHandB.setAttribute("cy", hB.y.toFixed(1));
-          // Center ratchet arcs cleanly right around Mark I's brass butterfly key!
+          // Center ratchet arcs + golden full-wind sparkle star cleanly on Mark I's brass butterfly key!
           windTicks.setAttribute("transform", `translate(${keyX_h.toFixed(1)}, ${keyY_h.toFixed(1)})`);
           const crankPulse = Math.abs(Math.sin(u * Math.PI * 3));
           windTicks.setAttribute("opacity", (crankPulse * 0.88).toFixed(2));
+          if (u > 0.78) {
+            const su = (u - 0.78) / 0.22;
+            const sc = 0.4 + Math.sin(su * Math.PI) * 0.85;
+            keyFullSpark.setAttribute("transform", `translate(${keyX_h.toFixed(1)}, ${(keyY_h - 4.2).toFixed(1)}) scale(${sc.toFixed(2)}) rotate(${(su * 45).toFixed(1)})`);
+            keyFullSpark.setAttribute("opacity", Math.sin(su * Math.PI).toFixed(2));
+          } else {
+            keyFullSpark.setAttribute("opacity", "0");
+          }
           engFaceHappy.setAttribute("opacity", "1");
           engFaceOops.setAttribute("opacity", "0");
           humanSweat.setAttribute("opacity", "0");
@@ -1629,11 +1706,13 @@
           b0t += dt;
           const tripped = b1 >= 1;
           const fadeOut = b1 >= 3 ? 1 - clamp01((b1t) / 0.32) : (b0t > 2.8 ? 1 - clamp01((b0t - 2.8) / 0.4) : 1);
-          humanGroup.setAttribute("transform", `translate(${humanX.toFixed(1)}, ${BASE_Y}) scale(${S})`);
+          const stepBackX = -lerp(0, 2.2 * S, clamp01(b0t / 0.24));
+          humanGroup.setAttribute("transform", `translate(${(humanX + stepBackX).toFixed(1)}, ${BASE_Y}) scale(${S})`);
           humanGroup.setAttribute("opacity", fadeOut.toFixed(2));
           humanLegB.setAttribute("d", "M -0.9,-9.6 L -2.2,-4.8 L -2.8,0 L -0.8,0");
           humanLegF.setAttribute("d", "M 0.9,-9.6 L 2.0,-4.8 L 1.6,0 L 3.8,0");
           windTicks.setAttribute("opacity", "0");
+          keyFullSpark.setAttribute("opacity", "0");
           if (tripped) {
             // Comedic engineer facepalm + flat exasperated eyes + bamboo sweat-drop + "..."!
             humanTorsoG.setAttribute("transform", "translate(0, -9.6) rotate(-6)");
@@ -1674,10 +1753,19 @@
           pebbleDust.setAttribute("opacity", "0");
         }
 
-        // Prop 2 updates (缸中之脑，会推理): Swaying bamboo nutrient liquid, rising micro-bubbles, bell-jar lift, brain arc, 3-step CoT
+        // Prop 2 updates (缸中之脑，会推理): Live EKG waveform, overhead crane piston, swaying liquid, trailing neural dots & 3-step CoT!
         const vatIdleBob = Math.sin(now * 0.0035) * 0.7;
         const reasoningNow = b2 === 1 && b2t >= 0.98;
         const brainInVat = b2 === 0 || (b2 === 1 && b2t < 0.34);
+        // Live animated green EKG neural pulse waveform on dark base oscilloscope!
+        const ekgFreq = b2 === 1 && b2t < 0.98 ? 0.015 : (b2 === 2 ? 0.003 : 0.006);
+        const ekgAmp = b2 === 1 && b2t < 0.98 ? 1.45 : (b2 === 2 ? 0.25 : 0.92);
+        const ekgP = ((now * ekgFreq) % 1);
+        const pkX = lerp(-5.8, -2.0, ekgP);
+        vatEkgWave.setAttribute(
+          "d",
+          `M -6.3,-5.4 L ${(pkX - 0.7).toFixed(1)},-5.4 L ${(pkX - 0.2).toFixed(1)},${(-5.4 - ekgAmp).toFixed(2)} L ${(pkX + 0.3).toFixed(1)},${(-5.4 + ekgAmp * 0.85).toFixed(2)} L ${(pkX + 0.75).toFixed(1)},-5.4 L -1.5,-5.4`
+        );
         const liqLevel = brainInVat ? -16.8 : (b2 === 1 && b2t < 0.72 ? lerp(-16.8, -12.6, clamp01((b2t - 0.34) / 0.38)) : -12.6);
         const waveAmp = brainInVat ? 0.75 : 0.28;
         const wL = (liqLevel + Math.sin(now * 0.0042) * waveAmp).toFixed(2);
@@ -1697,8 +1785,10 @@
         if (b2 === 0) {
           vatDomeGroup.setAttribute("transform", "translate(0, 0)");
           vatDomeGroup.setAttribute("opacity", "1");
+          vatCranePiston.setAttribute("y2", "-30.4");
           vatBrainGroup.setAttribute("transform", `translate(0, ${(-16.8 + vatIdleBob).toFixed(2)})`);
           vatBrainGroup.setAttribute("opacity", "1");
+          brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
           vatEyeSleep.setAttribute("opacity", "0.85");
           vatEyeAwake.setAttribute("opacity", "0");
           vatAntTip.setAttribute("fill", "#FAF8F4");
@@ -1706,21 +1796,22 @@
           vatEmitter.setAttribute("opacity", "0.65");
           cotChainGroup.setAttribute("opacity", "0");
         } else if (b2 === 1) {
-          // Dome lifts cleanly (0..0.34s), hovers open (0.34..0.72s), settles back (0.72..1.04s)
+          // Overhead crane piston physically lifts glass bell-jar up (0..0.34s), holds (0.34..0.72s), lowers cleanly back!
           let domeLift = 0;
           if (b2t < 0.34) {
             const u = clamp01(b2t / 0.34);
-            domeLift = -(1 - Math.pow(1 - u, 3)) * 10.5;
+            domeLift = -(1 - Math.pow(1 - u, 3)) * 5.0;
           } else if (b2t < 0.72) {
-            domeLift = -10.5;
+            domeLift = -5.0;
           } else {
             const u = clamp01((b2t - 0.72) / 0.32);
-            domeLift = -(1 - u * u * (3 - 2 * u)) * 10.5;
+            domeLift = -(1 - u * u * (3 - 2 * u)) * 5.0;
           }
           vatDomeGroup.setAttribute("transform", `translate(0, ${domeLift.toFixed(1)})`);
-          vatDomeGroup.setAttribute("opacity", (1 + domeLift / 26).toFixed(2));
+          vatDomeGroup.setAttribute("opacity", "1");
+          vatCranePiston.setAttribute("y2", (-30.4 + domeLift).toFixed(1));
 
-          // Brain wakes up (0.14s) and smoothly arcs from vat (0, -16.8) to robot neck (-15.4, -22.2)!
+          // Brain wakes up (0.16s) and smoothly arcs from vat to robot neck with 5 trailing bamboo neural light particles!
           if (b2t < 0.72) {
             vatBrainGroup.setAttribute("opacity", "1");
             const awake = b2t >= 0.16;
@@ -1730,6 +1821,7 @@
             if (b2t < 0.34) {
               const u = clamp01(b2t / 0.34);
               vatBrainGroup.setAttribute("transform", `translate(0, ${(-16.8 - u * 4.2).toFixed(1)})`);
+              brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
             } else {
               const u = clamp01((b2t - 0.34) / 0.38);
               const e = u * u * (3 - 2 * u);
@@ -1737,9 +1829,24 @@
               const bx = inv * inv * 0 + 2 * inv * e * -10.4 + e * e * -20.8;
               const by = inv * inv * -21.0 + 2 * inv * e * -29.2 + e * e * -22.2;
               vatBrainGroup.setAttribute("transform", `translate(${bx.toFixed(1)}, ${by.toFixed(1)})`);
+              brainTrailDots.forEach((d, ti) => {
+                const tu = clamp01(u - (ti + 1) * 0.085);
+                if (tu > 0.02) {
+                  const te = tu * tu * (3 - 2 * tu);
+                  const tinv = 1 - te;
+                  const tx = tinv * tinv * 0 + 2 * tinv * te * -10.4 + te * te * -20.8;
+                  const ty = tinv * tinv * -21.0 + 2 * tinv * te * -29.2 + te * te * -22.2;
+                  d.setAttribute("cx", tx.toFixed(1));
+                  d.setAttribute("cy", ty.toFixed(1));
+                  d.setAttribute("opacity", ((1 - ti * 0.18) * Math.sin(tu * Math.PI) * 0.9).toFixed(2));
+                } else {
+                  d.setAttribute("opacity", "0");
+                }
+              });
             }
           } else {
             vatBrainGroup.setAttribute("opacity", "0");
+            brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
           }
 
           vatGlow.setAttribute("opacity", b2t < 0.72 ? "0.75" : "0.18");
@@ -1763,7 +1870,9 @@
           // Empty glass vat remains cleanly behind on the timeline spine
           vatDomeGroup.setAttribute("transform", "translate(0, 0)");
           vatDomeGroup.setAttribute("opacity", "1");
+          vatCranePiston.setAttribute("y2", "-30.4");
           vatBrainGroup.setAttribute("opacity", "0");
+          brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
           vatGlow.setAttribute("opacity", "0");
           vatEmitter.setAttribute("opacity", "0.2");
           cotChainGroup.setAttribute("opacity", "0");
@@ -1795,7 +1904,22 @@
         const showBonk = b3 === 1 && b3t < 0.34;
         const bonkOp = showBonk ? (b3t < 0.17 ? 0.96 : (1 - (b3t - 0.17) / 0.17) * 0.96) : 0;
         wallSparks.setAttribute("opacity", bonkOp.toFixed(2));
+        wallBeacon.setAttribute("fill", !wallBroken && Math.sin(now * (drillingNow ? 0.024 : 0.005)) > -0.1 ? "#B83B2A" : "#E4DDD0");
         wallTorqueArcs.setAttribute("opacity", drillingNow ? (0.45 + 0.55 * Math.abs(Math.sin(b3t * 42))).toFixed(2) : "0");
+        // Live spraying stone-chip particles arcing backward from drill contact point!
+        drillChips.forEach((ch, ci) => {
+          if (drillingNow) {
+            const cu = ((b3t * 4.8 + ci * 0.17) % 1);
+            const vx = -(3.5 + (ci % 3) * 2.4);
+            const vy = -(3.2 + (ci % 2) * 2.2);
+            const cx = -8.4 + vx * cu;
+            const cy = -13.6 + vy * cu + 9.2 * cu * cu;
+            ch.setAttribute("transform", `translate(${(cx + 8).toFixed(1)}, ${(cy + 14).toFixed(1)}) rotate(${(cu * 140 * (ci % 2 === 0 ? 1 : -1)).toFixed(0)}, -8, -14)`);
+            ch.setAttribute("opacity", (Math.sin(cu * Math.PI) * 0.92).toFixed(2));
+          } else {
+            ch.setAttribute("opacity", "0");
+          }
+        });
 
         const shatteringNow = b3 === 1 && b3t >= 1.56 && b3t < 1.92;
         if (shatteringNow) {
@@ -1829,11 +1953,17 @@
         gateScanBeam.setAttribute("opacity", (scanOp * 0.95).toFixed(2));
         deskScreenGlow.setAttribute("opacity", typingNow || freezeAll ? "0.95" : (scanningTerminal ? "0.55" : "0"));
         typeSparks.setAttribute("opacity", typingNow ? (0.35 + 0.65 * Math.abs(Math.sin(b4t * 48))).toFixed(2) : "0");
-        // Gentle rising steam wisps above coffee mug
+        // Gentle rising steam wisps above coffee mug + live workstation tower disk/CPU LEDs + side LangGraph monitor!
         const st1 = Math.sin(now * 0.0026) * 0.65;
         const st2 = Math.cos(now * 0.0022) * 0.55;
         mugSteam1.setAttribute("transform", `translate(${(st1 * 0.5).toFixed(2)}, ${(-Math.abs(st1) * 0.9).toFixed(2)})`);
         mugSteam2.setAttribute("transform", `translate(${(st2 * 0.5).toFixed(2)}, ${(-Math.abs(st2) * 0.8).toFixed(2)})`);
+        const diskBlink = typingNow ? Math.sin(now * 0.036) > 0 : Math.sin(now * 0.0035) > 0.3;
+        towerLed1.setAttribute("fill", diskBlink ? "#5CE09B" : "#2D6A47");
+        towerLed2.setAttribute("fill", typingNow && !diskBlink ? "#B5F5D4" : "#8A8275");
+        sideGraphN1.setAttribute("fill", b4 >= 1 || taskDone ? "#5CE09B" : "#8A8275");
+        sideGraphN2.setAttribute("fill", (b4 === 1 && b4t >= 0.38) || taskDone ? (freezeAll ? "#F6D365" : "#5CE09B") : "#8A8275");
+        sideGraphN3.setAttribute("fill", taskDone ? "#5CE09B" : "#8A8275");
 
         gateScreenLines.setAttribute("opacity", taskDone ? "0" : (scanningTerminal || typingNow || freezeAll ? "1" : "0.78"));
         if (!taskDone) {
@@ -1891,12 +2021,29 @@
         padCheck1.setAttribute("fill", chk1 ? "#2D6A47" : "#EDE8DE");
         padCheck2.setAttribute("fill", chk2 ? "#2D6A47" : "#EDE8DE");
         padCheck3.setAttribute("fill", chk3 ? "#2D6A47" : "#EDE8DE");
-        gantryBeaconL.setAttribute("fill", chk3 ? "#2D6A47" : "#E4DDD0");
-        gantryBeaconR.setAttribute("fill", chk3 ? "#2D6A47" : "#E4DDD0");
+        const b5FastBlink = Math.sin(now * 0.018) > 0;
+        const b5SlowBlink = Math.sin(now * 0.0036) > 0.15;
+        const beaconFill = chk3 ? (b5FastBlink ? "#5CE09B" : "#2D6A47") : (b5SlowBlink ? "#B83B2A" : "#E4DDD0");
+        gantryBeaconL.setAttribute("fill", beaconFill);
+        gantryBeaconR.setAttribute("fill", beaconFill);
         // Mechanical launch clamps flare cleanly outward like aerospace umbilical arms (zero beacon collision!)
         const clampOpenU = b5 >= 2 ? 1 : (b5 === 1 ? smooth(0.84, 1.14, b5t) : 0);
-        gantryClampL.setAttribute("transform", `rotate(${(-clampOpenU * 76).toFixed(1)}, -15.4, -16.4)`);
-        gantryClampR.setAttribute("transform", `rotate(${(clampOpenU * 76).toFixed(1)}, 15.2, -16.4)`);
+        gantryClampL.setAttribute("transform", `rotate(${(-clampOpenU * 76).toFixed(1)}, -15.4, -17.4)`);
+        gantryClampR.setAttribute("transform", `rotate(${(clampOpenU * 76).toFixed(1)}, 15.2, -17.4)`);
+        // Blazing flame-trench exhaust glow & horizontal high-pressure steam plumes during ignition & liftoff!
+        if (b5 === 3 || (b5 === 4 && handoffTrailT < 0.72)) {
+          const steamU = b5 === 3 ? clamp01(b5t / 0.68) : clamp01(0.75 + handoffTrailT * 0.55);
+          const steamOp = b5 === 3 ? clamp01(jetPower * 0.92) : clamp01(1 - handoffTrailT / 0.72) * 0.82;
+          trenchGlow.setAttribute("opacity", (steamOp * 0.92).toFixed(2));
+          launchSteamL.setAttribute("opacity", steamOp.toFixed(2));
+          launchSteamR.setAttribute("opacity", steamOp.toFixed(2));
+          launchSteamL.setAttribute("transform", `translate(${(-steamU * 9.5).toFixed(1)}, ${(-steamU * 1.4).toFixed(1)}) scale(${(0.68 + steamU * 0.55).toFixed(2)})`);
+          launchSteamR.setAttribute("transform", `translate(${(steamU * 9.5).toFixed(1)}, ${(-steamU * 1.4).toFixed(1)}) scale(${(0.68 + steamU * 0.55).toFixed(2)})`);
+        } else {
+          trenchGlow.setAttribute("opacity", "0");
+          launchSteamL.setAttribute("opacity", "0");
+          launchSteamR.setAttribute("opacity", "0");
+        }
         padCore.setAttribute("opacity", padActive ? "1" : (near5 > 0.3 ? (near5 * 0.45).toFixed(2) : "0"));
         const pipOp = padActive ? "1" : (near5 > 0.2 ? (near5 * 0.7).toFixed(2) : "0");
         padPipL.setAttribute("opacity", pipOp);
@@ -2268,14 +2415,16 @@
         const showMk4 = isMk4 && !hasTorsoArmor;
         mk2ProtoEl.setAttribute("opacity", showMk2 ? "1" : "0");
         if (showMk2) {
-          mk2PulseBar.setAttribute("opacity", (0.55 + 0.45 * Math.sin(now * 0.008)).toFixed(2));
+          const m2Breath = 0.55 + 0.45 * Math.sin(now * 0.008);
+          mk2PulseBar.setAttribute("opacity", m2Breath.toFixed(2));
+          mk2CoreAura.setAttribute("opacity", (0.25 + m2Breath * 0.45).toFixed(2));
         }
         mk3RigEl.setAttribute("opacity", showMk3 ? "1" : "0");
         mk3BackEl.setAttribute("opacity", showMk3 ? "1" : "0");
         mk3StowedDrill.setAttribute("opacity", showMk3 && wallBroken && wrenchW < 0.25 ? "1" : "0");
         mk4TactEl.setAttribute("opacity", showMk4 ? "1" : "0");
-        mk4BackEl.setAttribute("opacity", showMk4 ? "1" : "0");
-        mk4BackRightEl.setAttribute("opacity", showMk4 && isSymStance ? "1" : "0");
+        // Mark IV compute backpack shows cleanly in side profile (zero wings before Stage 5!)
+        mk4BackEl.setAttribute("opacity", showMk4 && !isSymStance ? "1" : "0");
         if (showMk4) {
           const s1Lit = b4 >= 1 || taskDone;
           const s2Lit = (b4 === 1 && b4t >= 0.38) || taskDone;
@@ -2345,7 +2494,8 @@
         const headX = shoulderX + 0.5;
         const headY = shoulderY - 4.7 * hScale - 1.1;
         const walkTilt = freezeAll || b5 === 3 ? 0 : Math.sin(phase * Math.PI * 2) * 1.8;
-        const launchLookUp = b5 === 3 && launchLiftY > 2 ? -8 : 0;
+        // Heroic upward sky-gaze right after 8-piece armor lock-in and throughout liftoff!
+        const launchLookUp = (b5 === 3 && launchLiftY > 1) || (b5 === 1 && b5t >= 0.98) ? -9 : 0;
         headGroup.setAttribute("transform", `translate(${headX.toFixed(2)}, ${headY.toFixed(2)}) scale(${hScale.toFixed(3)}) rotate(${(walkTilt + headNodDeg + launchLookUp).toFixed(1)})`);
 
         // Distinct Head Silhouette Evolution: Mark II-III Heatsink Fins -> Mark IV Aerodynamic Ear-Wing -> Mark V Symmetric Front Head!
@@ -2457,11 +2607,12 @@
             fBend = 0.2;
           }
         } else if (armPose === "awake") {
-          // Era 2 Awakening: raises hands slightly in front while glancing curiously down at them!
-          fHX = fSX + 5.2;
-          fHY = fSY + 2.2;
-          bHX = bSX + 2.8;
-          bHY = bSY + 3.0;
+          // Era 2 Awakening: curiously raises & waves hands slightly while looking down at newly acquired body!
+          const handWave = Math.sin((b2t - 0.72) * 26) * 1.4;
+          fHX = fSX + 5.4;
+          fHY = fSY + 1.8 + handWave;
+          bHX = bSX + 3.0;
+          bHY = bSY + 2.8 - handWave * 0.7;
           fBend = 0.9;
           bBend = 0.8;
         } else if (armPose === "cot") {
@@ -2493,8 +2644,8 @@
           bHY = bSY + 5.6;
           fBend = 0.45;
         } else if (armPose === "wrench") {
-          // Era 3: extends right forearm cleanly forward so Spiral Drill tip kisses left brick face dead-on!
-          const triumphRaise = b3 === 1 && b3t >= 1.56 ? 1.8 : 0;
+          // Era 3: extends right forearm cleanly forward -> crisp celebratory upward drill-lift on shatter!
+          const triumphRaise = b3 === 1 && b3t >= 1.56 ? 2.6 : 0;
           fHX = fSX + 4.3;
           fHY = -13.6 - triumphRaise;
           bHX = bSX - 2.4;
