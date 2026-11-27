@@ -69,23 +69,24 @@
     // --- PROP 1 (Era 1 · 按脚本跑，无大脑): Clean Iconic Faceted Stone Cluster ---
     const prop1 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
     mk("rect", { x: "-14", y: "-14", width: "28", height: "16", fill: "transparent" }, prop1);
-    mk("line", { x1: "-9.2", y1: "0", x2: "8.4", y2: "0", stroke: "currentColor", "stroke-width": "0.95", "stroke-opacity": "0.35", "stroke-linecap": "round" }, prop1);
+    mk("ellipse", { cx: "0.4", cy: "0.35", rx: "9.8", ry: "1.15", fill: "#1D1B18", "fill-opacity": "0.11" }, prop1);
     // Companion micro-pebble on left
     mk("polygon", {
       points: "-7.6,0 -6.6,-3.0 -4.3,-2.8 -3.5,0",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round"
+      fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round"
     }, prop1);
     // Main faceted stone
     mk("polygon", {
       points: "-4.8,0 -3.6,-5.4 -0.4,-7.3 3.8,-5.0 5.6,0",
       fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15", "stroke-linejoin": "round"
     }, prop1);
-    // Warm stone-wash shaded right facet
+    // Warm stone-wash shaded right 2.5D facet
     mk("polygon", {
       points: "-0.4,-7.3 3.8,-5.0 5.6,0 0.8,0 0.3,-3.6",
-      fill: "#EDE8DE", "fill-opacity": "0.92"
+      fill: "#E4DDD0", "fill-opacity": "0.95"
     }, prop1);
-    // Facet ridge & tiny ink-hatching marks
+    // Crisp top-left paper highlight hairline + facet ridge & tiny ink-hatching marks
+    mk("line", { x1: "-3.1", y1: "-4.9", x2: "-0.6", y2: "-6.4", stroke: "#FAF8F4", "stroke-width": "0.9", "stroke-linecap": "round" }, prop1);
     mk("path", {
       d: "M -0.4,-7.3 L 0.3,-3.6 L 0.8,0 M -2.8,-2.8 L -1.4,-2.8 M 2.0,-2.0 L 3.3,-2.0",
       fill: "none", stroke: "currentColor", "stroke-width": "0.8", "stroke-linecap": "round"
@@ -93,40 +94,51 @@
     // Tiny chip pebble on far right
     mk("polygon", {
       points: "5.8,0 6.5,-1.8 7.8,-1.5 8.2,0",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85", "stroke-linejoin": "round"
+      fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85", "stroke-linejoin": "round"
     }, prop1);
     // Trip kick dust puffs (Era 1)
     const pebbleDust = mk("g", { opacity: "0" }, prop1);
-    mk("circle", { cx: "7.0", cy: "-2.4", r: "1.2", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.75" }, pebbleDust);
+    mk("circle", { cx: "7.0", cy: "-2.4", r: "1.2", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.75" }, pebbleDust);
     mk("circle", { cx: "10.0", cy: "-4.4", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.7" }, pebbleDust);
     mk("line", { x1: "5.6", y1: "-5.2", x2: "8.4", y2: "-7.2", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round" }, pebbleDust);
 
-    // --- PROP 2 (Era 2 · 缸中之脑，会推理): Glass Bell-Jar Brain-in-a-Vat Pedestal + 3-Step CoT Chain ---
+    // --- PROP 2 (Era 2 · 缸中之脑，会推理): 2.5D Glass Bell-Jar Brain-in-a-Vat with Swaying Nutrient Liquid & Bubbles ---
     const prop2 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
     mk("rect", { x: "-16", y: "-32", width: "32", height: "34", fill: "transparent" }, prop2);
-    mk("line", { x1: "-13.5", y1: "0", x2: "13.5", y2: "0", stroke: "currentColor", "stroke-width": "0.9", "stroke-opacity": "0.3", "stroke-linecap": "round" }, prop2);
-    // Stepped scientific pedestal base
+    mk("ellipse", { cx: "0", cy: "0.4", rx: "12.8", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop2);
+    // Stepped 2.5D scientific pedestal base
     mk("path", {
       d: "M -11.4,0 L -10.2,-2.4 L 10.2,-2.4 L 11.4,0 Z",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
+      fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
     }, prop2);
     mk("rect", {
       x: "-8.8", y: "-8.4", width: "17.6", height: "6.0", rx: "0.9",
       fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1"
     }, prop2);
+    // Right-side 2.5D depth shade on pedestal body
+    mk("rect", { x: "5.2", y: "-8.0", width: "3.2", height: "5.2", rx: "0.4", fill: "#E4DDD0", "fill-opacity": "0.85" }, prop2);
     // Pedestal instrument vents & twin micro-conduits
-    mk("rect", { x: "-6.6", y: "-6.8", width: "5.0", height: "2.8", rx: "0.5", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.7" }, prop2);
-    mk("path", { d: "M 0.8,-6.2 L 6.4,-6.2 M 0.8,-4.6 L 4.8,-4.6", fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-linecap": "round" }, prop2);
+    mk("rect", { x: "-6.6", y: "-6.8", width: "5.0", height: "2.8", rx: "0.5", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.7" }, prop2);
+    mk("path", { d: "M 0.2,-6.2 L 5.8,-6.2 M 0.2,-4.6 L 4.4,-4.6", fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-linecap": "round" }, prop2);
     // Vat rim collar & bamboo neural emitter strip
-    mk("rect", { x: "-9.6", y: "-10.0", width: "19.2", height: "1.8", rx: "0.7", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95" }, prop2);
+    mk("rect", { x: "-9.6", y: "-10.0", width: "19.2", height: "1.8", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.95" }, prop2);
     const vatGlow = mk("ellipse", { cx: "0", cy: "-15.5", rx: "6.8", ry: "5.2", fill: "url(#evo-arc-glow)", opacity: "0.35" }, prop2);
+    // Bamboo-tinted swaying nutrient liquid + rising micro-bubbles inside the glass jar!
+    const vatLiquidGroup = mk("g", { opacity: "0.95" }, prop2);
+    const vatLiquidFill = mk("path", { d: "M -7.6,-10.3 L -7.6,-16.8 Q 0,-17.5 7.6,-16.8 L 7.6,-10.3 Z", fill: "#2D6A47", "fill-opacity": "0.10" }, vatLiquidGroup);
+    const vatMeniscus = mk("path", { d: "M -7.4,-16.8 Q 0,-17.5 7.4,-16.8", fill: "none", stroke: "#2D6A47", "stroke-width": "0.7", "stroke-opacity": "0.42", "stroke-linecap": "round" }, vatLiquidGroup);
+    const vatBubbles = [
+      mk("circle", { cx: "-4.6", cy: "-12.2", r: "0.7", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.55", opacity: "0.75" }, vatLiquidGroup),
+      mk("circle", { cx: "4.8", cy: "-14.8", r: "0.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.5", opacity: "0.70" }, vatLiquidGroup),
+      mk("circle", { cx: "1.2", cy: "-12.8", r: "0.5", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.48", opacity: "0.65" }, vatLiquidGroup)
+    ];
     const vatEmitter = mk("line", { x1: "-5.0", y1: "-10.0", x2: "5.0", y2: "-10.0", stroke: "#2D6A47", "stroke-width": "1.6", "stroke-linecap": "round", opacity: "0.65" }, prop2);
     // Floating CRT Brain Head inside the Glass Vat (physically arcs onto the robot's neck in Era 2!)
     const vatBrainGroup = mk("g", { transform: "translate(0, -16.8)" }, prop2);
     mk("line", { x1: "-0.7", y1: "-4.4", x2: "-1.2", y2: "-7.6", stroke: "currentColor", "stroke-width": "1.05", "stroke-linecap": "round" }, vatBrainGroup);
     const vatAntTip = mk("circle", { cx: "-1.3", cy: "-8.3", r: "1.15", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.95" }, vatBrainGroup);
-    mk("rect", { x: "-6.2", y: "-1.4", width: "1.4", height: "3.0", rx: "0.55", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85" }, vatBrainGroup);
-    mk("rect", { x: "4.8", y: "-1.4", width: "1.3", height: "2.8", rx: "0.5", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85" }, vatBrainGroup);
+    mk("rect", { x: "-6.2", y: "-1.4", width: "1.4", height: "3.0", rx: "0.55", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85" }, vatBrainGroup);
+    mk("rect", { x: "4.8", y: "-1.4", width: "1.3", height: "2.8", rx: "0.5", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85" }, vatBrainGroup);
     mk("rect", { x: "-5.2", y: "-4.3", width: "10.4", height: "8.2", rx: "2.4", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.2" }, vatBrainGroup);
     mk("rect", { x: "-1.6", y: "-2.5", width: "5.8", height: "4.3", rx: "1.3", fill: "#1D1B18" }, vatBrainGroup);
     const vatEyeSleep = mk("line", { x1: "0.4", y1: "-0.3", x2: "2.8", y2: "-0.3", stroke: "#B5F5D4", "stroke-width": "1.05", "stroke-linecap": "round", opacity: "0.85" }, vatBrainGroup);
@@ -137,12 +149,12 @@
       d: "M -8.4,-10.0 L -8.4,-19.8 A 8.4,8.4 0 0,1 8.4,-19.8 L 8.4,-10.0 Z",
       fill: "url(#evo-vat-glass)", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
     }, vatDomeGroup);
-    // Curved glass reflection sheen + top brass finial knob
+    // Dual curved blown-glass reflection sheens + top brass finial knob
     mk("path", {
-      d: "M -5.8,-21.4 A 6.2,6.2 0 0,1 -1.8,-25.6",
-      fill: "none", stroke: "#FAF8F4", "stroke-width": "1.2", "stroke-linecap": "round", "stroke-opacity": "0.85"
+      d: "M -5.8,-21.4 A 6.2,6.2 0 0,1 -1.8,-25.6 M 6.4,-18.8 L 6.4,-12.2",
+      fill: "none", stroke: "#FAF8F4", "stroke-width": "1.15", "stroke-linecap": "round", "stroke-opacity": "0.82"
     }, vatDomeGroup);
-    mk("circle", { cx: "0", cy: "-29.4", r: "1.2", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.9" }, vatDomeGroup);
+    mk("circle", { cx: "0", cy: "-29.4", r: "1.2", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9" }, vatDomeGroup);
     // Neck-dock bamboo flash burst when brain locks onto robot
     const brainDockSpark = mk("g", { opacity: "0" }, prop2);
     mk("path", {
@@ -161,23 +173,28 @@
       fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0"
     }, cotChainGroup);
 
-    // --- PROP 3 (Era 3 · 撞墙试错，接工具): Solid Brick Wall + Pop-Open Toolbox with Big Spiral Drill -> Shattered Wall! ---
+    // --- PROP 3 (Era 3 · 撞墙试错，接工具): 2.5D Side-Thickness Brick Wall + Deep Open Toolbox + Spiral Drill ---
     const prop3 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
-    mk("rect", { x: "-36", y: "-32", width: "50", height: "34", fill: "transparent" }, prop3);
-    // Classic unmistakable Toolbox cleanly spaced left of drill stance (ZERO foot overlap!)
+    mk("rect", { x: "-36", y: "-32", width: "52", height: "34", fill: "transparent" }, prop3);
+    // Classic 2.5D Toolbox cleanly spaced left of drill stance (ZERO foot overlap!)
     const toolRackGroup = mk("g", { transform: "translate(-27.0, 0)" }, prop3);
+    mk("ellipse", { cx: "0.5", cy: "0.35", rx: "7.2", ry: "1.0", fill: "#1D1B18", "fill-opacity": "0.11" }, toolRackGroup);
+    // Open interior depth tray visible when lid flips up!
+    const toolBoxCavity = mk("polygon", { points: "-5.2,-8.2 -3.6,-9.6 6.8,-9.6 5.4,-8.2", fill: "#D7CEC0", stroke: "currentColor", "stroke-width": "0.75", "stroke-linejoin": "round", opacity: "0" }, toolRackGroup);
+    // 2.5D right-side thickness bevel on toolbox body
+    mk("polygon", { points: "5.2,-8.2 7.0,-7.3 7.0,-0.8 5.2,0", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, toolRackGroup);
     // Toolbox base body + front latch
-    mk("rect", { x: "-5.4", y: "-8.2", width: "10.8", height: "8.2", rx: "1.1", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.05" }, toolRackGroup);
+    mk("rect", { x: "-5.4", y: "-8.2", width: "10.8", height: "8.2", rx: "1.0", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.05" }, toolRackGroup);
     mk("rect", { x: "-4.9", y: "-4.2", width: "9.8", height: "3.7", rx: "0.5", fill: "#EDE8DE" }, toolRackGroup);
-    mk("rect", { x: "-1.3", y: "-7.2", width: "2.6", height: "2.2", rx: "0.4", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, toolRackGroup);
+    mk("rect", { x: "-1.3", y: "-7.2", width: "2.6", height: "2.2", rx: "0.4", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8" }, toolRackGroup);
     const rackPortLed = mk("circle", { cx: "0", cy: "-6.1", r: "0.55", fill: "#2D6A47", opacity: "0.85" }, toolRackGroup);
     // Hinged toolbox lid + classic top carry handle (flips open on epiphany!)
     const toolBoxLid = mk("g", null, toolRackGroup);
     mk("path", { d: "M -2.2,-10.2 L -2.2,-11.7 Q -2.2,-12.5 -1.3,-12.5 L 1.3,-12.5 Q 2.2,-12.5 2.2,-11.7 L 2.2,-10.2", fill: "none", stroke: "currentColor", "stroke-width": "1.0", "stroke-linecap": "round" }, toolBoxLid);
-    mk("rect", { x: "-5.8", y: "-10.3", width: "11.6", height: "2.4", rx: "0.7", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.0" }, toolBoxLid);
+    mk("rect", { x: "-5.8", y: "-10.3", width: "11.6", height: "2.4", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.0" }, toolBoxLid);
     // Big unmistakable conical Spiral Drill rising cleanly out of the open toolbox!
     const rackWrenchEl = mk("g", { opacity: "0" }, toolRackGroup);
-    mk("rect", { x: "-2.2", y: "-14.2", width: "3.6", height: "3.8", rx: "0.8", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95" }, rackWrenchEl);
+    mk("rect", { x: "-2.2", y: "-14.2", width: "3.6", height: "3.8", rx: "0.8", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.95" }, rackWrenchEl);
     mk("polygon", { points: "1.4,-14.3 8.8,-12.3 1.4,-10.3", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0", "stroke-linejoin": "round" }, rackWrenchEl);
     mk("path", { d: "M 3.0,-13.8 L 3.8,-10.8 M 5.2,-13.2 L 5.8,-11.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, rackWrenchEl);
     // Bamboo plug-in click flash when drill snaps onto robot forearm
@@ -187,13 +204,22 @@
       fill: "none", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round"
     }, toolSnapSpark);
 
-    // Ground baseline for wall
-    mk("line", { x1: "-11.5", y1: "0", x2: "11.5", y2: "0", stroke: "currentColor", "stroke-width": "1.05", "stroke-opacity": "0.4", "stroke-linecap": "round" }, prop3);
+    // Ground AO contact shadow for 2.5D brick wall
+    mk("ellipse", { cx: "1.4", cy: "0.4", rx: "12.4", ry: "1.25", fill: "#1D1B18", "fill-opacity": "0.12" }, prop3);
 
-    // Intact Solid Brick Wall (bold, zero tiny clutter — shatters when drilled through!)
+    // Intact 2.5D Solid Brick Wall (visible right masonry depth face — shatters when drilled through!)
     const wallBody = mk("g", null, prop3);
+    // 2.5D right-hand masonry depth side face + brick course ticks
+    mk("polygon", {
+      points: "8.0,-26.2 11.0,-24.6 11.0,0 8.0,0",
+      fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
+    }, wallBody);
+    mk("path", {
+      d: "M 8.0,-21.0 L 11.0,-19.8 M 8.0,-16.0 L 11.0,-14.8 M 8.0,-10.8 L 11.0,-9.6 M 8.0,-5.5 L 11.0,-4.4",
+      fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.75"
+    }, wallBody);
     mk("rect", {
-      x: "-8", y: "-26.2", width: "16", height: "26.2", rx: "0.7",
+      x: "-8", y: "-26.2", width: "16", height: "26.2", rx: "0.6",
       fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.2"
     }, wallBody);
     mk("rect", { x: "-7.5", y: "-25.7", width: "7.2", height: "4.6", fill: "#EDE8DE" }, wallBody);
@@ -205,17 +231,23 @@
       d: "M -8,-21.0 L 8,-21.0 M -8,-16.0 L 8,-16.0 M -8,-10.8 L 8,-10.8 M -8,-5.5 L 8,-5.5 M 0,-26.2 L 0,-21.0 M -3.6,-21.0 L -3.6,-16.0 M 3.8,-21.0 L 3.8,-16.0 M -1.4,-16.0 L -1.4,-10.8 M 3.6,-16.0 L 3.6,-10.8 M -4.2,-10.8 L -4.2,-5.5 M 0.8,-10.8 L 0.8,-5.5 M 0.2,-5.5 L 0.2,0",
       fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-opacity": "0.8"
     }, wallBody);
+    // 2.5D coping stone cap (top bevel + right side depth)
+    mk("polygon", {
+      points: "8.7,-28.4 11.6,-26.9 11.6,-24.6 8.7,-26.0",
+      fill: "#D7CEC0", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round"
+    }, wallBody);
     mk("rect", {
       x: "-8.7", y: "-28.4", width: "17.4", height: "2.4", rx: "0.6",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.1"
+      fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.1"
     }, wallBody);
+    mk("line", { x1: "-7.6", y1: "-27.6", x2: "7.2", y2: "-27.6", stroke: "#FAF8F4", "stroke-width": "0.75", "stroke-linecap": "round", "stroke-opacity": "0.8" }, wallBody);
     // Dramatic jagged crack spreading from drill contact point during drilling!
     const wallCrack = mk("path", {
       d: "M -7.8,-13.6 L -3.2,-15.2 L -0.4,-12.6 L 3.6,-16.4 L 6.8,-13.2 M -0.4,-12.6 L -2.2,-7.6 L 1.4,-3.2 M -3.2,-15.2 L -1.6,-21.8 L 2.2,-25.4",
       fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0"
     }, wallBody);
 
-    // Permanently Smashed-Through Brick Wall Rubble (left cleanly behind after breakthrough — instantly self-explanatory!)
+    // Permanently Smashed-Through 2.5D Brick Wall Rubble (left cleanly behind after breakthrough!)
     const wallBrokenG = mk("g", { opacity: "0" }, prop3);
     // Left jagged low brick stump
     mk("polygon", {
@@ -223,7 +255,11 @@
       fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1", "stroke-linejoin": "round"
     }, wallBrokenG);
     mk("path", { d: "M -8.0,-5.4 L -3.4,-5.4 M -5.0,-5.4 L -5.0,0", fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.75" }, wallBrokenG);
-    // Right jagged low brick stump
+    // Right jagged low brick stump with 2.5D side depth face
+    mk("polygon", {
+      points: "8.2,-12.6 10.8,-11.2 10.8,0 8.2,0",
+      fill: "#D7CEC0", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round"
+    }, wallBrokenG);
     mk("polygon", {
       points: "2.2,0 3.0,-5.0 4.8,-7.4 6.2,-12.6 8.2,-12.6 8.2,0",
       fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.1", "stroke-linejoin": "round"
@@ -260,42 +296,55 @@
     mk("circle", { cx: "-12.0", cy: "-4.6", r: "1.0", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
     mk("circle", { cx: "11.8", cy: "-4.8", r: "0.95", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
 
-    // --- PROP 4 (Era 4 · 手眼脑通，状态机): Minimalist Computer Desk + Keyboard Typing + Floating State Flow -> Big ✓ ---
+    // --- PROP 4 (Era 4 · 手眼脑通，状态机): 2.5D Architect's Computer Desk + Steaming Coffee Mug + Live Code Typing -> Big ✓ ---
     const prop4 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
-    mk("rect", { x: "-20", y: "-36", width: "38", height: "38", fill: "transparent" }, prop4);
+    mk("rect", { x: "-20", y: "-36", width: "42", height: "38", fill: "transparent" }, prop4);
     // Crisp dual-optic vision scan cone projected from robot goggles onto the big desktop monitor!
     const gateScanBeam = mk("g", { opacity: "0" }, prop4);
     mk("polygon", { points: "-15.4,-25.2 -0.6,-22.2 -0.6,-15.2", fill: "url(#evo-scan-beam)" }, gateScanBeam);
     mk("line", { x1: "-15.4", y1: "-25.2", x2: "-0.6", y2: "-22.2", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.85" }, gateScanBeam);
     mk("line", { x1: "-15.4", y1: "-25.2", x2: "-0.6", y2: "-15.2", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.75" }, gateScanBeam);
     mk("line", { x1: "-15.4", y1: "-25.2", x2: "-0.6", y2: "-18.7", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "2 2", "stroke-opacity": "0.85" }, gateScanBeam);
+    // Subtle mint screen-glow wash cast leftward while actively typing/working!
+    const deskScreenGlow = mk("polygon", { points: "-0.6,-23.2 -12.6,-21.0 -12.6,-12.2 -0.6,-15.2", fill: "#2D6A47", "fill-opacity": "0.09", opacity: "0" }, prop4);
 
-    // Architectural Minimalist Desk (instantly recognizable silhouette!)
-    mk("line", { x1: "-13.5", y1: "0", x2: "13.5", y2: "0", stroke: "currentColor", "stroke-width": "0.9", "stroke-opacity": "0.3", "stroke-linecap": "round" }, prop4);
-    mk("line", { x1: "-10.2", y1: "-10.4", x2: "-10.2", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
-    mk("line", { x1: "10.2", y1: "-10.4", x2: "10.2", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
-    mk("line", { x1: "-10.2", y1: "-3.6", x2: "10.2", y2: "-3.6", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.45" }, prop4);
-    mk("rect", { x: "-12.0", y: "-12.0", width: "24.0", height: "2.0", rx: "0.7", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.05" }, prop4);
+    // 2.5D Architectural Minimalist Desk (with grounded AO + subtle right-side leg depth + coffee mug corner!)
+    mk("ellipse", { cx: "2.2", cy: "0.4", rx: "16.0", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop4);
+    mk("line", { x1: "-10.4", y1: "-10.4", x2: "-10.4", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
+    mk("line", { x1: "14.4", y1: "-10.4", x2: "14.4", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
+    mk("line", { x1: "-10.4", y1: "-3.6", x2: "14.4", y2: "-3.6", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.45" }, prop4);
+    mk("rect", { x: "-12.2", y: "-12.0", width: "29.4", height: "2.1", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05" }, prop4);
+    mk("line", { x1: "-11.4", y1: "-11.3", x2: "16.0", y2: "-11.3", stroke: "#FAF8F4", "stroke-width": "0.65", "stroke-linecap": "round", "stroke-opacity": "0.75" }, prop4);
+
+    // Tiny Steaming Architect's Coffee Mug cleanly clear on far right corner of desk!
+    mk("rect", { x: "13.3", y: "-14.7", width: "2.5", height: "2.7", rx: "0.5", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.8" }, prop4);
+    mk("path", { d: "M 15.8,-14.1 Q 16.9,-14.1 16.9,-13.3 Q 16.9,-12.5 15.8,-12.5", fill: "none", stroke: "currentColor", "stroke-width": "0.72", "stroke-linecap": "round" }, prop4);
+    const mugSteam1 = mk("path", { d: "M 14.0,-15.4 Q 13.5,-16.6 14.1,-17.7", fill: "none", stroke: "currentColor", "stroke-width": "0.6", "stroke-linecap": "round", opacity: "0.48" }, prop4);
+    const mugSteam2 = mk("path", { d: "M 15.1,-15.3 Q 15.6,-16.4 15.0,-17.4", fill: "none", stroke: "currentColor", "stroke-width": "0.55", "stroke-linecap": "round", opacity: "0.42" }, prop4);
 
     // Angled Desktop Keyboard right where robot's hands rapidly type!
-    mk("path", { d: "M -10.4,-12.0 L -9.6,-13.4 L -3.4,-13.4 L -2.8,-12.0 Z", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, prop4);
-    mk("line", { x1: "-8.8", y1: "-12.7", x2: "-4.2", y2: "-12.7", stroke: "currentColor", "stroke-width": "0.6", "stroke-dasharray": "1.2 1.0", "stroke-opacity": "0.65" }, prop4);
+    mk("path", { d: "M -10.6,-12.0 L -9.8,-13.5 L -3.6,-13.5 L -3.0,-12.0 Z", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, prop4);
+    mk("line", { x1: "-9.0", y1: "-12.75", x2: "-4.4", y2: "-12.75", stroke: "currentColor", "stroke-width": "0.6", "stroke-dasharray": "1.2 1.0", "stroke-opacity": "0.65" }, prop4);
     // Tiny typing click-sparks above keyboard while typing!
     const typeSparks = mk("g", { opacity: "0" }, prop4);
-    mk("path", { d: "M -8.4,-14.8 L -9.6,-16.6 M -6.4,-15.2 L -6.4,-17.4 M -4.4,-14.8 L -3.2,-16.6", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round" }, typeSparks);
+    mk("path", { d: "M -8.6,-14.8 L -9.8,-16.6 M -6.6,-15.2 L -6.6,-17.4 M -4.6,-14.8 L -3.4,-16.6", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round" }, typeSparks);
 
-    // Big Unmistakable Desktop Monitor (14.4 × 10.6px — crystal clear even at resting state!)
-    mk("path", { d: "M 3.2,-12.0 L 4.0,-14.4 L 6.6,-14.4 L 7.4,-12.0 Z", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, prop4);
-    mk("rect", { x: "-1.6", y: "-24.8", width: "13.8", height: "10.6", rx: "1.5", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.18" }, prop4);
-    mk("rect", { x: "-0.3", y: "-23.5", width: "11.2", height: "8.0", rx: "0.9", fill: "#181715" }, prop4);
-    // Live code/terminal lines on screen (visible before completion)
-    const gateScreenLines = mk("path", {
-      d: "M 1.2,-21.4 L 2.5,-20.4 L 1.2,-19.4 M 3.8,-20.4 L 9.2,-20.4 M 1.4,-17.8 L 7.4,-17.8",
-      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.9", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0.78"
-    }, prop4);
+    // Big 2.5D Desktop Monitor (with subtle right bezel depth + live progressive typing code lines!)
+    mk("path", { d: "M 2.8,-12.0 L 3.6,-14.4 L 6.2,-14.4 L 7.0,-12.0 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, prop4);
+    // 2.5D right-side monitor housing depth
+    mk("polygon", { points: "11.2,-24.6 12.6,-23.7 12.6,-13.8 11.2,-14.5", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, prop4);
+    mk("rect", { x: "-2.0", y: "-24.8", width: "13.4", height: "10.6", rx: "1.4", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.18" }, prop4);
+    mk("rect", { x: "-0.7", y: "-23.5", width: "10.8", height: "8.0", rx: "0.9", fill: "#181715" }, prop4);
+    // Live progressive code/terminal lines on screen (grow row-by-row while typing!)
+    const gateScreenLines = mk("g", { opacity: "0.78" }, prop4);
+    const codePrompt = mk("path", { d: "M 0.8,-21.7 L 1.9,-20.9 L 0.8,-20.1", fill: "none", stroke: "#7CE8B1", "stroke-width": "0.85", "stroke-linecap": "round", "stroke-linejoin": "round" }, gateScreenLines);
+    const codeLine1 = mk("line", { x1: "3.1", y1: "-20.9", x2: "8.6", y2: "-20.9", stroke: "#FAF8F4", "stroke-width": "0.85", "stroke-linecap": "round" }, gateScreenLines);
+    const codeLine2 = mk("line", { x1: "1.0", y1: "-19.0", x2: "7.2", y2: "-19.0", stroke: "#FAF8F4", "stroke-width": "0.85", "stroke-linecap": "round" }, gateScreenLines);
+    const codeLine3 = mk("line", { x1: "1.0", y1: "-17.2", x2: "5.4", y2: "-17.2", stroke: "#B5F5D4", "stroke-width": "0.85", "stroke-linecap": "round" }, gateScreenLines);
+    const codeCursor = mk("rect", { x: "6.0", y: "-17.8", width: "1.2", height: "1.2", rx: "0.2", fill: "#7CE8B1", opacity: "0" }, gateScreenLines);
     // Bold Luminous Bamboo-Green Checkmark ✓ (lights up when task finishes & stays permanently on screen!)
     const gateCheckEl = mk("path", {
-      d: "M 2.3,-19.4 L 4.6,-17.1 L 8.9,-21.6",
+      d: "M 1.9,-19.4 L 4.2,-17.1 L 8.5,-21.6",
       fill: "none", stroke: "#7CE8B1", "stroke-width": "1.65", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0"
     }, prop4);
     const gateSavedRipple = mk("circle", { cx: "14.2", cy: "-31.2", r: "2.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", opacity: "0" }, prop4);
@@ -317,9 +366,10 @@
     mk("line", { x1: "3.8", y1: "-32.6", x2: "3.8", y2: "-29.8", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
     mk("line", { x1: "6.8", y1: "-32.6", x2: "6.8", y2: "-29.8", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
 
-    // --- PROP 5 (Era 5 · 卷马具，进生产): Production Harness Launch Gantry (Docking Pad + Twin Rails + 3 Pre-Flight LEDs) ---
+    // --- PROP 5 (Era 5 · 卷马具，进生产): 2.5D Production Harness Launch Gantry with Swing-Open Clamps ---
     const prop5 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
-    mk("rect", { x: "-20", y: "-30", width: "40", height: "32", fill: "transparent" }, prop5);
+    mk("rect", { x: "-21", y: "-30", width: "42", height: "32", fill: "transparent" }, prop5);
+    mk("ellipse", { cx: "0", cy: "0.45", rx: "19.6", ry: "1.35", fill: "#1D1B18", "fill-opacity": "0.12" }, prop5);
     // Soft holographic projection cone behind pad
     const padField = mk("polygon", {
       points: "-12.2,-3.6 -15.0,-29 15.0,-29 12.2,-3.6",
@@ -331,8 +381,15 @@
       d: "M -15.4,-7.6 L -15.4,-24.2 M -17.8,-7.6 L -17.8,-22.2 M -17.8,-13.0 L -15.4,-13.0 M -17.8,-18.0 L -15.4,-18.0 M 15.2,-7.6 L 15.2,-24.2 M 18.2,-7.6 L 18.2,-22.4 M 15.2,-13.0 L 18.2,-13.0 M 15.2,-18.0 L 18.2,-18.0",
       fill: "none", stroke: "currentColor", "stroke-width": "0.85", "stroke-linecap": "round"
     }, prop5);
-    const gantryBeaconL = mk("circle", { cx: "-15.4", cy: "-25.2", r: "1.15", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop5);
-    const gantryBeaconR = mk("circle", { cx: "15.2", cy: "-25.2", r: "1.15", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop5);
+    // Articulated Swing-Open Mechanical Launch Clamps (unlock & swing outward when harness locks in!)
+    const gantryClampL = mk("g", null, prop5);
+    mk("path", { d: "M -15.4,-17.2 L -11.4,-17.2 L -10.8,-15.6 L -15.4,-15.6 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round" }, gantryClampL);
+    mk("circle", { cx: "-15.4", cy: "-16.4", r: "0.9", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.75" }, gantryClampL);
+    const gantryClampR = mk("g", null, prop5);
+    mk("path", { d: "M 15.2,-17.2 L 11.2,-17.2 L 10.6,-15.6 L 15.2,-15.6 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round" }, gantryClampR);
+    mk("circle", { cx: "15.2", cy: "-16.4", r: "0.9", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.75" }, gantryClampR);
+    const gantryBeaconL = mk("circle", { cx: "-15.4", cy: "-25.2", r: "1.15", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8" }, prop5);
+    const gantryBeaconR = mk("circle", { cx: "15.2", cy: "-25.2", r: "1.15", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8" }, prop5);
     // 3 Sequential Production Pre-Flight Check LEDs (Sandbox -> Evals -> HITL) centered in right gantry rail
     const padCheck1 = mk("circle", { cx: "16.7", cy: "-10.5", r: "1.15", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.75" }, prop5);
     const padCheck2 = mk("circle", { cx: "16.7", cy: "-15.5", r: "1.15", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.75" }, prop5);
@@ -1183,9 +1240,26 @@
           pebbleDust.setAttribute("opacity", "0");
         }
 
-        // Prop 2 updates (缸中之脑，会推理): Bell-jar lift, brain arc-transfer, awakening beat, 3-step CoT chain
+        // Prop 2 updates (缸中之脑，会推理): Swaying bamboo nutrient liquid, rising micro-bubbles, bell-jar lift, brain arc, 3-step CoT
         const vatIdleBob = Math.sin(now * 0.0035) * 0.7;
         const reasoningNow = b2 === 1 && b2t >= 0.98;
+        const brainInVat = b2 === 0 || (b2 === 1 && b2t < 0.34);
+        const liqLevel = brainInVat ? -16.8 : (b2 === 1 && b2t < 0.72 ? lerp(-16.8, -12.6, clamp01((b2t - 0.34) / 0.38)) : -12.6);
+        const waveAmp = brainInVat ? 0.75 : 0.28;
+        const wL = (liqLevel + Math.sin(now * 0.0042) * waveAmp).toFixed(2);
+        const wM = (liqLevel - Math.cos(now * 0.0042) * (waveAmp * 1.15)).toFixed(2);
+        const wR = (liqLevel - Math.sin(now * 0.0042) * waveAmp).toFixed(2);
+        vatLiquidFill.setAttribute("d", `M -7.6,-10.3 L -7.6,${wL} Q 0,${wM} 7.6,${wR} L 7.6,-10.3 Z`);
+        vatMeniscus.setAttribute("d", `M -7.4,${wL} Q 0,${wM} 7.4,${wR}`);
+        vatLiquidGroup.setAttribute("opacity", b2 === 2 ? "0.48" : "0.95");
+        vatBubbles.forEach((bEl, bi) => {
+          const cycle = ((now * 0.00055 + bi * 0.34) % 1);
+          const by = -11.0 - cycle * (brainInVat ? 6.2 : 1.6);
+          const bx = (bi === 0 ? -4.5 : bi === 1 ? 4.6 : 1.0) + Math.sin(now * 0.004 + bi * 2.1) * 0.55;
+          bEl.setAttribute("cx", bx.toFixed(1));
+          bEl.setAttribute("cy", by.toFixed(1));
+          bEl.setAttribute("opacity", (Math.sin(cycle * Math.PI) * (brainInVat ? 0.78 : 0.22)).toFixed(2));
+        });
         if (b2 === 0) {
           vatDomeGroup.setAttribute("transform", "translate(0, 0)");
           vatDomeGroup.setAttribute("opacity", "1");
@@ -1270,6 +1344,7 @@
           ? -92
           : 0;
         toolBoxLid.setAttribute("transform", `rotate(${lidAngle.toFixed(1)}, -5.4, -8.0)`);
+        toolBoxCavity.setAttribute("opacity", boxOpen ? "1" : "0");
         const drillPopU = b3 === 1 ? smooth(0.46, 0.64, b3t) : 0;
         rackWrenchEl.setAttribute("opacity", b3 === 1 && b3t >= 0.46 && !hasWrench ? drillPopU.toFixed(2) : "0");
         rackWrenchEl.setAttribute("transform", `translate(0, ${(5 * (1 - drillPopU)).toFixed(1)})`);
@@ -1291,28 +1366,61 @@
         const shatteringNow = b3 === 1 && b3t >= 1.56 && b3t < 1.92;
         if (shatteringNow) {
           const su = clamp01((b3t - 1.56) / 0.36);
-          const fade = 1 - su * su;
+          const fade = 1 - Math.pow(su, 2.4);
+          // Realistic gravity + ground bounce curve (shards peak, hit ground at u≈0.68, bounce with restitution 0.36!)
+          const bounceArc = (u, peakH, groundDrop) => {
+            if (u < 0.68) {
+              const t = u / 0.68;
+              return -Math.sin(t * Math.PI) * peakH + t * t * groundDrop;
+            }
+            const t = (u - 0.68) / 0.32;
+            return groundDrop - Math.sin(t * Math.PI) * (peakH * 0.34);
+          };
           wallShardsG.setAttribute("opacity", fade.toFixed(2));
-          shard1.setAttribute("transform", `translate(${(-su * 14).toFixed(1)}, ${(-Math.sin(su * Math.PI) * 12 + su * 14).toFixed(1)}) rotate(${(-su * 68).toFixed(1)})`);
-          shard2.setAttribute("transform", `translate(${(su * 16).toFixed(1)}, ${(-Math.sin(su * Math.PI) * 15 + su * 18).toFixed(1)}) rotate(${(su * 82).toFixed(1)})`);
-          shard3.setAttribute("transform", `translate(${(-su * 9).toFixed(1)}, ${(-Math.sin(su * Math.PI) * 16 + su * 20).toFixed(1)}) rotate(${(-su * 52).toFixed(1)})`);
-          shard4.setAttribute("transform", `translate(${(su * 13).toFixed(1)}, ${(-Math.sin(su * Math.PI) * 9 + su * 10).toFixed(1)}) rotate(${(su * 46).toFixed(1)})`);
-          wallDust.setAttribute("opacity", (Math.sin(su * Math.PI) * 0.85).toFixed(2));
-          wallDust.setAttribute("transform", `translate(0, ${(-su * 3.8).toFixed(1)})`);
+          shard1.setAttribute("transform", `translate(${(-su * 14.5).toFixed(1)}, ${bounceArc(su, 11.5, 13.5).toFixed(1)}) rotate(${(-su * 84).toFixed(1)})`);
+          shard2.setAttribute("transform", `translate(${(su * 16.5).toFixed(1)}, ${bounceArc(su, 14.5, 17.5).toFixed(1)}) rotate(${(su * 96).toFixed(1)})`);
+          shard3.setAttribute("transform", `translate(${(-su * 9.5).toFixed(1)}, ${bounceArc(su, 15.5, 19.5).toFixed(1)}) rotate(${(-su * 66).toFixed(1)})`);
+          shard4.setAttribute("transform", `translate(${(su * 13.5).toFixed(1)}, ${bounceArc(su, 9.0, 9.5).toFixed(1)}) rotate(${(su * 58).toFixed(1)})`);
+          wallDust.setAttribute("opacity", (Math.sin(su * Math.PI) * 0.88).toFixed(2));
+          wallDust.setAttribute("transform", `translate(0, ${(-su * 4.0).toFixed(1)})`);
         } else {
           wallShardsG.setAttribute("opacity", "0");
           wallDust.setAttribute("opacity", "0");
         }
 
-        // Prop 4 updates (手眼脑通，状态机): Big Monitor scan -> rapid typing -> floating ○ -> || -> ● state flow -> bold bamboo ✓!
+        // Prop 4 updates (手眼脑通，状态机): Monitor scan -> progressive live code typing + mint glow + steaming mug -> bold bamboo ✓!
         const scanningTerminal = b4 === 1 && b4t < 0.34;
         const typingNow = b4 === 1 && b4t >= 0.34 && b4t < 0.82;
         const scanOp = scanningTerminal ? Math.sin(clamp01(b4t / 0.34) * Math.PI) : 0;
         gateScanBeam.setAttribute("opacity", (scanOp * 0.95).toFixed(2));
+        deskScreenGlow.setAttribute("opacity", typingNow || freezeAll ? "0.95" : (scanningTerminal ? "0.55" : "0"));
         typeSparks.setAttribute("opacity", typingNow ? (0.35 + 0.65 * Math.abs(Math.sin(b4t * 48))).toFixed(2) : "0");
+        // Gentle rising steam wisps above coffee mug
+        const st1 = Math.sin(now * 0.0026) * 0.65;
+        const st2 = Math.cos(now * 0.0022) * 0.55;
+        mugSteam1.setAttribute("transform", `translate(${(st1 * 0.5).toFixed(2)}, ${(-Math.abs(st1) * 0.9).toFixed(2)})`);
+        mugSteam2.setAttribute("transform", `translate(${(st2 * 0.5).toFixed(2)}, ${(-Math.abs(st2) * 0.8).toFixed(2)})`);
 
-        gateScreenLines.setAttribute("opacity", taskDone ? "0" : (scanningTerminal || typingNow ? "1" : "0.78"));
-        gateScreenLines.setAttribute("stroke", scanningTerminal || typingNow || freezeAll ? "#B5F5D4" : "#FAF8F4");
+        gateScreenLines.setAttribute("opacity", taskDone ? "0" : (scanningTerminal || typingNow || freezeAll ? "1" : "0.78"));
+        if (!taskDone) {
+          const tu = typingNow ? clamp01((b4t - 0.34) / 0.48) : (freezeAll ? 1 : 0.45);
+          const l1 = lerp(3.4, 8.6, clamp01(tu * 2.4));
+          const l2 = lerp(1.2, 7.6, clamp01((tu - 0.22) * 2.2));
+          const l3 = lerp(1.2, 6.4, clamp01((tu - 0.52) * 2.1));
+          codeLine1.setAttribute("x2", l1.toFixed(1));
+          codeLine2.setAttribute("x2", l2.toFixed(1));
+          codeLine2.setAttribute("opacity", tu > 0.22 ? "1" : "0");
+          codeLine3.setAttribute("x2", l3.toFixed(1));
+          codeLine3.setAttribute("opacity", tu > 0.52 ? "1" : "0");
+          const curY = tu > 0.52 ? -17.8 : (tu > 0.22 ? -19.6 : -21.5);
+          const curX = tu > 0.52 ? l3 + 0.5 : (tu > 0.22 ? l2 + 0.5 : l1 + 0.5);
+          codeCursor.setAttribute("x", curX.toFixed(1));
+          codeCursor.setAttribute("y", curY.toFixed(1));
+          codeCursor.setAttribute("opacity", typingNow || freezeAll ? (Math.sin(now * 0.018) > -0.2 ? "1" : "0.2") : "0");
+          const lineCol = scanningTerminal || typingNow || freezeAll ? "#B5F5D4" : "#FAF8F4";
+          codeLine1.setAttribute("stroke", lineCol);
+          codeLine2.setAttribute("stroke", lineCol);
+        }
         gateCheckEl.setAttribute("opacity", taskDone ? "1" : "0");
 
         // Floating 3-node state-machine chain above monitor during Era 4 work beat
@@ -1349,8 +1457,12 @@
         padCheck1.setAttribute("fill", chk1 ? "#2D6A47" : "#EDE8DE");
         padCheck2.setAttribute("fill", chk2 ? "#2D6A47" : "#EDE8DE");
         padCheck3.setAttribute("fill", chk3 ? "#2D6A47" : "#EDE8DE");
-        gantryBeaconL.setAttribute("fill", chk3 ? "#2D6A47" : "#EDE8DE");
-        gantryBeaconR.setAttribute("fill", chk3 ? "#2D6A47" : "#EDE8DE");
+        gantryBeaconL.setAttribute("fill", chk3 ? "#2D6A47" : "#E4DDD0");
+        gantryBeaconR.setAttribute("fill", chk3 ? "#2D6A47" : "#E4DDD0");
+        // Mechanical launch clamps swing cleanly UP & OUTWARD right as harness locks in for departure!
+        const clampOpenU = b5 >= 2 ? 1 : (b5 === 1 ? smooth(0.84, 1.14, b5t) : 0);
+        gantryClampL.setAttribute("transform", `rotate(${(-clampOpenU * 102).toFixed(1)}, -15.4, -16.4)`);
+        gantryClampR.setAttribute("transform", `rotate(${(clampOpenU * 102).toFixed(1)}, 15.2, -16.4)`);
         padCore.setAttribute("opacity", padActive ? "1" : (near5 > 0.3 ? (near5 * 0.45).toFixed(2) : "0"));
         const pipOp = padActive ? "1" : (near5 > 0.2 ? (near5 * 0.7).toFixed(2) : "0");
         padPipL.setAttribute("opacity", pipOp);
