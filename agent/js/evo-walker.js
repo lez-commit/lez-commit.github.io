@@ -124,20 +124,23 @@
     const prop2 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
     mk("rect", { x: "-16", y: "-32", width: "32", height: "34", fill: "transparent" }, prop2);
     mk("ellipse", { cx: "0", cy: "0.4", rx: "12.8", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop2);
-    // Stepped 2.5D scientific pedestal base
+    // Stepped 2.5D scientific neural pod pedestal + side curved dark-gunmetal power/nutrient conduit!
+    mk("path", { d: "M 8.6,-5.4 C 12.2,-5.4 13.0,-3.2 13.0,-0.5", fill: "none", stroke: "#2B2825", "stroke-width": "1.25", "stroke-linecap": "round" }, prop2);
+    mk("rect", { x: "11.6", y: "-1.5", width: "2.8", height: "1.5", rx: "0.4", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.7" }, prop2);
     mk("path", {
       d: "M -11.4,0 L -10.2,-2.4 L 10.2,-2.4 L 11.4,0 Z",
       fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
     }, prop2);
     mk("rect", {
       x: "-8.8", y: "-8.4", width: "17.6", height: "6.0", rx: "0.9",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1"
+      fill: "url(#evo-porcelain)", stroke: "currentColor", "stroke-width": "1.05"
     }, prop2);
     // Right-side 2.5D depth shade on pedestal body
     mk("rect", { x: "5.2", y: "-8.0", width: "3.2", height: "5.2", rx: "0.4", fill: "#E4DDD0", "fill-opacity": "0.85" }, prop2);
-    // Pedestal instrument vents & twin micro-conduits
-    mk("rect", { x: "-6.6", y: "-6.8", width: "5.0", height: "2.8", rx: "0.5", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.7" }, prop2);
-    mk("path", { d: "M 0.2,-6.2 L 5.8,-6.2 M 0.2,-4.6 L 4.4,-4.6", fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-linecap": "round" }, prop2);
+    // Pedestal dark-obsidian neural pulse oscilloscope + twin micro-conduits
+    mk("rect", { x: "-7.0", y: "-7.1", width: "6.0", height: "3.4", rx: "0.55", fill: "#181715", stroke: "currentColor", "stroke-width": "0.65" }, prop2);
+    mk("path", { d: "M -6.2,-5.4 L -5.0,-5.4 L -4.4,-6.5 L -3.6,-4.4 L -2.9,-5.4 L -1.8,-5.4", fill: "none", stroke: "#5CE09B", "stroke-width": "0.75", "stroke-linecap": "round", "stroke-linejoin": "round" }, prop2);
+    mk("path", { d: "M 0.4,-6.2 L 5.8,-6.2 M 0.4,-4.6 L 4.4,-4.6", fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-linecap": "round" }, prop2);
     // Vat rim collar & bamboo neural emitter strip
     mk("rect", { x: "-9.6", y: "-10.0", width: "19.2", height: "1.8", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.95" }, prop2);
     const vatGlow = mk("ellipse", { cx: "0", cy: "-15.5", rx: "6.8", ry: "5.2", fill: "url(#evo-arc-glow)", opacity: "0.35" }, prop2);
@@ -167,10 +170,14 @@
       d: "M -8.4,-10.0 L -8.4,-19.8 A 8.4,8.4 0 0,1 8.4,-19.8 L 8.4,-10.0 Z",
       fill: "url(#evo-vat-glass)", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
     }, vatDomeGroup);
-    // Dual curved blown-glass reflection sheens + top brass finial knob
+    // Dual curved blown-glass reflection sheens + graduated lab volume ticks + top finial knob
     mk("path", {
       d: "M -5.8,-21.4 A 6.2,6.2 0 0,1 -1.8,-25.6 M 6.4,-18.8 L 6.4,-12.2",
       fill: "none", stroke: "#FAF8F4", "stroke-width": "1.15", "stroke-linecap": "round", "stroke-opacity": "0.82"
+    }, vatDomeGroup);
+    mk("path", {
+      d: "M -7.7,-12.6 L -6.4,-12.6 M -7.7,-15.2 L -6.0,-15.2 M -7.7,-17.8 L -6.4,-17.8",
+      fill: "none", stroke: "currentColor", "stroke-width": "0.58", "stroke-opacity": "0.55", "stroke-linecap": "round"
     }, vatDomeGroup);
     mk("circle", { cx: "0", cy: "-29.4", r: "1.2", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9" }, vatDomeGroup);
     // Neck-dock bamboo flash burst when brain locks onto robot
@@ -201,11 +208,12 @@
     const toolBoxCavity = mk("polygon", { points: "-5.2,-8.2 -3.6,-9.6 6.8,-9.6 5.4,-8.2", fill: "#D7CEC0", stroke: "currentColor", "stroke-width": "0.75", "stroke-linejoin": "round", opacity: "0" }, toolRackGroup);
     // 2.5D right-side thickness bevel on toolbox body
     mk("polygon", { points: "5.2,-8.2 7.0,-7.3 7.0,-0.8 5.2,0", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, toolRackGroup);
-    // Toolbox base body + front latch
-    mk("rect", { x: "-5.4", y: "-8.2", width: "10.8", height: "8.2", rx: "1.0", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.05" }, toolRackGroup);
-    mk("rect", { x: "-4.9", y: "-4.2", width: "9.8", height: "3.7", rx: "0.5", fill: "#EDE8DE" }, toolRackGroup);
-    mk("rect", { x: "-1.3", y: "-7.2", width: "2.6", height: "2.2", rx: "0.4", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8" }, toolRackGroup);
-    const rackPortLed = mk("circle", { cx: "0", cy: "-6.1", r: "0.55", fill: "#2D6A47", opacity: "0.85" }, toolRackGroup);
+    // Toolbox base body + reinforced dark-gunmetal corner brackets + front latch
+    mk("rect", { x: "-5.4", y: "-8.2", width: "10.8", height: "8.2", rx: "1.0", fill: "url(#evo-porcelain)", stroke: "currentColor", "stroke-width": "1.0" }, toolRackGroup);
+    mk("rect", { x: "-4.9", y: "-4.2", width: "9.8", height: "3.7", rx: "0.5", fill: "#E4DDD0" }, toolRackGroup);
+    mk("path", { d: "M -5.4,-6.4 L -5.4,-8.2 L -3.6,-8.2 M 5.4,-6.4 L 5.4,-8.2 L 3.6,-8.2", fill: "none", stroke: "#2B2825", "stroke-width": "1.2", "stroke-linecap": "round" }, toolRackGroup);
+    mk("rect", { x: "-1.3", y: "-7.2", width: "2.6", height: "2.2", rx: "0.4", fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.7" }, toolRackGroup);
+    const rackPortLed = mk("circle", { cx: "0", cy: "-6.1", r: "0.55", fill: "#5CE09B", opacity: "0.85" }, toolRackGroup);
     // Hinged toolbox lid + classic top carry handle (flips open on epiphany!)
     const toolBoxLid = mk("g", null, toolRackGroup);
     mk("path", { d: "M -2.2,-10.2 L -2.2,-11.7 Q -2.2,-12.5 -1.3,-12.5 L 1.3,-12.5 Q 2.2,-12.5 2.2,-11.7 L 2.2,-10.2", fill: "none", stroke: "currentColor", "stroke-width": "1.0", "stroke-linecap": "round" }, toolBoxLid);
@@ -246,9 +254,12 @@
     mk("rect", { x: "0.8", y: "-10.6", width: "6.7", height: "4.8", fill: "#EDE8DE" }, wallBody);
     mk("rect", { x: "-7.5", y: "-5.4", width: "7.4", height: "5.0", fill: "#EDE8DE" }, wallBody);
     mk("path", {
-      d: "M -8,-21.0 L 8,-21.0 M -8,-16.0 L 8,-16.0 M -8,-10.8 L 8,-10.8 M -8,-5.5 L 8,-5.5 M 0,-26.2 L 0,-21.0 M -3.6,-21.0 L -3.6,-16.0 M 3.8,-21.0 L 3.8,-16.0 M -1.4,-16.0 L -1.4,-10.8 M 3.6,-16.0 L 3.6,-10.8 M -4.2,-10.8 L -4.2,-5.5 M 0.8,-10.8 L 0.8,-5.5 M 0.2,-5.5 L 0.2,0",
+      d: "M -8,-21.0 L 8,-21.0 M -8,-16.0 L 8,-16.0 M -8,-10.8 L 8,-10.8 M -8,-5.5 L 8,-5.5 M 0,-26.2 L 0,-21.0 M -3.6,-21.0 L -3.6,-16.0 M 3.8,-21.0 L 3.8,-16.0 M -1.4,-16.0 L -1.4,-10.8 M 3.6,-16.0 L 3.6,-10.8 M -4.2,-10.8 L -4.2,-5.5 M 0.8,-10.8 L 0.8,-5.5 M 0.2,-5.5 L 0.2,-2.2",
       fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-opacity": "0.8"
     }, wallBody);
+    // Industrial hazard curb base along bottom of masonry barrier
+    mk("rect", { x: "-8.3", y: "-2.3", width: "16.6", height: "2.3", rx: "0.35", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85" }, wallBody);
+    mk("path", { d: "M -6.8,-2.1 L -5.4,-0.2 M -3.2,-2.1 L -1.8,-0.2 M 0.4,-2.1 L 1.8,-0.2 M 4.0,-2.1 L 5.4,-0.2", fill: "none", stroke: "#2B2825", "stroke-width": "0.85", "stroke-linecap": "round" }, wallBody);
     // 2.5D coping stone cap (top bevel + right side depth)
     mk("polygon", {
       points: "8.7,-28.4 11.6,-26.9 11.6,-24.6 8.7,-26.0",
@@ -283,6 +294,8 @@
       fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.1", "stroke-linejoin": "round"
     }, wallBrokenG);
     mk("path", { d: "M 3.2,-5.4 L 8.0,-5.4 M 5.8,-10.2 L 8.0,-10.2", fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.75" }, wallBrokenG);
+    // Tiny bent exposed rebar rods poking out of shattered masonry stumps!
+    mk("path", { d: "M -6.2,-10.2 L -5.2,-12.6 M 6.8,-12.6 L 5.4,-15.0 M 7.6,-12.6 L 7.8,-14.4", fill: "none", stroke: "#2B2825", "stroke-width": "0.65", "stroke-linecap": "round" }, wallBrokenG);
     // Scattered broken bricks resting cleanly on ground
     mk("rect", { x: "-1.2", y: "-2.4", width: "3.2", height: "2.4", rx: "0.4", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85", transform: "rotate(-12, 0.4, -1.2)" }, wallBrokenG);
     mk("rect", { x: "9.2", y: "-2.6", width: "3.4", height: "2.5", rx: "0.4", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.85", transform: "rotate(16, 10.9, -1.3)" }, wallBrokenG);
@@ -326,11 +339,16 @@
     // Subtle mint screen-glow wash cast leftward while actively typing/working!
     const deskScreenGlow = mk("polygon", { points: "-0.6,-23.2 -12.6,-21.0 -12.6,-12.2 -0.6,-15.2", fill: "#2D6A47", "fill-opacity": "0.09", opacity: "0" }, prop4);
 
-    // 2.5D Architectural Minimalist Desk (with grounded AO + subtle right-side leg depth + coffee mug corner!)
-    mk("ellipse", { cx: "2.2", cy: "0.4", rx: "16.0", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop4);
+    // 2.5D Architectural Minimalist AI Workstation Desk + Mini Server Tower under right bay + Coffee Mug!
+    mk("ellipse", { cx: "2.2", cy: "0.4", rx: "16.2", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop4);
     mk("line", { x1: "-10.4", y1: "-10.4", x2: "-10.4", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
     mk("line", { x1: "14.4", y1: "-10.4", x2: "14.4", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
     mk("line", { x1: "-10.4", y1: "-3.6", x2: "14.4", y2: "-3.6", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.45" }, prop4);
+    // Compact dark-gunmetal mini workstation tower tucked cleanly under right side of desk
+    mk("rect", { x: "8.2", y: "-6.6", width: "4.6", height: "6.6", rx: "0.65", fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.75" }, prop4);
+    mk("line", { x1: "9.2", y1: "-4.8", x2: "11.8", y2: "-4.8", stroke: "#FAF8F4", "stroke-width": "0.5", "stroke-opacity": "0.45", "stroke-linecap": "round" }, prop4);
+    mk("circle", { cx: "9.6", cy: "-2.2", r: "0.48", fill: "#5CE09B" }, prop4);
+    mk("circle", { cx: "11.2", cy: "-2.2", r: "0.48", fill: "#E4DDD0" }, prop4);
     mk("rect", { x: "-12.2", y: "-12.0", width: "29.4", height: "2.1", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05" }, prop4);
     mk("line", { x1: "-11.4", y1: "-11.3", x2: "16.0", y2: "-11.3", stroke: "#FAF8F4", "stroke-width": "0.65", "stroke-linecap": "round", "stroke-opacity": "0.75" }, prop4);
 
@@ -367,8 +385,9 @@
     }, prop4);
     const gateSavedRipple = mk("circle", { cx: "14.2", cy: "-31.2", r: "2.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", opacity: "0" }, prop4);
 
-    // Floating 3-Node State-Machine Chain cleanly above the monitor (○ -> || -> ●, fades cleanly after completion!)
+    // Floating 3-Node State-Machine Chain cleanly above the monitor (○ -> || -> ●, with vertical dashed data tether!)
     const stateFlowGroup = mk("g", { opacity: "0" }, prop4);
+    mk("line", { x1: "5.3", y1: "-24.8", x2: "5.3", y2: "-29.4", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "1.5 1.5", "stroke-opacity": "0.75" }, stateFlowGroup);
     const gateLink1 = mk("line", { x1: "-2.0", y1: "-31.2", x2: "3.6", y2: "-31.2", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, stateFlowGroup);
     const gateLink2 = mk("line", { x1: "7.0", y1: "-31.2", x2: "12.6", y2: "-31.2", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, stateFlowGroup);
     const gateS1 = mk("circle", { cx: "-3.6", cy: "-31.2", r: "1.65", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1" }, stateFlowGroup);
@@ -394,11 +413,13 @@
       fill: "url(#evo-pad-grad)",
       opacity: "0"
     }, prop5);
-    // Ultra-slim twin vertical production launch gantry rails flanking docking pad
+    // Aerospace Cross-Braced Twin Launch Gantry Towers (SpaceX / Gundam Hangar Truss Lattice!)
     mk("path", {
-      d: "M -15.4,-7.6 L -15.4,-24.2 M -17.8,-7.6 L -17.8,-22.2 M -17.8,-13.0 L -15.4,-13.0 M -17.8,-18.0 L -15.4,-18.0 M 15.2,-7.6 L 15.2,-24.2 M 18.2,-7.6 L 18.2,-22.4 M 15.2,-13.0 L 18.2,-13.0 M 15.2,-18.0 L 18.2,-18.0",
-      fill: "none", stroke: "currentColor", "stroke-width": "0.85", "stroke-linecap": "round"
+      d: "M -15.4,-7.6 L -15.4,-24.2 M -18.0,-7.6 L -18.0,-22.4 M -18.0,-13.0 L -15.4,-13.0 M -18.0,-18.0 L -15.4,-18.0 M -18.0,-8.0 L -15.4,-13.0 M -15.4,-13.0 L -18.0,-18.0 M -18.0,-18.0 L -15.4,-22.4 M 15.2,-7.6 L 15.2,-24.2 M 18.2,-7.6 L 18.2,-22.4 M 15.2,-13.0 L 18.2,-13.0 M 15.2,-18.0 L 18.2,-18.0 M 18.2,-8.0 L 15.2,-13.0 M 15.2,-13.0 L 18.2,-18.0 M 18.2,-18.0 L 15.2,-22.4",
+      fill: "none", stroke: "currentColor", "stroke-width": "0.78", "stroke-linecap": "round"
     }, prop5);
+    // Tiny aviation beacon masts atop twin towers
+    mk("path", { d: "M -15.4,-26.3 L -15.4,-28.0 M 15.2,-26.3 L 15.2,-28.0", fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-linecap": "round" }, prop5);
     // Articulated Swing-Open Mechanical Launch Clamps (unlock & swing outward when harness locks in!)
     const gantryClampL = mk("g", null, prop5);
     mk("path", { d: "M -15.4,-17.2 L -11.4,-17.2 L -10.8,-15.6 L -15.4,-15.6 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round" }, gantryClampL);
@@ -418,14 +439,14 @@
     mk("line", { x1: "11.4", y1: "-6", x2: "11.4", y2: "-27", stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "2 3" }, padBeams);
     const padScanLine = mk("line", { x1: "-12.4", y1: "-6", x2: "12.4", y2: "-6", stroke: "#2D6A47", "stroke-width": "1.05", "stroke-opacity": "0.75", "stroke-dasharray": "3 2", opacity: "0" }, prop5);
     const padEnergyRing = mk("ellipse", { cx: "0", cy: "-6", rx: "11.5", ry: "2.2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, prop5);
-    // Stepped architectural docking deck
+    // Stepped aerospace launch deck + dark recessed flame trench exhaust pit!
     mk("path", {
       d: "M -18.2,0 L -15.2,-3.6 L 15.2,-3.6 L 18.2,0 Z",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15", "stroke-linejoin": "round"
+      fill: "url(#evo-porcelain)", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
     }, prop5);
     mk("path", {
-      d: "M -11.2,-3.6 L -9.6,-1.6 L 9.6,-1.6 L 11.2,-3.6 Z",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8", "stroke-linejoin": "round"
+      d: "M -11.4,-3.6 L -9.6,-1.1 L 9.6,-1.1 L 11.4,-3.6 Z",
+      fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.75", "stroke-linejoin": "round"
     }, prop5);
     // Twin sculpted docking clamp pylons
     mk("path", {
