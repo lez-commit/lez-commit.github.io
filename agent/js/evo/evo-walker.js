@@ -50,7 +50,7 @@ export function initEvoWalker({ getView }) {
 
   const {
     svg,
-    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatSteamPuff, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateLoopArc, gateS1, gateS2, gateS3, gateS3Rays, gateToken, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
+    groundBounceEl, prop1, pebbleDust, prop2, vatAttnCells, vatEkgWave, vatRackLeds, vatBeamG, vatHatchL, vatHatchR, vatGlow, vatEmitter, vatOrbitG, vatCoreGem, vatOrbDot1, vatOrbDot2, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateLoopArc, gateS1, gateS2, gateS3, gateS3Rays, gateToken, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
   } = buildDioramas({ evoLayerEl, BASE_Y });
 
   const {
@@ -332,13 +332,28 @@ export function initEvoWalker({ getView }) {
         impactStarG.setAttribute("opacity", "0");
         launchSteamL.setAttribute("opacity", "0");
         launchSteamR.setAttribute("opacity", "0");
-        // Keep idle ambient life gently breathing in resting state (slow tower beacons + standby pad core + live EKG + coffee steam!)
+        // Keep idle ambient life gently breathing in resting state (Era 2 Transformer orbit + matrix, Era 4 mug steam, Era 5 gantry beacons!)
         const restBeacon = Math.sin(now * 0.0032) > 0.25 ? "#5CE09B" : "#2D6A47";
         gantryBeaconL.setAttribute("fill", restBeacon);
         gantryBeaconR.setAttribute("fill", restBeacon);
         padCore.setAttribute("opacity", (0.28 + 0.16 * Math.sin(now * 0.0028)).toFixed(2));
         padPipL.setAttribute("opacity", "0.55");
         padPipR.setAttribute("opacity", "0.55");
+        // Era 2 Transformer Neural Core Tower gentle standby life: orbiting attention nodes + shimmering matrix!
+        const ro1 = now * 0.0018;
+        const ro2 = -now * 0.0014 + 2.1;
+        const rc1x = Math.cos(ro1) * 9.4, rc1y = Math.sin(ro1) * 3.0;
+        const rA1 = (-22 * Math.PI) / 180;
+        vatOrbDot1.setAttribute("cx", (rc1x * Math.cos(rA1) - rc1y * Math.sin(rA1)).toFixed(2));
+        vatOrbDot1.setAttribute("cy", (rc1x * Math.sin(rA1) + rc1y * Math.cos(rA1)).toFixed(2));
+        const rc2x = Math.cos(ro2) * 9.4, rc2y = Math.sin(ro2) * 3.0;
+        const rA2 = (22 * Math.PI) / 180;
+        vatOrbDot2.setAttribute("cx", (rc2x * Math.cos(rA2) - rc2y * Math.sin(rA2)).toFixed(2));
+        vatOrbDot2.setAttribute("cy", (rc2x * Math.sin(rA2) + rc2y * Math.cos(rA2)).toFixed(2));
+        vatCoreGem.setAttribute("opacity", (0.82 + 0.18 * Math.sin(now * 0.003)).toFixed(2));
+        vatAttnCells.forEach((cell, ci) => {
+          cell.setAttribute("opacity", (0.22 + 0.52 * Math.pow(0.5 + 0.5 * Math.sin(now * 0.0024 + ci * 1.15), 2)).toFixed(2));
+        });
         const rst1 = Math.sin(now * 0.0026) * 0.65;
         const rst2 = Math.cos(now * 0.0022) * 0.55;
         mugSteam1.setAttribute("transform", `translate(${(rst1 * 0.5).toFixed(2)}, ${(-Math.abs(rst1) * 0.9).toFixed(2)})`);
@@ -851,86 +866,89 @@ export function initEvoWalker({ getView }) {
         pebbleDust.setAttribute("opacity", "0");
       }
 
-      // Prop 2 updates (缸中之脑，会推理): Live EKG waveform, overhead crane piston, swaying liquid, trailing neural dots & 3-step CoT!
-      const vatIdleBob = Math.sin(now * 0.0035) * 0.7;
+      // Prop 2 updates (通用大脑 · Transformer 算力中枢塔): Live Attention Matrix, Orbiting Halo Rings, Sliding Top Hatch & Emerging Brain!
       const reasoningNow = b2 === 1 && b2t >= 0.98;
-      const brainInVat = b2 === 0 || (b2 === 1 && b2t < 0.34);
-      // Live animated green EKG neural pulse waveform on dark base oscilloscope!
-      const ekgFreq = b2 === 1 && b2t < 0.98 ? 0.015 : (b2 === 2 ? 0.003 : 0.006);
-      const ekgAmp = b2 === 1 && b2t < 0.98 ? 1.45 : (b2 === 2 ? 0.25 : 0.92);
+      const towerActive = b2 === 1 && b2t < 0.96;
+      // Live animated green EKG neural pulse waveform on middle compute blade!
+      const ekgFreq = towerActive ? 0.014 : (b2 === 2 ? 0.0035 : 0.006);
+      const ekgAmp = towerActive ? 1.35 : (b2 === 2 ? 0.45 : 0.88);
       const ekgP = ((now * ekgFreq) % 1);
-      const pkX = lerp(-5.8, -2.0, ekgP);
+      const pkX = lerp(-5.2, -0.4, ekgP);
       vatEkgWave.setAttribute(
         "d",
-        `M -6.3,-5.4 L ${(pkX - 0.7).toFixed(1)},-5.4 L ${(pkX - 0.2).toFixed(1)},${(-5.4 - ekgAmp).toFixed(2)} L ${(pkX + 0.3).toFixed(1)},${(-5.4 + ekgAmp * 0.85).toFixed(2)} L ${(pkX + 0.75).toFixed(1)},-5.4 L -1.5,-5.4`
+        `M -5.8,-11.45 L ${(pkX - 0.7).toFixed(1)},-11.45 L ${(pkX - 0.2).toFixed(1)},${(-11.45 - ekgAmp).toFixed(2)} L ${(pkX + 0.3).toFixed(1)},${(-11.45 + ekgAmp * 0.85).toFixed(2)} L ${(pkX + 0.75).toFixed(1)},-11.45 L 0.2,-11.45`
       );
-      const liqDrain = b2 === 0 ? 0 : (b2 === 1 ? clamp01(b2t / 0.16) : 1);
-      const liqLevel = lerp(-16.8, -10.3, liqDrain);
-      const waveAmp = brainInVat ? 0.75 * (1 - liqDrain) : 0.15;
-      const wL = (liqLevel + Math.sin(now * 0.0042) * waveAmp).toFixed(2);
-      const wM = (liqLevel - Math.cos(now * 0.0042) * (waveAmp * 1.15)).toFixed(2);
-      const wR = (liqLevel - Math.sin(now * 0.0042) * waveAmp).toFixed(2);
-      vatLiquidFill.setAttribute("d", `M -7.6,-10.3 L -7.6,${wL} Q 0,${wM} 7.6,${wR} L 7.6,-10.3 Z`);
-      vatMeniscus.setAttribute("d", `M -7.4,${wL} Q 0,${wM} 7.4,${wR}`);
-      vatLiquidGroup.setAttribute("opacity", (b2 === 0 ? 0.95 : (1 - liqDrain) * 0.95).toFixed(2));
-      vatBubbles.forEach((bEl, bi) => {
-        const cycle = ((now * 0.00055 + bi * 0.34) % 1);
-        const by = -11.0 - cycle * (brainInVat ? 6.2 : 1.6);
-        const bx = (bi === 0 ? -4.5 : bi === 1 ? 4.6 : 1.0) + Math.sin(now * 0.004 + bi * 2.1) * 0.55;
-        bEl.setAttribute("cx", bx.toFixed(1));
-        bEl.setAttribute("cy", by.toFixed(1));
-        bEl.setAttribute("opacity", (Math.sin(cycle * Math.PI) * (brainInVat ? 0.78 : 0.22)).toFixed(2));
+      // Shimmering 4x2 Self-Attention Weight Matrix cells + compute blade status LEDs!
+      const matFreq = towerActive ? 0.009 : 0.0028;
+      vatAttnCells.forEach((cell, ci) => {
+        const w = 0.24 + (towerActive ? 0.72 : 0.48) * Math.pow(0.5 + 0.5 * Math.sin(now * matFreq + ci * 1.15), 2);
+        cell.setAttribute("opacity", w.toFixed(2));
       });
+      vatRackLeds[0].setAttribute("opacity", (0.55 + 0.45 * Math.sin(now * 0.005)).toFixed(2));
+      vatRackLeds[1].setAttribute("fill", towerActive ? "#5CE09B" : "#2D6A47");
+      vatRackLeds[1].setAttribute("opacity", (0.45 + 0.45 * Math.cos(now * 0.0042)).toFixed(2));
+
+      // Orbiting dual-axis Attention Halo Nodes (accelerate cleanly while deploying head!)
+      const orbSpd = towerActive ? 0.0065 : 0.0020;
+      const oA1 = now * orbSpd;
+      const oA2 = -now * (orbSpd * 0.82) + 2.1;
+      const rRad1 = (-22 * Math.PI) / 180;
+      const rRad2 = (22 * Math.PI) / 180;
+      const ox1 = Math.cos(oA1) * 9.4, oy1 = Math.sin(oA1) * 3.0;
+      vatOrbDot1.setAttribute("cx", (ox1 * Math.cos(rRad1) - oy1 * Math.sin(rRad1)).toFixed(2));
+      vatOrbDot1.setAttribute("cy", (ox1 * Math.sin(rRad1) + oy1 * Math.cos(rRad1)).toFixed(2));
+      const ox2 = Math.cos(oA2) * 9.4, oy2 = Math.sin(oA2) * 3.0;
+      vatOrbDot2.setAttribute("cx", (ox2 * Math.cos(rRad2) - oy2 * Math.sin(rRad2)).toFixed(2));
+      vatOrbDot2.setAttribute("cy", (ox2 * Math.sin(rRad2) + oy2 * Math.cos(rRad2)).toFixed(2));
+      const orbitBob = Math.sin(now * 0.0032) * 0.75;
+
       if (b2 === 0) {
-        vatDomeGroup.setAttribute("transform", "rotate(0, 8.6, -10.0)");
-        vatDomeGroup.setAttribute("opacity", "1");
-        vatSteamPuff.setAttribute("opacity", "0");
-        vatBrainGroup.setAttribute("transform", `translate(0, ${(-16.8 + vatIdleBob).toFixed(2)})`);
-        vatBrainGroup.setAttribute("opacity", "1");
+        vatHatchL.setAttribute("transform", "translate(0, 0)");
+        vatHatchR.setAttribute("transform", "translate(0, 0)");
+        vatBeamG.setAttribute("opacity", "0");
+        vatOrbitG.setAttribute("transform", `translate(0, ${(-28.4 + orbitBob).toFixed(2)})`);
+        vatOrbitG.setAttribute("opacity", "1");
+        vatCoreGem.setAttribute("opacity", (0.85 + 0.15 * Math.sin(now * 0.004)).toFixed(2));
+        vatBrainGroup.setAttribute("opacity", "0");
         brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
-        vatEyeSleep.setAttribute("opacity", "0.85");
-        vatEyeAwake.setAttribute("opacity", "0");
-        vatAntTip.setAttribute("fill", "#FAF8F4");
-        vatGlow.setAttribute("opacity", (0.28 + 0.14 * Math.sin(now * 0.004)).toFixed(2));
-        vatEmitter.setAttribute("opacity", "0.65");
+        vatGlow.setAttribute("opacity", (0.28 + 0.12 * Math.sin(now * 0.004)).toFixed(2));
+        vatEmitter.setAttribute("opacity", "0.25");
         cotChainGroup.setAttribute("opacity", "0");
       } else if (b2 === 1) {
-        // Hinged glass bell-jar swings WIDE OPEN 84° clockwise around right-rim hinge (8.6, -10.0) so brain exits cleanly through open air!
-        let domeDeg = 0;
-        if (b2t < 0.30) {
-          const u = clamp01(b2t / 0.30);
-          domeDeg = (1 - Math.pow(1 - u, 3)) * 84;
+        // Twin mechanical top hatches slide smoothly outward (0..0.24s), hold open (0.24..0.72s), then glide cleanly shut!
+        let hatchSlide = 0;
+        if (b2t < 0.24) {
+          const u = clamp01(b2t / 0.24);
+          hatchSlide = (1 - Math.pow(1 - u, 3)) * 5.2;
         } else if (b2t < 0.72) {
-          domeDeg = 84;
+          hatchSlide = 5.2;
         } else {
-          const u = clamp01((b2t - 0.72) / 0.32);
-          domeDeg = (1 - u * u * (3 - 2 * u)) * 84;
+          const u = clamp01((b2t - 0.72) / 0.28);
+          hatchSlide = (1 - u * u * (3 - 2 * u)) * 5.2;
         }
-        vatDomeGroup.setAttribute("transform", `rotate(${domeDeg.toFixed(1)}, 8.6, -10.0)`);
-        vatDomeGroup.setAttribute("opacity", "1");
-        // Cryo-mist hiss at left latch when seal breaks open!
-        if (b2t > 0.03 && b2t < 0.34) {
-          const su = clamp01((b2t - 0.03) / 0.31);
-          vatSteamPuff.setAttribute("transform", `translate(${(-su * 3.8).toFixed(1)}, ${(-su * 3.2).toFixed(1)}) scale(${(0.75 + su * 0.55).toFixed(2)})`);
-          vatSteamPuff.setAttribute("opacity", (Math.sin(su * Math.PI) * 0.85).toFixed(2));
-        } else {
-          vatSteamPuff.setAttribute("opacity", "0");
-        }
+        vatHatchL.setAttribute("transform", `translate(${(-hatchSlide).toFixed(2)}, 0)`);
+        vatHatchR.setAttribute("transform", `translate(${hatchSlide.toFixed(2)}, 0)`);
+        const beamOp = b2t < 0.72 ? clamp01(hatchSlide / 4.2) * 0.85 : clamp01(hatchSlide / 5.2) * 0.65;
+        vatBeamG.setAttribute("opacity", beamOp.toFixed(2));
 
-        // Brain wakes up inside wide-open chamber (0.14s), lifts vertically out of open top (0.24..0.38s), then arcs cleanly onto Mark II's exact neck!
-        if (b2t < 0.72) {
+        // Orbit rings expand subtly upward as the head emerges, hiding the central gem while head occupies the center!
+        const orbScale = 1 + (hatchSlide / 5.2) * 0.16;
+        const orbLift = -(hatchSlide / 5.2) * 2.2;
+        vatOrbitG.setAttribute("transform", `translate(0, ${(-28.4 + orbLift).toFixed(2)}) scale(${orbScale.toFixed(3)})`);
+        vatOrbitG.setAttribute("opacity", (b2t >= 0.18 && b2t < 0.72 ? 0.55 : 0.96).toFixed(2));
+        vatCoreGem.setAttribute("opacity", b2t >= 0.14 && b2t < 0.82 ? "0" : "0.92");
+
+        // CRT Head rises vertically OUT OF THE OPEN TOP HATCH (clipped cleanly at y=-21.4!) then arcs onto Mark II's exact neck!
+        if (b2t >= 0.12 && b2t < 0.72) {
           vatBrainGroup.setAttribute("opacity", "1");
-          const awake = b2t >= 0.14;
+          const awake = b2t >= 0.32;
           vatEyeSleep.setAttribute("opacity", awake ? "0" : "0.85");
           vatEyeAwake.setAttribute("opacity", awake ? "1" : "0");
           vatAntTip.setAttribute("fill", awake ? "#2D6A47" : "#FAF8F4");
-          if (b2t < 0.24) {
-            vatBrainGroup.setAttribute("transform", `translate(0, ${(-16.8 + vatIdleBob * 0.4).toFixed(2)})`);
-            brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
-          } else if (b2t < 0.38) {
-            const u = clamp01((b2t - 0.24) / 0.14);
-            const e = u * u * (3 - 2 * u);
-            vatBrainGroup.setAttribute("transform", `translate(0, ${lerp(-16.8, -26.2, e).toFixed(1)})`);
+          if (b2t < 0.38) {
+            const u = clamp01((b2t - 0.12) / 0.26);
+            const e = 1 - Math.pow(1 - u, 3);
+            vatBrainGroup.setAttribute("transform", `translate(0, ${lerp(-14.8, -28.4, e).toFixed(1)})`);
             brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
           } else {
             const u = clamp01((b2t - 0.38) / 0.34);
@@ -939,7 +957,7 @@ export function initEvoWalker({ getView }) {
             const txEnd = -19.2;
             const tyEnd = -23.8;
             const bx = inv * inv * 0 + 2 * inv * e * -9.6 + e * e * txEnd;
-            const by = inv * inv * -26.2 + 2 * inv * e * -33.2 + e * e * tyEnd;
+            const by = inv * inv * -28.4 + 2 * inv * e * -34.2 + e * e * tyEnd;
             vatBrainGroup.setAttribute("transform", `translate(${bx.toFixed(1)}, ${by.toFixed(1)})`);
             brainTrailDots.forEach((d, ti) => {
               const tu = clamp01(u - (ti + 1) * 0.085);
@@ -947,7 +965,7 @@ export function initEvoWalker({ getView }) {
                 const te = tu * tu * (3 - 2 * tu);
                 const tinv = 1 - te;
                 const tx = tinv * tinv * 0 + 2 * tinv * te * -9.6 + te * te * txEnd;
-                const ty = tinv * tinv * -26.2 + 2 * tinv * te * -33.2 + te * te * tyEnd;
+                const ty = tinv * tinv * -28.4 + 2 * tinv * te * -34.2 + te * te * tyEnd;
                 d.setAttribute("cx", tx.toFixed(1));
                 d.setAttribute("cy", ty.toFixed(1));
                 d.setAttribute("opacity", ((1 - ti * 0.18) * Math.sin(tu * Math.PI) * 0.9).toFixed(2));
@@ -961,8 +979,8 @@ export function initEvoWalker({ getView }) {
           brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
         }
 
-        vatGlow.setAttribute("opacity", b2t < 0.72 ? "0.75" : "0.18");
-        vatEmitter.setAttribute("opacity", b2t < 0.72 ? "1" : "0.25");
+        vatGlow.setAttribute("opacity", b2t < 0.72 ? "0.75" : "0.24");
+        vatEmitter.setAttribute("opacity", b2t < 0.72 ? "0.95" : "0.25");
 
         // Sequential 3-step Chain-of-Thought reasoning nodes (○ -> ○ -> ●)
         if (reasoningNow) {
@@ -979,14 +997,17 @@ export function initEvoWalker({ getView }) {
           cotChainGroup.setAttribute("opacity", "0");
         }
       } else {
-        // Empty glass vat remains cleanly closed behind on the timeline spine
-        vatDomeGroup.setAttribute("transform", "rotate(0, 8.6, -10.0)");
-        vatDomeGroup.setAttribute("opacity", "1");
-        vatSteamPuff.setAttribute("opacity", "0");
+        // Architectural Transformer Neural Core Tower stays sleek & gently alive on the timeline spine!
+        vatHatchL.setAttribute("transform", "translate(0, 0)");
+        vatHatchR.setAttribute("transform", "translate(0, 0)");
+        vatBeamG.setAttribute("opacity", "0");
+        vatOrbitG.setAttribute("transform", `translate(0, ${(-28.4 + orbitBob).toFixed(2)})`);
+        vatOrbitG.setAttribute("opacity", "1");
+        vatCoreGem.setAttribute("opacity", (0.85 + 0.15 * Math.sin(now * 0.004)).toFixed(2));
         vatBrainGroup.setAttribute("opacity", "0");
         brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
-        vatGlow.setAttribute("opacity", "0");
-        vatEmitter.setAttribute("opacity", "0.2");
+        vatGlow.setAttribute("opacity", "0.22");
+        vatEmitter.setAttribute("opacity", "0.25");
         cotChainGroup.setAttribute("opacity", "0");
       }
       brainDockSpark.setAttribute("opacity", brainDockTimer > 0 ? (brainDockTimer / 0.28).toFixed(2) : "0");

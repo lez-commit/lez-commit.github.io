@@ -327,20 +327,22 @@ export function initMechAvatar({ getView, switchView }) {
     wingPlasmaR.setAttribute("opacity", plasmaOp.toFixed(2));
     packG.setAttribute("transform", `translate(${(-yawNorm * 0.65).toFixed(2)}, 0)`);
 
-    // Twin Multi-Agent Micro-Funnels: detach into hovering orbital wingmen beside shoulders!
+    // Twin Multi-Agent Micro-Funnels: hover cleanly OUTSIDE & ABOVE the 3-tier wingtips across ALL stages!
     if (funnelDeploy > 0.03) {
       const fEase = 1 - Math.pow(1 - clamp01(funnelDeploy), 3);
-      const orbitBobL = Math.sin(now * 0.0068) * 1.35 * fEase;
-      const orbitBobR = Math.sin(now * 0.0068 + 1.8) * 1.35 * fEase;
-      const fDistX = lerp(9.5, 20.8 + curiousAmt * 2.4, fEase);
-      const fPosY = lerp(-2.5, -5.2 - curiousAmt * 1.8, fEase);
-      const fTiltL = lerp(16, -8 - bankDeg * 0.38, fEase);
-      const fTiltR = lerp(-16, 8 - bankDeg * 0.38, fEase);
+      const orbitBobL = Math.sin(now * 0.0068) * 1.55 * fEase;
+      const orbitBobR = Math.sin(now * 0.0068 + 1.8) * 1.55 * fEase;
+      const orbitSwayL = Math.cos(now * 0.0046) * 0.65 * fEase;
+      const orbitSwayR = Math.cos(now * 0.0046 + 1.8) * 0.65 * fEase;
+      const fDistX = lerp(13.0, 26.8 + curiousAmt * 2.4, fEase);
+      const fPosY = lerp(-4.8, -10.8 - curiousAmt * 1.8, fEase);
+      const fTiltL = lerp(16, -9 - bankDeg * 0.36, fEase);
+      const fTiltR = lerp(-16, 9 - bankDeg * 0.36, fEase);
       const fScale = lerp(0.45, 1.0, fEase);
       funnelL.setAttribute("opacity", clamp01(fEase * 1.25).toFixed(2));
       funnelR.setAttribute("opacity", clamp01(fEase * 1.25).toFixed(2));
-      funnelL.setAttribute("transform", `translate(${(-fDistX).toFixed(2)}, ${(fPosY + orbitBobL).toFixed(2)}) scale(${fScale.toFixed(2)}) rotate(${fTiltL.toFixed(1)})`);
-      funnelR.setAttribute("transform", `translate(${fDistX.toFixed(2)}, ${(fPosY + orbitBobR).toFixed(2)}) scale(${fScale.toFixed(2)}) rotate(${fTiltR.toFixed(1)})`);
+      funnelL.setAttribute("transform", `translate(${(-fDistX + orbitSwayL).toFixed(2)}, ${(fPosY + orbitBobL).toFixed(2)}) scale(${fScale.toFixed(2)}) rotate(${fTiltL.toFixed(1)})`);
+      funnelR.setAttribute("transform", `translate(${(fDistX + orbitSwayR).toFixed(2)}, ${(fPosY + orbitBobR).toFixed(2)}) scale(${fScale.toFixed(2)}) rotate(${fTiltR.toFixed(1)})`);
       const fjOp = (0.35 + thrust * 0.55).toFixed(2);
       funnelJetL.setAttribute("opacity", fjOp);
       funnelJetR.setAttribute("opacity", fjOp);
