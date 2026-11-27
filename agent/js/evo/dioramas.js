@@ -189,21 +189,21 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
     fill: "none", stroke: "currentColor", "stroke-width": "0.58", "stroke-opacity": "0.55", "stroke-linecap": "round"
   }, vatDomeGroup);
   mk("circle", { cx: "0", cy: "-29.4", r: "1.2", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9" }, vatDomeGroup);
-  // Neck-dock bamboo flash burst when brain locks onto robot
+  // Neck-dock bamboo flash burst centered cleanly at Mark II's head/neck collar (-21.5, -21.5)
   const brainDockSpark = mk("g", { opacity: "0" }, prop2);
   mk("path", {
-    d: "M -26.5,-20 L -29.5,-22 M -26.5,-15 L -29.5,-14 M -16.5,-20 L -13.5,-22 M -16.5,-15 L -13.5,-14",
-    fill: "none", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round"
+    d: "M -25.8,-24.2 L -28.4,-26.4 M -25.8,-19.2 L -28.4,-18.0 M -17.2,-24.2 L -14.6,-26.4 M -17.2,-19.2 L -14.6,-18.0",
+    fill: "none", stroke: "#2D6A47", "stroke-width": "1.15", "stroke-linecap": "round"
   }, brainDockSpark);
-  // Sequential 3-step Chain-of-Thought node chain (○ -> ○ -> ●) cleanly clear of both antenna & Era 2 twig text
+  // Sequential 3-step Chain-of-Thought node chain (○ -> ○ -> ●) lifted cleanly above crane bar (-35.6) & antenna
   const cotChainGroup = mk("g", { opacity: "0" }, prop2);
-  const cotLink1 = mk("line", { x1: "-12.9", y1: "-36.2", x2: "-7.6", y2: "-36.2", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, cotChainGroup);
-  const cotLink2 = mk("line", { x1: "-4.4", y1: "-36.2", x2: "0.9", y2: "-36.2", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, cotChainGroup);
-  const cotNode1 = mk("circle", { cx: "-14.5", cy: "-36.2", r: "1.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, cotChainGroup);
-  const cotNode2 = mk("circle", { cx: "-6.0", cy: "-36.2", r: "1.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, cotChainGroup);
-  const cotNode3 = mk("circle", { cx: "2.5", cy: "-36.2", r: "1.85", fill: "#2D6A47", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, cotChainGroup);
+  const cotLink1 = mk("line", { x1: "-15.4", y1: "-41.4", x2: "-10.1", y2: "-41.4", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, cotChainGroup);
+  const cotLink2 = mk("line", { x1: "-6.9", y1: "-41.4", x2: "-1.6", y2: "-41.4", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, cotChainGroup);
+  const cotNode1 = mk("circle", { cx: "-17.0", cy: "-41.4", r: "1.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, cotChainGroup);
+  const cotNode2 = mk("circle", { cx: "-8.5", cy: "-41.4", r: "1.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, cotChainGroup);
+  const cotNode3 = mk("circle", { cx: "0.0", cy: "-41.4", r: "1.85", fill: "#2D6A47", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, cotChainGroup);
   const cotNode3Rays = mk("path", {
-    d: "M 2.5,-39.4 L 2.5,-40.7 M 5.1,-38.0 L 6.3,-39.2 M -0.1,-38.0 L -1.3,-39.2",
+    d: "M 0.0,-44.6 L 0.0,-45.9 M 2.6,-43.2 L 3.8,-44.4 M -2.6,-43.2 L -3.8,-44.4",
     fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0"
   }, cotChainGroup);
 
@@ -411,25 +411,33 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
     d: "M 1.9,-19.4 L 4.2,-17.1 L 8.5,-21.6",
     fill: "none", stroke: "#7CE8B1", "stroke-width": "1.65", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0"
   }, prop4);
-  const gateSavedRipple = mk("circle", { cx: "14.2", cy: "-31.2", r: "2.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", opacity: "0" }, prop4);
+  const gateSavedRipple = mk("circle", { cx: "5.3", cy: "-35.0", r: "2.4", fill: "none", stroke: "#B83B2A", "stroke-width": "0.95", opacity: "0" }, prop4);
 
-  // Floating 3-Node State-Machine Chain cleanly above the monitor (○ -> || -> ●, with clean data tether!)
+  // Cyclic LangGraph State-Machine Loop cleanly above monitor (Plan -> Act -> Eval ◇ -> Retry Loop Arc ↺ + Checkpointer ||!)
   const stateFlowGroup = mk("g", { opacity: "0" }, prop4);
-  mk("line", { x1: "5.3", y1: "-24.8", x2: "5.3", y2: "-28.1", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "1.5 1.5", "stroke-opacity": "0.75" }, stateFlowGroup);
-  const gateLink1 = mk("line", { x1: "-2.0", y1: "-31.2", x2: "3.6", y2: "-31.2", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, stateFlowGroup);
-  const gateLink2 = mk("line", { x1: "7.0", y1: "-31.2", x2: "12.6", y2: "-31.2", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, stateFlowGroup);
-  const gateS1 = mk("circle", { cx: "-3.6", cy: "-31.2", r: "1.65", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1" }, stateFlowGroup);
-  const gateS2 = mk("circle", { cx: "5.3", cy: "-31.2", r: "1.65", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1" }, stateFlowGroup);
-  const gateS3 = mk("circle", { cx: "14.2", cy: "-31.2", r: "1.85", fill: "#2D6A47", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, stateFlowGroup);
+  mk("line", { x1: "5.3", y1: "-24.8", x2: "5.3", y2: "-27.6", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "1.4 1.4", "stroke-opacity": "0.7" }, stateFlowGroup);
+  // Upper forward graph arcs (Plan -> Act -> Eval diamond)
+  const gateLink1 = mk("path", { d: "M -0.8,-32.4 Q 1.6,-35.2 3.4,-35.0", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0" }, stateFlowGroup);
+  const gateLink2 = mk("path", { d: "M 7.2,-35.0 Q 9.2,-35.2 11.2,-32.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0" }, stateFlowGroup);
+  // Signature curved return retry loop arc beneath (Eval ◇ ↺ Plan!) with crisp left-pointing arrowhead
+  const gateLoopArc = mk("path", { d: "M 11.0,-30.1 Q 5.3,-26.6 -0.4,-30.1 M 0.8,-29.0 L -0.7,-30.2 L 1.2,-30.8", fill: "none", stroke: "#2D6A47", "stroke-width": "0.92", "stroke-dasharray": "2.0 1.4", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0" }, stateFlowGroup);
+  // Node 1: Rounded square Plan node
+  const gateS1 = mk("rect", { x: "-4.6", y: "-33.2", width: "3.8", height: "3.2", rx: "0.7", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.0" }, stateFlowGroup);
+  // Node 2: Rounded square Act node (top apex of loop)
+  const gateS2 = mk("rect", { x: "3.4", y: "-36.6", width: "3.8", height: "3.2", rx: "0.7", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.0" }, stateFlowGroup);
+  // Node 3: Decision Diamond (Eval / Route ◇)
+  const gateS3 = mk("polygon", { points: "12.8,-33.7 14.9,-31.6 12.8,-29.5 10.7,-31.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.0", "stroke-linejoin": "round", opacity: "0" }, stateFlowGroup);
   const gateS3Rays = mk("path", {
-    d: "M 14.2,-34.4 L 14.2,-36.0 M 16.8,-33.2 L 18.0,-34.4 M 11.6,-33.2 L 10.4,-34.4",
+    d: "M 16.0,-31.6 L 17.5,-31.6 M 15.1,-33.9 L 16.2,-35.0 M 15.1,-29.3 L 16.2,-28.2",
     fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0"
   }, stateFlowGroup);
-  // Pill-framed checkpoint freeze badge (||) right over S2 during the 0.28s state-machine pause!
+  // Live luminous token orbiting the cyclic state graph!
+  const gateToken = mk("circle", { cx: "-2.7", cy: "-31.6", r: "1.15", fill: "#5CE09B", stroke: "#2D6A47", "stroke-width": "0.6", opacity: "0" }, stateFlowGroup);
+  // Vermilion-accented Checkpointer Pause Badge (||) right over Act node during HITL freeze!
   const gateFreezeBadge = mk("g", { opacity: "0" }, prop4);
-  mk("rect", { x: "0.7", y: "-34.1", width: "9.2", height: "5.8", rx: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.75" }, gateFreezeBadge);
-  mk("line", { x1: "3.8", y1: "-32.6", x2: "3.8", y2: "-29.8", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
-  mk("line", { x1: "6.8", y1: "-32.6", x2: "6.8", y2: "-29.8", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
+  mk("rect", { x: "1.4", y: "-37.6", width: "7.8", height: "5.2", rx: "1.8", fill: "#FAF8F4", stroke: "#B83B2A", "stroke-width": "0.95" }, gateFreezeBadge);
+  mk("line", { x1: "4.1", y1: "-36.2", x2: "4.1", y2: "-33.8", stroke: "#B83B2A", "stroke-width": "1.35", "stroke-linecap": "round" }, gateFreezeBadge);
+  mk("line", { x1: "6.5", y1: "-36.2", x2: "6.5", y2: "-33.8", stroke: "#B83B2A", "stroke-width": "1.35", "stroke-linecap": "round" }, gateFreezeBadge);
 
   // --- PROP 5 (Era 5 · 卷马具，进生产): 2.5D Production Harness Launch Gantry with Swing-Open Clamps ---
   const prop5 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
@@ -590,6 +598,6 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
 
   return {
     svg,
-    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateS1, gateS2, gateS3, gateS3Rays, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
+    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateLoopArc, gateS1, gateS2, gateS3, gateS3Rays, gateToken, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
   };
 }

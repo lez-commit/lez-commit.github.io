@@ -50,7 +50,7 @@ export function initEvoWalker({ getView }) {
 
   const {
     svg,
-    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateS1, gateS2, gateS3, gateS3Rays, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
+    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateLoopArc, gateS1, gateS2, gateS3, gateS3Rays, gateToken, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
   } = buildDioramas({ evoLayerEl, BASE_Y });
 
   const {
@@ -394,7 +394,7 @@ export function initEvoWalker({ getView }) {
       if (b1 === 0 && posX >= x1 - 7.5 * S) { b1 = 1; b1t = 0; triggerImpact(0.042, 1.5); pingStoryTwigs(0); }
       if (b2 === 0 && posX >= x2 - 21.5 * S){ b2 = 1; b2t = 0; }
       if (b3 === 0 && posX >= x3 - 13.0 * S){ b3 = 1; b3t = 0; triggerImpact(0.052, 2.3); }
-      if (b4 === 0 && posX >= x4 - 16.5 * S){ b4 = 1; b4t = 0; }
+      if (b4 === 0 && posX >= x4 - 18.2 * S){ b4 = 1; b4t = 0; }
       if (b5 === 0 && posX >= x5 - 0.8 * S) { posX = x5; b5 = 1; b5t = 0; }
 
       let moveSpeed = baseSpeed;
@@ -510,22 +510,22 @@ export function initEvoWalker({ getView }) {
         moveSpeed = 0;
         if (b3t < 0.34) {
           const u = b3t / 0.34;
-          visualDX = -Math.sin(u * Math.PI * 0.5) * 28.0;
+          visualDX = -Math.sin(u * Math.PI * 0.5) * 31.2;
           extraLean = -44 * (1 - u * 0.35);
           beatHopH = Math.sin(u * Math.PI) * 1.8;
           armPose = "bonk";
         } else if (b3t < 0.58) {
           // Brief epiphany beat: head shake -> toolbox lid flips cleanly upright -> antenna flashes bamboo green!
           const u = (b3t - 0.34) / 0.24;
-          visualDX = -28.0;
+          visualDX = -31.2;
           extraLean = 4;
           armPose = "epiphany";
           epiphanyNow = u > 0.35;
           headNodDeg = u < 0.5 ? Math.sin(u * Math.PI * 4) * 8 : -5;
         } else if (b3t < 0.94) {
-          // Reach cleanly into open toolbox & snap big Spiral Drill onto forearm!
-          visualDX = -28.0;
-          extraLean = 6;
+          // Stand cleanly left of open toolbox & reach over to snap big Spiral Drill onto forearm!
+          visualDX = -31.2;
+          extraLean = 5;
           armPose = "grabTool";
           if (b3t >= 0.74 && !hasWrench) {
             hasWrench = true;
@@ -535,7 +535,7 @@ export function initEvoWalker({ getView }) {
         } else if (b3t < 1.18) {
           // Step confidently clear of toolbox right up to brick wall with Spiral Drill armed!
           const u = (b3t - 0.94) / 0.24;
-          visualDX = lerp(-28.0, -11.2, u);
+          visualDX = lerp(-31.2, -11.2, u);
           extraLean = 6;
           armPose = "wrench";
         } else if (b3t < 1.56) {
@@ -571,10 +571,10 @@ export function initEvoWalker({ getView }) {
           armPose = "scan";
         } else if (b4t < 0.82) {
           armPose = "type";
-          extraLean = 7;
+          extraLean = 4;
         } else if (b4t < 1.10) {
           armPose = "type";
-          extraLean = 7;
+          extraLean = 4;
           freezeAll = true;
         } else {
           if (!taskDone) {
@@ -1080,20 +1080,51 @@ export function initEvoWalker({ getView }) {
       }
       gateCheckEl.setAttribute("opacity", taskDone ? "1" : "0");
 
-      // Floating 3-node state-machine chain above monitor during Era 4 work beat
+      // Cyclic LangGraph State-Machine Loop above monitor (Plan -> Act -> Eval ◇ -> Retry Loop ↺ -> Checkpointer || -> ✓!)
       if (b4 === 1) {
-        const flowFade = 1 - smooth(1.36, 1.54, b4t);
+        const flowFade = 1 - smooth(1.38, 1.55, b4t);
         stateFlowGroup.setAttribute("opacity", flowFade.toFixed(2));
-        const s1On = b4t >= 0.08;
-        const s2On = b4t >= 0.38;
-        const s3On = b4t >= 1.10;
+        const s1On = b4t >= 0.06;
+        const s2On = b4t >= 0.26;
+        const s3On = b4t >= 0.48;
+        const loopOn = b4t >= 0.56;
+        const doneOn = b4t >= 1.10;
         gateS1.setAttribute("fill", s1On ? "#E6EFE8" : "#FAF8F4");
         gateLink1.setAttribute("opacity", s2On ? "1" : "0");
         gateS2.setAttribute("fill", s2On ? "#E6EFE8" : "#FAF8F4");
         gateS2.setAttribute("opacity", freezeAll ? "0" : "1");
         gateLink2.setAttribute("opacity", s3On ? "1" : "0");
         gateS3.setAttribute("opacity", s3On ? "1" : "0");
-        gateS3Rays.setAttribute("opacity", s3On ? "1" : "0");
+        gateS3.setAttribute("fill", doneOn ? "#2D6A47" : (s3On ? "#E6EFE8" : "#FAF8F4"));
+        gateLoopArc.setAttribute("opacity", loopOn ? (doneOn ? "0.45" : "0.92") : "0");
+        gateS3Rays.setAttribute("opacity", doneOn ? "1" : "0");
+        // Live glowing execution token orbiting Plan -> Act -> Eval -> Loop-back -> Checkpointer -> Done!
+        if (!freezeAll && b4t >= 0.10 && b4t < 1.24) {
+          let tx = -2.7, ty = -31.6;
+          if (b4t < 0.34) {
+            const u = clamp01((b4t - 0.10) / 0.24);
+            tx = lerp(-2.7, 5.3, u);
+            ty = lerp(-31.6, -35.0, Math.sin(u * Math.PI * 0.5));
+          } else if (b4t < 0.56) {
+            const u = clamp01((b4t - 0.34) / 0.22);
+            tx = lerp(5.3, 12.8, u);
+            ty = lerp(-35.0, -31.6, u * u);
+          } else if (b4t < 0.82) {
+            // Curves backward along bottom retry loop arc (Eval ◇ ↺ Plan) — LangGraph self-correction!
+            const u = clamp01((b4t - 0.56) / 0.26);
+            tx = lerp(12.8, -2.7, u);
+            ty = -31.6 + Math.sin(u * Math.PI) * 3.4;
+          } else {
+            const u = clamp01((b4t - 1.10) / 0.14);
+            tx = lerp(5.3, 12.8, u);
+            ty = lerp(-35.0, -31.6, u);
+          }
+          gateToken.setAttribute("cx", tx.toFixed(1));
+          gateToken.setAttribute("cy", ty.toFixed(1));
+          gateToken.setAttribute("opacity", "0.96");
+        } else {
+          gateToken.setAttribute("opacity", "0");
+        }
       } else {
         stateFlowGroup.setAttribute("opacity", "0");
       }
@@ -1366,7 +1397,9 @@ export function initEvoWalker({ getView }) {
 
       const bob = freezeAll || b5 === 3 ? 0 : kneeW * Math.abs(Math.sin(phase * Math.PI * 2)) * 1.35;
       const totalLift = beatHopH + launchLiftY + padStandY;
-      const hipY = -lerp(6.4, 13.0, smooth(0.2, 3.4, evo)) - bob - totalLift + crouchY;
+      // Poised upright standing height when paused at Era 2/3/4 stations (eliminates awkward deep knee squat!)
+      const standPoiseLift = moveSpeed < 1 && !isSliding && (b2 === 1 || b3 === 1 || b4 === 1) ? 1.15 * kneeW : 0;
+      const hipY = -lerp(6.4, 13.0, smooth(0.2, 3.4, evo)) - standPoiseLift - bob - totalLift + crouchY;
       const shoulderX = Math.sin(leanRad) * torsoH;
       const shoulderY = hipY - Math.cos(leanRad) * torsoH;
 
