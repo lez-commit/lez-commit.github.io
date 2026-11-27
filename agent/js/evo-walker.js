@@ -467,7 +467,42 @@
     let skidCooldown = 0;
 
     // =====================================================================
-    // LAYER 2: THE EVOLVING INK-AND-WASH ROBOT (Crisp Mechanical Anatomy)
+    // LAYER 1B: ERA 1 HUMAN OPERATOR (Winds up Mark I's back key -> watches it trip!)
+    // =====================================================================
+    const humanGroup = mk("g", { opacity: "0" }, scenery);
+    mk("ellipse", { cx: "0", cy: "0.35", rx: "5.2", ry: "1.0", fill: "#1D1B18", "fill-opacity": "0.12" }, humanGroup);
+    // Articulated human legs (subtle crouch while winding -> upright stance watching)
+    const humanLegB = mk("path", { d: "M -1.0,-10.2 L -2.6,-5.2 L -3.2,0", fill: "none", stroke: "#2B2825", "stroke-width": "2.0", "stroke-linecap": "round", "stroke-linejoin": "round" }, humanGroup);
+    const humanLegF = mk("path", { d: "M 0.8,-10.2 L 2.2,-5.2 L 1.8,0", fill: "none", stroke: "#1D1B18", "stroke-width": "2.1", "stroke-linecap": "round", "stroke-linejoin": "round" }, humanGroup);
+    // Upper human body (pivots cleanly at hip y = -10.2)
+    const humanTorsoG = mk("g", { transform: "translate(0, -10.2)" }, humanGroup);
+    // Back arm (rests on knee while winding / on hip while watching)
+    const humanArmB = mk("path", { d: "M -1.2,-7.6 L -3.6,-4.2 L -2.2,-1.2", fill: "none", stroke: "#2B2825", "stroke-width": "1.6", "stroke-linecap": "round", "stroke-linejoin": "round" }, humanTorsoG);
+    // Editorial cream sweater / lab coat torso
+    mk("path", {
+      d: "M -3.0,-0.4 L 3.0,-0.4 L 2.6,-8.6 Q 2.4,-9.6 0,-9.6 Q -2.4,-9.6 -2.6,-8.6 Z",
+      fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round"
+    }, humanTorsoG);
+    mk("line", { x1: "0.6", y1: "-8.2", x2: "0.6", y2: "-1.2", stroke: "#1D1B18", "stroke-width": "0.55", "stroke-opacity": "0.35" }, humanTorsoG);
+    // Minimalist rounded head + ink hair cap + expressive eye dot
+    mk("circle", { cx: "0.4", cy: "-13.0", r: "3.1", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.95" }, humanTorsoG);
+    mk("path", { d: "M -2.7,-13.4 Q -2.4,-16.6 0.8,-16.3 Q 3.4,-16.0 3.3,-13.6 Q 1.6,-14.4 -0.4,-14.2 Q -1.8,-14.0 -2.7,-13.4 Z", fill: "#1D1B18" }, humanTorsoG);
+    mk("circle", { cx: "2.1", cy: "-12.9", r: "0.55", fill: "#1D1B18" }, humanTorsoG);
+    // Front winding arm (cranks Mark I's back wind-up key in 3 crisp turns -> raises to facepalm when Mark I trips!)
+    const humanArmF = mk("path", { d: "M 1.2,-7.6 L 5.2,-4.6 L 8.2,-3.8", fill: "none", stroke: "#1D1B18", "stroke-width": "1.75", "stroke-linecap": "round", "stroke-linejoin": "round" }, humanTorsoG);
+    const humanHand = mk("circle", { cx: "8.2", cy: "-3.8", r: "1.05", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.75" }, humanTorsoG);
+    // Mechanical ratchet crank arcs around key while winding (`咔哒-咔哒-咔哒`!)
+    const windTicks = mk("g", { opacity: "0" }, humanGroup);
+    mk("path", { d: "M 8.5,-15.8 A 4.2,4.2 0 0,1 12.6,-13.2 M 8.8,-7.2 A 4.2,4.2 0 0,0 12.6,-9.8", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", "stroke-linecap": "round" }, windTicks);
+    // Comedic sweat-drop + "..." exasperation reaction when Mark I immediately trips on the stone!
+    const humanSweat = mk("g", { opacity: "0" }, humanGroup);
+    mk("path", { d: "M 5.4,-26.6 Q 6.4,-24.6 5.4,-24.0 Q 4.4,-24.6 5.4,-26.6 Z", fill: "#B5F5D4", stroke: "#2D6A47", "stroke-width": "0.72" }, humanSweat);
+    mk("circle", { cx: "-3.8", cy: "-27.4", r: "0.65", fill: "#1D1B18" }, humanSweat);
+    mk("circle", { cx: "-1.4", cy: "-27.4", r: "0.65", fill: "#1D1B18" }, humanSweat);
+    mk("circle", { cx: "1.0", cy: "-27.4", r: "0.65", fill: "#1D1B18" }, humanSweat);
+
+    // =====================================================================
+    // LAYER 2: THE 5-GENERATION EVOLVING MECH (Mark I -> Mark II -> Mark III -> Mark IV -> Mark V!)
     // =====================================================================
     const botGroup = mk("g", { class: "evo-bot-hit" }, svg);
     mk("rect", { x: "-17", y: "-40", width: "34", height: "42", fill: "transparent" }, botGroup);
@@ -519,10 +554,23 @@
     mk("polygon", { points: "5.4,-9.1 10.8,-11.8 10.1,-10.2 5.5,-8.0", fill: "#2B2825" }, groundWingR);
     mk("line", { x1: "6.0", y1: "-8.8", x2: "10.1", y2: "-10.9", stroke: "#5CE09B", "stroke-width": "0.72", "stroke-linecap": "round" }, groundWingR);
     mk("rect", { x: "-3.6", y: "-9.8", width: "7.2", height: "6.8", rx: "0.9", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.8" }, jetpackEl);
-    // Stage 1: Retro tin-toy top lid + micro gauge (fades smoothly as CRT head emerges in Era 2)
+    // Stage 1: Mark I Vintage Riveted Tin-Box Top Beacon (fades as Mark II wakes!)
     const rpaTopCap = mk("g", { opacity: "1" }, torsoGroup);
-    mk("rect", { x: "-4.6", y: "-9.1", width: "9.2", height: "1.5", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0" }, rpaTopCap);
-    mk("circle", { cx: "0", cy: "-9.6", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, rpaTopCap);
+    mk("rect", { x: "-5.2", y: "-9.5", width: "10.4", height: "1.6", rx: "0.55", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.95" }, rpaTopCap);
+    const mk1Lamp = mk("circle", { cx: "0", cy: "-10.5", r: "1.35", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85" }, rpaTopCap);
+    // Mark III Rear Industrial Tool Pod (drawn BEHIND torsoEl!)
+    const mk3BackEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("rect", { x: "-7.8", y: "-9.8", width: "3.8", height: "7.6", rx: "0.75", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.82" }, mk3BackEl);
+    mk("rect", { x: "-7.2", y: "-9.0", width: "1.5", height: "6.0", rx: "0.35", fill: "#E4DDD0" }, mk3BackEl);
+    const mk3StowedDrill = mk("g", { opacity: "0" }, mk3BackEl);
+    mk("polygon", { points: "-7.3,-9.8 -5.8,-15.2 -4.3,-9.8", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round" }, mk3StowedDrill);
+    mk("line", { x1: "-6.6", y1: "-11.4", x2: "-5.0", y2: "-12.0", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, mk3StowedDrill);
+    // Mark IV Compact Swept Dorsal Stabilizer Fins (drawn BEHIND torsoEl — foreshadowing Era 5 wings!)
+    const mk4BackEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("path", { d: "M -3.6,-9.4 L -8.6,-11.8 L -7.8,-8.2 L -3.6,-7.0 Z", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round" }, mk4BackEl);
+    mk("line", { x1: "-5.0", y1: "-9.7", x2: "-7.8", y2: "-10.9", stroke: "#2D6A47", "stroke-width": "0.65", "stroke-linecap": "round" }, mk4BackEl);
+    mk("path", { d: "M 3.6,-9.4 L 8.6,-11.8 L 7.8,-8.2 L 3.6,-7.0 Z", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round" }, mk4BackEl);
+    mk("line", { x1: "5.0", y1: "-9.7", x2: "7.8", y2: "-10.9", stroke: "#2D6A47", "stroke-width": "0.65", "stroke-linecap": "round" }, mk4BackEl);
     // Mechanical neck collar connecting torso to CRT head
     const neckEl = mk("g", { opacity: "0" }, torsoGroup);
     mk("rect", { x: "-1.9", y: "-12.2", width: "3.8", height: "2.4", rx: "0.6", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.85" }, neckEl);
@@ -540,6 +588,37 @@
     const torsoShade = mk("path", { fill: "#E4DDD0", "fill-opacity": "0.52" }, torsoGroup);
     const chestPanel = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-opacity": "0.48", "stroke-linecap": "round" }, torsoGroup);
     const chestLed = mk("circle", { cx: "1.6", cy: "-5.2", r: "0.8", fill: "#2D6A47", opacity: "0" }, torsoGroup);
+    // --- FOREGROUND GENERATION CHEST OVERLAYS (Drawn ON TOP of torsoEl so 100% crisp & unmistakable!) ---
+    // Mark I Front Riveted Tin-Box Dial Gauge Plate (Era 1)
+    const mk1FrontDial = mk("g", { opacity: "1" }, torsoGroup);
+    mk("rect", { x: "-5.1", y: "-7.3", width: "10.2", height: "6.0", rx: "0.8", fill: "#E4DDD0", "fill-opacity": "0.78", stroke: "#1D1B18", "stroke-width": "0.72" }, mk1FrontDial);
+    mk("circle", { cx: "-4.0", cy: "-6.2", r: "0.45", fill: "#1D1B18" }, mk1FrontDial);
+    mk("circle", { cx: "4.0", cy: "-6.2", r: "0.45", fill: "#1D1B18" }, mk1FrontDial);
+    mk("circle", { cx: "-4.0", cy: "-2.4", r: "0.45", fill: "#1D1B18" }, mk1FrontDial);
+    mk("circle", { cx: "4.0", cy: "-2.4", r: "0.45", fill: "#1D1B18" }, mk1FrontDial);
+    mk("circle", { cx: "0.5", cy: "-4.3", r: "2.35", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.82" }, mk1FrontDial);
+    const mk1Needle = mk("line", { x1: "0.5", y1: "-4.3", x2: "-0.8", y2: "-5.6", stroke: "#B83B2A", "stroke-width": "1.0", "stroke-linecap": "round" }, mk1FrontDial);
+    mk("circle", { cx: "0.5", cy: "-4.3", r: "0.55", fill: "#1D1B18" }, mk1FrontDial);
+    // Mark II Lab Prototype Skeletal Collar & Glowing Vertical Neural Bar (Era 2)
+    const mk2ProtoEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("path", { d: "M -3.9,-10.0 L 3.9,-10.0 L 3.1,-7.8 L -3.1,-7.8 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-linejoin": "round" }, mk2ProtoEl);
+    mk("rect", { x: "-1.3", y: "-7.2", width: "2.6", height: "5.2", rx: "0.9", fill: "#1D1B18" }, mk2ProtoEl);
+    const mk2PulseBar = mk("rect", { x: "-0.65", y: "-6.4", width: "1.3", height: "3.6", rx: "0.5", fill: "#5CE09B" }, mk2ProtoEl);
+    // Mark III Rugged Industrial Front Roll-Cage Bumper Plate (Era 3)
+    const mk3RigEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("path", { d: "M -5.4,-10.3 L 5.4,-10.3 L 6.0,-7.4 L -6.0,-7.4 Z", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, mk3RigEl);
+    mk("path", { d: "M -4.2,-10.1 L -3.4,-7.6 M -1.6,-10.1 L -0.8,-7.6 M 1.4,-10.1 L 2.2,-7.6 M 3.8,-10.1 L 4.6,-7.6", fill: "none", stroke: "#2B2825", "stroke-width": "0.88", "stroke-linecap": "round" }, mk3RigEl);
+    mk("rect", { x: "-4.3", y: "-6.2", width: "8.6", height: "4.6", rx: "0.8", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.85" }, mk3RigEl);
+    mk("circle", { cx: "-3.1", cy: "-3.9", r: "0.62", fill: "#2B2825" }, mk3RigEl);
+    mk("circle", { cx: "3.1", cy: "-3.9", r: "0.62", fill: "#2B2825" }, mk3RigEl);
+    mk("line", { x1: "-1.6", y1: "-3.9", x2: "1.6", y2: "-3.9", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round" }, mk3RigEl);
+    // Mark IV Precision Tactician Collar Yoke & 3-LED State-Machine Chest Bar (Era 4)
+    const mk4TactEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("path", { d: "M -4.6,-10.9 L 4.6,-10.9 L 3.7,-8.4 L -3.7,-8.4 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.7", "stroke-linejoin": "round" }, mk4TactEl);
+    mk("rect", { x: "-3.5", y: "-7.0", width: "7.0", height: "3.0", rx: "1.0", fill: "#1D1B18" }, mk4TactEl);
+    const mk4Led1 = mk("circle", { cx: "-1.9", cy: "-5.5", r: "0.78", fill: "#5CE09B" }, mk4TactEl);
+    const mk4Led2 = mk("circle", { cx: "0.0", cy: "-5.5", r: "0.78", fill: "#5CE09B", opacity: "0.35" }, mk4TactEl);
+    const mk4Led3 = mk("circle", { cx: "1.9", cy: "-5.5", r: "0.78", fill: "#5CE09B", opacity: "0.2" }, mk4TactEl);
     // Stage 5: Hardcore Layered Angular Shoulder Pauldrons + High Collar + Chest Vents!
     const shoulderArmorEl = mk("g", { opacity: "0" }, torsoGroup);
     mk("path", { d: "M -4.2,-10.6 L -7.6,-11.4 L -8.6,-8.8 L -7.2,-7.0 L -4.4,-7.6 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, shoulderArmorEl);
@@ -584,9 +663,18 @@
       d: "M -1.5,-12.0 L -1.5,-13.6 M -4.0,-11.0 L -5.2,-12.2 M 1.0,-11.0 L 2.2,-12.2",
       fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", "stroke-linecap": "round"
     }, cotHeadSpark);
-    // Ear-bolt pods
-    mk("rect", { x: "-6.9", y: "-1.6", width: "1.7", height: "3.4", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, headGroup);
-    mk("rect", { x: "5.2", y: "-1.6", width: "1.4", height: "3.2", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, headGroup);
+    // Mark II–III Raw Rear Neural Heatsink Fins behind CRT Head (visibly distinguishes prototype era!)
+    const mk2HeadFins = mk("g", { opacity: "0" }, headGroup);
+    mk("path", { d: "M -5.8,-3.4 L -8.2,-4.0 M -5.8,-1.4 L -8.5,-1.6 M -5.8,0.6 L -8.0,1.0", fill: "none", stroke: "#2B2825", "stroke-width": "1.1", "stroke-linecap": "round" }, mk2HeadFins);
+    // Mark IV–V Aerodynamic Swept Sensor Ear-Wings + Sleek Visor Brow Hood!
+    const mk4EarWings = mk("g", { opacity: "0" }, headGroup);
+    mk("path", { d: "M -5.6,-2.2 L -8.4,-4.4 L -7.6,0.8 L -5.6,1.4 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.75", "stroke-linejoin": "round" }, mk4EarWings);
+    mk("path", { d: "M -5.2,-4.7 L 5.4,-4.7 L 6.2,-3.2 L -4.4,-3.2 Z", fill: "#2B2825" }, mk4EarWings);
+    mk("line", { x1: "-7.6", y1: "-2.8", x2: "-6.6", y2: "-0.8", stroke: "#5CE09B", "stroke-width": "0.65", "stroke-linecap": "round" }, mk4EarWings);
+    // Ear-bolt pods (Mark II–III boxy CRT ears, replaced by Mark IV ear-wings in Era 4–5!)
+    const crtEarsEl = mk("g", null, headGroup);
+    mk("rect", { x: "-6.9", y: "-1.6", width: "1.7", height: "3.4", rx: "0.65", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, crtEarsEl);
+    mk("rect", { x: "5.2", y: "-1.6", width: "1.4", height: "3.2", rx: "0.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, crtEarsEl);
     // Boxy CRT head dome (unified matte porcelain ceramic gradient + crisp top specular sheen!)
     mk("rect", { x: "-5.7", y: "-4.7", width: "11.4", height: "9.0", rx: "2.6", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "1.08" }, headGroup);
     mk("line", { x1: "-3.4", y1: "-3.8", x2: "2.8", y2: "-3.8", stroke: "#FFFFFF", "stroke-width": "0.7", "stroke-opacity": "0.88", "stroke-linecap": "round" }, headGroup);
@@ -632,6 +720,8 @@
     const handTipB = mk("circle", { r: "1.0", fill: "url(#evo-porcelain-back)", stroke: "#1D1B18", "stroke-width": "0.78", opacity: "0" }, botBody);
     const handTipF = mk("circle", { r: "1.1", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.82", opacity: "0" }, botBody);
     const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
+    // Mark III Heavy Gunmetal Exoskeleton Forearm Quick-Connect Socket (persists after toolbox pickup!)
+    const mk3ArmCuff = mk("rect", { x: "-1.8", y: "-1.8", width: "3.6", height: "3.6", rx: "0.75", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.75", opacity: "0" }, botBody);
     // Era 3 Big Spiral Mechanical Drill attachment (snaps straight onto forearm!)
     const drillGroup = mk("g", { opacity: "0" }, botBody);
     mk("rect", { x: "-1.0", y: "-2.3", width: "3.8", height: "4.6", rx: "0.9", fill: "#E4DDD0", stroke: "#1D1B18", "stroke-width": "0.9" }, drillGroup);
@@ -826,12 +916,14 @@
       });
     }
 
-    // 5-beat state machine per cycle
+    // 5-beat + opening Human Wind-Up state machine per cycle
+    let b0 = 0, b0t = 0; // Era 1 Opening: 0=human cranks Mark I wind-up key (0.96s), 1=human watches & reacts to trip, 2=human faded out
     let b1 = 0, b1t = 0; // Era 1 pebble: 0=jog, 1=trip, 2=long belly-slide into Era 2, 3=pop up, 4=done
     let b2 = 0, b2t = 0; // Era 2 desk:   0=approach, 1=read+CoT(0.95s), 2=done
     let b3 = 0, b3t = 0; // Era 3 wall:   0=approach, 1=bonk+recoil+wrench+turn+sink(1.42s), 2=done
     let b4 = 0, b4t = 0; // Era 4 gate:   0=approach, 1=press+0.25s freeze+lift(1.02s), 2=done
     let b5 = 0, b5t = 0; // Era 5 pad:    0=approach, 1=dock harness(1.22s), 2=walk to launch pad, 3=ignition & liftoff, 4=airborne handoff (waiting for dock)
+    let initPositioned = false;
     let waitingForDock = false;
     let handoffStarted = false;
     let handoffTrailT = 0;
@@ -866,6 +958,7 @@
     let taskDone = false;    // Era 4 computer monitor shows permanent luminous bamboo ✓!
     let hasBrain = false;   // Physical brain docked from Era 2 Glass Vat!
     let hasWrench = false;  // Physical spiral drill equipped from Era 3 Toolbox!
+    let hasToolRig = false; // Permanent Mark III industrial roll-cage + back tool pod upgrade!
     let isEquipped = false;
     let claspRippleTimer = 0;
     let lockSparkTimer = 0;
@@ -877,13 +970,17 @@
     function resetCycle(startX) {
       posX = startX;
       phase = 0;
+      b0 = 0;
+      b0t = 0;
       b1 = b2 = b3 = b4 = b5 = 0;
       b1t = b2t = b3t = b4t = b5t = 0;
       wallBroken = false;
       taskDone = false;
       hasBrain = false;
       hasWrench = false;
+      hasToolRig = false;
       isEquipped = false;
+      humanGroup.setAttribute("opacity", "0");
       claspRippleTimer = 0;
       lockSparkTimer = 0;
       gateRippleTimer = 0;
@@ -920,19 +1017,23 @@
       const startX = 14;
       const endX = Math.max(240, w - 18);
       const span = endX - startX;
+      const x1 = startX + span * 0.11;
+      const humanX = Math.max(startX + 10, x1 - 54 * S);
+      const botStartX = Math.max(humanX + 15.5 * S, x1 - 38.5 * S);
       const anchors = [
-        startX,
+        botStartX,
         startX + span * 0.31 - 56 * S,
         startX + span * 0.51 - 56 * S,
         startX + span * 0.71 - 56 * S,
         startX + span * 0.89 - 46 * S
       ];
-      resetCycle(startX);
+      resetCycle(botStartX);
+      initPositioned = true;
       const idx = Math.max(0, Math.min(4, eraIdx || 0));
       posX = Math.max(startX, anchors[idx]);
-      if (idx >= 1) { b1 = 4; }
+      if (idx >= 1) { b0 = 2; b1 = 4; }
       if (idx >= 2) { b2 = 2; hasBrain = true; }
-      if (idx >= 3) { b3 = 2; hasWrench = false; wallBroken = true; }
+      if (idx >= 3) { b3 = 2; hasWrench = false; hasToolRig = true; wallBroken = true; }
       if (idx >= 4) { b4 = 2; taskDone = true; }
       botGroup.setAttribute("opacity", "1");
     }
@@ -992,9 +1093,18 @@
         const x4 = startX + span * 0.71; // Checkpoint Gate
         const x5 = startX + span * 0.89; // Harness Docking Pad
 
+        // Era 1 Opening Coordinates: Human operator kneels cleanly right behind Mark I's wind-up key!
+        const humanX = Math.max(startX + 10, x1 - 54 * S);
+        const botStartX = Math.max(humanX + 15.5 * S, x1 - 38.5 * S);
+        if (!initPositioned) {
+          initPositioned = true;
+          posX = botStartX;
+        }
+
         // Calm post-ceremony resting state: keep all 5 resolved props neatly positioned & quiet until user summons!
         if (restingCompleted) {
           botGroup.setAttribute("opacity", "0");
+          humanGroup.setAttribute("opacity", "0");
           syncEraCaptions(-1, false);
           const setRestProp = (el, px) => {
             el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y}) scale(${S})`);
@@ -1093,7 +1203,20 @@
         let epiphanyNow = false;
         let awakeNow = false;
 
-        if (clickHopTimer > 0 && b5 !== 3) {
+        if (b0 === 0) {
+          // Era 1 Opening Beat (人手拧发条!): Human cranks Mark I's back wind-up key 3 crisp turns -> Mark I springs to life!
+          b0t += dt;
+          activeEraIdx = 0;
+          isEraBeat = true;
+          posX = botStartX;
+          moveSpeed = 0;
+          extraLean = 4;
+          keyPhase = b0t * 19.6; // 3 crisp full rotations over 0.96s!
+          if (b0t >= 0.96) {
+            b0 = 1;
+            b0t = 0;
+          }
+        } else if (clickHopTimer > 0 && b5 !== 3) {
           clickHopTimer = Math.max(0, clickHopTimer - dt);
           moveSpeed = 0;
           beatHopH = Math.sin((clickHopTimer / 0.5) * Math.PI) * 7.5;
@@ -1187,6 +1310,7 @@
             armPose = "grabTool";
             if (b3t >= 0.74 && !hasWrench) {
               hasWrench = true;
+              hasToolRig = true;
               toolSnapTimer = 0.28;
             }
           } else if (b3t < 1.18) {
@@ -1371,6 +1495,60 @@
         setPropFocus(prop3, x3);
         setPropFocus(prop4, x4);
         const near5 = setPropFocus(prop5, x5);
+
+        // Era 1 Human Wind-Up Operator animation (cranks 3 turns -> watches proudly -> facepalm sweat-drop on trip -> fades!)
+        if (b0 === 0) {
+          const u = clamp01(b0t / 0.96);
+          const fadeIn = clamp01(b0t / 0.14);
+          humanGroup.setAttribute("transform", `translate(${humanX.toFixed(1)}, ${BASE_Y}) scale(${S})`);
+          humanGroup.setAttribute("opacity", fadeIn.toFixed(2));
+          // Slight crouch + forward lean while cranking Mark I's back wind-up key
+          humanLegB.setAttribute("d", "M -1.0,-9.2 L -3.2,-4.6 L -3.4,0");
+          humanLegF.setAttribute("d", "M 1.0,-9.2 L 3.4,-4.6 L 2.2,0");
+          humanTorsoG.setAttribute("transform", `translate(0, -9.2) rotate(${(18 + Math.sin(b0t * 19.6) * 2.5).toFixed(1)})`);
+          humanArmB.setAttribute("d", "M -1.2,-7.4 L -3.4,-4.0 L -1.8,-0.8");
+          // Circular crank wrist motion right around Mark I's back key!
+          const crankA = b0t * 19.6;
+          const hx = 8.4 + Math.cos(crankA) * 1.6;
+          const hy = -2.4 + Math.sin(crankA) * 2.1;
+          humanArmF.setAttribute("d", `M 1.2,-7.6 L ${(hx * 0.55).toFixed(1)},${(hy - 2.2).toFixed(1)} L ${hx.toFixed(1)},${hy.toFixed(1)}`);
+          humanHand.setAttribute("cx", hx.toFixed(1));
+          humanHand.setAttribute("cy", hy.toFixed(1));
+          // Pop ratchet ticks on each of the 3 cranks!
+          const crankPulse = Math.abs(Math.sin(u * Math.PI * 3));
+          windTicks.setAttribute("opacity", (crankPulse * 0.88).toFixed(2));
+          humanSweat.setAttribute("opacity", "0");
+        } else if (b0 === 1) {
+          b0t += dt;
+          const tripped = b1 >= 1;
+          const fadeOut = b1 >= 3 ? 1 - clamp01((b1t) / 0.32) : (b0t > 2.8 ? 1 - clamp01((b0t - 2.8) / 0.4) : 1);
+          humanGroup.setAttribute("transform", `translate(${humanX.toFixed(1)}, ${BASE_Y}) scale(${S})`);
+          humanGroup.setAttribute("opacity", fadeOut.toFixed(2));
+          humanLegB.setAttribute("d", "M -1.0,-10.2 L -2.2,-5.0 L -2.8,0");
+          humanLegF.setAttribute("d", "M 0.8,-10.2 L 1.8,-5.0 L 1.8,0");
+          windTicks.setAttribute("opacity", "0");
+          if (tripped) {
+            // Exasperated slight lean-back + hand raised in facepalm + sweat drop!
+            humanTorsoG.setAttribute("transform", "translate(0, -10.2) rotate(-7)");
+            humanArmB.setAttribute("d", "M -1.2,-7.6 L -3.8,-4.2 L -2.2,-1.2");
+            humanArmF.setAttribute("d", "M 1.2,-7.6 L 5.4,-8.2 L 3.4,-12.2");
+            humanHand.setAttribute("cx", "3.4");
+            humanHand.setAttribute("cy", "-12.2");
+            humanSweat.setAttribute("opacity", "0.95");
+          } else {
+            // Stands proudly upright watching Mark I chug off!
+            const standU = clamp01(b0t / 0.18);
+            humanTorsoG.setAttribute("transform", `translate(0, -10.2) rotate(${lerp(18, 0, standU).toFixed(1)})`);
+            humanArmB.setAttribute("d", "M -1.2,-7.6 L -4.0,-4.4 L -2.2,-1.4");
+            humanArmF.setAttribute("d", "M 1.2,-7.6 L 4.0,-4.4 L 2.2,-1.4");
+            humanHand.setAttribute("cx", "2.2");
+            humanHand.setAttribute("cy", "-1.4");
+            humanSweat.setAttribute("opacity", "0");
+          }
+          if (fadeOut <= 0.02) b0 = 2;
+        } else {
+          humanGroup.setAttribute("opacity", "0");
+        }
 
         // Prop 1 updates: pebble kick dust burst during trip
         if (b1 === 1 || (b1 === 2 && b1t < 0.24)) {
@@ -1756,31 +1934,34 @@
         }
 
         // =================================================================
-        // CONTINUOUS MORPHOLOGY EVOLUTION (17px -> 23px -> 26px -> 29px -> 33px)
+        // 5-GENERATION MECH EVOLUTION (Mark I -> Mark II -> Mark III -> Mark IV -> Mark V!)
+        // Distinct proportions, permanent hardware upgrades & chassis silhouettes per era!
         // =================================================================
-        // Physical morphology unlocked by actual narrative milestones (Brain from Vat, Wrench from Socket!)
         const headW = hasBrain ? 1 : 0;              // CRT head physically docks from Era 2 Glass Vat!
         const kneeW = smooth(0.75, 1.25, evo);       // Articulated knees unfold in Era 2
         const wrenchW = hasWrench
           ? (b3 === 1 ? 1 : !isEquipped ? 1 - smooth(2.35, 2.62, evo) : 0)
           : 0;
-        const gogglesW = smooth(2.65, 3.05, evo);    // Era 4–5 dual-optic visor
+        const gogglesW = smooth(2.25, 2.58, evo);    // Era 4–5 Mark IV Precision Tactician unlocks cleanly entering Era 4!
+        const isMk1 = !hasBrain;
+        const isMk4 = gogglesW > 0.5;
         const keyW = hasBrain ? 0 : 1 - smooth(0.95, 1.22, evo); // Wind-up key fades as brain takes over!
         const edgeFade = b5 === 4
           ? 0
           : b5 === 3
           ? (b5t > 0.64 ? 1 - smooth(1.05, 1.54, b5t) : 1)
-          : smooth(0, 0.03, progress) * (1 - smooth(0.96, 1, progress));
+          : (b0 === 0 ? 1 : smooth(0, 0.02, progress)) * (1 - smooth(0.96, 1, progress));
 
         // Smooth vertical step-up onto Era 5 architectural docking pad deck (stays continuous during in-gantry launch!)
         const onPadDist = Math.abs(drawX - x5) / S;
         const padStandY = (1 - smooth(10, 17, onPadDist)) * 3.5;
 
-        // Proportions: total height scales smoothly 17 -> 23 -> 26 -> 29 -> 33px
-        const legSeg = lerp(3.4, 7.2, smooth(0.2, 3.4, evo));
-        const strideLen = lerp(6.0, 14.0, smooth(0.2, 3.6, evo));
-        const torsoH = lerp(7.8, 10.6, smooth(0.4, 3.4, evo));
-        const torsoW = lerp(11.6, 8.4, smooth(0.5, 3.2, evo));
+        // Distinct generation proportions:
+        // Mark I (squat wide tin-box) -> Mark II (lean lab prototype) -> Mark III (broad industrial rig) -> Mark IV (tall sleek tactician) -> Mark V (heroic Gundam!)
+        const legSeg = lerp(3.3, 7.3, smooth(0.2, 3.4, evo));
+        const strideLen = lerp(5.8, 14.2, smooth(0.2, 3.6, evo));
+        const torsoH = isMk1 ? 8.4 : (isMk4 ? 10.9 : (hasToolRig ? 10.2 : 10.0));
+        const torsoW = isMk1 ? 12.6 : (hasToolRig && !isMk4 ? 9.8 : (isMk4 ? 8.4 : 7.4));
 
         if (!freezeAll && moveSpeed > 0) {
           phase += (moveSpeed / Math.max(9, strideLen * 1.95)) * dt;
@@ -1844,9 +2025,18 @@
         shadowEl.setAttribute("rx", ((isSliding ? 9.8 : shadowBaseRx) * (0.4 + 0.6 * shadowScale)).toFixed(1));
         shadowEl.setAttribute("fill-opacity", (0.14 * shadowScale).toFixed(3));
 
-        // Era 1 wind-up key on back + retro tin-toy cap + trip vermilion `!`
+        // Era 1 wind-up key + Mark I top red signal beacon + analog chest dial gauge needle!
         keyGroup.setAttribute("opacity", keyW.toFixed(2));
-        rpaTopCap.setAttribute("opacity", (1 - headW).toFixed(2));
+        rpaTopCap.setAttribute("opacity", isMk1 ? "1" : "0");
+        mk1FrontDial.setAttribute("opacity", isMk1 ? "1" : "0");
+        if (isMk1) {
+          const woundPct = b0 === 0 ? clamp01(b0t / 0.96) : 1;
+          const needleAng = lerp(-130, 55, woundPct) * (Math.PI / 180);
+          mk1Needle.setAttribute("x2", (0.4 + Math.cos(needleAng) * 1.8).toFixed(1));
+          mk1Needle.setAttribute("y2", (-4.3 + Math.sin(needleAng) * 1.8).toFixed(1));
+          const lampOn = b0 >= 1 || (b0 === 0 && b0t > 0.72);
+          mk1Lamp.setAttribute("fill", lampOn ? "#B83B2A" : "#EDE8DE");
+        }
         if (keyW > 0.02) {
           const keyShudder = b1 === 1 ? Math.sin(b1t * 48) * 1.1 : 0;
           keyGroup.setAttribute("transform", `translate(${keyShudder.toFixed(1)}, ${hipY.toFixed(1)}) rotate(${leanDeg.toFixed(1)})`);
@@ -1935,10 +2125,29 @@
         torsoEl.setAttribute("d", `M ${(-hw).toFixed(1)},0 L ${hw.toFixed(1)},0 L ${topW.toFixed(1)},${(-torsoH + 1.0).toFixed(1)} Q ${topW.toFixed(1)},${(-torsoH).toFixed(1)} ${(topW - 1.0).toFixed(1)},${(-torsoH).toFixed(1)} L ${(-topW + 1.0).toFixed(1)},${(-torsoH).toFixed(1)} Q ${(-topW).toFixed(1)},${(-torsoH).toFixed(1)} ${(-topW).toFixed(1)},${(-torsoH + 1.0).toFixed(1)} Z`);
         torsoShade.setAttribute("d", `M ${(-hw + 0.5).toFixed(1)},-0.5 L ${(-hw * 0.35).toFixed(1)},-0.5 L ${(-topW * 0.35).toFixed(1)},${(-torsoH + 0.7).toFixed(1)} L ${(-topW + 0.6).toFixed(1)},${(-torsoH + 0.7).toFixed(1)} Z`);
         chestPanel.setAttribute("d", `M ${(-hw * 0.42).toFixed(1)},${(-torsoH * 0.66).toFixed(1)} L ${(hw * 0.42).toFixed(1)},${(-torsoH * 0.66).toFixed(1)} M ${(-hw * 0.32).toFixed(1)},${(-torsoH * 0.42).toFixed(1)} L ${(hw * 0.24).toFixed(1)},${(-torsoH * 0.42).toFixed(1)}`);
-        chestPanel.setAttribute("opacity", hasTorsoArmor ? "0" : "0.62");
-        chestLed.setAttribute("cx", (hw * 0.36).toFixed(1));
-        chestLed.setAttribute("cy", (-torsoH * 0.42).toFixed(1));
-        chestLed.setAttribute("opacity", !hasTorsoArmor && evo > 1.0 ? "0.85" : "0");
+        // Distinct 5-Generation Torso Overlays (Mark I Dial -> Mark II Prototype -> Mark III Industrial Rig -> Mark IV Tactician -> Mark V Gundam!)
+        const showMk2 = hasBrain && !hasToolRig && !isMk4 && !hasTorsoArmor;
+        const showMk3 = hasToolRig && !isMk4 && !hasTorsoArmor;
+        const showMk4 = isMk4 && !hasTorsoArmor;
+        mk2ProtoEl.setAttribute("opacity", showMk2 ? "1" : "0");
+        if (showMk2) {
+          mk2PulseBar.setAttribute("opacity", (0.55 + 0.45 * Math.sin(now * 0.008)).toFixed(2));
+        }
+        mk3RigEl.setAttribute("opacity", showMk3 ? "1" : "0");
+        mk3BackEl.setAttribute("opacity", showMk3 ? "1" : "0");
+        mk3StowedDrill.setAttribute("opacity", showMk3 && wallBroken && wrenchW < 0.25 ? "1" : "0");
+        mk4TactEl.setAttribute("opacity", showMk4 ? "1" : "0");
+        mk4BackEl.setAttribute("opacity", showMk4 ? "1" : "0");
+        if (showMk4) {
+          const s1Lit = b4 >= 1 || taskDone;
+          const s2Lit = (b4 === 1 && b4t >= 0.38) || taskDone;
+          const s3Lit = taskDone;
+          mk4Led1.setAttribute("opacity", s1Lit ? "1" : "0.4");
+          mk4Led2.setAttribute("opacity", s2Lit ? "1" : "0.25");
+          mk4Led3.setAttribute("opacity", s3Lit ? "1" : "0.2");
+        }
+        chestPanel.setAttribute("opacity", "0");
+        chestLed.setAttribute("opacity", "0");
         neckEl.setAttribute("transform", `translate(0, ${(10.6 - torsoH).toFixed(2)})`);
         neckEl.setAttribute("opacity", headW.toFixed(2));
         torsoGroup.setAttribute("transform", `translate(0, ${hipY.toFixed(2)}) rotate(${leanDeg.toFixed(1)})`);
@@ -2001,6 +2210,10 @@
         const launchLookUp = b5 === 3 && launchLiftY > 2 ? -8 : 0;
         headGroup.setAttribute("transform", `translate(${headX.toFixed(2)}, ${headY.toFixed(2)}) scale(${hScale.toFixed(3)}) rotate(${(walkTilt + headNodDeg + launchLookUp).toFixed(1)})`);
 
+        // Distinct Head Silhouette Evolution: Mark II-III Heatsink Fins + Boxy Ears -> Mark IV-V Aerodynamic Ear-Wings + Brow Hood!
+        mk2HeadFins.setAttribute("opacity", headW > 0.5 && !isMk4 ? "1" : "0");
+        crtEarsEl.setAttribute("opacity", !isMk4 ? "1" : "0");
+        mk4EarWings.setAttribute("opacity", isMk4 ? "1" : "0");
         antGroup.setAttribute("transform", `rotate(${(Math.sin(phase * Math.PI * 2) * 5).toFixed(1)}, -0.8, -5.0)`);
         // Era 2->3 carryover: gentle thinking pulse on antenna tip while striding with newly docked brain!
         const brainPulse = b2 === 2 && b3 === 0 && Math.sin(now * 0.0085) > 0.15;
@@ -2222,6 +2435,12 @@
         handTipB.setAttribute("cx", bHX.toFixed(1));
         handTipB.setAttribute("cy", bHY.toFixed(1));
         handTipB.setAttribute("opacity", showBareHandB ? (armPose === "cot" ? "0.95" : "0.62") : "0");
+
+        // Mark III Heavy Gunmetal Exoskeleton Forearm Quick-Connect Socket (persists after toolbox pickup until Mark IV!)
+        mk3ArmCuff.setAttribute("opacity", hasToolRig && !isMk4 && !hasGauntlets ? "1" : "0");
+        if (hasToolRig && !isMk4 && !hasGauntlets) {
+          mk3ArmCuff.setAttribute("transform", `translate(${fHX.toFixed(1)}, ${fHY.toFixed(1)})`);
+        }
 
         // Era 3 Big Spiral Mechanical Drill attached to right forearm (spins flutes during drilling!)
         drillGroup.setAttribute("opacity", wrenchW.toFixed(2));
