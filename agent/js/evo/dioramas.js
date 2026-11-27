@@ -118,20 +118,14 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
   mk("circle", { cx: "10.0", cy: "-4.4", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.7" }, pebbleDust);
   mk("line", { x1: "5.6", y1: "-5.2", x2: "8.4", y2: "-7.2", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round" }, pebbleDust);
 
-  // --- PROP 2 (Era 2 · 缸中之脑，会推理): 2.5D Neural Lab Pod + Overhead Mechanical Crane Arm + Live EKG ---
+  // --- PROP 2 (Era 2 · 缸中之脑，会推理): 2.5D Hinged Scientific Neural Pod + Live EKG + Cryo Steam Latch ---
   const prop2 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
   mk("rect", { x: "-16", y: "-38", width: "36", height: "40", fill: "transparent" }, prop2);
   mk("ellipse", { cx: "0", cy: "0.4", rx: "13.2", ry: "1.2", fill: "#1D1B18", "fill-opacity": "0.11" }, prop2);
-  // Overhead L-Shaped Lab Mechanical Suspension Crane Arm (physically lifts the glass bell-jar!)
-  mk("path", {
-    d: "M 12.2,0 L 12.2,-33.8 Q 12.2,-35.6 10.4,-35.6 L 0,-35.6",
-    fill: "none", stroke: "#2B2825", "stroke-width": "1.55", "stroke-linecap": "round", "stroke-linejoin": "round"
-  }, prop2);
-  mk("path", { d: "M 10.4,0 L 14.0,0 L 13.4,-2.4 L 11.0,-2.4 Z", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.78", "stroke-linejoin": "round" }, prop2);
-  mk("circle", { cx: "12.2", cy: "-35.4", r: "1.15", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.72" }, prop2);
-  const vatCranePiston = mk("line", { x1: "0", y1: "-35.6", x2: "0", y2: "-30.4", stroke: "#2B2825", "stroke-width": "1.15", "stroke-linecap": "round" }, prop2);
-  // Stepped 2.5D scientific neural pod pedestal + side curved dark-gunmetal power/nutrient conduit!
-  mk("path", { d: "M 8.6,-5.4 C 10.8,-5.4 11.6,-4.2 12.0,-2.4", fill: "none", stroke: "#2B2825", "stroke-width": "1.1", "stroke-linecap": "round" }, prop2);
+  // Subtle rear power conduit curling into pedestal right flank (no cramped overhead bar blocking dome opening!)
+  mk("path", { d: "M 8.6,-5.4 C 11.4,-5.4 12.2,-3.6 12.0,0", fill: "none", stroke: "#2B2825", "stroke-width": "1.15", "stroke-linecap": "round" }, prop2);
+  const vatCranePiston = mk("g", { opacity: "0" }, prop2); // legacy handle kept harmless
+  // Stepped 2.5D scientific neural pod pedestal
   mk("path", {
     d: "M -11.4,0 L -10.2,-2.4 L 10.2,-2.4 L 11.4,0 Z",
     fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
@@ -146,8 +140,13 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
   mk("rect", { x: "-7.0", y: "-7.1", width: "6.2", height: "3.4", rx: "0.55", fill: "#181715", stroke: "currentColor", "stroke-width": "0.65" }, prop2);
   const vatEkgWave = mk("path", { d: "M -6.3,-5.4 L -5.0,-5.4 L -4.4,-6.5 L -3.6,-4.4 L -2.9,-5.4 L -1.5,-5.4", fill: "none", stroke: "#5CE09B", "stroke-width": "0.75", "stroke-linecap": "round", "stroke-linejoin": "round" }, prop2);
   mk("path", { d: "M 0.4,-6.2 L 5.8,-6.2 M 0.4,-4.6 L 4.4,-4.6", fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-linecap": "round" }, prop2);
-  // Vat rim collar & bamboo neural emitter strip
+  // Vat rim collar + left latch clip + right mechanical hinge joint (dome pivots open cleanly 84° to the right!)
   mk("rect", { x: "-9.6", y: "-10.0", width: "19.2", height: "1.8", rx: "0.7", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.95" }, prop2);
+  mk("rect", { x: "-10.1", y: "-10.6", width: "1.6", height: "2.4", rx: "0.45", fill: "#2B2825", stroke: "currentColor", "stroke-width": "0.6" }, prop2);
+  // Subtle cryo-mist release puffs at left latch when dome unseals!
+  const vatSteamPuff = mk("g", { opacity: "0" }, prop2);
+  mk("circle", { cx: "-10.4", cy: "-11.4", r: "1.4", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.65", "stroke-opacity": "0.65" }, vatSteamPuff);
+  mk("circle", { cx: "-12.6", cy: "-13.0", r: "1.0", fill: "#EBFFF3", stroke: "#2D6A47", "stroke-width": "0.55", "stroke-opacity": "0.5" }, vatSteamPuff);
   const vatGlow = mk("ellipse", { cx: "0", cy: "-15.5", rx: "6.8", ry: "5.2", fill: "url(#evo-arc-glow)", opacity: "0.35" }, prop2);
   // Bamboo-tinted swaying nutrient liquid + rising micro-bubbles inside the glass jar!
   const vatLiquidGroup = mk("g", { opacity: "0.95" }, prop2);
@@ -175,7 +174,7 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
   const vatEyeAwake = mk("g", { opacity: "0" }, vatBrainGroup);
   mk("rect", { x: "0.2", y: "-1.3", width: "1.3", height: "1.95", rx: "0.65", fill: "#FAF8F4" }, vatEyeAwake);
   mk("rect", { x: "2.4", y: "-1.24", width: "1.12", height: "1.82", rx: "0.56", fill: "#FAF8F4" }, vatEyeAwake);
-  // Scientific Bell-Jar Glass Dome (lifts smoothly when awakening)
+  // Scientific Hinged Bell-Jar Glass Dome (swings wide open 84° clockwise around right-rim hinge (8.6, -10.0)!)
   const vatDomeGroup = mk("g", null, prop2);
   mk("path", {
     d: "M -8.4,-10.0 L -8.4,-19.8 A 8.4,8.4 0 0,1 8.4,-19.8 L 8.4,-10.0 Z",
@@ -191,21 +190,24 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
     fill: "none", stroke: "currentColor", "stroke-width": "0.58", "stroke-opacity": "0.55", "stroke-linecap": "round"
   }, vatDomeGroup);
   mk("circle", { cx: "0", cy: "-29.4", r: "1.2", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.9" }, vatDomeGroup);
-  // Neck-dock bamboo flash burst centered cleanly at Mark II's head/neck collar (-21.5, -21.5)
+  // Visible right-rim mechanical hinge pin sitting directly atop the pivot (8.6, -10.0)
+  mk("circle", { cx: "8.6", cy: "-10.0", r: "1.35", fill: "#E4DDD0", stroke: "currentColor", "stroke-width": "0.85" }, prop2);
+  mk("circle", { cx: "8.6", cy: "-10.0", r: "0.48", fill: "#2B2825" }, prop2);
+  // Neck-dock bamboo flash burst centered cleanly at Mark II's collar (-19.2, -21.0)
   const brainDockSpark = mk("g", { opacity: "0" }, prop2);
   mk("path", {
-    d: "M -25.8,-24.2 L -28.4,-26.4 M -25.8,-19.2 L -28.4,-18.0 M -17.2,-24.2 L -14.6,-26.4 M -17.2,-19.2 L -14.6,-18.0",
+    d: "M -24.2,-23.6 L -26.8,-25.6 M -24.2,-18.8 L -26.8,-17.6 M -14.2,-23.6 L -11.6,-25.6 M -14.2,-18.8 L -11.6,-17.6",
     fill: "none", stroke: "#2D6A47", "stroke-width": "1.15", "stroke-linecap": "round"
   }, brainDockSpark);
-  // Sequential 3-step Chain-of-Thought node chain (○ -> ○ -> ●) lifted cleanly above crane bar (-35.6) & antenna
+  // Sequential 3-step Chain-of-Thought node chain (○ -> ○ -> ●) cleanly floating above Mark II & hinged dome
   const cotChainGroup = mk("g", { opacity: "0" }, prop2);
-  const cotLink1 = mk("line", { x1: "-15.4", y1: "-41.4", x2: "-10.1", y2: "-41.4", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, cotChainGroup);
-  const cotLink2 = mk("line", { x1: "-6.9", y1: "-41.4", x2: "-1.6", y2: "-41.4", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, cotChainGroup);
-  const cotNode1 = mk("circle", { cx: "-17.0", cy: "-41.4", r: "1.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, cotChainGroup);
-  const cotNode2 = mk("circle", { cx: "-8.5", cy: "-41.4", r: "1.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, cotChainGroup);
-  const cotNode3 = mk("circle", { cx: "0.0", cy: "-41.4", r: "1.85", fill: "#2D6A47", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, cotChainGroup);
+  const cotLink1 = mk("line", { x1: "-15.4", y1: "-38.6", x2: "-10.1", y2: "-38.6", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, cotChainGroup);
+  const cotLink2 = mk("line", { x1: "-6.9", y1: "-38.6", x2: "-1.6", y2: "-38.6", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, cotChainGroup);
+  const cotNode1 = mk("circle", { cx: "-17.0", cy: "-38.6", r: "1.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, cotChainGroup);
+  const cotNode2 = mk("circle", { cx: "-8.5", cy: "-38.6", r: "1.6", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1", opacity: "0" }, cotChainGroup);
+  const cotNode3 = mk("circle", { cx: "0.0", cy: "-38.6", r: "1.85", fill: "#2D6A47", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, cotChainGroup);
   const cotNode3Rays = mk("path", {
-    d: "M 0.0,-44.6 L 0.0,-45.9 M 2.6,-43.2 L 3.8,-44.4 M -2.6,-43.2 L -3.8,-44.4",
+    d: "M 0.0,-41.8 L 0.0,-43.1 M 2.6,-40.4 L 3.8,-41.6 M -2.6,-40.4 L -3.8,-41.6",
     fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0"
   }, cotChainGroup);
 
@@ -600,6 +602,6 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
 
   return {
     svg,
-    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateLoopArc, gateS1, gateS2, gateS3, gateS3Rays, gateToken, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
+    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatSteamPuff, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateLoopArc, gateS1, gateS2, gateS3, gateS3Rays, gateToken, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
   };
 }

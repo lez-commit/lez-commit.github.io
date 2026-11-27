@@ -50,7 +50,7 @@ export function initEvoWalker({ getView }) {
 
   const {
     svg,
-    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateLoopArc, gateS1, gateS2, gateS3, gateS3Rays, gateToken, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
+    groundBounceEl, prop1, pebbleDust, prop2, vatCranePiston, vatEkgWave, vatSteamPuff, vatGlow, vatLiquidGroup, vatLiquidFill, vatMeniscus, vatBubbles, vatEmitter, brainTrailDots, vatBrainGroup, vatAntTip, vatEyeSleep, vatEyeAwake, vatDomeGroup, brainDockSpark, cotChainGroup, cotLink1, cotLink2, cotNode1, cotNode2, cotNode3, cotNode3Rays, prop3, toolBoxCavity, rackPortLed, toolBoxLid, rackWrenchEl, toolSnapSpark, wallBody, wallBeacon, wallCrack, wallBrokenG, wallShardsG, shard1, shard2, shard3, shard4, wallTorqueArcs, drillChips, wallSparks, wallDust, prop4, gateScanBeam, deskScreenGlow, towerLed1, towerLed2, sideGraphN1, sideGraphN2, sideGraphN3, mugSteam1, mugSteam2, typeSparks, gateScreenLines, codeLine1, codeLine2, codeLine3, codeCursor, gateCheckEl, gateSavedRipple, stateFlowGroup, gateLink1, gateLink2, gateLoopArc, gateS1, gateS2, gateS3, gateS3Rays, gateToken, gateFreezeBadge, prop5, padField, gantryClampL, gantryClampR, gantryBeaconL, gantryBeaconR, padCheck1, padCheck2, padCheck3, padBeams, padScanLine, padEnergyRing, padEnergyRing2, trenchGlow, trenchCore, launchSteamL, launchSteamR, padPipL, padPipR, padCore, launchShock, shockL, shockR, sonicRing, launchTrail, launchTrailL, launchTrailR, tracePool, skidPool, humanGroup, humanLegB, humanLegF, humanTorsoG, humanArmB, humanHandB, engFaceHappy, engFaceOops, humanArmF, humanHand, windTicks, keyFullSpark, humanSweat
   } = buildDioramas({ evoLayerEl, BASE_Y });
 
   const {
@@ -859,14 +859,15 @@ export function initEvoWalker({ getView }) {
         "d",
         `M -6.3,-5.4 L ${(pkX - 0.7).toFixed(1)},-5.4 L ${(pkX - 0.2).toFixed(1)},${(-5.4 - ekgAmp).toFixed(2)} L ${(pkX + 0.3).toFixed(1)},${(-5.4 + ekgAmp * 0.85).toFixed(2)} L ${(pkX + 0.75).toFixed(1)},-5.4 L -1.5,-5.4`
       );
-      const liqLevel = brainInVat ? -16.8 : (b2 === 1 && b2t < 0.72 ? lerp(-16.8, -12.6, clamp01((b2t - 0.34) / 0.38)) : -12.6);
-      const waveAmp = brainInVat ? 0.75 : 0.28;
+      const liqDrain = b2 === 0 ? 0 : (b2 === 1 ? clamp01(b2t / 0.16) : 1);
+      const liqLevel = lerp(-16.8, -10.3, liqDrain);
+      const waveAmp = brainInVat ? 0.75 * (1 - liqDrain) : 0.15;
       const wL = (liqLevel + Math.sin(now * 0.0042) * waveAmp).toFixed(2);
       const wM = (liqLevel - Math.cos(now * 0.0042) * (waveAmp * 1.15)).toFixed(2);
       const wR = (liqLevel - Math.sin(now * 0.0042) * waveAmp).toFixed(2);
       vatLiquidFill.setAttribute("d", `M -7.6,-10.3 L -7.6,${wL} Q 0,${wM} 7.6,${wR} L 7.6,-10.3 Z`);
       vatMeniscus.setAttribute("d", `M -7.4,${wL} Q 0,${wM} 7.4,${wR}`);
-      vatLiquidGroup.setAttribute("opacity", b2 === 2 ? "0.48" : "0.95");
+      vatLiquidGroup.setAttribute("opacity", (b2 === 0 ? 0.95 : (1 - liqDrain) * 0.95).toFixed(2));
       vatBubbles.forEach((bEl, bi) => {
         const cycle = ((now * 0.00055 + bi * 0.34) % 1);
         const by = -11.0 - cycle * (brainInVat ? 6.2 : 1.6);
@@ -876,9 +877,9 @@ export function initEvoWalker({ getView }) {
         bEl.setAttribute("opacity", (Math.sin(cycle * Math.PI) * (brainInVat ? 0.78 : 0.22)).toFixed(2));
       });
       if (b2 === 0) {
-        vatDomeGroup.setAttribute("transform", "translate(0, 0)");
+        vatDomeGroup.setAttribute("transform", "rotate(0, 8.6, -10.0)");
         vatDomeGroup.setAttribute("opacity", "1");
-        vatCranePiston.setAttribute("y2", "-30.4");
+        vatSteamPuff.setAttribute("opacity", "0");
         vatBrainGroup.setAttribute("transform", `translate(0, ${(-16.8 + vatIdleBob).toFixed(2)})`);
         vatBrainGroup.setAttribute("opacity", "1");
         brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
@@ -889,46 +890,59 @@ export function initEvoWalker({ getView }) {
         vatEmitter.setAttribute("opacity", "0.65");
         cotChainGroup.setAttribute("opacity", "0");
       } else if (b2 === 1) {
-        // Overhead crane piston physically lifts glass bell-jar up (0..0.34s), holds (0.34..0.72s), lowers cleanly back!
-        let domeLift = 0;
-        if (b2t < 0.34) {
-          const u = clamp01(b2t / 0.34);
-          domeLift = -(1 - Math.pow(1 - u, 3)) * 5.0;
+        // Hinged glass bell-jar swings WIDE OPEN 84° clockwise around right-rim hinge (8.6, -10.0) so brain exits cleanly through open air!
+        let domeDeg = 0;
+        if (b2t < 0.30) {
+          const u = clamp01(b2t / 0.30);
+          domeDeg = (1 - Math.pow(1 - u, 3)) * 84;
         } else if (b2t < 0.72) {
-          domeLift = -5.0;
+          domeDeg = 84;
         } else {
           const u = clamp01((b2t - 0.72) / 0.32);
-          domeLift = -(1 - u * u * (3 - 2 * u)) * 5.0;
+          domeDeg = (1 - u * u * (3 - 2 * u)) * 84;
         }
-        vatDomeGroup.setAttribute("transform", `translate(0, ${domeLift.toFixed(1)})`);
+        vatDomeGroup.setAttribute("transform", `rotate(${domeDeg.toFixed(1)}, 8.6, -10.0)`);
         vatDomeGroup.setAttribute("opacity", "1");
-        vatCranePiston.setAttribute("y2", (-30.4 + domeLift).toFixed(1));
+        // Cryo-mist hiss at left latch when seal breaks open!
+        if (b2t > 0.03 && b2t < 0.34) {
+          const su = clamp01((b2t - 0.03) / 0.31);
+          vatSteamPuff.setAttribute("transform", `translate(${(-su * 3.8).toFixed(1)}, ${(-su * 3.2).toFixed(1)}) scale(${(0.75 + su * 0.55).toFixed(2)})`);
+          vatSteamPuff.setAttribute("opacity", (Math.sin(su * Math.PI) * 0.85).toFixed(2));
+        } else {
+          vatSteamPuff.setAttribute("opacity", "0");
+        }
 
-        // Brain wakes up (0.16s) and smoothly arcs from vat to robot neck with 5 trailing bamboo neural light particles!
+        // Brain wakes up inside wide-open chamber (0.14s), lifts vertically out of open top (0.24..0.38s), then arcs cleanly onto Mark II's exact neck!
         if (b2t < 0.72) {
           vatBrainGroup.setAttribute("opacity", "1");
-          const awake = b2t >= 0.16;
+          const awake = b2t >= 0.14;
           vatEyeSleep.setAttribute("opacity", awake ? "0" : "0.85");
           vatEyeAwake.setAttribute("opacity", awake ? "1" : "0");
           vatAntTip.setAttribute("fill", awake ? "#2D6A47" : "#FAF8F4");
-          if (b2t < 0.34) {
-            const u = clamp01(b2t / 0.34);
-            vatBrainGroup.setAttribute("transform", `translate(0, ${(-16.8 - u * 4.2).toFixed(1)})`);
+          if (b2t < 0.24) {
+            vatBrainGroup.setAttribute("transform", `translate(0, ${(-16.8 + vatIdleBob * 0.4).toFixed(2)})`);
+            brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
+          } else if (b2t < 0.38) {
+            const u = clamp01((b2t - 0.24) / 0.14);
+            const e = u * u * (3 - 2 * u);
+            vatBrainGroup.setAttribute("transform", `translate(0, ${lerp(-16.8, -26.2, e).toFixed(1)})`);
             brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
           } else {
-            const u = clamp01((b2t - 0.34) / 0.38);
+            const u = clamp01((b2t - 0.38) / 0.34);
             const e = u * u * (3 - 2 * u);
             const inv = 1 - e;
-            const bx = inv * inv * 0 + 2 * inv * e * -10.4 + e * e * -20.8;
-            const by = inv * inv * -21.0 + 2 * inv * e * -29.2 + e * e * -22.2;
+            const txEnd = -19.2;
+            const tyEnd = -23.8;
+            const bx = inv * inv * 0 + 2 * inv * e * -9.6 + e * e * txEnd;
+            const by = inv * inv * -26.2 + 2 * inv * e * -33.2 + e * e * tyEnd;
             vatBrainGroup.setAttribute("transform", `translate(${bx.toFixed(1)}, ${by.toFixed(1)})`);
             brainTrailDots.forEach((d, ti) => {
               const tu = clamp01(u - (ti + 1) * 0.085);
               if (tu > 0.02) {
                 const te = tu * tu * (3 - 2 * tu);
                 const tinv = 1 - te;
-                const tx = tinv * tinv * 0 + 2 * tinv * te * -10.4 + te * te * -20.8;
-                const ty = tinv * tinv * -21.0 + 2 * tinv * te * -29.2 + te * te * -22.2;
+                const tx = tinv * tinv * 0 + 2 * tinv * te * -9.6 + te * te * txEnd;
+                const ty = tinv * tinv * -26.2 + 2 * tinv * te * -33.2 + te * te * tyEnd;
                 d.setAttribute("cx", tx.toFixed(1));
                 d.setAttribute("cy", ty.toFixed(1));
                 d.setAttribute("opacity", ((1 - ti * 0.18) * Math.sin(tu * Math.PI) * 0.9).toFixed(2));
@@ -960,10 +974,10 @@ export function initEvoWalker({ getView }) {
           cotChainGroup.setAttribute("opacity", "0");
         }
       } else {
-        // Empty glass vat remains cleanly behind on the timeline spine
-        vatDomeGroup.setAttribute("transform", "translate(0, 0)");
+        // Empty glass vat remains cleanly closed behind on the timeline spine
+        vatDomeGroup.setAttribute("transform", "rotate(0, 8.6, -10.0)");
         vatDomeGroup.setAttribute("opacity", "1");
-        vatCranePiston.setAttribute("y2", "-30.4");
+        vatSteamPuff.setAttribute("opacity", "0");
         vatBrainGroup.setAttribute("opacity", "0");
         brainTrailDots.forEach((d) => d.setAttribute("opacity", "0"));
         vatGlow.setAttribute("opacity", "0");
