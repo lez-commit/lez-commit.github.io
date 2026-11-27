@@ -4,16 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agent 演进手札 · 以时间轴为骨，以长文为血肉</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="agent/css/base.css?v=20261127z" />
-  <link rel="stylesheet" href="agent/css/home.css?v=20261127z" />
-  <link rel="stylesheet" href="agent/css/views.css?v=20261127z" />
-  <link rel="modulepreload" href="agent/js/main.js?v=20261127z" />
+  <link rel="stylesheet" href="agent/css/base.css?v=20261127z2" />
+  <link rel="stylesheet" href="agent/css/home.css?v=20261127z2" />
+  <link rel="stylesheet" href="agent/css/views.css?v=20261127z2" />
+  <link rel="modulepreload" href="agent/js/main.js?v=20261127z2" />
+  <link rel="modulepreload" href="agent/js/core/bus.js" />
   <link rel="modulepreload" href="agent/js/core/utils.js" />
   <link rel="modulepreload" href="agent/js/core/store.js" />
   <link rel="modulepreload" href="agent/js/data/map-data.js" />
+  <link rel="modulepreload" href="agent/js/ui/tooltip.js" />
+  <link rel="modulepreload" href="agent/js/ui/brushing.js" />
+  <link rel="modulepreload" href="agent/js/ui/skeleton.js" />
+  <link rel="modulepreload" href="agent/js/ui/footprint.js" />
+  <link rel="modulepreload" href="agent/js/ui/recent.js" />
+  <link rel="modulepreload" href="agent/js/ui/views.js" />
+  <link rel="modulepreload" href="agent/js/mech/mech-svg.js" />
+  <link rel="modulepreload" href="agent/js/mech/mech-avatar.js" />
+  <link rel="modulepreload" href="agent/js/evo/dioramas.js" />
+  <link rel="modulepreload" href="agent/js/evo/bot-rig.js" />
+  <link rel="modulepreload" href="agent/js/evo/evo-walker.js" />
 </head>
 <body class="view-home">
   <div class="site-shell" id="site-shell">
@@ -113,6 +122,22 @@
   <div class="quiet-tip" id="quiet-tip" role="tooltip"></div>
 
 
-  <script type="module" src="agent/js/main.js?v=20261127z"></script>
+  <script type="module" src="agent/js/main.js?v=20261127z2"></script>
+  <script>
+    // Defer optional webfont enhancement until after first paint so load never blocks on Google Fonts
+    window.addEventListener("load", function () {
+      var loadFonts = function () {
+        var l = document.createElement("link");
+        l.rel = "stylesheet";
+        l.href = "https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+SC:wght@500;600&display=swap";
+        document.head.appendChild(l);
+      };
+      if ("requestIdleCallback" in window) {
+        requestIdleCallback(loadFonts, { timeout: 1200 });
+      } else {
+        setTimeout(loadFonts, 300);
+      }
+    });
+  </script>
 </body>
 </html>
