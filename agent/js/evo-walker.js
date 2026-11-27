@@ -628,11 +628,16 @@
     mk("rect", { x: "-1.5", y: "-1.2", width: "3.0", height: "1.8", rx: "0.4", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.68" }, mk3StowedDrill);
     mk("polygon", { points: "-1.3,-1.2 0,-6.4 1.3,-1.2", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round" }, mk3StowedDrill);
     mk("line", { x1: "-0.7", y1: "-2.7", x2: "0.7", y2: "-3.3", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-linecap": "round" }, mk3StowedDrill);
-    // Mark IV Side-Profile Swept Twin-Blade Rear Dorsal Stabilizer Fins (drawn BEHIND torsoEl on -x ONLY!)
+    // Mark IV Side-Profile Swept Twin-Blade Rear Dorsal Stabilizer Fins (drawn BEHIND torsoEl on -x!)
     const mk4BackEl = mk("g", { opacity: "0" }, torsoGroup);
     mk("path", { d: "M -3.4,-7.8 L -7.6,-8.6 L -6.8,-5.4 L -3.4,-5.4 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-linejoin": "round" }, mk4BackEl);
     mk("path", { d: "M -3.4,-10.0 L -9.4,-13.0 L -8.4,-8.8 L -3.4,-7.4 Z", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, mk4BackEl);
     mk("line", { x1: "-4.8", y1: "-10.1", x2: "-8.2", y2: "-11.8", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, mk4BackEl);
+    // Mirrored right-side Mark IV dorsal fin (ONLY shown when turning front-facing symmetric in Era 5 gantry!)
+    const mk4BackRightEl = mk("g", { opacity: "0" }, torsoGroup);
+    mk("path", { d: "M 3.4,-7.8 L 7.6,-8.6 L 6.8,-5.4 L 3.4,-5.4 Z", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.72", "stroke-linejoin": "round" }, mk4BackRightEl);
+    mk("path", { d: "M 3.4,-10.0 L 9.4,-13.0 L 8.4,-8.8 L 3.4,-7.4 Z", fill: "url(#evo-porcelain)", stroke: "#1D1B18", "stroke-width": "0.8", "stroke-linejoin": "round" }, mk4BackRightEl);
+    mk("line", { x1: "4.8", y1: "-10.1", x2: "8.2", y2: "-11.8", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, mk4BackRightEl);
     // Mechanical neck collar connecting torso to CRT head
     const neckEl = mk("g", { opacity: "0" }, torsoGroup);
     mk("rect", { x: "-1.9", y: "-12.2", width: "3.8", height: "2.4", rx: "0.6", fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.85" }, neckEl);
@@ -2270,6 +2275,7 @@
         mk3StowedDrill.setAttribute("opacity", showMk3 && wallBroken && wrenchW < 0.25 ? "1" : "0");
         mk4TactEl.setAttribute("opacity", showMk4 ? "1" : "0");
         mk4BackEl.setAttribute("opacity", showMk4 ? "1" : "0");
+        mk4BackRightEl.setAttribute("opacity", showMk4 && isSymStance ? "1" : "0");
         if (showMk4) {
           const s1Lit = b4 >= 1 || taskDone;
           const s2Lit = (b4 === 1 && b4t >= 0.38) || taskDone;
@@ -2546,7 +2552,7 @@
         elbowJointB.setAttribute("opacity", kneeW > 0.15 ? "0.85" : "0");
         shoulderPin.setAttribute("cx", fSX.toFixed(1));
         shoulderPin.setAttribute("cy", fSY.toFixed(1));
-        shoulderPin.setAttribute("opacity", hasTorsoArmor ? "0" : "1");
+        shoulderPin.setAttribute("opacity", hasTorsoArmor || isSymStance ? "0" : "1");
 
         // Stage 5 Repulsor Gauntlets track wrists
         gauntletF.setAttribute("opacity", hasGauntlets ? "1" : "0");
