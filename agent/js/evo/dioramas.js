@@ -211,11 +211,11 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
     fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0"
   }, cotChainGroup);
 
-  // --- PROP 3 (Era 3 · 撞墙试错，接工具): 2.5D Side-Thickness Brick Wall + Deep Open Toolbox + Spiral Drill ---
+  // --- PROP 3 (Era 3 · 撞墙试错，接工具): 2.5D Side-Thickness Brick Wall + Deep Open Toolbox + Magnetic Spiral Drill ---
   const prop3 = mk("g", { class: "evo-prop-hit", color: "#1D1B18", opacity: "1" }, scenery);
-  mk("rect", { x: "-42", y: "-32", width: "58", height: "34", fill: "transparent" }, prop3);
-  // Classic 2.5D Toolbox cleanly spaced left of drill stance (ZERO foot overlap!)
-  const toolRackGroup = mk("g", { transform: "translate(-33.0, 0)" }, prop3);
+  mk("rect", { x: "-48", y: "-32", width: "64", height: "34", fill: "transparent" }, prop3);
+  // Classic 2.5D Toolbox cleanly positioned far left (-40.5) so Mark III NEVER walks through or overlaps it!
+  const toolRackGroup = mk("g", { transform: "translate(-40.5, 0)" }, prop3);
   mk("ellipse", { cx: "0.5", cy: "0.35", rx: "7.2", ry: "1.0", fill: "#1D1B18", "fill-opacity": "0.11" }, toolRackGroup);
   // Open interior depth tray + glowing bamboo API tool-socket inner light when lid flips up!
   const toolBoxCavity = mk("g", { opacity: "0" }, toolRackGroup);
@@ -481,10 +481,14 @@ export function buildDioramas({ evoLayerEl, BASE_Y }) {
   const padScanLine = mk("line", { x1: "-12.4", y1: "-6", x2: "12.4", y2: "-6", stroke: "#2D6A47", "stroke-width": "1.05", "stroke-opacity": "0.75", "stroke-dasharray": "3 2", opacity: "0" }, prop5);
   const padEnergyRing = mk("ellipse", { cx: "0", cy: "-6", rx: "11.5", ry: "2.2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, prop5);
   const padEnergyRing2 = mk("ellipse", { cx: "0", cy: "-14", rx: "10.0", ry: "1.9", fill: "none", stroke: "#5CE09B", "stroke-width": "0.85", "stroke-dasharray": "3 2", opacity: "0" }, prop5);
-  // Stepped aerospace launch deck + dark recessed flame trench exhaust pit + blinding overdrive core!
+  // Stepped aerospace launch deck + crisp bevel alignment ticks + dark recessed flame trench exhaust pit!
   mk("path", {
     d: "M -18.2,0 L -15.2,-3.6 L 15.2,-3.6 L 18.2,0 Z",
     fill: "url(#evo-porcelain)", stroke: "currentColor", "stroke-width": "1.05", "stroke-linejoin": "round"
+  }, prop5);
+  mk("path", {
+    d: "M -14.2,-2.6 L -12.6,-0.7 M -11.6,-2.6 L -10.2,-0.7 M 14.2,-2.6 L 12.6,-0.7 M 11.6,-2.6 L 10.2,-0.7",
+    fill: "none", stroke: "#2B2825", "stroke-width": "0.72", "stroke-opacity": "0.55", "stroke-linecap": "round"
   }, prop5);
   mk("path", {
     d: "M -11.4,-3.6 L -9.6,-1.1 L 9.6,-1.1 L 11.4,-3.6 Z",

@@ -30,10 +30,13 @@ export function createViews({
   updateColumnScrollMasks
 }) {
   let suppressHashSync = false;
+  let archiveEraFilter = "all";
+  let archiveQuery = "";
 
-  function renderArchive() {
-    if (!archiveContentEl) return;
-    archiveContentEl.innerHTML = AGENT_MAP_DATA.eras
+  function renderArchiveGroupsHtml() {
+    const q = archiveQuery.trim().toLowerCase();
+    const groupsHtml = AGENT_MAP_DATA.eras
+      .filter((era) => archiveEraFilter === "all" || era.id === archiveEraFilter)
       .map((era) => {
         const rowsHtml = era.nodes
           .map((rawNode) => {
@@ -42,10 +45,23 @@ export function createViews({
             const pub = pubs.length > 0;
             const flagship = hasFlagshipPost(node);
 
+            if (q) {
+              const hay = [
+                node.title,
+                node.kw,
+                node.summary,
+                ...pubs.map((p) => `${p.title} ${p.summary}`)
+              ]
+                .join(" ")
+                .toLowerCase();
+              if (!hay.includes(q)) return "";
+            }
+
             const cls = [
               "archive-item",
               pub ? "is-published" : "is-planned",
-              pub && flagship ? "is-flagship" : ""
+              pub && flagship ? "is-flagship" : "",
+              pubs.length > 1 ? "is-multi-group" : ""
             ]
               .filter(Boolean)
               .join(" ");
@@ -80,7 +96,7 @@ export function createViews({
             const subListHtml = pubs
               .map(
                 (p, i) => `
-                  <button class="archive-subpost-btn" type="button" data-open-article="${p.id}">
+                  <button class="archive-subpost-btn ${p.flagship ? "is-flagship-sub" : ""}" type="button" data-open-article="${p.id}">
                     <span>${i + 1}. ${esc(p.title)}</span>
                     <span class="archive-subpost-date">${p.date}</span>
                   </button>
@@ -100,7 +116,10 @@ export function createViews({
               </div>
             `;
           })
+          .filter(Boolean)
           .join("");
+
+        if (!rowsHtml) return "";
 
         return `
           <section class="era-group">
@@ -115,7 +134,37 @@ export function createViews({
           </section>
         `;
       })
+      .filter(Boolean)
       .join("");
+
+    return groupsHtml || `<div class="archive-empty">没有匹配「${esc(archiveQuery.trim())}」的文章节点</div>`;
+  }
+
+  function renderArchive() {
+    if (!archiveContentEl) return;
+    const totalCount = getAllPublishedPosts().length;
+    const shortLabels = {
+      "era-01": "规则脚本",
+      "era-02": "通用大脑",
+      "era-03": "工具破壁",
+      "era-04": "自主干活",
+      "era-05": "驾驭工程"
+    };
+    const filterBtnsHtml = [
+      `<button class="archive-filter-btn ${archiveEraFilter === "all" ? "is-active" : ""}" type="button" data-era-filter="all">全部 (${totalCount})</button>`,
+      ...AGENT_MAP_DATA.eras.map(
+        (era) =>
+          `<button class="archive-filter-btn ${archiveEraFilter === era.id ? "is-active" : ""}" type="button" data-era-filter="${era.id}">${era.num} ${esc(shortLabels[era.id] || era.title)}</button>`
+      )
+    ].join("");
+
+    archiveContentEl.innerHTML = `
+      <div class="archive-controls">
+        <div class="archive-filters" role="tablist" aria-label="按时代筛选">${filterBtnsHtml}</div>
+        <input class="archive-search" id="archive-search-input" type="search" value="${esc(archiveQuery)}" placeholder="搜索标题或关键词…" aria-label="搜索文章" />
+      </div>
+      <div id="archive-groups">${renderArchiveGroupsHtml()}</div>
+    `;
   }
 
   function renderAbout() {
@@ -437,11 +486,27 @@ export function createViews({
     syncHash(`#post/${encodeURIComponent(post.id)}`);
     window.scrollTo({ top: 0, behavior: "instant" });
 
+    const progressEl = document.getElementById("reader-progress");
+    if (progressEl) {
+      progressEl.classList.toggle("is-flagship", Boolean(post.flagship));
+      progressEl.style.width = "0%";
+    }
+
     const footBtn = document.getElementById("foot-back-map");
     if (footBtn) {
       footBtn.addEventListener("click", () => returnToHomeWithAfterglow());
     }
   }
+
+  function updateReaderProgress() {
+    if (state.view !== "reader") return;
+    const progressEl = document.getElementById("reader-progress");
+    if (!progressEl) return;
+    const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const pct = Math.max(0, Math.min(100, (window.scrollY / maxScroll) * 100));
+    progressEl.style.width = `${pct.toFixed(1)}%`;
+  }
+  window.addEventListener("scroll", updateReaderProgress, { passive: true });
 
   function applyRouteFromHash() {
     const h = window.location.hash || "";
@@ -489,6 +554,23 @@ export function createViews({
   });
 
   if (archiveContentEl) {
+    archiveContentEl.addEventListener("click", (e) => {
+      const fBtn = e.target.closest(".archive-filter-btn[data-era-filter]");
+      if (!fBtn) return;
+      archiveEraFilter = fBtn.dataset.eraFilter;
+      archiveContentEl.querySelectorAll(".archive-filter-btn").forEach((b) => {
+        b.classList.toggle("is-active", b.dataset.eraFilter === archiveEraFilter);
+      });
+      const groupsEl = document.getElementById("archive-groups");
+      if (groupsEl) groupsEl.innerHTML = renderArchiveGroupsHtml();
+    });
+    archiveContentEl.addEventListener("input", (e) => {
+      if (e.target && e.target.id === "archive-search-input") {
+        archiveQuery = e.target.value || "";
+        const groupsEl = document.getElementById("archive-groups");
+        if (groupsEl) groupsEl.innerHTML = renderArchiveGroupsHtml();
+      }
+    });
     archiveContentEl.addEventListener("keydown", (e) => {
       if (e.key !== "Enter" && e.key !== " ") return;
       const item = e.target.closest(".archive-item[data-open-article]");

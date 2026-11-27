@@ -387,6 +387,15 @@
   color: var(--ink-secondary);
 }
 
+.era-col:has(.era-upper:hover) .spine-dot {
+  transform: translate(-50%, 50%) scale(1.28);
+  box-shadow: 0 0 0 4.5px rgba(45, 106, 71, 0.22);
+}
+
+.era-col.has-flagship:has(.era-upper:hover) .spine-dot.is-lit-vermilion {
+  box-shadow: 0 0 0 4.5px rgba(184, 59, 42, 0.26);
+}
+
 .era-col:first-of-type .era-upper {
   padding-left: 8px;
 }

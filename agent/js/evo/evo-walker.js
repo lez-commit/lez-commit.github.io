@@ -332,10 +332,13 @@ export function initEvoWalker({ getView }) {
         impactStarG.setAttribute("opacity", "0");
         launchSteamL.setAttribute("opacity", "0");
         launchSteamR.setAttribute("opacity", "0");
-        // Keep idle ambient life gently breathing in resting state (slow tower beacons + live EKG + coffee steam!)
+        // Keep idle ambient life gently breathing in resting state (slow tower beacons + standby pad core + live EKG + coffee steam!)
         const restBeacon = Math.sin(now * 0.0032) > 0.25 ? "#5CE09B" : "#2D6A47";
         gantryBeaconL.setAttribute("fill", restBeacon);
         gantryBeaconR.setAttribute("fill", restBeacon);
+        padCore.setAttribute("opacity", (0.28 + 0.16 * Math.sin(now * 0.0028)).toFixed(2));
+        padPipL.setAttribute("opacity", "0.55");
+        padPipR.setAttribute("opacity", "0.55");
         const rst1 = Math.sin(now * 0.0026) * 0.65;
         const rst2 = Math.cos(now * 0.0022) * 0.55;
         mugSteam1.setAttribute("transform", `translate(${(rst1 * 0.5).toFixed(2)}, ${(-Math.abs(rst1) * 0.9).toFixed(2)})`);
@@ -393,7 +396,7 @@ export function initEvoWalker({ getView }) {
       // Trigger each era's silent-film beat once per cycle
       if (b1 === 0 && posX >= x1 - 7.5 * S) { b1 = 1; b1t = 0; triggerImpact(0.042, 1.5); pingStoryTwigs(0); }
       if (b2 === 0 && posX >= x2 - 21.5 * S){ b2 = 1; b2t = 0; }
-      if (b3 === 0 && posX >= x3 - 13.0 * S){ b3 = 1; b3t = 0; triggerImpact(0.052, 2.3); }
+      if (b3 === 0 && posX >= x3 - 15.0 * S){ b3 = 1; b3t = 0; triggerImpact(0.052, 2.3); }
       if (b4 === 0 && posX >= x4 - 18.2 * S){ b4 = 1; b4t = 0; }
       if (b5 === 0 && posX >= x5 - 0.8 * S) { posX = x5; b5 = 1; b5t = 0; }
 
@@ -503,44 +506,45 @@ export function initEvoWalker({ getView }) {
         }
         if (b2t >= 1.62) b2 = 2;
       } else if (b3 === 1) {
-        // Era 3 Beat (撞墙试错，接工具): Unhurried ~2.90s beat (BONK -> recoil -> pop open -> snap Drill -> drill & SHATTER!)
+        // Era 3 Beat (撞墙试错，接工具): Clean zero-collision choreography (BONK -> recoil clear of toolbox -> magnetic Drill call -> drill & SHATTER!)
         b3t += dt * 0.66;
         activeEraIdx = 2;
         isEraBeat = true;
         moveSpeed = 0;
         if (b3t < 0.34) {
           const u = b3t / 0.34;
-          visualDX = -Math.sin(u * Math.PI * 0.5) * 31.2;
-          extraLean = -44 * (1 - u * 0.35);
+          visualDX = -Math.sin(u * Math.PI * 0.5) * 14.0;
+          extraLean = -42 * (1 - u * 0.35);
           beatHopH = Math.sin(u * Math.PI) * 1.8;
           armPose = "bonk";
         } else if (b3t < 0.58) {
           // Brief epiphany beat: head shake -> toolbox lid flips cleanly upright -> antenna flashes bamboo green!
           const u = (b3t - 0.34) / 0.24;
-          visualDX = -31.2;
-          extraLean = 4;
+          visualDX = -14.0;
+          extraLean = 3;
           armPose = "epiphany";
           epiphanyNow = u > 0.35;
           headNodDeg = u < 0.5 ? Math.sin(u * Math.PI * 4) * 8 : -5;
         } else if (b3t < 0.94) {
-          // Stand cleanly left of open toolbox & reach over to snap big Spiral Drill onto forearm!
-          visualDX = -31.2;
-          extraLean = 5;
+          // Magnetic Function-Calling dock: Spiral Drill flies out of toolbox at -40.5 and snaps onto extended forearm!
+          visualDX = -14.0;
+          extraLean = 4;
           armPose = "grabTool";
-          if (b3t >= 0.74 && !hasWrench) {
+          if (b3t >= 0.78 && !hasWrench) {
             hasWrench = true;
             hasToolRig = true;
             toolSnapTimer = 0.28;
+            triggerImpact(0.024, 1.1);
           }
-        } else if (b3t < 1.18) {
-          // Step confidently clear of toolbox right up to brick wall with Spiral Drill armed!
-          const u = (b3t - 0.94) / 0.24;
-          visualDX = lerp(-31.2, -11.2, u);
+        } else if (b3t < 1.16) {
+          // Lunge confidently toward brick wall (6+ SVG units clear of toolbox!) with Spiral Drill armed!
+          const u = (b3t - 0.94) / 0.22;
+          visualDX = lerp(-14.0, -9.8, u);
           extraLean = 6;
           armPose = "wrench";
         } else if (b3t < 1.56) {
-          // DRILL INTO BRICK WALL! Extended arm drives drill cone dead-on into left brick face!
-          visualDX = -11.2 + Math.sin(b3t * 85) * 0.85;
+          // DRILL INTO BRICK WALL! Entire gleaming spiral cone visibly chews into left brick face (-8.0)!
+          visualDX = -9.8 + Math.sin(b3t * 85) * 0.75;
           extraLean = 8;
           armPose = "wrench";
         } else {
@@ -552,7 +556,7 @@ export function initEvoWalker({ getView }) {
           }
           const fu = clamp01((b3t - 1.56) / 0.24);
           const fEase = 1 - Math.pow(1 - fu, 3);
-          visualDX = lerp(-11.2, -9.0, fEase);
+          visualDX = lerp(-9.8, -7.8, fEase);
           beatHopH = Math.sin(fu * Math.PI) * 1.4;
           extraLean = lerp(10, 3, fEase);
           armPose = "wrench";
@@ -562,7 +566,7 @@ export function initEvoWalker({ getView }) {
           b3 = 2;
         }
       } else if (b4 === 1) {
-        // Era 4 Beat (手眼脑通，状态机): Unhurried ~2.44s beat (scan -> live typing -> || freeze -> ✓!)
+        // Era 4 Beat (手眼脑通，状态机): Unhurried ~2.44s beat (scan -> live typing -> || freeze -> ✓ cheer!)
         b4t += dt * 0.64;
         activeEraIdx = 3;
         isEraBeat = true;
@@ -582,9 +586,10 @@ export function initEvoWalker({ getView }) {
             gateRippleTimer = 0.52;
             pingStoryTwigs(3);
           }
-          armPose = b4t < 1.24 ? "type" : "walk";
-          extraLean = b4t < 1.24 ? 5 : 0;
-          headNodDeg = b4t >= 1.24 ? Math.sin(clamp01((b4t - 1.24) / 0.30) * Math.PI) * 8 : 0;
+          armPose = b4t < 1.22 ? "type" : "cheer";
+          extraLean = b4t < 1.22 ? 4 : -1;
+          beatHopH = b4t >= 1.22 ? Math.sin(clamp01((b4t - 1.22) / 0.28) * Math.PI) * 1.8 : 0;
+          headNodDeg = b4t >= 1.22 ? Math.sin(clamp01((b4t - 1.22) / 0.32) * Math.PI) * -6 : 0;
         }
         if (b4t >= 1.56) {
           taskDone = true;
@@ -995,10 +1000,14 @@ export function initEvoWalker({ getView }) {
         : 0;
       toolBoxLid.setAttribute("transform", `rotate(${lidAngle.toFixed(1)}, -5.4, -8.0)`);
       toolBoxCavity.setAttribute("opacity", boxOpen ? "1" : "0");
-      const drillPopU = b3 === 1 ? smooth(0.46, 0.64, b3t) : 0;
+      const drillPopU = b3 === 1 ? smooth(0.46, 0.60, b3t) : 0;
+      const drillFlyU = b3 === 1 ? smooth(0.60, 0.78, b3t) : 0;
       rackWrenchEl.setAttribute("opacity", b3 === 1 && b3t >= 0.46 && !hasWrench ? drillPopU.toFixed(2) : "0");
-      rackWrenchEl.setAttribute("transform", `translate(0, ${(5 * (1 - drillPopU)).toFixed(1)})`);
+      const dfX = lerp(0, 18.8, drillFlyU);
+      const dfY = 5 * (1 - drillPopU) - Math.sin(drillFlyU * Math.PI) * 5.8 - drillFlyU * 1.4;
+      rackWrenchEl.setAttribute("transform", `translate(${dfX.toFixed(1)}, ${dfY.toFixed(1)})`);
       rackPortLed.setAttribute("opacity", boxOpen ? "0.95" : "0.55");
+      toolSnapSpark.setAttribute("transform", "translate(17.5, -1.5)");
       toolSnapSpark.setAttribute("opacity", toolSnapTimer > 0 ? (toolSnapTimer / 0.28).toFixed(2) : "0");
 
       const drillingNow = b3 === 1 && b3t >= 1.18 && b3t < 1.56;
@@ -1528,8 +1537,8 @@ export function initEvoWalker({ getView }) {
         backThigh.setAttribute("d", capsuleSegPath(hipL, hipY + 0.6, k2.x, k2.y, 1.32, 1.02));
         backShin.setAttribute("d", capsuleSegPath(k2.x, k2.y, f2.x, footLy, 1.04, 0.86));
         backShin.setAttribute("opacity", "1");
-        frontFoot.setAttribute("d", capsuleFootPath(f1.x - 1.1, footRy, 2.6, 0));
-        backFoot.setAttribute("d", capsuleFootPath(f2.x - 1.5, footLy, 2.6, 0));
+        frontFoot.setAttribute("d", capsuleFootPath(f1.x - 1.3, footRy, 2.6, 0));
+        backFoot.setAttribute("d", capsuleFootPath(f2.x - 1.3, footLy, 2.6, 0));
         kneeJoint1.setAttribute("cx", k1.x.toFixed(1));
         kneeJoint1.setAttribute("cy", k1.y.toFixed(1));
         kneeJoint1.setAttribute("opacity", "1");
@@ -1661,9 +1670,9 @@ export function initEvoWalker({ getView }) {
       mk2HeadFins.setAttribute("opacity", headW > 0.5 && !isMk4 && !isMk5Head ? "1" : "0");
       crtEarsEl.setAttribute("opacity", isMk5Head ? "1" : "0");
       mk4EarWings.setAttribute("opacity", isMk4 && !isMk5Head ? "1" : "0");
-      // Center antenna cleanly flush on crown above V-Fin emerald gem in Mark V front stance!
+      // Center antenna bolt-upright on crown above V-Fin emerald gem in Mark V front stance!
       if (isMk5Head) {
-        antGroup.setAttribute("transform", `translate(1.4, -0.4) rotate(${(Math.sin(phase * Math.PI * 2) * 3).toFixed(1)}, -0.8, -5.0)`);
+        antGroup.setAttribute("transform", `translate(1.4, -0.4) rotate(10, -0.8, -5.0)`);
       } else {
         antGroup.setAttribute("transform", `rotate(${(Math.sin(phase * Math.PI * 2) * 5).toFixed(1)}, -0.8, -5.0)`);
       }
@@ -1796,20 +1805,20 @@ export function initEvoWalker({ getView }) {
         bHY = bSY + 5.4;
         fBend = 0.7;
       } else if (armPose === "grabTool") {
-        // Era 3: reaches cleanly into the open toolbox to snap on the big Spiral Drill!
-        fHX = fSX + 7.4;
-        fHY = -12.4;
+        // Era 3: holds forearm steady in ready position as magnetic Spiral Drill snaps into cuff!
+        fHX = fSX + 5.2;
+        fHY = -13.4;
         bHX = bSX - 2.0;
-        bHY = bSY + 5.6;
-        fBend = 0.45;
+        bHY = bSY + 5.4;
+        fBend = 0.25;
       } else if (armPose === "wrench") {
-        // Era 3: extends right forearm cleanly forward -> crisp celebratory upward drill-lift on shatter!
+        // Era 3: confident forward drill thrust (entire spiral cone visibly chewing brick face!) -> celebratory lift on shatter!
         const triumphRaise = b3 === 1 && b3t >= 1.56 ? 2.6 : 0;
-        fHX = fSX + 4.3;
+        fHX = fSX + 5.5;
         fHY = -13.6 - triumphRaise;
         bHX = bSX - 2.4;
         bHY = bSY + 5.8;
-        fBend = -0.38;
+        fBend = -0.25;
       } else if (armPose === "scan") {
         // Era 4: poised alert stance while dual-optic visor scans big desktop monitor
         fHX = fSX + 3.6;
@@ -1817,6 +1826,15 @@ export function initEvoWalker({ getView }) {
         bHX = bSX - 2.0;
         bHY = bSY + 6.2;
         fBend = 0.5;
+      } else if (armPose === "cheer") {
+        // Era 4 Victory Cheer: celebratory double-fist pump synced with monitor ✓ and happy ^ ^ eyes!
+        const pump = Math.sin(clamp01((b4t - 1.22) / 0.28) * Math.PI) * 1.4;
+        fHX = fSX + 4.8;
+        fHY = fSY - 3.6 - pump;
+        bHX = bSX + 2.6;
+        bHY = bSY - 3.0 - pump * 0.8;
+        fBend = 0.85;
+        bBend = 0.85;
       } else if (armPose === "type") {
         // Era 4: BOTH hands hover dead-center over angled keyboard keys rapidly alternating keystrokes (哒哒哒)!
         const tapL = freezeAll ? 0 : Math.sin(b4t * 42) * 1.35;

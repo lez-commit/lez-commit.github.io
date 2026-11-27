@@ -58,6 +58,21 @@
   gap: 12px;
 }
 
+.reader-progress {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 1.5px;
+  width: 0%;
+  background-color: var(--bamboo-4);
+  transition: width 0.08s linear;
+  pointer-events: none;
+}
+
+.reader-progress.is-flagship {
+  background-color: var(--vermilion);
+}
+
 .back-link {
   appearance: none;
   border: none;
@@ -209,6 +224,84 @@
 .archive-subpost-btn:hover {
   background-color: rgba(45, 106, 71, 0.10);
   color: var(--bamboo-4);
+}
+
+.archive-subpost-btn.is-flagship-sub:hover {
+  background-color: rgba(184, 59, 42, 0.08);
+  color: var(--vermilion);
+}
+
+/* Quiet Editorial Archive Filter & Search Bar */
+.archive-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+.archive-filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.archive-filter-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 3.5px 9px;
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.archive-filter-btn:hover {
+  color: var(--ink-primary);
+  background-color: var(--stone-surface);
+}
+
+.archive-filter-btn.is-active {
+  background-color: var(--bamboo-wash);
+  border-color: rgba(45, 106, 71, 0.28);
+  color: var(--bamboo-4);
+  font-weight: 500;
+}
+
+.archive-search {
+  appearance: none;
+  border: 1px solid var(--hairline-mid);
+  background-color: var(--paper);
+  border-radius: 999px;
+  padding: 4.5px 12px;
+  width: 196px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  color: var(--ink-primary);
+  transition: border-color 0.16s ease, background-color 0.16s ease;
+}
+
+.archive-search::placeholder {
+  color: var(--ink-muted);
+}
+
+.archive-search:focus {
+  border-color: var(--bamboo-4);
+  outline: none;
+}
+
+.archive-empty {
+  padding: 42px 0;
+  text-align: center;
+  font-size: 13px;
+  color: var(--ink-muted);
 }
 
 .archive-subpost-date {
@@ -425,8 +518,16 @@
   cursor: pointer;
 }
 
-.archive-item.is-published:hover {
+.archive-item.is-published.is-multi-group {
+  cursor: default;
+}
+
+.archive-item.is-published:not(.is-multi-group):hover {
   background-color: var(--bamboo-wash);
+}
+
+.archive-item.is-published.is-flagship:not(.is-multi-group):hover {
+  background-color: rgba(184, 59, 42, 0.06);
 }
 
 .archive-dot {
@@ -479,6 +580,10 @@
   color: var(--bamboo-4);
 }
 
+.archive-item.is-published.is-flagship .archive-status {
+  color: var(--vermilion);
+}
+
 /* =========================================================================
    6. 「关于」 ABOUT VIEW & COPYABLE AGENT_MAP_DATA JSON
    ========================================================================= */
@@ -496,6 +601,15 @@
 .about-text strong {
   color: var(--ink-primary);
   font-weight: 600;
+}
+
+.about-text code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background-color: var(--stone-surface);
+  padding: 1.5px 5.5px;
+  border-radius: 3px;
+  color: var(--bamboo-4);
 }
 
 .json-box-wrap {
