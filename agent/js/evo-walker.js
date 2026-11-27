@@ -23,7 +23,8 @@
       return node;
     };
 
-    const BASE_Y = 42;
+    const BASE_Y = 54;
+    const S = 1.24; // Enlarged sculptural world scale (~41px tall robot, ~33px props — zero scroll!)
     const svg = mk("svg", { class: "evo-svg", "shape-rendering": "geometricPrecision" }, evoLayerEl);
     const defs = mk("defs", null, svg);
 
@@ -413,12 +414,18 @@
     const keyLoop = mk("ellipse", { cx: "-10.1", cy: "-4.2", rx: "1.45", ry: "2.65", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, keyGroup);
     const keyInner = mk("ellipse", { cx: "-10.1", cy: "-4.2", rx: "0.6", ry: "1.25", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-opacity": "0.55" }, keyGroup);
 
-    // Back leg + capsule back foot + Stage 5 back boot + back arm
-    const backLeg = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
-    const backFoot = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round" }, botBody);
-    const bootB = mk("path", { d: "M -1.7,-4.0 L 1.6,-4.0 L 2.5,0 L -1.9,0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round", opacity: "0" }, botBody);
-    const backArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.15", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
-    const gauntletB = mk("rect", { x: "-2.0", y: "-2.1", width: "4.0", height: "3.1", rx: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0", opacity: "0" }, botBody);
+    // Back volumetric mechanical leg (thigh + shin + knee joint) + capsule foot + Stage 5 back boot + back volumetric arm
+    const backLegGroup = mk("g", { opacity: "0.78" }, botBody);
+    const backThigh = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, backLegGroup);
+    const backShin = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linejoin": "round" }, backLegGroup);
+    const kneeJoint2 = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.78", opacity: "0" }, backLegGroup);
+    const backFoot = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
+    const bootB = mk("path", { d: "M -1.7,-4.0 L 1.6,-4.0 L 2.5,0 L -1.9,0 Z", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    const backArmGroup = mk("g", { opacity: "0.76" }, botBody);
+    const backUpperArm = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, backArmGroup);
+    const backForeArm = mk("path", { fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round" }, backArmGroup);
+    const elbowJointB = mk("circle", { r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.72", opacity: "0" }, backArmGroup);
+    const gauntletB = mk("rect", { x: "-2.0", y: "-2.1", width: "4.0", height: "3.1", rx: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95", opacity: "0" }, botBody);
 
     // Torso group (neck + pelvis + sculpted chassis with warm stone bevel + Stage 5 Modular Armor)
     const torsoGroup = mk("g", null, botBody);
@@ -456,12 +463,12 @@
     const harnessRipple = mk("circle", { r: "2", fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", opacity: "0" }, harnessGroup);
     const harnessRipple2 = mk("circle", { r: "2", fill: "none", stroke: "#1D1B18", "stroke-width": "0.75", opacity: "0" }, harnessGroup);
 
-    // Front leg + subtle mechanical knee joint rivets + sleek capsule front foot + Stage 5 front boot
-    const kneeJoint2 = mk("circle", { r: "0.85", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.8", opacity: "0" }, botBody);
-    const frontLeg = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.3", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
-    const frontFoot = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round" }, botBody);
-    const kneeJoint1 = mk("circle", { r: "0.95", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85", opacity: "0" }, botBody);
-    const bootF = mk("path", { d: "M -1.7,-4.1 L 1.8,-4.1 L 2.8,0 L -1.9,0 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    // Front volumetric mechanical leg (thigh + shin + knee joint rivet) + capsule front foot + Stage 5 front boot
+    const frontThigh = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
+    const frontShin = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linejoin": "round" }, botBody);
+    const frontFoot = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round" }, botBody);
+    const kneeJoint1 = mk("circle", { r: "1.1", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.82", opacity: "0" }, botBody);
+    const bootF = mk("path", { d: "M -1.7,-4.1 L 1.8,-4.1 L 2.8,0 L -1.9,0 Z", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.0", "stroke-linejoin": "round", opacity: "0" }, botBody);
 
     // Robot Head group (boxy CRT chassis + expressive visor + antenna + Stage 5 Mech Crest)
     const headGroup = mk("g", { opacity: "0" }, botBody);
@@ -481,16 +488,23 @@
     // Boxy CRT head dome + subtle bottom-left warm stone shading
     mk("rect", { x: "-5.7", y: "-4.7", width: "11.4", height: "9.0", rx: "2.6", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.3" }, headGroup);
     mk("path", { d: "M -5.0,2.2 Q -5.0,3.8 -3.0,3.8 L 3.4,3.8 Q 4.8,3.8 5.0,2.6 L 5.0,1.8 L -5.0,1.8 Z", fill: "#EDE8DE", "fill-opacity": "0.7" }, headGroup);
-    // Stage 1-3 single-eye visor screen + glass glint
+    // Stage 1-3 single-eye visor screen + CRT boot scanline + expressive micro-expressions
     const visorScreen = mk("rect", { x: "-1.8", y: "-2.8", width: "6.6", height: "4.8", rx: "1.5", fill: "#1D1B18" }, headGroup);
     const visorGlint1 = mk("line", { x1: "-0.7", y1: "-1.8", x2: "0.2", y2: "-1.8", stroke: "#FAF8F4", "stroke-width": "0.7", "stroke-opacity": "0.35", "stroke-linecap": "round" }, headGroup);
+    const crtBootLine = mk("line", { x1: "-1.2", y1: "-0.4", x2: "4.2", y2: "-0.4", stroke: "#B5F5D4", "stroke-width": "1.1", "stroke-linecap": "round", opacity: "0" }, headGroup);
     const eyeEl = mk("circle", { cx: "2.3", cy: "-0.4", r: "1.15", fill: "#FAF8F4" }, headGroup);
+    // Determined narrowed focus eye during Era 3 drilling!
+    const eyeFocus = mk("rect", { x: "0.9", y: "-0.95", width: "2.7", height: "1.15", rx: "0.55", fill: "#B5F5D4", opacity: "0" }, headGroup);
     // Expressive wince eye (> < / ×) for Era 1 trip & Era 3 bonk
     const eyeWince = mk("path", {
       d: "M 1.4,-1.2 L 3.1,0.4 M 3.1,-1.2 L 1.4,0.4",
       fill: "none", stroke: "#FAF8F4", "stroke-width": "1.0", "stroke-linecap": "round", opacity: "0"
     }, headGroup);
-    // Stage 4-5 panoramic dual-optic visor
+    // Orbiting mini dizzy stars above head right after Era 3 bonk!
+    const dizzyStars = mk("g", { opacity: "0" }, headGroup);
+    mk("path", { d: "M -4.2,-7.6 L -3.0,-7.6 M -3.6,-8.2 L -3.6,-7.0", stroke: "#B83B2A", "stroke-width": "0.9", "stroke-linecap": "round" }, dizzyStars);
+    mk("path", { d: "M 3.0,-6.8 L 4.2,-6.8 M 3.6,-7.4 L 3.6,-6.2", stroke: "#1D1B18", "stroke-width": "0.85", "stroke-linecap": "round" }, dizzyStars);
+    // Stage 4-5 panoramic dual-optic visor + expressive typing eyes + happy victory arcs!
     const gogglesEl = mk("rect", {
       x: "-2.4", y: "-3.1", width: "7.8", height: "5.2", rx: "1.7",
       fill: "#1D1B18", stroke: "#1D1B18", "stroke-width": "0.95", opacity: "0"
@@ -499,13 +513,19 @@
     const goggleEye = mk("g", { opacity: "0" }, headGroup);
     const gEyeL = mk("circle", { cx: "0.3", cy: "-0.5", r: "1.1", fill: "#FAF8F4" }, goggleEye);
     const gEyeR = mk("circle", { cx: "3.4", cy: "-0.5", r: "1.1", fill: "#FAF8F4" }, goggleEye);
+    const goggleHappy = mk("path", {
+      d: "M -0.8,0.1 Q 0.3,-1.6 1.4,0.1 M 2.3,0.1 Q 3.4,-1.6 4.5,0.1",
+      fill: "none", stroke: "#B5F5D4", "stroke-width": "1.15", "stroke-linecap": "round", opacity: "0"
+    }, headGroup);
     // Stage 5: Sleek Mech V-Crest & Side Ear-Fin (original design preserved!)
     const headCrestEl = mk("g", { opacity: "0" }, headGroup);
     mk("path", { d: "M -4.4,-4.6 L 0.4,-7.3 L 5.0,-4.6 M -6.9,-2.2 L -8.8,-4.3 L -6.5,0.8", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round" }, headCrestEl);
 
-    // Front arm + shoulder socket rivet + mechanical hand caps + attachments + Stage 5 Repulsor Gauntlets + Luminous Jets
-    const frontArm = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round" }, botBody);
-    const shoulderPin = mk("circle", { r: "1.1", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, botBody);
+    // Front volumetric mechanical arm (upper arm + forearm + elbow & shoulder bushings) + attachments + Stage 5 Repulsor Gauntlets
+    const frontUpperArm = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, botBody);
+    const frontForeArm = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", "stroke-linejoin": "round" }, botBody);
+    const elbowJointF = mk("circle", { r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.78", opacity: "0" }, botBody);
+    const shoulderPin = mk("circle", { r: "1.15", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.85" }, botBody);
     const handTipB = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", opacity: "0" }, botBody);
     const handTipF = mk("circle", { r: "1.15", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", opacity: "0" }, botBody);
     const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
@@ -619,6 +639,24 @@
       };
     }
 
+    // Solid volumetric tapered mechanical limb capsule (replaces flat stick-figure lines!)
+    function capsuleSegPath(x1, y1, x2, y2, r1, r2) {
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const len = Math.hypot(dx, dy);
+      if (len < 0.2) {
+        const r = Math.max(0.4, r1);
+        return `M ${(x1 - r).toFixed(1)},${y1.toFixed(1)} A ${r.toFixed(1)},${r.toFixed(1)} 0 1,0 ${(x1 + r).toFixed(1)},${y1.toFixed(1)} A ${r.toFixed(1)},${r.toFixed(1)} 0 1,0 ${(x1 - r).toFixed(1)},${y1.toFixed(1)} Z`;
+      }
+      const nx = -dy / len;
+      const ny = dx / len;
+      const p1Lx = x1 + nx * r1, p1Ly = y1 + ny * r1;
+      const p1Rx = x1 - nx * r1, p1Ry = y1 - ny * r1;
+      const p2Lx = x2 + nx * r2, p2Ly = y2 + ny * r2;
+      const p2Rx = x2 - nx * r2, p2Ry = y2 - ny * r2;
+      return `M ${p1Lx.toFixed(1)},${p1Ly.toFixed(1)} L ${p2Lx.toFixed(1)},${p2Ly.toFixed(1)} A ${r2.toFixed(2)},${r2.toFixed(2)} 0 0,1 ${p2Rx.toFixed(1)},${p2Ry.toFixed(1)} L ${p1Rx.toFixed(1)},${p1Ry.toFixed(1)} A ${r1.toFixed(2)},${r1.toFixed(2)} 0 0,1 ${p1Lx.toFixed(1)},${p1Ly.toFixed(1)} Z`;
+    }
+
     // Solid capsule mechanical foot path seated cleanly on y = ground
     function capsuleFootPath(fx, fy, len, pitch) {
       const dy = pitch * len;
@@ -725,10 +763,10 @@
       const span = endX - startX;
       const anchors = [
         startX,
-        startX + span * 0.31 - 56,
-        startX + span * 0.51 - 56,
-        startX + span * 0.71 - 56,
-        startX + span * 0.89 - 46
+        startX + span * 0.31 - 56 * S,
+        startX + span * 0.51 - 56 * S,
+        startX + span * 0.71 - 56 * S,
+        startX + span * 0.89 - 46 * S
       ];
       resetCycle(startX);
       const idx = Math.max(0, Math.min(4, eraIdx || 0));
@@ -790,7 +828,7 @@
           botGroup.setAttribute("opacity", "0");
           syncEraCaptions(-1, false);
           const setRestProp = (el, px) => {
-            el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y})`);
+            el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y}) scale(${S})`);
             el.setAttribute("opacity", "0.52");
             el.setAttribute("color", "#7C7468");
           };
@@ -833,14 +871,14 @@
             ? 64
             : 58;
 
-        const launchX = Math.max(x5 + 34, endX - 24);
+        const launchX = Math.max(x5 + 34 * S, endX - 24 * S);
 
         // Trigger each era's silent-film beat once per cycle
-        if (b1 === 0 && posX >= x1 - 7.5) { b1 = 1; b1t = 0; }
-        if (b2 === 0 && posX >= x2 - 18.0){ b2 = 1; b2t = 0; }
-        if (b3 === 0 && posX >= x3 - 13.0){ b3 = 1; b3t = 0; }
-        if (b4 === 0 && posX >= x4 - 16.5){ b4 = 1; b4t = 0; }
-        if (b5 === 0 && posX >= x5 - 1)   { b5 = 1; b5t = 0; }
+        if (b1 === 0 && posX >= x1 - 7.5 * S) { b1 = 1; b1t = 0; }
+        if (b2 === 0 && posX >= x2 - 18.0 * S){ b2 = 1; b2t = 0; }
+        if (b3 === 0 && posX >= x3 - 13.0 * S){ b3 = 1; b3t = 0; }
+        if (b4 === 0 && posX >= x4 - 16.5 * S){ b4 = 1; b4t = 0; }
+        if (b5 === 0 && posX >= x5 - 1.0 * S) { b5 = 1; b5t = 0; }
         if (b5 === 2 && posX >= launchX)  { b5 = 3; b5t = 0; }
 
         let moveSpeed = baseSpeed;
@@ -1067,7 +1105,7 @@
               syncEraCaptions(-1, false);
               const lr = evoLayerEl.getBoundingClientRect();
               const worldX = lr.left + posX;
-              const worldY = lr.top + BASE_Y - launchLiftY - 17.5;
+              const worldY = lr.top + BASE_Y - (launchLiftY + 17.5) * S;
               botGroup.setAttribute("opacity", "0");
               if (typeof AgentBlog.onMechLiftoff === "function") {
                 AgentBlog.onMechLiftoff({ x: worldX, y: worldY, padX: lr.left + launchX, padY: lr.top + BASE_Y });
@@ -1116,15 +1154,15 @@
           resetWaitTimer = 1.4;
         }
 
-        const drawX = posX + visualDX;
+        const drawX = posX + visualDX * S;
 
         // =================================================================
         // SMOOTH SPOTLIGHT FOCUS: Muted ink (0.40, #8A8275) -> Crisp ink (0.96, #1D1B18)
         // =================================================================
         const setPropFocus = (el, px) => {
-          const near = clamp01(1 - Math.abs(drawX - px) / 86);
+          const near = clamp01(1 - Math.abs(drawX - px) / (86 * S));
           const easedNear = near * near * (3 - 2 * near);
-          el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y})`);
+          el.setAttribute("transform", `translate(${px.toFixed(1)}, ${BASE_Y}) scale(${S})`);
           el.setAttribute("opacity", (0.40 + easedNear * 0.56).toFixed(2));
           el.setAttribute("color", lerpInk(easedNear));
           return easedNear;
@@ -1373,8 +1411,8 @@
         if ((b5 === 3 || b5 === 4) && b5t > 0.12) {
           const su = clamp01((b5t - 0.12) / 0.52);
           if (su < 1) {
-            const spread = 4 + su * 23;
-            const len = 6.0 * (1 - su * 0.45);
+            const spread = (4 + su * 23) * S;
+            const len = 6.0 * (1 - su * 0.45) * S;
             shockL.setAttribute("x1", (launchX - spread - len).toFixed(1));
             shockL.setAttribute("x2", (launchX - spread).toFixed(1));
             shockL.setAttribute("y1", String(BASE_Y - 1));
@@ -1390,33 +1428,33 @@
           if (b5t >= 0.66 && b5t < 1.08) {
             const ru = (b5t - 0.66) / 0.42;
             sonicRing.setAttribute("cx", launchX.toFixed(1));
-            sonicRing.setAttribute("cy", String(BASE_Y - 13.5));
-            sonicRing.setAttribute("rx", (6 + ru * 20).toFixed(1));
-            sonicRing.setAttribute("ry", (1.8 + ru * 4.2).toFixed(1));
+            sonicRing.setAttribute("cy", (BASE_Y - 13.5 * S).toFixed(1));
+            sonicRing.setAttribute("rx", ((6 + ru * 20) * S).toFixed(1));
+            sonicRing.setAttribute("ry", ((1.8 + ru * 4.2) * S).toFixed(1));
             sonicRing.setAttribute("opacity", ((1 - ru) * 0.78).toFixed(2));
           } else {
             sonicRing.setAttribute("opacity", "0");
           }
-          const trailLift = b5 === 4 ? 13 + Math.min(260, handoffTrailT * 340) : launchLiftY;
+          const trailLift = b5 === 4 ? (13 + Math.min(260, handoffTrailT * 340)) * S : launchLiftY * S;
           if (trailLift > 8 && (b5 !== 4 || handoffTrailT < 0.78)) {
             const trailOp = b5 === 4
               ? clamp01(1 - handoffTrailT / 0.78) * 0.42
-              : clamp01(1 - (trailLift - 45) / 145) * 0.46;
-            const topY = (BASE_Y - trailLift - 4).toFixed(1);
+              : clamp01(1 - (trailLift / S - 45) / 145) * 0.46;
+            const topY = (BASE_Y - trailLift - 4 * S).toFixed(1);
             launchTrail.setAttribute("x1", launchX.toFixed(1));
             launchTrail.setAttribute("x2", launchX.toFixed(1));
             launchTrail.setAttribute("y1", String(BASE_Y - 2));
             launchTrail.setAttribute("y2", topY);
             launchTrail.setAttribute("opacity", trailOp.toFixed(2));
-            launchTrailL.setAttribute("x1", (launchX - 7.4).toFixed(1));
-            launchTrailL.setAttribute("x2", (launchX - 7.4).toFixed(1));
-            launchTrailL.setAttribute("y1", String(BASE_Y - 6));
-            launchTrailL.setAttribute("y2", (BASE_Y - trailLift - 12).toFixed(1));
+            launchTrailL.setAttribute("x1", (launchX - 7.4 * S).toFixed(1));
+            launchTrailL.setAttribute("x2", (launchX - 7.4 * S).toFixed(1));
+            launchTrailL.setAttribute("y1", (BASE_Y - 6 * S).toFixed(1));
+            launchTrailL.setAttribute("y2", (BASE_Y - trailLift - 12 * S).toFixed(1));
             launchTrailL.setAttribute("opacity", (trailOp * 0.7).toFixed(2));
-            launchTrailR.setAttribute("x1", (launchX + 7.4).toFixed(1));
-            launchTrailR.setAttribute("x2", (launchX + 7.4).toFixed(1));
-            launchTrailR.setAttribute("y1", String(BASE_Y - 6));
-            launchTrailR.setAttribute("y2", (BASE_Y - trailLift - 12).toFixed(1));
+            launchTrailR.setAttribute("x1", (launchX + 7.4 * S).toFixed(1));
+            launchTrailR.setAttribute("x2", (launchX + 7.4 * S).toFixed(1));
+            launchTrailR.setAttribute("y1", (BASE_Y - 6 * S).toFixed(1));
+            launchTrailR.setAttribute("y2", (BASE_Y - trailLift - 12 * S).toFixed(1));
             launchTrailR.setAttribute("opacity", (trailOp * 0.7).toFixed(2));
           } else {
             launchTrail.setAttribute("opacity", "0");
@@ -1449,7 +1487,7 @@
           : smooth(0, 0.03, progress) * (1 - smooth(0.96, 1, progress));
 
         // Smooth vertical step-up onto Era 5 architectural docking pad deck (height 3.5px)
-        const onPadDist = Math.abs(drawX - x5);
+        const onPadDist = Math.abs(drawX - x5) / S;
         const padStandY = b5 === 3 ? 0 : (1 - smooth(10, 17, onPadDist)) * 3.5;
 
         // Proportions: total height scales smoothly 17 -> 23 -> 26 -> 29 -> 33px
@@ -1481,7 +1519,7 @@
         const shoulderX = Math.sin(leanRad) * torsoH;
         const shoulderY = hipY - Math.cos(leanRad) * torsoH;
 
-        botGroup.setAttribute("transform", `translate(${drawX.toFixed(2)}, ${BASE_Y})`);
+        botGroup.setAttribute("transform", `translate(${drawX.toFixed(2)}, ${BASE_Y}) scale(${S})`);
         botGroup.setAttribute("opacity", edgeFade.toFixed(3));
         if (Math.abs(bodyRollDeg) > 0.1 || Math.abs(bodyDropY) > 0.1) {
           const pivotY = isSliding ? -6.2 : -8.0;
@@ -1536,13 +1574,15 @@
         const hasHeadCrest = isEquipped || (b5 === 1 && b5t >= 0.88);
 
         if (kneeW < 0.15) {
-          // Stiff knee-less RPA stick legs + capsule feet
+          // Volumetric chunky knee-less RPA mechanical legs + capsule feet
           const f1x = f1.x + 1.5;
           const f1y = f1.y - totalLift;
           const f2x = f2.x - 1.5;
           const f2y = f2.y - totalLift;
-          frontLeg.setAttribute("d", `M 1.5,${hipY.toFixed(1)} L ${f1x.toFixed(1)},${f1y.toFixed(1)}`);
-          backLeg.setAttribute("d", `M -1.5,${hipY.toFixed(1)} L ${f2x.toFixed(1)},${f2y.toFixed(1)}`);
+          frontThigh.setAttribute("d", capsuleSegPath(1.5, hipY, f1x, f1y, 1.05, 0.88));
+          frontShin.setAttribute("opacity", "0");
+          backThigh.setAttribute("d", capsuleSegPath(-1.5, hipY, f2x, f2y, 1.0, 0.84));
+          backShin.setAttribute("opacity", "0");
           frontFoot.setAttribute("d", capsuleFootPath(f1x, f1y, 2.3, f1.pitch));
           backFoot.setAttribute("d", capsuleFootPath(f2x, f2y, 2.1, f2.pitch));
           kneeJoint1.setAttribute("opacity", "0");
@@ -1552,8 +1592,12 @@
           const hipOffB = -1.0;
           const k1 = solveKnee(hipOffF, hipY + 0.6, f1.x, f1.y - totalLift, legSeg, legSeg);
           const k2 = solveKnee(hipOffB, hipY + 0.6, f2.x, f2.y - totalLift, legSeg, legSeg);
-          frontLeg.setAttribute("d", `M ${hipOffF},${(hipY + 0.6).toFixed(1)} L ${k1.x.toFixed(1)},${k1.y.toFixed(1)} L ${f1.x.toFixed(1)},${(f1.y - totalLift).toFixed(1)}`);
-          backLeg.setAttribute("d", `M ${hipOffB},${(hipY + 0.6).toFixed(1)} L ${k2.x.toFixed(1)},${k2.y.toFixed(1)} L ${f2.x.toFixed(1)},${(f2.y - totalLift).toFixed(1)}`);
+          frontThigh.setAttribute("d", capsuleSegPath(hipOffF, hipY + 0.6, k1.x, k1.y, 1.24, 0.96));
+          frontShin.setAttribute("d", capsuleSegPath(k1.x, k1.y, f1.x, f1.y - totalLift, 0.98, 0.78));
+          frontShin.setAttribute("opacity", "1");
+          backThigh.setAttribute("d", capsuleSegPath(hipOffB, hipY + 0.6, k2.x, k2.y, 1.16, 0.90));
+          backShin.setAttribute("d", capsuleSegPath(k2.x, k2.y, f2.x, f2.y - totalLift, 0.92, 0.74));
+          backShin.setAttribute("opacity", "1");
           frontFoot.setAttribute("d", capsuleFootPath(f1.x, f1.y - totalLift, 2.9, f1.pitch));
           backFoot.setAttribute("d", capsuleFootPath(f2.x, f2.y - totalLift, 2.7, f2.pitch));
           kneeJoint1.setAttribute("cx", k1.x.toFixed(1));
@@ -1561,10 +1605,10 @@
           kneeJoint1.setAttribute("opacity", kneeW.toFixed(2));
           kneeJoint2.setAttribute("cx", k2.x.toFixed(1));
           kneeJoint2.setAttribute("cy", k2.y.toFixed(1));
-          kneeJoint2.setAttribute("opacity", (kneeW * 0.62).toFixed(2));
+          kneeJoint2.setAttribute("opacity", (kneeW * 0.75).toFixed(2));
         }
-        backLeg.setAttribute("opacity", "0.66");
-        backFoot.setAttribute("opacity", hasBoots ? "0" : "0.70");
+        backLegGroup.setAttribute("opacity", "0.78");
+        backFoot.setAttribute("opacity", hasBoots ? "0" : "0.75");
         frontFoot.setAttribute("opacity", hasBoots ? "0" : "1");
 
         // Torso (neck + sleek waist band + sculpted chassis with warm stone bevel + vents)
@@ -1654,15 +1698,45 @@
         const useGoggles = gogglesW > 0.5;
         visorScreen.setAttribute("opacity", useGoggles ? "0" : "1");
         visorGlint1.setAttribute("opacity", useGoggles ? "0" : "1");
-        eyeEl.setAttribute("opacity", !useGoggles && !isWincing ? "1" : "0");
+        // Era 2 CRT boot-up horizontal scanline sweep right as brain docks!
+        if (!useGoggles && b2 === 1 && b2t >= 0.72 && b2t < 0.85) {
+          const bu = clamp01((b2t - 0.72) / 0.13);
+          const scanY = (-2.2 + bu * 3.6).toFixed(2);
+          crtBootLine.setAttribute("y1", scanY);
+          crtBootLine.setAttribute("y2", scanY);
+          crtBootLine.setAttribute("opacity", (Math.sin(bu * Math.PI) * 0.95).toFixed(2));
+        } else {
+          crtBootLine.setAttribute("opacity", "0");
+        }
+        // Era 3 focused narrowed visor squint while drilling into brick wall!
+        const showFocus = !useGoggles && drillingNow;
+        eyeFocus.setAttribute("opacity", showFocus ? "1" : "0");
+        eyeEl.setAttribute("opacity", !useGoggles && !isWincing && !showFocus ? "1" : "0");
         eyeEl.setAttribute("cx", reasoningNow || epiphanyNow ? "2.6" : "2.3");
         eyeEl.setAttribute("cy", awakeNow ? "0.3" : (reasoningNow ? "-0.8" : "-0.4"));
         eyeEl.setAttribute("r", isBlinking || awakeBlink ? "0.18" : "1.15");
         eyeWince.setAttribute("opacity", !useGoggles && isWincing ? "1" : "0");
+        // Era 3 orbiting dizzy stars immediately after wall bonk!
+        if (b3 === 1 && b3t >= 0.08 && b3t < 0.44) {
+          const du = clamp01((b3t - 0.08) / 0.36);
+          dizzyStars.setAttribute("opacity", Math.min(1, Math.sin(du * Math.PI) * 1.4).toFixed(2));
+          dizzyStars.setAttribute("transform", `translate(${(Math.sin(b3t * 18) * 1.4).toFixed(1)}, ${(Math.cos(b3t * 18) * 0.55).toFixed(1)}) rotate(${(Math.sin(b3t * 14) * 10).toFixed(1)}, 0, -7.2)`);
+        } else {
+          dizzyStars.setAttribute("opacity", "0");
+        }
 
+        // Era 4-5 dual-optic visor + typing eye-darting + happy victory ^ ^ smile arcs!
+        const showHappy = useGoggles && b4 === 1 && taskDone && b4t >= 1.12 && b4t < 1.54;
         gogglesEl.setAttribute("opacity", gogglesW.toFixed(2));
         visorGlint2.setAttribute("opacity", useGoggles ? "1" : "0");
-        goggleEye.setAttribute("opacity", useGoggles && !isBlinking ? "1" : "0");
+        goggleHappy.setAttribute("opacity", showHappy ? "1" : "0");
+        goggleEye.setAttribute("opacity", useGoggles && !isBlinking && !showHappy ? "1" : "0");
+        if (typingNow) {
+          const lookScreen = Math.sin(b4t * 16) > 0;
+          goggleEye.setAttribute("transform", lookScreen ? "translate(0.35, -0.35)" : "translate(0.15, 0.55)");
+        } else {
+          goggleEye.removeAttribute("transform");
+        }
         const twinEyeFill = freezeAll || scanningTerminal || hasHeadCrest ? "#B5F5D4" : "#FAF8F4";
         gEyeL.setAttribute("fill", twinEyeFill);
         gEyeR.setAttribute("fill", twinEyeFill);
@@ -1778,9 +1852,19 @@
 
         const fElb = solveElbow(fSX, fSY, fHX, fHY, fBend);
         const bElb = solveElbow(bSX, bSY, bHX, bHY, bBend);
-        frontArm.setAttribute("d", `M ${fSX.toFixed(1)},${fSY.toFixed(1)} L ${fElb.x.toFixed(1)},${fElb.y.toFixed(1)} L ${fHX.toFixed(1)},${fHY.toFixed(1)}`);
-        backArm.setAttribute("opacity", armPose === "cot" || armPose === "bonk" || armPose === "type" || isSymStance ? "0.95" : "0.60");
-        backArm.setAttribute("d", `M ${bSX.toFixed(1)},${bSY.toFixed(1)} L ${bElb.x.toFixed(1)},${bElb.y.toFixed(1)} L ${bHX.toFixed(1)},${bHY.toFixed(1)}`);
+        const armThickF = lerp(0.88, 1.04, smooth(0.4, 3.2, evo));
+        const armThickB = lerp(0.82, 0.96, smooth(0.4, 3.2, evo));
+        frontUpperArm.setAttribute("d", capsuleSegPath(fSX, fSY, fElb.x, fElb.y, armThickF, armThickF * 0.82));
+        frontForeArm.setAttribute("d", capsuleSegPath(fElb.x, fElb.y, fHX, fHY, armThickF * 0.84, armThickF * 0.72));
+        elbowJointF.setAttribute("cx", fElb.x.toFixed(1));
+        elbowJointF.setAttribute("cy", fElb.y.toFixed(1));
+        elbowJointF.setAttribute("opacity", kneeW > 0.15 ? "1" : "0");
+        backArmGroup.setAttribute("opacity", armPose === "cot" || armPose === "bonk" || armPose === "type" || isSymStance ? "0.95" : "0.74");
+        backUpperArm.setAttribute("d", capsuleSegPath(bSX, bSY, bElb.x, bElb.y, armThickB, armThickB * 0.82));
+        backForeArm.setAttribute("d", capsuleSegPath(bElb.x, bElb.y, bHX, bHY, armThickB * 0.82, armThickB * 0.70));
+        elbowJointB.setAttribute("cx", bElb.x.toFixed(1));
+        elbowJointB.setAttribute("cy", bElb.y.toFixed(1));
+        elbowJointB.setAttribute("opacity", kneeW > 0.15 ? "0.85" : "0");
         shoulderPin.setAttribute("cx", fSX.toFixed(1));
         shoulderPin.setAttribute("cy", fSY.toFixed(1));
         shoulderPin.setAttribute("opacity", hasTorsoArmor ? "0" : "1");
@@ -1858,8 +1942,8 @@
         if (isSliding && skidCooldown <= 0) {
           const s = skidPool[skidIdx % skidPool.length];
           skidIdx += 1;
-          s.x = drawX - 9;
-          s.yOff = (skidIdx % 2 === 0 ? -1.4 : -3.0);
+          s.x = drawX - 9 * S;
+          s.yOff = (skidIdx % 2 === 0 ? -1.4 : -3.0) * S;
           s.life = 0.42;
           skidCooldown = 0.11;
         }
@@ -1867,7 +1951,7 @@
           if (s.life > 0) {
             s.life = Math.max(0, s.life - dt);
             const y = (BASE_Y + s.yOff).toFixed(1);
-            const len = 4.5 + (1 - s.life / 0.42) * 3.5;
+            const len = (4.5 + (1 - s.life / 0.42) * 3.5) * S;
             s.el.setAttribute("x1", (s.x - len).toFixed(1));
             s.el.setAttribute("x2", s.x.toFixed(1));
             s.el.setAttribute("y1", y);
@@ -1883,7 +1967,7 @@
         if (isEquipped && moveSpeed > 10 && traceCooldown <= 0 && edgeFade > 0.4) {
           const p = tracePool[traceIdx % tracePool.length];
           traceIdx += 1;
-          p.x = drawX - 5;
+          p.x = drawX - 5 * S;
           p.life = 1.0;
           traceCooldown = 0.26;
         }

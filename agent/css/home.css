@@ -40,7 +40,7 @@
   left: var(--page-px);
   right: var(--page-px);
   bottom: calc(clamp(4px, 0.8vh, 8px) + var(--era-foot-h) - 2px);
-  height: 44px;
+  height: 56px;
   pointer-events: none;
   z-index: 40;
   overflow: visible;

@@ -254,8 +254,8 @@
     const DOCKED_HEAD_SCALE = 1.26;
     const FLIGHT_HEAD_SCALE = 0.86;
     const FLIGHT_HEAD_Y = -9.8;
-    const LAUNCH_MATCH_SCALE = 1.08; // 1:1 height match (~34.6px) with Era 5 runway robot at liftoff!
-    const FLY_SCALE = 1.32;
+    const LAUNCH_MATCH_SCALE = 1.34; // 1:1 height match (~42.9px) with enlarged 1.24x Era 5 runway robot at liftoff!
+    const FLY_SCALE = 1.52;
 
     const headG = mk("g", { transform: `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE})` }, craftG);
 
