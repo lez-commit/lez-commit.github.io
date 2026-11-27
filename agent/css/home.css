@@ -53,11 +53,15 @@
   display: block;
 }
 
-.evo-bot-hit,
+.evo-bot-hit {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
 .evo-prop-hit {
   pointer-events: auto;
   cursor: pointer;
-  transition: opacity 0.2s ease, filter 0.2s ease;
+  transition: filter 0.2s ease;
 }
 
 .evo-prop-hit:hover {

@@ -487,7 +487,15 @@
     // =====================================================================
     // 2D AUTONOMOUS FLIGHT PHYSICS & ZERO-SNAP FOLD-TO-AVATAR ENGINE
     // =====================================================================
-    let avPhase = "waiting"; // "waiting" | "unfolding" | "patrolling" | "folding" | "sonar" | "avatar"
+    let avPhase = "waiting"; // "waiting" | "gantry" | "unfolding" | "patrolling" | "folding" | "sonar" | "avatar"
+    let gantryT = 0;
+    let gantryStandSec = 0.56;
+    let gantryIgniteSec = 0.94;
+    let launchMatchScale = LAUNCH_MATCH_SCALE;
+    let flyTargetScale = FLY_SCALE;
+    let launchStandY = 0;
+    let launchScaleS = 1.44;
+    let liveAnchorFn = null;
     let patrolT = 0;
     let foldT = 0;
     let sonarT = 0;
@@ -532,7 +540,7 @@
       const nr = topNav.getBoundingClientRect();
       const cs = getComputedStyle(topNav);
       const padL = parseFloat(cs.paddingLeft) || 24;
-      return { x: nr.left + padL + 22, y: nr.top + nr.height * 0.5 + 2 };
+      return { x: nr.left + padL + 22, y: nr.top + nr.height * 0.5 };
     }
 
     // DOM-grounded open rice-paper airspace measurement (strictly clear of heatmap/Recent Posts & era twigs!)
@@ -677,7 +685,7 @@
     scheduleBlink();
 
     // Animate 2.5D torso parallax, unfolding/sweeping wings, independent knee bend & Mach-diamond plumes!
-    function updateFullBodyKinematics(now, thrust, bankDeg, curiousAmt, foldAmt) {
+    function updateFullBodyKinematics(now, thrust, bankDeg, curiousAmt, foldAmt, gantryOpts) {
       const flick = 0.90 + 0.20 * Math.abs(Math.sin(now * 0.055));
       const pLen = (3.4 + thrust * 4.4) * flick;
       const pCore = pLen * 0.46;
@@ -685,33 +693,37 @@
       const bCore = bLen * 0.50;
 
       const f = foldAmt || 0;
+      const standPose = gantryOpts && typeof gantryOpts.standPose === "number" ? gantryOpts.standPose : 0;
       const yawNorm = Math.max(-1, Math.min(1, bankDeg / 16)); // -1 cruising left, +1 cruising right
 
       // 2.5D cylindrical torso parallax: Arc Core & harness shift subtly with flight heading!
       chestDetailG.setAttribute("transform", `translate(${(yawNorm * 0.85 * (1 - f)).toFixed(2)}, 0)`);
 
-      // Aerodynamic arm sweep + subtle asymmetric 2.5D yaw lead/trail
+      // Aerodynamic arm sweep + heroic standing flare inside launch gantry
       const armSwing = -bankDeg * 0.34;
-      const armLAngle = lerp(armSwing + 3 + curiousAmt * 7 - Math.max(0, yawNorm) * 6, -28, f);
-      const armRAngle = lerp(armSwing - 3 - curiousAmt * 7 - Math.min(0, yawNorm) * 6, 28, f);
+      const standArmFlare = gantryOpts && typeof gantryOpts.armFlare === "number" ? gantryOpts.armFlare : 0;
+      const armLAngle = lerp(lerp(armSwing + 3 + curiousAmt * 7 - Math.max(0, yawNorm) * 6, -28, f), standArmFlare, standPose);
+      const armRAngle = lerp(lerp(armSwing - 3 - curiousAmt * 7 - Math.min(0, yawNorm) * 6, 28, f), -standArmFlare, standPose);
       armL.setAttribute("transform", `rotate(${armLAngle.toFixed(1)}, -5.7, 0.4)`);
       armR.setAttribute("transform", `rotate(${armRAngle.toFixed(1)}, 5.7, 0.4)`);
 
-      // 2-bone articulated flight legs: thighs trail with bank, knees bend dynamically into the slipstream!
-      const legLag = -bankDeg * 0.42 * (1 - f);
-      const kneeLag = -bankDeg * 0.58 * (1 - f);
+      // 2-bone articulated legs: perfectly level upright heroic stance in gantry (both soles y=19.7) -> dynamic flight slipstream bend!
+      const legLag = -bankDeg * 0.42 * (1 - f) * (1 - standPose);
+      const kneeLag = -bankDeg * 0.58 * (1 - f) * (1 - standPose);
       const legRetractY = -f * 8.6;
-      legL.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag - 5 * (1 - f)).toFixed(1)}, -2.6, 10.6)`);
-      legR.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag + 2 * (1 - f)).toFixed(1)}, 2.6, 10.6)`);
-      shinL.setAttribute("transform", `rotate(${(kneeLag - 6 * (1 - f)).toFixed(1)}, -2.65, 14.1)`);
-      shinR.setAttribute("transform", `rotate(${(kneeLag + 2 * (1 - f)).toFixed(1)}, 2.65, 14.6)`);
+      const legLY = legRetractY + 0.6 * standPose;
+      const legRY = legRetractY - 0.6 * standPose;
+      legL.setAttribute("transform", `translate(0, ${legLY.toFixed(2)}) rotate(${(legLag - 5 * (1 - f) * (1 - standPose)).toFixed(1)}, -2.6, 10.6)`);
+      legR.setAttribute("transform", `translate(0, ${legRY.toFixed(2)}) rotate(${(legLag + 2 * (1 - f) * (1 - standPose)).toFixed(1)}, 2.6, 10.6)`);
+      shinL.setAttribute("transform", `rotate(${(kneeLag - 6 * (1 - f) * (1 - standPose)).toFixed(1)}, -2.65, 14.1)`);
+      shinR.setAttribute("transform", `rotate(${(kneeLag + 2 * (1 - f) * (1 - standPose)).toFixed(1)}, 2.65, 14.6)`);
 
-      // Articulated aero wing-binders: unfold smoothly right after Era 5 liftoff, sweep back at speed, foreshorten in 2.5D!
-      const wingUnfold = (!patrolIsReRun && avPhase === "patrolling")
-        ? smooth(0.0, 0.36, patrolT)
-        : 1 - f;
-      const openScale = lerp(0.28, 1.0, wingUnfold);
-      const speedSweep = (1 - wingUnfold) * 32 + Math.abs(yawNorm) * 9 - curiousAmt * 6;
+      // Articulated aero wing-binders: unfold smoothly inside gantry right after armor lock-in, then stay 100% open in flight!
+      const wingUnfold = gantryOpts && typeof gantryOpts.wingOpen === "number"
+        ? gantryOpts.wingOpen
+        : (!patrolIsReRun && avPhase === "patrolling" ? 1 : 1 - f);
+      const openScale = lerp(0.55, 1.0, wingUnfold);
+      const speedSweep = (1 - wingUnfold) * 24 + Math.abs(yawNorm) * 9 - curiousAmt * 6;
       const wingScaleL = openScale * (1 - yawNorm * 0.16);
       const wingScaleR = openScale * (1 + yawNorm * 0.16);
       wingL.setAttribute("transform", `translate(-3.8, 0.2) scale(${wingScaleL.toFixed(3)}, ${openScale.toFixed(3)}) rotate(${(-speedSweep).toFixed(1)}) translate(3.8, -0.2)`);
@@ -763,6 +775,7 @@
       if (fromDock) {
         avPhase = "unfolding";
         foldT = 0;
+        flyTargetScale = Math.max(FLY_SCALE, launchMatchScale * 0.94);
         unfoldStart.hx = headState.hx;
         unfoldStart.hy = headState.hy;
         unfoldStart.hrot = headState.hrot;
@@ -773,36 +786,52 @@
         drone.vx = 180;
         drone.vy = 140;
       } else {
-        avPhase = "patrolling";
-        // Seamless single-robot continuous liftoff directly from Era 5 launch pad (NEVER leaves screen!)
-        const startX = origin && typeof origin.x === "number" ? origin.x : W * 0.92;
-        const startY = origin && typeof origin.y === "number" ? origin.y : H - 96;
+        // 1:1 Pixel-Exact Single-Model Takeover right inside the Era 5 Launch Gantry at armor lock-in!
+        liveAnchorFn = origin && typeof origin.getAnchor === "function" ? origin.getAnchor : null;
+        const a = liveAnchorFn ? liveAnchorFn() : origin;
+        const sVal = a && typeof a.scale === "number" ? a.scale : 1.44;
+        launchScaleS = sVal;
+        launchMatchScale = 1.2288 * sVal;
+        flyTargetScale = Math.max(1.54, launchMatchScale * 0.95);
+        const pxPerUnit = getPxPerUnit();
+        const startX = a && typeof a.x === "number" ? a.x : W * 0.89;
+        const deckY = a && typeof a.padDeckY === "number" ? a.padDeckY : H - 40;
+        launchStandY = deckY - 19.7 * launchMatchScale * pxPerUnit;
         launchOrigin.x = startX;
-        launchOrigin.y = startY;
+        launchOrigin.y = launchStandY;
         drone.x = startX;
-        drone.y = startY;
+        drone.y = launchStandY;
         drone.vx = 0;
-        drone.vy = -340;
+        drone.vy = 0;
+        gantryStandSec = origin && typeof origin.standSec === "number" ? origin.standSec : 0.56;
+        gantryIgniteSec = origin && typeof origin.igniteSec === "number" ? origin.igniteSec : 0.94;
+        if (gantryStandSec + gantryIgniteSec > 0.05) {
+          avPhase = "gantry";
+          gantryT = 0;
+        } else {
+          avPhase = "patrolling";
+          drone.vy = -360;
+        }
       }
       drone.bodyBank = 0;
-      drone.headTilt = fromDock ? 0 : -6;
+      drone.headTilt = 0;
       drone.headYaw = 0;
-      drone.headPitch = fromDock ? 0 : -0.5;
+      drone.headPitch = fromDock ? 0 : -0.35;
       drone.antDeg = 0;
       drone.antVel = 0;
       drone.eyeX = 0;
-      drone.eyeY = fromDock ? 0 : -0.7;
+      drone.eyeY = fromDock ? 0 : -0.45;
       drone.curious = 0;
 
-      // Render handoff frame synchronously so there is ZERO 1-frame flash or teleport!
+      // Render takeover frame synchronously so there is ZERO 1-frame flash, shrink, or teleport!
       if (!fromDock) {
         const dx = drone.x - dock.x;
         const dy = drone.y - dock.y;
         btn.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
-        craftG.setAttribute("transform", `scale(${LAUNCH_MATCH_SCALE.toFixed(3)}) rotate(0)`);
-        headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(${drone.headTilt.toFixed(2)})`);
+        craftG.setAttribute("transform", `scale(${launchMatchScale.toFixed(3)}) rotate(0)`);
+        headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(0)`);
         applyFaceYaw(drone.headYaw, drone.headPitch);
-        updateFullBodyKinematics(performance.now(), 1.0, 0, 0, 0);
+        updateFullBodyKinematics(performance.now(), avPhase === "gantry" ? 0 : 1.0, 0, 0, 0, { standPose: 1, wingOpen: 0.42, armFlare: 8 });
       }
     }
 
@@ -939,14 +968,91 @@
       const dt = Math.min(0.05, Math.max(0.001, (now - lastTs) / 1000));
       lastTs = now;
 
-      if (avPhase === "unfolding") {
+      if (avPhase === "gantry") {
+        // Unified Single-Model In-Gantry Sequence: Live-welded to Era 5 launch deck -> Wing Unfold -> Ignition -> Vertical Surge!
+        gantryT += dt;
+        const dock = getDockCenter();
+        if (liveAnchorFn) {
+          const a = liveAnchorFn();
+          if (a && typeof a.padDeckY === "number") {
+            launchScaleS = a.scale;
+            launchMatchScale = 1.2288 * a.scale;
+            flyTargetScale = Math.max(1.54, launchMatchScale * 0.95);
+            launchOrigin.x = a.x;
+            launchStandY = a.padDeckY - 19.7 * launchMatchScale * getPxPerUnit();
+          }
+        }
+        const totalG = gantryStandSec + gantryIgniteSec;
+        let liftPx = 0;
+        let shudderX = 0;
+        let thrust = 0;
+        let standPose = 1;
+        let wingOpen = 0.42;
+        let armFlare = 8;
+        let headLook = 0;
+
+        if (gantryT < gantryStandSec) {
+          const su = clamp01(gantryT / Math.max(0.01, gantryStandSec));
+          const ease = 1 - Math.pow(1 - su, 3);
+          wingOpen = lerp(0.42, 0.92, ease);
+          armFlare = lerp(8, 12, ease);
+          headLook = -ease * 7.5;
+          drone.eyeY = lerp(-0.35, -0.85, ease);
+        } else {
+          const iu = clamp01((gantryT - gantryStandSec) / Math.max(0.01, gantryIgniteSec));
+          wingOpen = lerp(0.92, 1.0, clamp01(iu * 2.5));
+          armFlare = lerp(12, 18, clamp01(iu * 2.2));
+          headLook = -7.5;
+          drone.eyeY = -0.85;
+          if (iu < 0.46) {
+            const p = iu / 0.46;
+            thrust = p * 1.15;
+            shudderX = Math.sin(gantryT * 115) * p * 0.65;
+            standPose = 1;
+          } else {
+            const lu = (iu - 0.46) / 0.54;
+            const ease = 1 - Math.pow(1 - lu, 3);
+            liftPx = ease * 20 * launchScaleS;
+            thrust = 1.15 + lu * 0.35;
+            standPose = 1 - ease;
+          }
+        }
+
+        drone.x = launchOrigin.x + shudderX;
+        drone.y = launchStandY - liftPx;
+        const dx = drone.x - dock.x;
+        const dy = drone.y - dock.y;
+        btn.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
+        craftG.setAttribute("transform", `scale(${launchMatchScale.toFixed(3)}) rotate(0)`);
+        headG.setAttribute("transform", `translate(0, ${FLIGHT_HEAD_Y}) scale(${FLIGHT_HEAD_SCALE}) rotate(${headLook.toFixed(1)})`);
+        applyFaceYaw(0, drone.eyeY * 0.45);
+        eyesTrackG.setAttribute("transform", `translate(0, ${(drone.eyeY * 0.65).toFixed(2)})`);
+        eyeL.setAttribute("fill", "#C9FCE0");
+        eyeR.setAttribute("fill", "#C9FCE0");
+        statusTip.setAttribute("fill", "#2D6A47");
+        chestCore.setAttribute("fill", "#2D6A47");
+        visorAura.setAttribute("opacity", (0.52 + thrust * 0.32).toFixed(2));
+        bodyRigG.setAttribute("opacity", "1");
+        updateFullBodyKinematics(now, thrust, 0, 0, 0, { standPose, wingOpen, armFlare });
+        stepSpringAntenna(dt, -shudderX * 4 - headLook * 0.35);
+
+        const leftHome = AgentBlog.getView && AgentBlog.getView() !== "home";
+        if (leftHome || gantryT >= totalG) {
+          avPhase = "patrolling";
+          patrolT = 0;
+          drone.vx = 0;
+          drone.vy = -380;
+          drone.headTilt = headLook;
+          launchOrigin.y = drone.y;
+        }
+      } else if (avPhase === "unfolding") {
         foldT += dt;
         const u = clamp01(foldT / 0.40);
         const ease = 1 - Math.pow(1 - u, 3);
         const curHx = lerp(unfoldStart.hx, 0, ease);
         const curHy = lerp(unfoldStart.hy, 0, ease);
         const curHrot = lerp(unfoldStart.hrot, 0, ease);
-        const curScale = lerp(1.0, FLY_SCALE, ease);
+        const curScale = lerp(1.0, flyTargetScale, ease);
 
         craftG.setAttribute("transform", `translate(${curHx.toFixed(2)}, ${curHy.toFixed(2)}) scale(${curScale.toFixed(3)}) rotate(${curHrot.toFixed(2)})`);
         bodyRigG.setAttribute("opacity", ease.toFixed(2));
@@ -1001,7 +1107,7 @@
         const dy = drone.y + hoverBobY - dock.y;
         btn.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
 
-        const riseScale = patrolIsReRun ? FLY_SCALE : lerp(LAUNCH_MATCH_SCALE, FLY_SCALE, smooth(0.0, 0.75, patrolT));
+        const riseScale = patrolIsReRun ? flyTargetScale : lerp(launchMatchScale, flyTargetScale, smooth(0.0, 0.75, patrolT));
         const flyScale = lerp(riseScale, 1.0, clamp01((patrolT - (totalDur - 0.65)) / 0.65));
         // Subtle Pixar aerodynamic ascent stretch during vertical rocket surge!
         const ascentStretch = clamp01(-drone.vy / 560) * 0.072;

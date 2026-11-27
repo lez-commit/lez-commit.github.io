@@ -1529,7 +1529,7 @@
             b4 = 2;
           }
         } else if (b5 === 1) {
-          // Era 5 Beat A (~1.94s): Tall Heroic Upright Suit-Up Convergence inside Launch Gantry -> Umbilical Clamps Open!
+          // Era 5 Beat A (~1.94s): Tall Heroic Upright Suit-Up Convergence inside Launch Gantry -> Unified Ver.Ka Takeover at Lock-In!
           b5t += dt * 0.64;
           posX = x5;
           activeEraIdx = 4;
@@ -1549,17 +1549,41 @@
             lockSparkTimer = 0.28;
             triggerImpact(0.040, 1.8);
             pingStoryTwigs(4);
+            // Hand off at the EXACT armor lock-in flash so ONE SINGLE Ver.Ka Gundam model stands, ignites & flies seamlessly!
+            if (!handoffStarted && typeof AgentBlog.onMechLiftoff === "function") {
+              handoffStarted = true;
+              waitingForDock = true;
+              const getAnchor = () => {
+                const lr = evoLayerEl.getBoundingClientRect();
+                const cw = evoLayerEl.clientWidth || 1280;
+                const cSpan = Math.max(240, cw - 18) - 14;
+                const cS = getScale(cSpan);
+                const cX5 = 14 + cSpan * 0.89;
+                return { x: lr.left + cX5, padDeckY: lr.top + BASE_Y - 3.5 * cS, scale: cS };
+              };
+              const a0 = getAnchor();
+              botGroup.setAttribute("opacity", "0");
+              AgentBlog.onMechLiftoff({
+                x: a0.x,
+                padDeckY: a0.padDeckY,
+                scale: a0.scale,
+                getAnchor,
+                standSec: (1.24 - 0.88) / 0.64,
+                igniteSec: 0.68 / 0.72,
+                forcePatrol: true
+              });
+            }
           }
           if (b5t >= 0.88) {
             headNodDeg = Math.sin(clamp01((b5t - 0.88) / 0.30) * Math.PI) * 9;
           }
-          // Directly transition into upright in-gantry vertical ignition right as clamps finish swinging open!
+          // Directly transition into in-gantry ignition FX (trench glow + horizontal steam plumes + shockwave)!
           if (b5t >= 1.24) {
             b5 = 3;
             b5t = 0;
           }
         } else if (b5 === 3) {
-          // Era 5 Beat B (~0.94s): Tall Upright Ignition Thrust (no awkward squat!) -> Hover Surge -> Unified Aerial Liftoff!
+          // Era 5 Beat B (~0.94s): Launch Gantry Ignition FX synced 1:1 with the unified Ver.Ka Gundam lifting vertically!
           b5t += dt * 0.72;
           posX = x5;
           activeEraIdx = 4;
@@ -1568,37 +1592,36 @@
           armPose = "launch";
           if (b5t < 0.32) {
             const u = clamp01(b5t / 0.32);
-            crouchY = Math.sin(u * Math.PI * 0.5) * 0.65;
-            // Subtle high-frequency thruster ignition shudder before vertical launch!
-            visualDX = Math.sin(b5t * 115) * u * 0.42;
             jetPower = u * 0.95;
           } else if (b5t < 0.68) {
             const u = clamp01((b5t - 0.32) / 0.36);
-            crouchY = lerp(0.65, 0, clamp01(u * 3.5));
             const ease = 1 - Math.pow(1 - Math.min(1, u * 1.45), 3);
-            launchLiftY = ease * 14.0 + Math.sin(u * Math.PI * 2.4) * 0.5;
+            launchLiftY = ease * 14.0;
             jetPower = 1.05 + u * 0.35;
           } else {
-            // Bidirectional Hero Liftoff (works BOTH on first run AND on every user-summoned replay!):
-            crouchY = 0;
             launchLiftY = 14.0;
             jetPower = 1.4;
+            handoffTrailT = 0;
+            b5 = 4;
+            if (!sonicHitDone) {
+              sonicHitDone = true;
+              shakeAmp = Math.max(shakeAmp, 2.2);
+            }
+            syncEraCaptions(-1, false);
             if (!handoffStarted) {
               handoffStarted = true;
               waitingForDock = true;
-              handoffTrailT = 0;
-              b5 = 4;
-              if (!sonicHitDone) {
-                sonicHitDone = true;
-                shakeAmp = Math.max(shakeAmp, 2.2);
-              }
-              syncEraCaptions(-1, false);
               const lr = evoLayerEl.getBoundingClientRect();
-              const worldX = lr.left + x5;
-              const worldY = lr.top + BASE_Y - (launchLiftY + 3.5 + 17.5) * S;
               botGroup.setAttribute("opacity", "0");
               if (typeof AgentBlog.onMechLiftoff === "function") {
-                AgentBlog.onMechLiftoff({ x: worldX, y: worldY, padX: lr.left + x5, padY: lr.top + BASE_Y, forcePatrol: true });
+                AgentBlog.onMechLiftoff({
+                  x: lr.left + x5,
+                  padDeckY: lr.top + BASE_Y - 3.5 * S,
+                  scale: S,
+                  standSec: 0,
+                  igniteSec: 0,
+                  forcePatrol: true
+                });
               } else if (typeof AgentBlog.onMechExitedTop === "function") {
                 AgentBlog.onMechExitedTop();
               }
@@ -2210,7 +2233,7 @@
         const isMk1 = !hasBrain;
         const isMk4 = gogglesW > 0.5;
         const keyW = hasBrain ? 0 : 1 - smooth(0.95, 1.22, evo); // Wind-up key fades as brain takes over!
-        const edgeFade = b5 === 4
+        const edgeFade = handoffStarted || b5 === 4
           ? 0
           : b5 === 3
           ? (b5t > 0.64 ? 1 - smooth(1.05, 1.54, b5t) : 1)

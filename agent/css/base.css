@@ -110,7 +110,7 @@ body.view-home .site-shell {
   background-color: var(--paper);
   position: sticky;
   top: 0;
-  z-index: 40;
+  z-index: 45;
 }
 
 .brand-cluster {
