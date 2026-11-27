@@ -43,7 +43,7 @@
   /* Fluid Vertical Budget Tokens (strictly tuned for 1280x700 – 1440x900) */
   --nav-h: clamp(42px, 5.6vh, 48px);
   --era-foot-h: 26px;
-  --era-runway-pb: 74px;
+  --era-runway-pb: 78px;
   --dock-h: clamp(124px, 16.5vh, 136px);
   --page-px: clamp(18px, 2.4vw, 32px);
 }

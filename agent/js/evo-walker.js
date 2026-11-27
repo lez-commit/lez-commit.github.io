@@ -23,9 +23,12 @@
       return node;
     };
 
-    const BASE_Y = 72;
-    const getScale = (span) => Math.min(1.44, Math.max(1.06, (span / 1180) * 1.44));
-    let S = 1.40; // Dynamically scaled per viewport (1.06 on narrow split-pane -> 1.44 on desktop!)
+    const BASE_Y = 76;
+    const getScale = (span) => {
+      const t = Math.max(0, Math.min(1, (span - 600) / 620));
+      return 1.32 + t * 0.32; // 1.32 on narrow split-pane -> 1.50 on 1000px -> 1.64 on desktop!
+    };
+    let S = 1.56; // Dynamically enlarged across every viewport using the freed footer vertical budget!
     const svg = mk("svg", { class: "evo-svg", "shape-rendering": "geometricPrecision" }, evoLayerEl);
     const defs = mk("defs", null, svg);
 
