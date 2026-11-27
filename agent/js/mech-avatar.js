@@ -960,7 +960,7 @@
           bodyRigG.removeAttribute("transform");
         }
       } else if (avPhase === "patrolling") {
-        patrolT += dt;
+        patrolT += dt * 0.80;
         const W = window.innerWidth;
         const H = window.innerHeight;
         const dock = getDockCenter();
