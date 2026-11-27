@@ -137,6 +137,11 @@
     mk("stop", { offset: "45%", "stop-color": "#181715" }, visorGrad);
     mk("stop", { offset: "100%", "stop-color": "#11100F" }, visorGrad);
 
+    const gunmetalGrad = mk("linearGradient", { id: "agent-gunmetal-grad", x1: "0%", y1: "0%", x2: "100%", y2: "100%" }, defs);
+    mk("stop", { offset: "0%", "stop-color": "#45413C" }, gunmetalGrad);
+    mk("stop", { offset: "55%", "stop-color": "#2B2825" }, gunmetalGrad);
+    mk("stop", { offset: "100%", "stop-color": "#1A1816" }, gunmetalGrad);
+
     const nozzleHaloGrad = mk("radialGradient", { id: "agent-nozzle-halo", cx: "50%", cy: "50%", r: "50%" }, defs);
     mk("stop", { offset: "0%", "stop-color": "#C9FFE2", "stop-opacity": "0.78" }, nozzleHaloGrad);
     mk("stop", { offset: "55%", "stop-color": "#2D6A47", "stop-opacity": "0.22" }, nozzleHaloGrad);
@@ -164,156 +169,226 @@
     const craftG = mk("g", null, svg);
 
     // =====================================================================
-    // STUDIO-CRAFTED ERA 5 FULL ROBOT BODY (Retracts cleanly into CRT Head on Dock!)
-    // Matte porcelain gradients + dark anodized joints + rounded articulated aero-wings +
-    // 2.5D parallax chest + independent articulated knees + Mach-diamond plasma plumes!
+    // HARDCORE TACTICAL MECH ARMOR (Ver.Ka / Mark-85 Ceramic + Gunmetal Frame)
+    // Multi-layered angular wing-binders + chamfered shoulder pauldrons +
+    // faceted pectoral chest & skirt armor + knee shields + vernier greaves!
     // =====================================================================
     const bodyRigG = mk("g", { class: "mech-body-rig", opacity: "0" }, craftG);
 
-    // --- Articulated Rounded-Aerofoil Flight Wing-Pack (unfolds smoothly at liftoff & sweeps with speed!) ---
+    // --- Hardcore Twin Aerospace Wing-Binders (swept angular blades + gunmetal sub-flaps + plasma vents!) ---
     const packG = mk("g", null, bodyRigG);
-    // Left articulated aerofoil wing
+    // Left angular twin-blade wing-binder
     const wingL = mk("g", null, packG);
+    // Lower dark-gunmetal stabilizer sub-wing
     mk("path", {
-      d: "M -4.0,-1.0 C -6.8,-2.5 -9.5,-3.6 -10.9,-2.7 C -11.6,-2.2 -11.3,-0.6 -10.1,0.9 C -9.0,2.2 -7.4,2.8 -5.5,2.4 L -4.0,1.9 Z",
+      d: "M -4.2,0.4 L -11.4,1.2 L -9.6,3.4 L -4.2,2.4 Z",
+      fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-linejoin": "round"
+    }, wingL);
+    // Upper swept chamfered ceramic main wing-binder blade
+    mk("path", {
+      d: "M -3.8,-1.2 L -11.8,-5.2 L -13.0,-3.4 L -10.8,0.6 L -6.2,1.6 L -3.8,1.2 Z",
       fill: "url(#agent-armor-back)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round"
     }, wingL);
-    mk("path", { d: "M -5.4,-1.0 C -7.4,-1.9 -9.0,-2.5 -10.1,-2.1", fill: "none", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, wingL);
-    mk("circle", { cx: "-10.1", cy: "-2.0", r: "0.45", fill: "#B5F5D4" }, wingL);
-    mk("path", { d: "M -5.6,0.9 L -8.6,0.6", fill: "none", stroke: "#1D1B18", "stroke-width": "0.45", "stroke-opacity": "0.35", "stroke-linecap": "round" }, wingL);
+    // Recessed dark thruster duct + glowing bamboo plasma edge slit
+    mk("polygon", { points: "-5.2,-1.1 -11.2,-4.0 -10.4,-2.2 -5.4,0.1", fill: "#2B2825" }, wingL);
+    mk("line", { x1: "-5.8", y1: "-0.8", x2: "-10.5", y2: "-3.1", stroke: "#5CE09B", "stroke-width": "0.72", "stroke-linecap": "round" }, wingL);
 
-    // Right articulated aerofoil wing
+    // Right angular twin-blade wing-binder
     const wingR = mk("g", null, packG);
     mk("path", {
-      d: "M 4.0,-1.0 C 6.8,-2.5 9.5,-3.6 10.9,-2.7 C 11.6,-2.2 11.3,-0.6 10.1,0.9 C 9.0,2.2 7.4,2.8 5.5,2.4 L 4.0,1.9 Z",
+      d: "M 4.2,0.4 L 11.4,1.2 L 9.6,3.4 L 4.2,2.4 Z",
+      fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-linejoin": "round"
+    }, wingR);
+    mk("path", {
+      d: "M 3.8,-1.2 L 11.8,-5.2 L 13.0,-3.4 L 10.8,0.6 L 6.2,1.6 L 3.8,1.2 Z",
       fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round"
     }, wingR);
-    mk("path", { d: "M 5.4,-1.0 C 7.4,-1.9 9.0,-2.5 10.1,-2.1", fill: "none", stroke: "#2D6A47", "stroke-width": "0.72", "stroke-linecap": "round" }, wingR);
-    mk("circle", { cx: "10.1", cy: "-2.0", r: "0.45", fill: "#B5F5D4" }, wingR);
-    mk("path", { d: "M 5.6,0.9 L 8.6,0.6", fill: "none", stroke: "#1D1B18", "stroke-width": "0.45", "stroke-opacity": "0.35", "stroke-linecap": "round" }, wingR);
+    mk("line", { x1: "5.2", y1: "-1.5", x2: "11.5", y2: "-4.6", stroke: "#FFFFFF", "stroke-width": "0.55", "stroke-opacity": "0.85", "stroke-linecap": "round" }, wingR);
+    mk("polygon", { points: "5.2,-1.1 11.2,-4.0 10.4,-2.2 5.4,0.1", fill: "#2B2825" }, wingR);
+    mk("line", { x1: "5.8", y1: "-0.8", x2: "10.5", y2: "-3.1", stroke: "#5CE09B", "stroke-width": "0.72", "stroke-linecap": "round" }, wingR);
 
-    // --- Articulated 2-Bone Heroic Mecha Legs (Independent Knee Bend + Mach-Diamond Thruster Boots!) ---
+    // --- Heavy Armored 2-Bone Mecha Legs (Faceted Thighs + Angular Knee Shields + Flared Vernier Greaves!) ---
     const legsG = mk("g", null, bodyRigG);
 
-    // Left / Rear articulated leg
+    // Left / Rear heavy armored leg
     const legL = mk("g", null, legsG);
-    mk("circle", { cx: "-2.5", cy: "10.6", r: "1.1", fill: "#2B2825" }, legL);
+    mk("circle", { cx: "-2.6", cy: "10.6", r: "1.15", fill: "url(#agent-gunmetal-grad)" }, legL);
+    // Faceted angular thigh armor plate
     mk("path", {
-      d: "M -3.7,10.8 Q -3.7,10.1 -2.5,10.1 Q -1.3,10.1 -1.3,10.8 L -1.6,13.9 L -3.5,13.9 Z",
+      d: "M -4.0,10.6 L -1.4,10.6 L -1.6,13.9 L -3.7,14.2 L -4.3,12.2 Z",
       fill: "url(#agent-armor-back)", stroke: "#1D1B18", "stroke-width": "0.76", "stroke-linejoin": "round"
     }, legL);
-    mk("circle", { cx: "-2.55", cy: "14.0", r: "1.08", fill: "#2B2825" }, legL);
-    // Articulated lower shin + boot pivoted at knee (-2.55, 14.0)
+    mk("line", { x1: "-3.7", y1: "12.2", x2: "-1.8", y2: "12.0", stroke: "#1D1B18", "stroke-width": "0.42", "stroke-opacity": "0.4" }, legL);
+    mk("circle", { cx: "-2.65", cy: "14.1", r: "1.1", fill: "url(#agent-gunmetal-grad)" }, legL);
+    // Articulated lower greave + angular knee shield + vernier boot pivoted at knee (-2.65, 14.1)
     const shinL = mk("g", null, legL);
     const jetBootLG = mk("g", { opacity: "0" }, shinL);
-    mk("ellipse", { cx: "-2.55", cy: "19.0", rx: "2.6", ry: "1.7", fill: "url(#agent-nozzle-halo)" }, jetBootLG);
+    mk("ellipse", { cx: "-2.65", cy: "19.3", rx: "2.8", ry: "1.8", fill: "url(#agent-nozzle-halo)" }, jetBootLG);
     const jetBootL = mk("path", { fill: "url(#agent-jet-grad)" }, jetBootLG);
     const jetBootLCore = mk("path", { fill: "#EBFFF3", "fill-opacity": "0.95" }, jetBootLG);
-    const machL1 = mk("ellipse", { cx: "-2.55", cy: "21.5", rx: "0.95", ry: "0.34", fill: "#EBFFF3", opacity: "0.85" }, jetBootLG);
+    const machL1 = mk("ellipse", { cx: "-2.65", cy: "21.8", rx: "0.98", ry: "0.35", fill: "#EBFFF3", opacity: "0.86" }, jetBootLG);
+    // Flared aerospace shin greave + outer vernier stabilizer fin
     mk("path", {
-      d: "M -3.65,14.4 L -1.45,14.4 L -0.95,18.2 Q -2.55,18.85 -4.15,18.2 Z",
+      d: "M -3.9,14.5 L -1.3,14.5 L -0.9,18.5 L -2.65,19.1 L -4.6,18.4 L -4.4,16.1 Z",
       fill: "url(#agent-armor-back)", stroke: "#1D1B18", "stroke-width": "0.80", "stroke-linejoin": "round"
     }, shinL);
-    mk("line", { x1: "-3.5", y1: "16.6", x2: "-1.5", y2: "16.6", stroke: "#1D1B18", "stroke-width": "0.45", "stroke-opacity": "0.38" }, shinL);
-    mk("ellipse", { cx: "-2.55", cy: "18.55", rx: "1.32", ry: "0.48", fill: "#1D1B18" }, shinL);
-    mk("ellipse", { cx: "-2.55", cy: "18.62", rx: "0.96", ry: "0.35", fill: "#C9FFE2" }, shinL);
+    // Sharp angular knee armor guard jutting over knee joint
+    mk("polygon", {
+      points: "-3.6,13.4 -1.7,13.4 -1.9,15.3 -2.65,15.8 -3.4,15.3",
+      fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-linejoin": "round"
+    }, shinL);
+    // Ankle armor seam + bamboo vent pip
+    mk("path", { d: "M -4.2,17.2 L -1.2,17.2", fill: "none", stroke: "#1D1B18", "stroke-width": "0.5", "stroke-opacity": "0.45" }, shinL);
+    mk("line", { x1: "-4.1", y1: "15.8", x2: "-4.1", y2: "16.7", stroke: "#2D6A47", "stroke-width": "0.65", "stroke-linecap": "round" }, shinL);
+    mk("ellipse", { cx: "-2.65", cy: "18.85", rx: "1.40", ry: "0.50", fill: "#1D1B18" }, shinL);
+    mk("ellipse", { cx: "-2.65", cy: "18.92", rx: "1.02", ry: "0.36", fill: "#C9FFE2" }, shinL);
 
-    // Right / Front articulated leg (porcelain sunlit front leg!)
+    // Right / Front heavy armored leg (sunlit porcelain + crisp metallic specular edges!)
     const legR = mk("g", null, legsG);
-    mk("circle", { cx: "2.5", cy: "10.6", r: "1.1", fill: "#2B2825" }, legR);
+    mk("circle", { cx: "2.6", cy: "10.6", r: "1.15", fill: "url(#agent-gunmetal-grad)" }, legR);
     mk("path", {
-      d: "M 1.3,10.8 Q 1.3,10.1 2.5,10.1 Q 3.7,10.1 3.7,10.8 L 3.5,14.4 L 1.6,14.4 Z",
+      d: "M 1.4,10.6 L 4.0,10.6 L 4.3,12.4 L 3.7,14.6 L 1.6,14.4 Z",
       fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round"
     }, legR);
-    mk("line", { x1: "1.9", y1: "11.2", x2: "1.9", y2: "13.4", stroke: "#FFFFFF", "stroke-width": "0.52", "stroke-opacity": "0.75", "stroke-linecap": "round" }, legR);
-    mk("circle", { cx: "2.55", cy: "14.5", r: "1.1", fill: "#2B2825" }, legR);
-    // Articulated lower shin + boot pivoted at knee (2.55, 14.5)
+    mk("line", { x1: "2.0", y1: "11.1", x2: "2.0", y2: "13.5", stroke: "#FFFFFF", "stroke-width": "0.52", "stroke-opacity": "0.82", "stroke-linecap": "round" }, legR);
+    mk("line", { x1: "1.8", y1: "12.4", x2: "3.8", y2: "12.6", stroke: "#1D1B18", "stroke-width": "0.42", "stroke-opacity": "0.38" }, legR);
+    mk("circle", { cx: "2.65", cy: "14.6", r: "1.12", fill: "url(#agent-gunmetal-grad)" }, legR);
+    // Articulated lower greave + angular knee shield + vernier boot pivoted at knee (2.65, 14.6)
     const shinR = mk("g", null, legR);
     const jetBootRG = mk("g", { opacity: "0" }, shinR);
-    mk("ellipse", { cx: "2.55", cy: "20.1", rx: "2.8", ry: "1.8", fill: "url(#agent-nozzle-halo)" }, jetBootRG);
+    mk("ellipse", { cx: "2.65", cy: "20.4", rx: "3.0", ry: "1.9", fill: "url(#agent-nozzle-halo)" }, jetBootRG);
     const jetBootR = mk("path", { fill: "url(#agent-jet-grad)" }, jetBootRG);
     const jetBootRCore = mk("path", { fill: "#EBFFF3", "fill-opacity": "0.95" }, jetBootRG);
-    const machR1 = mk("ellipse", { cx: "2.55", cy: "22.8", rx: "1.0", ry: "0.36", fill: "#EBFFF3", opacity: "0.88" }, jetBootRG);
+    const machR1 = mk("ellipse", { cx: "2.65", cy: "23.1", rx: "1.04", ry: "0.37", fill: "#EBFFF3", opacity: "0.88" }, jetBootRG);
     mk("path", {
-      d: "M 1.4,15.0 L 3.7,15.0 L 4.25,19.4 Q 2.55,20.05 0.85,19.4 Z",
+      d: "M 1.3,15.0 L 3.9,15.0 L 4.5,16.8 L 4.65,19.6 L 2.65,20.3 L 0.85,19.6 Z",
       fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round"
     }, shinR);
-    mk("line", { x1: "1.7", y1: "15.8", x2: "1.4", y2: "18.6", stroke: "#FFFFFF", "stroke-width": "0.55", "stroke-opacity": "0.72", "stroke-linecap": "round" }, shinR);
-    mk("line", { x1: "1.4", y1: "17.4", x2: "3.7", y2: "17.4", stroke: "#1D1B18", "stroke-width": "0.45", "stroke-opacity": "0.38" }, shinR);
-    mk("ellipse", { cx: "2.55", cy: "19.7", rx: "1.40", ry: "0.52", fill: "#1D1B18" }, shinR);
-    mk("ellipse", { cx: "2.55", cy: "19.78", rx: "1.02", ry: "0.38", fill: "#C9FFE2" }, shinR);
+    mk("line", { x1: "1.6", y1: "16.0", x2: "1.35", y2: "18.8", stroke: "#FFFFFF", "stroke-width": "0.55", "stroke-opacity": "0.78", "stroke-linecap": "round" }, shinR);
+    // Sharp angular knee armor shield (dark titanium centerpiece + white specular ridge)
+    mk("polygon", {
+      points: "1.7,13.8 3.6,13.8 3.4,15.8 2.65,16.3 1.9,15.8",
+      fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-linejoin": "round"
+    }, shinR);
+    mk("line", { x1: "2.2", y1: "14.4", x2: "3.1", y2: "14.4", stroke: "#5CE09B", "stroke-width": "0.55", "stroke-linecap": "round" }, shinR);
+    mk("path", { d: "M 1.2,17.8 L 4.2,17.8", fill: "none", stroke: "#1D1B18", "stroke-width": "0.5", "stroke-opacity": "0.42" }, shinR);
+    mk("line", { x1: "4.1", y1: "16.4", x2: "4.1", y2: "17.3", stroke: "#2D6A47", "stroke-width": "0.65", "stroke-linecap": "round" }, shinR);
+    mk("ellipse", { cx: "2.65", cy: "20.0", rx: "1.46", ry: "0.53", fill: "#1D1B18" }, shinR);
+    mk("ellipse", { cx: "2.65", cy: "20.08", rx: "1.06", ry: "0.39", fill: "#C9FFE2" }, shinR);
 
-    // --- Sculpted Porcelain Capsule Arms + Repulsor Gauntlets (dark anodized joints + palm glow halos!) ---
+    // --- Hardcore Layered Shoulder Pauldrons + Heavy Armored Repulsor Vambraces ---
     const armL = mk("g", null, bodyRigG);
     const jetPalmLG = mk("g", { opacity: "0" }, armL);
-    mk("circle", { cx: "-9.7", cy: "9.2", r: "2.2", fill: "url(#agent-nozzle-halo)" }, jetPalmLG);
+    mk("circle", { cx: "-9.9", cy: "9.4", r: "2.3", fill: "url(#agent-nozzle-halo)" }, jetPalmLG);
     const jetPalmL = mk("path", { fill: "url(#agent-jet-grad)" }, jetPalmLG);
     const jetPalmLCore = mk("path", { fill: "#EBFFF3", "fill-opacity": "0.95" }, jetPalmLG);
-    mk("line", { x1: "-5.7", y1: "0.4", x2: "-7.9", y2: "4.2", stroke: "#2B2825", "stroke-width": "1.85", "stroke-linecap": "round" }, armL);
-    mk("circle", { cx: "-7.9", cy: "4.2", r: "1.05", fill: "#2B2825" }, armL);
+    // Heavy dark-gunmetal upper arm actuator & elbow block
+    mk("line", { x1: "-5.8", y1: "0.5", x2: "-8.1", y2: "4.3", stroke: "#2B2825", "stroke-width": "2.0", "stroke-linecap": "round" }, armL);
+    mk("rect", { x: "-9.1", y: "3.3", width: "2.1", height: "2.0", rx: "0.5", fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.5" }, armL);
+    // Layered angular Gundam-style Shoulder Pauldron (raised outer flange + gunmetal under-plate + bamboo stripe)
     mk("path", {
-      d: "M -4.8,-1.3 Q -7.2,-1.2 -7.4,1.2 Q -7.4,2.2 -5.8,2.1 Q -4.8,2.0 -4.8,0.6 Z",
-      fill: "url(#agent-armor-back)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round"
+      d: "M -4.7,-1.5 L -7.6,-2.1 L -8.6,0.5 L -7.5,2.4 L -5.0,1.9 Z",
+      fill: "url(#agent-armor-back)", stroke: "#1D1B18", "stroke-width": "0.80", "stroke-linejoin": "round"
     }, armL);
+    mk("polygon", { points: "-7.6,-1.6 -8.3,0.4 -7.3,2.0 -6.6,1.6 -7.2,0.1", fill: "#2B2825" }, armL);
+    mk("line", { x1: "-5.4", y1: "-0.7", x2: "-7.3", y2: "-1.1", stroke: "#2D6A47", "stroke-width": "0.62", "stroke-linecap": "round" }, armL);
+    // Heavy angular armored forearm vambrace gauntlet
     mk("path", {
-      d: "M -7.0,3.9 L -8.8,4.7 L -10.7,8.5 Q -9.9,9.5 -8.5,8.8 L -6.8,5.1 Z",
-      fill: "url(#agent-armor-back)", stroke: "#1D1B18", "stroke-width": "0.78", "stroke-linejoin": "round"
+      d: "M -7.1,3.7 L -9.3,4.6 L -11.3,8.5 L -9.8,9.6 L -8.1,8.7 L -6.6,5.2 Z",
+      fill: "url(#agent-armor-back)", stroke: "#1D1B18", "stroke-width": "0.80", "stroke-linejoin": "round"
     }, armL);
-    mk("line", { x1: "-8.2", y1: "6.4", x2: "-9.6", y2: "7.0", stroke: "#2D6A47", "stroke-width": "0.66", "stroke-linecap": "round" }, armL);
-    mk("circle", { cx: "-9.6", cy: "9.0", r: "1.12", fill: "#1D1B18" }, armL);
-    mk("circle", { cx: "-9.6", cy: "9.0", r: "0.76", fill: "#C9FFE2" }, armL);
-    mk("circle", { cx: "-9.6", cy: "9.0", r: "0.34", fill: "#FFFFFF" }, armL);
+    mk("line", { x1: "-8.2", y1: "5.8", x2: "-10.1", y2: "6.6", stroke: "#2D6A47", "stroke-width": "0.68", "stroke-linecap": "round" }, armL);
+    mk("line", { x1: "-8.8", y1: "7.1", x2: "-10.4", y2: "7.8", stroke: "#1D1B18", "stroke-width": "0.45", "stroke-opacity": "0.45" }, armL);
+    mk("circle", { cx: "-9.8", cy: "9.2", r: "1.18", fill: "#1D1B18" }, armL);
+    mk("circle", { cx: "-9.8", cy: "9.2", r: "0.78", fill: "#C9FFE2" }, armL);
+    mk("circle", { cx: "-9.8", cy: "9.2", r: "0.35", fill: "#FFFFFF" }, armL);
 
     const armR = mk("g", null, bodyRigG);
     const jetPalmRG = mk("g", { opacity: "0" }, armR);
-    mk("circle", { cx: "9.7", cy: "9.2", r: "2.2", fill: "url(#agent-nozzle-halo)" }, jetPalmRG);
+    mk("circle", { cx: "9.9", cy: "9.4", r: "2.3", fill: "url(#agent-nozzle-halo)" }, jetPalmRG);
     const jetPalmR = mk("path", { fill: "url(#agent-jet-grad)" }, jetPalmRG);
     const jetPalmRCore = mk("path", { fill: "#EBFFF3", "fill-opacity": "0.95" }, jetPalmRG);
-    mk("line", { x1: "5.7", y1: "0.4", x2: "7.9", y2: "4.2", stroke: "#2B2825", "stroke-width": "1.85", "stroke-linecap": "round" }, armR);
-    mk("circle", { cx: "7.9", cy: "4.2", r: "1.05", fill: "#2B2825" }, armR);
+    mk("line", { x1: "5.8", y1: "0.5", x2: "8.1", y2: "4.3", stroke: "#2B2825", "stroke-width": "2.0", "stroke-linecap": "round" }, armR);
+    mk("rect", { x: "7.0", y: "3.3", width: "2.1", height: "2.0", rx: "0.5", fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.5" }, armR);
+    // Layered angular Gundam-style Shoulder Pauldron (right)
     mk("path", {
-      d: "M 4.8,-1.3 Q 7.2,-1.2 7.4,1.2 Q 7.4,2.2 5.8,2.1 Q 4.8,2.0 4.8,0.6 Z",
-      fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.80", "stroke-linejoin": "round"
+      d: "M 4.7,-1.5 L 7.6,-2.1 L 8.6,0.5 L 7.5,2.4 L 5.0,1.9 Z",
+      fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round"
     }, armR);
-    mk("path", { d: "M 5.4,-0.5 Q 6.4,-0.4 6.6,0.6", fill: "none", stroke: "#FFFFFF", "stroke-width": "0.52", "stroke-opacity": "0.8", "stroke-linecap": "round" }, armR);
+    mk("polygon", { points: "7.6,-1.6 8.3,0.4 7.3,2.0 6.6,1.6 7.2,0.1", fill: "#2B2825" }, armR);
+    mk("line", { x1: "5.4", y1: "-0.7", x2: "7.3", y2: "-1.1", stroke: "#2D6A47", "stroke-width": "0.62", "stroke-linecap": "round" }, armR);
+    // Heavy angular armored forearm vambrace gauntlet (right)
     mk("path", {
-      d: "M 7.0,3.9 L 8.8,4.7 L 10.7,8.5 Q 9.9,9.5 8.5,8.8 L 6.8,5.1 Z",
-      fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.80", "stroke-linejoin": "round"
+      d: "M 7.1,3.7 L 9.3,4.6 L 11.3,8.5 L 9.8,9.6 L 8.1,8.7 L 6.6,5.2 Z",
+      fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round"
     }, armR);
-    mk("line", { x1: "8.2", y1: "6.4", x2: "9.6", y2: "7.0", stroke: "#2D6A47", "stroke-width": "0.66", "stroke-linecap": "round" }, armR);
-    mk("circle", { cx: "9.6", cy: "9.0", r: "1.12", fill: "#1D1B18" }, armR);
-    mk("circle", { cx: "9.6", cy: "9.0", r: "0.76", fill: "#C9FFE2" }, armR);
-    mk("circle", { cx: "9.6", cy: "9.0", r: "0.34", fill: "#FFFFFF" }, armR);
+    mk("line", { x1: "8.2", y1: "5.8", x2: "10.1", y2: "6.6", stroke: "#2D6A47", "stroke-width": "0.68", "stroke-linecap": "round" }, armR);
+    mk("line", { x1: "8.8", y1: "7.1", x2: "10.4", y2: "7.8", stroke: "#1D1B18", "stroke-width": "0.45", "stroke-opacity": "0.45" }, armR);
+    mk("circle", { cx: "9.8", cy: "9.2", r: "1.18", fill: "#1D1B18" }, armR);
+    mk("circle", { cx: "9.8", cy: "9.2", r: "0.78", fill: "#C9FFE2" }, armR);
+    mk("circle", { cx: "9.8", cy: "9.2", r: "0.35", fill: "#FFFFFF" }, armR);
 
-    // --- Sculpted Porcelain Heroic Chest Armor + Seamless Ball-Neck + 2.5D Parallax Arc Core ---
+    // --- Hardcore Faceted Pectoral Chest Armor + High Collar + Segmented Abs + Armored Skirt Pelvis ---
     const torsoG = mk("g", null, bodyRigG);
+    // Armored high mechanical collar + dark hydraulic neck piston (zero gap under chin!)
     mk("path", {
-      d: "M -2.2,-4.4 L 2.2,-4.4 L 2.7,-1.2 L -2.7,-1.2 Z",
-      fill: "#2B2825", stroke: "#1D1B18", "stroke-width": "0.6", "stroke-linejoin": "round"
+      d: "M -2.3,-4.4 L 2.3,-4.4 L 2.9,-1.2 L -2.9,-1.2 Z",
+      fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.6", "stroke-linejoin": "round"
     }, torsoG);
-    mk("line", { x1: "-1.5", y1: "-2.7", x2: "1.5", y2: "-2.7", stroke: "#FAF8F4", "stroke-width": "0.45", "stroke-opacity": "0.35", "stroke-linecap": "round" }, torsoG);
-    mk("rect", { x: "-2.8", y: "6.8", width: "5.6", height: "2.6", rx: "0.9", fill: "#2B2825" }, torsoG);
     mk("path", {
-      d: "M -3.9,8.7 L 3.9,8.7 L 3.2,10.7 Q 0,11.5 -3.2,10.7 Z",
-      fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.80", "stroke-linejoin": "round"
+      d: "M -4.0,-1.5 L -3.2,-2.9 L -1.8,-2.5 L -1.8,-1.5 M 4.0,-1.5 L 3.2,-2.9 L 1.8,-2.5 L 1.8,-1.5",
+      fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.68", "stroke-linejoin": "round"
     }, torsoG);
-    // Unified Heroic Tapered Porcelain Chest Shell
+    // Segmented gunmetal armored abdominal core with twin titanium rib plates
+    mk("rect", { x: "-3.1", y: "6.3", width: "6.2", height: "3.2", rx: "0.7", fill: "url(#agent-gunmetal-grad)" }, torsoG);
     mk("path", {
-      d: "M -4.2,-1.6 L 4.2,-1.6 Q 5.5,-1.6 5.4,-0.1 L 4.3,6.3 Q 4.1,7.4 2.9,7.4 L -2.9,7.4 Q -4.1,7.4 -4.3,6.3 L -5.4,-0.1 Q -5.5,-1.6 -4.2,-1.6 Z",
+      d: "M -2.4,7.3 L 2.4,7.3 M -2.2,8.4 L 2.2,8.4",
+      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.52", "stroke-opacity": "0.38", "stroke-linecap": "round"
+    }, torsoG);
+    // Hardcore Angular Mech Skirt Armor (Front codpiece + left/right hip tassets!)
+    mk("polygon", {
+      points: "-4.4,8.6 -1.5,8.6 -1.8,11.1 -4.7,10.5",
+      fill: "url(#agent-armor-back)", stroke: "#1D1B18", "stroke-width": "0.74", "stroke-linejoin": "round"
+    }, torsoG);
+    mk("polygon", {
+      points: "1.5,8.6 4.4,8.6 4.7,10.5 1.8,11.1",
+      fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.74", "stroke-linejoin": "round"
+    }, torsoG);
+    mk("polygon", {
+      points: "-1.6,8.4 1.6,8.4 1.2,11.3 0,11.8 -1.2,11.3",
+      fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.74", "stroke-linejoin": "round"
+    }, torsoG);
+    mk("line", { x1: "0", y1: "9.0", x2: "0", y2: "11.0", stroke: "#5CE09B", "stroke-width": "0.55", "stroke-linecap": "round" }, torsoG);
+
+    // Multi-Faceted Angular Pectoral Chest Shell (broad heroic V-cut Gundam/Mark-85 armor!)
+    mk("path", {
+      d: "M -4.8,-1.7 L 4.8,-1.7 L 5.8,0.4 L 4.6,5.8 L 3.0,7.2 L -3.0,7.2 L -4.6,5.8 L -5.8,0.4 Z",
       fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.86", "stroke-linejoin": "round"
     }, torsoG);
-    // Crisp top-left porcelain specular highlight on collar rim
-    mk("line", { x1: "-3.4", y1: "-0.85", x2: "2.6", y2: "-0.85", stroke: "#FFFFFF", "stroke-width": "0.72", "stroke-opacity": "0.90", "stroke-linecap": "round" }, torsoG);
-    // 2.5D Chest Detail Group (shifts gently with bodyYaw for genuine cylindrical 3D depth!)
+    // Crisp top specular bevel highlight
+    mk("line", { x1: "-3.8", y1: "-0.95", x2: "3.2", y2: "-0.95", stroke: "#FFFFFF", "stroke-width": "0.70", "stroke-opacity": "0.88", "stroke-linecap": "round" }, torsoG);
+
+    // 2.5D Tactical Chest Detail Group (Faceted intake vents + hexagonal armor bezel + Bamboo Arc Reactor!)
     const chestDetailG = mk("g", null, torsoG);
+    // Left & right angular pectoral intake vents (dark titanium louvers)
+    mk("polygon", { points: "-4.6,0.4 -2.5,0.8 -2.5,2.2 -4.3,1.8", fill: "#2B2825" }, chestDetailG);
+    mk("polygon", { points: "4.6,0.4 2.5,0.8 2.5,2.2 4.3,1.8", fill: "#2B2825" }, chestDetailG);
+    // Sharp chamfered X-armor panel seams
     mk("path", {
-      d: "M -4.1,-0.5 L -1.5,1.6 M 4.1,-0.5 L 1.5,1.6 M -3.3,6.1 L -1.5,4.2 M 3.3,6.1 L 1.5,4.2",
-      fill: "none", stroke: "#1D1B18", "stroke-width": "0.52", "stroke-opacity": "0.34", "stroke-linecap": "round"
+      d: "M -4.4,-0.8 L -1.8,1.2 M 4.4,-0.8 L 1.8,1.2 M -3.6,5.9 L -1.6,4.2 M 3.6,5.9 L 1.6,4.2",
+      fill: "none", stroke: "#1D1B18", "stroke-width": "0.54", "stroke-opacity": "0.42", "stroke-linecap": "round"
     }, chestDetailG);
-    mk("circle", { cx: "0", cy: "2.9", r: "4.6", fill: "url(#agent-core-glow)" }, chestDetailG);
-    mk("circle", { cx: "0", cy: "2.9", r: "2.12", fill: "#1D1B18" }, chestDetailG);
-    const chestCore = mk("circle", { cx: "0", cy: "2.9", r: "1.42", fill: "#2D6A47" }, chestDetailG);
-    mk("circle", { cx: "-0.45", cy: "2.45", r: "0.46", fill: "#EBFFF3", "fill-opacity": "0.92" }, chestDetailG);
+    // Hexagonal Armored Arc Reactor Core
+    mk("circle", { cx: "0", cy: "2.8", r: "4.8", fill: "url(#agent-core-glow)" }, chestDetailG);
+    mk("polygon", {
+      points: "0,0.45 2.15,1.6 2.15,4.0 0,5.15 -2.15,4.0 -2.15,1.6",
+      fill: "url(#agent-gunmetal-grad)", stroke: "#1D1B18", "stroke-width": "0.65", "stroke-linejoin": "round"
+    }, chestDetailG);
+    const chestCore = mk("polygon", {
+      points: "0,1.25 1.38,2.0 1.38,3.6 0,4.35 -1.38,3.6 -1.38,2.0",
+      fill: "#2D6A47"
+    }, chestDetailG);
+    mk("circle", { cx: "-0.38", cy: "2.35", r: "0.44", fill: "#EBFFF3", "fill-opacity": "0.94" }, chestDetailG);
 
     // =====================================================================
     // ORIGINAL ROBOT CRT HEAD (Independently Articulated + Spring Antenna + 2.5D Yaw!)
@@ -337,11 +412,13 @@
       fill: "#2D6A47", stroke: "#1D1B18", "stroke-width": "0.85"
     }, antG);
 
-    // Subtle compact Mech V-Crest on brow (exact silhouette motif from Era 5, clean & restrained!)
-    const crestEl = mk("path", {
-      d: "M -4.2,-5.8 L 0,-7.8 L 4.2,-5.8",
-      fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95", "stroke-linecap": "round", "stroke-linejoin": "round"
-    }, headG);
+    // Hardcore Swept Mech V-Fin Crest on brow (sharp twin blades + emerald central sensor gem!)
+    const crestEl = mk("g", null, headG);
+    mk("path", {
+      d: "M -6.4,-7.4 L -1.4,-5.4 L 0,-7.8 L 1.4,-5.4 L 6.4,-7.4 L 1.6,-4.2 L -1.6,-4.2 Z",
+      fill: "url(#agent-armor-grad)", stroke: "#1D1B18", "stroke-width": "0.82", "stroke-linejoin": "round"
+    }, crestEl);
+    mk("polygon", { points: "0,-7.1 0.85,-5.5 0,-4.4 -0.85,-5.5", fill: "#2D6A47" }, crestEl);
 
     // Compact warm-stone side ear-bolt pods (subtle 2.5D yaw parallax!)
     const earL = mk("rect", { x: "-9.1", y: "-2.1", width: "1.9", height: "4.2", rx: "0.75", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, headG);
@@ -576,12 +653,12 @@
       const legLag = -bankDeg * 0.42 * (1 - f);
       const kneeLag = -bankDeg * 0.58 * (1 - f);
       const legRetractY = -f * 8.6;
-      legL.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag - 5 * (1 - f)).toFixed(1)}, -2.5, 10.6)`);
-      legR.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag + 2 * (1 - f)).toFixed(1)}, 2.5, 10.6)`);
-      shinL.setAttribute("transform", `rotate(${(kneeLag - 6 * (1 - f)).toFixed(1)}, -2.55, 14.0)`);
-      shinR.setAttribute("transform", `rotate(${(kneeLag + 2 * (1 - f)).toFixed(1)}, 2.55, 14.5)`);
+      legL.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag - 5 * (1 - f)).toFixed(1)}, -2.6, 10.6)`);
+      legR.setAttribute("transform", `translate(0, ${legRetractY.toFixed(2)}) rotate(${(legLag + 2 * (1 - f)).toFixed(1)}, 2.6, 10.6)`);
+      shinL.setAttribute("transform", `rotate(${(kneeLag - 6 * (1 - f)).toFixed(1)}, -2.65, 14.1)`);
+      shinR.setAttribute("transform", `rotate(${(kneeLag + 2 * (1 - f)).toFixed(1)}, 2.65, 14.6)`);
 
-      // Articulated aero wings: unfold smoothly right after Era 5 liftoff, sweep back at speed, foreshorten in 2.5D!
+      // Articulated aero wing-binders: unfold smoothly right after Era 5 liftoff, sweep back at speed, foreshorten in 2.5D!
       const wingUnfold = (!patrolIsReRun && avPhase === "patrolling")
         ? smooth(0.0, 0.36, patrolT)
         : 1 - f;
@@ -589,28 +666,28 @@
       const speedSweep = (1 - wingUnfold) * 32 + Math.abs(yawNorm) * 9 - curiousAmt * 6;
       const wingScaleL = openScale * (1 - yawNorm * 0.16);
       const wingScaleR = openScale * (1 + yawNorm * 0.16);
-      wingL.setAttribute("transform", `translate(-4.0, 0.2) scale(${wingScaleL.toFixed(3)}, ${openScale.toFixed(3)}) rotate(${(-speedSweep).toFixed(1)}) translate(4.0, -0.2)`);
-      wingR.setAttribute("transform", `translate(4.0, 0.2) scale(${wingScaleR.toFixed(3)}, ${openScale.toFixed(3)}) rotate(${(speedSweep).toFixed(1)}) translate(-4.0, -0.2)`);
+      wingL.setAttribute("transform", `translate(-3.8, 0.2) scale(${wingScaleL.toFixed(3)}, ${openScale.toFixed(3)}) rotate(${(-speedSweep).toFixed(1)}) translate(3.8, -0.2)`);
+      wingR.setAttribute("transform", `translate(3.8, 0.2) scale(${wingScaleR.toFixed(3)}, ${openScale.toFixed(3)}) rotate(${(speedSweep).toFixed(1)}) translate(-3.8, -0.2)`);
       packG.setAttribute("transform", `translate(${(-yawNorm * 0.65).toFixed(2)}, 0)`);
 
       if (thrust > 0.04) {
         setJetOpacity(clamp01(thrust * 1.15));
         // Compact outward-angled palm stabilizer flames
-        jetPalmL.setAttribute("d", `M -10.5,9.2 Q -10.4,${(9.2 + pLen * 0.55).toFixed(1)} -10.1,${(9.2 + pLen).toFixed(1)} Q -9.3,${(9.2 + pLen * 0.55).toFixed(1)} -8.7,9.2 Z`);
-        jetPalmLCore.setAttribute("d", `M -10.1,9.2 L -9.9,${(9.2 + pCore).toFixed(1)} L -9.2,9.2 Z`);
-        jetPalmR.setAttribute("d", `M 8.7,9.2 Q 9.3,${(9.2 + pLen * 0.55).toFixed(1)} 10.1,${(9.2 + pLen).toFixed(1)} Q 10.4,${(9.2 + pLen * 0.55).toFixed(1)} 10.5,9.2 Z`);
-        jetPalmRCore.setAttribute("d", `M 9.2,9.2 L 9.9,${(9.2 + pCore).toFixed(1)} L 10.1,9.2 Z`);
+        jetPalmL.setAttribute("d", `M -10.7,9.4 Q -10.6,${(9.4 + pLen * 0.55).toFixed(1)} -10.3,${(9.4 + pLen).toFixed(1)} Q -9.5,${(9.4 + pLen * 0.55).toFixed(1)} -8.9,9.4 Z`);
+        jetPalmLCore.setAttribute("d", `M -10.3,9.4 L -10.1,${(9.4 + pCore).toFixed(1)} L -9.4,9.4 Z`);
+        jetPalmR.setAttribute("d", `M 8.9,9.4 Q 9.5,${(9.4 + pLen * 0.55).toFixed(1)} 10.3,${(9.4 + pLen).toFixed(1)} Q 10.6,${(9.4 + pLen * 0.55).toFixed(1)} 10.7,9.4 Z`);
+        jetPalmRCore.setAttribute("d", `M 9.4,9.4 L 10.1,${(9.4 + pCore).toFixed(1)} L 10.3,9.4 Z`);
         // Long sleek aerospace boot thruster plumes + pulsing Mach-diamond shock rings!
-        jetBootL.setAttribute("d", `M -3.7,18.7 Q -3.2,${(18.7 + bLen * 0.5).toFixed(1)} -2.55,${(18.7 + bLen * 0.88).toFixed(1)} Q -1.9,${(18.7 + bLen * 0.5).toFixed(1)} -1.4,18.7 Z`);
-        jetBootLCore.setAttribute("d", `M -3.1,18.7 L -2.55,${(18.7 + bCore * 0.88).toFixed(1)} L -2.0,18.7 Z`);
-        jetBootR.setAttribute("d", `M 1.35,19.9 Q 1.9,${(19.9 + bLen * 0.5).toFixed(1)} 2.55,${(19.9 + bLen).toFixed(1)} Q 3.2,${(19.9 + bLen * 0.5).toFixed(1)} 3.75,19.9 Z`);
-        jetBootRCore.setAttribute("d", `M 2.0,19.9 L 2.55,${(19.9 + bCore).toFixed(1)} L 3.1,19.9 Z`);
+        jetBootL.setAttribute("d", `M -3.85,19.0 Q -3.3,${(19.0 + bLen * 0.5).toFixed(1)} -2.65,${(19.0 + bLen * 0.88).toFixed(1)} Q -2.0,${(19.0 + bLen * 0.5).toFixed(1)} -1.45,19.0 Z`);
+        jetBootLCore.setAttribute("d", `M -3.2,19.0 L -2.65,${(19.0 + bCore * 0.88).toFixed(1)} L -2.1,19.0 Z`);
+        jetBootR.setAttribute("d", `M 1.4,20.2 Q 2.0,${(20.2 + bLen * 0.5).toFixed(1)} 2.65,${(20.2 + bLen).toFixed(1)} Q 3.3,${(20.2 + bLen * 0.5).toFixed(1)} 3.9,20.2 Z`);
+        jetBootRCore.setAttribute("d", `M 2.05,20.2 L 2.65,${(20.2 + bCore).toFixed(1)} L 3.25,20.2 Z`);
         const machCycle = (now * 0.0085) % 1;
         const mOp = (Math.sin(machCycle * Math.PI) * 0.85 * thrust).toFixed(2);
-        machL1.setAttribute("cy", (19.6 + machCycle * bLen * 0.52).toFixed(1));
+        machL1.setAttribute("cy", (19.9 + machCycle * bLen * 0.52).toFixed(1));
         machL1.setAttribute("rx", (1.05 * (1 - machCycle * 0.45)).toFixed(2));
         machL1.setAttribute("opacity", mOp);
-        machR1.setAttribute("cy", (20.8 + machCycle * bLen * 0.55).toFixed(1));
+        machR1.setAttribute("cy", (21.1 + machCycle * bLen * 0.55).toFixed(1));
         machR1.setAttribute("rx", (1.10 * (1 - machCycle * 0.45)).toFixed(2));
         machR1.setAttribute("opacity", mOp);
       } else {
