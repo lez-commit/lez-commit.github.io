@@ -19,7 +19,12 @@ export function buildMechRig({ btn, scanOverlay }) {
   let coneEdgeR = null;
   let coneScanBar = null;
   let coneScanTicks = null;
-  let coneOriginDot = null;
+  let coneEyeGlowL = null;
+  let coneEyeGlowR = null;
+  let beamGrad = null;
+  let flagBeamGrad = null;
+  let edgeBeamGrad = null;
+  let edgeFlagGrad = null;
   let wakeDots = [];
   let trailGrad = null;
   let trailPathMain = null;
@@ -29,51 +34,42 @@ export function buildMechRig({ btn, scanOverlay }) {
   let sonarLeadRay = null;
   let sonarTrailRay = null;
   let sonarAxisTicks = null;
-  let sonarOriginDot = null;
   let sonarFanGrad = null;
 
   if (scanOverlay) {
     scanOverlay.setAttribute("shape-rendering", "geometricPrecision");
     const sDefs = mk("defs", null, scanOverlay);
 
-    // Crisp industrial laser-sheet gradients starting BRIGHT right at the visor focal apex (0%)!
-    const beamGrad = mk("linearGradient", { id: "agent-beam-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#5CE09B", "stop-opacity": "0.26" }, beamGrad);
-    mk("stop", { offset: "38%", "stop-color": "#2D6A47", "stop-opacity": "0.11" }, beamGrad);
-    mk("stop", { offset: "86%", "stop-color": "#2D6A47", "stop-opacity": "0.045" }, beamGrad);
+    // Dynamic userSpaceOnUse diagonal gradients updated every frame along exact eye -> target vector!
+    beamGrad = mk("linearGradient", { id: "agent-beam-grad", gradientUnits: "userSpaceOnUse", x1: "0", y1: "0", x2: "0", y2: "180" }, sDefs);
+    mk("stop", { offset: "0%", "stop-color": "#5CE09B", "stop-opacity": "0.24" }, beamGrad);
+    mk("stop", { offset: "45%", "stop-color": "#2D6A47", "stop-opacity": "0.10" }, beamGrad);
+    mk("stop", { offset: "92%", "stop-color": "#2D6A47", "stop-opacity": "0.04" }, beamGrad);
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, beamGrad);
 
-    const coreBeamGrad = mk("linearGradient", { id: "agent-beam-core", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#C9FFE2", "stop-opacity": "0.34" }, coreBeamGrad);
-    mk("stop", { offset: "45%", "stop-color": "#5CE09B", "stop-opacity": "0.08" }, coreBeamGrad);
-    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, coreBeamGrad);
-
-    const flagBeamGrad = mk("linearGradient", { id: "agent-beam-flag", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#FF9A8A", "stop-opacity": "0.28" }, flagBeamGrad);
-    mk("stop", { offset: "42%", "stop-color": "#B83B2A", "stop-opacity": "0.11" }, flagBeamGrad);
-    mk("stop", { offset: "88%", "stop-color": "#B83B2A", "stop-opacity": "0.04" }, flagBeamGrad);
+    flagBeamGrad = mk("linearGradient", { id: "agent-beam-flag", gradientUnits: "userSpaceOnUse", x1: "0", y1: "0", x2: "0", y2: "180" }, sDefs);
+    mk("stop", { offset: "0%", "stop-color": "#FF9A8A", "stop-opacity": "0.26" }, flagBeamGrad);
+    mk("stop", { offset: "45%", "stop-color": "#B83B2A", "stop-opacity": "0.11" }, flagBeamGrad);
+    mk("stop", { offset: "92%", "stop-color": "#B83B2A", "stop-opacity": "0.04" }, flagBeamGrad);
     mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, flagBeamGrad);
 
-    const flagCoreGrad = mk("linearGradient", { id: "agent-beam-flag-core", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#FFE4DE", "stop-opacity": "0.38" }, flagCoreGrad);
-    mk("stop", { offset: "48%", "stop-color": "#B83B2A", "stop-opacity": "0.08" }, flagCoreGrad);
-    mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.0" }, flagCoreGrad);
+    edgeBeamGrad = mk("linearGradient", { id: "agent-edge-grad", gradientUnits: "userSpaceOnUse", x1: "0", y1: "0", x2: "0", y2: "180" }, sDefs);
+    mk("stop", { offset: "0%", "stop-color": "#C9FFE2", "stop-opacity": "0.86" }, edgeBeamGrad);
+    mk("stop", { offset: "24%", "stop-color": "#5CE09B", "stop-opacity": "0.62" }, edgeBeamGrad);
+    mk("stop", { offset: "86%", "stop-color": "#2D6A47", "stop-opacity": "0.34" }, edgeBeamGrad);
+    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.08" }, edgeBeamGrad);
 
-    const edgeBeamGrad = mk("linearGradient", { id: "agent-edge-grad", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#5CE09B", "stop-opacity": "0.72" }, edgeBeamGrad);
-    mk("stop", { offset: "55%", "stop-color": "#2D6A47", "stop-opacity": "0.42" }, edgeBeamGrad);
-    mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.06" }, edgeBeamGrad);
+    edgeFlagGrad = mk("linearGradient", { id: "agent-edge-flag", gradientUnits: "userSpaceOnUse", x1: "0", y1: "0", x2: "0", y2: "180" }, sDefs);
+    mk("stop", { offset: "0%", "stop-color": "#FFE4DE", "stop-opacity": "0.88" }, edgeFlagGrad);
+    mk("stop", { offset: "24%", "stop-color": "#FF8C7A", "stop-opacity": "0.64" }, edgeFlagGrad);
+    mk("stop", { offset: "86%", "stop-color": "#B83B2A", "stop-opacity": "0.36" }, edgeFlagGrad);
+    mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.08" }, edgeFlagGrad);
 
-    const edgeFlagGrad = mk("linearGradient", { id: "agent-edge-flag", x1: "0%", y1: "0%", x2: "0%", y2: "100%" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#FF9482", "stop-opacity": "0.75" }, edgeFlagGrad);
-    mk("stop", { offset: "55%", "stop-color": "#B83B2A", "stop-opacity": "0.44" }, edgeFlagGrad);
-    mk("stop", { offset: "100%", "stop-color": "#B83B2A", "stop-opacity": "0.06" }, edgeFlagGrad);
-
-    // Radial fan gradient for top-left docked industrial angular laser sweep (bright at visor apex -> soft edge)
+    // Radial fan gradient for top-left docked industrial angular laser sweep (bright at visor -> soft edge)
     sonarFanGrad = mk("radialGradient", { id: "agent-sonar-fan", gradientUnits: "userSpaceOnUse", cx: "48", cy: "24", r: "1400" }, sDefs);
-    mk("stop", { offset: "0%", "stop-color": "#5CE09B", "stop-opacity": "0.26" }, sonarFanGrad);
-    mk("stop", { offset: "24%", "stop-color": "#2D6A47", "stop-opacity": "0.13" }, sonarFanGrad);
-    mk("stop", { offset: "68%", "stop-color": "#2D6A47", "stop-opacity": "0.045" }, sonarFanGrad);
+    mk("stop", { offset: "0%", "stop-color": "#5CE09B", "stop-opacity": "0.24" }, sonarFanGrad);
+    mk("stop", { offset: "24%", "stop-color": "#2D6A47", "stop-opacity": "0.12" }, sonarFanGrad);
+    mk("stop", { offset: "68%", "stop-color": "#2D6A47", "stop-opacity": "0.04" }, sonarFanGrad);
     mk("stop", { offset: "100%", "stop-color": "#2D6A47", "stop-opacity": "0.0" }, sonarFanGrad);
 
     trailGrad = mk("linearGradient", { id: "agent-trail-grad", gradientUnits: "userSpaceOnUse", x1: "0", y1: "0", x2: "100", y2: "0" }, sDefs);
@@ -91,23 +87,23 @@ export function buildMechRig({ btn, scanOverlay }) {
       wakeDots.push({ el: d, x: 0, y: 0, vx: 0, vy: 0, life: 0 });
     }
 
-    // Aerial Patrol Industrial V-Angle Optical Laser Scanner (sharp apex at visor + sweeping horizontal caliper bar!)
+    // Aerial Patrol Stereo Twin-Eye Diagonal Optical Laser Scanner (emits strictly from eyeL & eyeR!)
     coneG = mk("g", { opacity: "0" }, scanOverlay);
     conePoly = mk("polygon", { fill: "url(#agent-beam-grad)" }, coneG);
-    coneCorePoly = mk("polygon", { fill: "url(#agent-beam-core)" }, coneG);
-    coneEdgeL = mk("line", { stroke: "url(#agent-edge-grad)", "stroke-width": "1.05", "stroke-linecap": "round" }, coneG);
-    coneEdgeR = mk("line", { stroke: "url(#agent-edge-grad)", "stroke-width": "1.05", "stroke-linecap": "round" }, coneG);
+    coneCorePoly = mk("polygon", { fill: "url(#agent-beam-grad)", opacity: "0.55" }, coneG);
+    coneEdgeL = mk("line", { stroke: "url(#agent-edge-grad)", "stroke-width": "1.1", "stroke-linecap": "round" }, coneG);
+    coneEdgeR = mk("line", { stroke: "url(#agent-edge-grad)", "stroke-width": "1.1", "stroke-linecap": "round" }, coneG);
     coneScanBar = mk("line", { stroke: "#2D6A47", "stroke-width": "1.35", "stroke-linecap": "round" }, coneG);
     coneScanTicks = mk("path", { fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", "stroke-linecap": "round", "stroke-linejoin": "round" }, coneG);
-    coneOriginDot = mk("circle", { r: "2.2", fill: "#EBFFF3", stroke: "#2D6A47", "stroke-width": "0.85", opacity: "0.95" }, coneG);
+    coneEyeGlowL = mk("circle", { r: "1.8", fill: "#EBFFF3", opacity: "0.9" }, coneG);
+    coneEyeGlowR = mk("circle", { r: "1.8", fill: "#EBFFF3", opacity: "0.9" }, coneG);
 
-    // Docked / Click Industrial Angular LiDAR Sweep Wedge (sharp V-angle fan — ZERO circular radar arcs!)
+    // Docked / Click Industrial Angular LiDAR Sweep Wedge (sharp 15.5° V-angle fan from docked visor!)
     sonarG = mk("g", { opacity: "0" }, scanOverlay);
     sonarWedge = mk("polygon", { fill: "url(#agent-sonar-fan)" }, sonarG);
     sonarTrailRay = mk("line", { stroke: "#2D6A47", "stroke-width": "0.8", "stroke-dasharray": "5 4", "stroke-opacity": "0.42", "stroke-linecap": "round" }, sonarG);
     sonarLeadRay = mk("line", { stroke: "#2D6A47", "stroke-width": "1.35", "stroke-opacity": "0.78", "stroke-linecap": "round" }, sonarG);
     sonarAxisTicks = mk("path", { fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-opacity": "0.52", "stroke-linecap": "round" }, sonarG);
-    sonarOriginDot = mk("circle", { r: "2.4", fill: "#C9FFE2", stroke: "#2D6A47", "stroke-width": "0.9", opacity: "0.9" }, sonarG);
   }
 
   // =====================================================================
@@ -584,8 +580,8 @@ export function buildMechRig({ btn, scanOverlay }) {
   }, eyesWinkG);
 
   return {
-    coneG, conePoly, coneCorePoly, coneEdgeL, coneEdgeR, coneScanBar, coneScanTicks, coneOriginDot, wakeDots, trailGrad, trailPathMain, trailPathCore,
-    sonarG, sonarWedge, sonarLeadRay, sonarTrailRay, sonarAxisTicks, sonarOriginDot, sonarFanGrad,
+    coneG, conePoly, coneCorePoly, coneEdgeL, coneEdgeR, coneScanBar, coneScanTicks, coneEyeGlowL, coneEyeGlowR, beamGrad, flagBeamGrad, edgeBeamGrad, edgeFlagGrad, wakeDots, trailGrad, trailPathMain, trailPathCore,
+    sonarG, sonarWedge, sonarLeadRay, sonarTrailRay, sonarAxisTicks, sonarFanGrad,
     VIEWBOX_H, svg, dockRing, foldSparks, dockShadow, craftG,
     awakeningG, awakeningHalo, awakeningRing, awakeningRing2, awakeningRays,
     machConeG, machConeOuter, machConeInner,
