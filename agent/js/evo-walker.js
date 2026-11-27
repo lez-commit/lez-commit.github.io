@@ -65,16 +65,9 @@
     // =====================================================================
     const scenery = mk("g", null, svg);
 
-    // --- PROP 1 (Era 1 · 按脚本跑，无大脑): Fixed Script Track Rail + Blocking Stone Cluster ---
+    // --- PROP 1 (Era 1 · 按脚本跑，无大脑): Clean Iconic Faceted Stone Cluster ---
     const prop1 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
-    mk("rect", { x: "-36", y: "-14", width: "48", height: "16", fill: "transparent" }, prop1);
-    // Rigid miniature script rail leading right up to the blocking stone
-    mk("line", { x1: "-35", y1: "-1.5", x2: "-4.5", y2: "-1.5", stroke: "currentColor", "stroke-width": "1.1", "stroke-linecap": "round" }, prop1);
-    mk("path", {
-      d: "M -34.5,-3.6 L -34.5,0 M -31,-1.5 L -31,0 M -26,-1.5 L -26,0 M -21,-1.5 L -21,0 M -16,-1.5 L -16,0 M -11,-1.5 L -11,0 M -6.2,-1.5 L -6.2,0",
-      fill: "none", stroke: "currentColor", "stroke-width": "0.85", "stroke-linecap": "round"
-    }, prop1);
-    mk("circle", { cx: "-34.5", cy: "-4.2", r: "0.9", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop1);
+    mk("rect", { x: "-14", y: "-14", width: "28", height: "16", fill: "transparent" }, prop1);
     mk("line", { x1: "-9.2", y1: "0", x2: "8.4", y2: "0", stroke: "currentColor", "stroke-width": "0.95", "stroke-opacity": "0.35", "stroke-linecap": "round" }, prop1);
     // Companion micro-pebble on left
     mk("polygon", {
@@ -167,65 +160,91 @@
       fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0"
     }, cotChainGroup);
 
-    // --- PROP 3 (Era 3 · 撞墙试错，接工具): Brick Barrier Wall + Engraved Function-Calling Tool Workbench ---
+    // --- PROP 3 (Era 3 · 撞墙试错，接工具): Solid Brick Wall + Pop-Open Toolbox with Big Spiral Drill -> Shattered Wall! ---
     const prop3 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
-    mk("rect", { x: "-29", y: "-32", width: "42", height: "34", fill: "transparent" }, prop3);
-    // Wall-side Function-Calling Tool Workbench (remains unmistakably recognizable even after wrench pickup!)
-    const toolRackGroup = mk("g", { transform: "translate(-21.5, 0)" }, prop3);
-    mk("path", { d: "M -4.2,0 L -3.2,-2.2 L 3.2,-2.2 L 4.2,0 Z", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95", "stroke-linejoin": "round" }, toolRackGroup);
-    mk("rect", { x: "-2.8", y: "-14.2", width: "5.6", height: "12.0", rx: "0.8", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0" }, toolRackGroup);
-    // Engraved recessed tool-bay window + faint wrench outline slot (always visible so it never reads as a bare post!)
-    mk("rect", { x: "-1.9", y: "-12.2", width: "3.8", height: "8.4", rx: "0.5", fill: "#EDE8DE", "fill-opacity": "0.85", stroke: "currentColor", "stroke-width": "0.55", "stroke-opacity": "0.45" }, toolRackGroup);
-    mk("path", { d: "M -0.6,-10.8 L 0.6,-10.8 L 0.6,-9.8 L 0.0,-9.8 L 0.0,-5.4 L -0.6,-5.4 Z", fill: "none", stroke: "currentColor", "stroke-width": "0.65", "stroke-opacity": "0.45", "stroke-linejoin": "round" }, toolRackGroup);
-    mk("rect", { x: "-3.4", y: "-15.8", width: "6.8", height: "2.0", rx: "0.6", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.9" }, toolRackGroup);
-    const rackPortLed = mk("circle", { cx: "0", cy: "-14.8", r: "0.85", fill: "#2D6A47", opacity: "0.8" }, toolRackGroup);
-    // Resting C-spanner wrench docked horizontally on the right hook of the workbench
-    const rackWrenchEl = mk("path", {
-      d: "M 2.8,-14.8 L 6.6,-14.8 L 6.6,-13.6 L 4.6,-13.6 L 4.6,-11.6 L 6.6,-11.6 L 6.6,-10.4 L 2.8,-10.4 Z",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0", "stroke-linejoin": "round"
-    }, toolRackGroup);
-    // Bamboo plug-in click flash when robot snaps wrench onto forearm
+    mk("rect", { x: "-32", y: "-32", width: "46", height: "34", fill: "transparent" }, prop3);
+    // Classic unmistakable Toolbox (pops lid open to present the big conical spiral drill!)
+    const toolRackGroup = mk("g", { transform: "translate(-22.5, 0)" }, prop3);
+    // Toolbox base body + front latch
+    mk("rect", { x: "-5.4", y: "-8.2", width: "10.8", height: "8.2", rx: "1.1", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.05" }, toolRackGroup);
+    mk("rect", { x: "-4.9", y: "-4.2", width: "9.8", height: "3.7", rx: "0.5", fill: "#EDE8DE" }, toolRackGroup);
+    mk("rect", { x: "-1.3", y: "-7.2", width: "2.6", height: "2.2", rx: "0.4", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, toolRackGroup);
+    const rackPortLed = mk("circle", { cx: "0", cy: "-6.1", r: "0.55", fill: "#2D6A47", opacity: "0.85" }, toolRackGroup);
+    // Hinged toolbox lid + classic top carry handle (flips open on epiphany!)
+    const toolBoxLid = mk("g", null, toolRackGroup);
+    mk("path", { d: "M -2.2,-10.2 L -2.2,-11.7 Q -2.2,-12.5 -1.3,-12.5 L 1.3,-12.5 Q 2.2,-12.5 2.2,-11.7 L 2.2,-10.2", fill: "none", stroke: "currentColor", "stroke-width": "1.0", "stroke-linecap": "round" }, toolBoxLid);
+    mk("rect", { x: "-5.8", y: "-10.3", width: "11.6", height: "2.4", rx: "0.7", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.0" }, toolBoxLid);
+    // Big unmistakable conical Spiral Drill rising cleanly out of the open toolbox!
+    const rackWrenchEl = mk("g", { opacity: "0" }, toolRackGroup);
+    mk("rect", { x: "-2.2", y: "-14.2", width: "3.6", height: "3.8", rx: "0.8", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95" }, rackWrenchEl);
+    mk("polygon", { points: "1.4,-14.3 8.8,-12.3 1.4,-10.3", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0", "stroke-linejoin": "round" }, rackWrenchEl);
+    mk("path", { d: "M 3.0,-13.8 L 3.8,-10.8 M 5.2,-13.2 L 5.8,-11.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, rackWrenchEl);
+    // Bamboo plug-in click flash when drill snaps onto robot forearm
     const toolSnapSpark = mk("g", { opacity: "0" }, toolRackGroup);
     mk("path", {
-      d: "M 2.5,-17.2 L 2.5,-19.8 M 5.8,-16.2 L 7.8,-17.8 M -0.8,-16.2 L -2.8,-17.8",
-      fill: "none", stroke: "#2D6A47", "stroke-width": "1.15", "stroke-linecap": "round"
+      d: "M 3.0,-16.8 L 3.0,-19.6 M 6.4,-15.6 L 8.6,-17.4 M -0.4,-15.6 L -2.6,-17.4",
+      fill: "none", stroke: "#2D6A47", "stroke-width": "1.2", "stroke-linecap": "round"
     }, toolSnapSpark);
-    // Slotted ground seam where brick barrier lowers halfway (keeping unlocked valve + bricks clearly readable!)
-    mk("line", { x1: "-10.5", y1: "0", x2: "10.5", y2: "0", stroke: "currentColor", "stroke-width": "1.1", "stroke-opacity": "0.45", "stroke-linecap": "round" }, prop3);
-    const wallClipWrap = mk("g", { "clip-path": "url(#evo-wall-clip)" }, prop3);
-    const wallBody = mk("g", null, wallClipWrap);
-    // Main wall masonry mass
+
+    // Ground baseline for wall
+    mk("line", { x1: "-11.5", y1: "0", x2: "11.5", y2: "0", stroke: "currentColor", "stroke-width": "1.05", "stroke-opacity": "0.4", "stroke-linecap": "round" }, prop3);
+
+    // Intact Solid Brick Wall (bold, zero tiny clutter — shatters when drilled through!)
+    const wallBody = mk("g", null, prop3);
     mk("rect", {
-      x: "-8", y: "-26.6", width: "16", height: "26.6", rx: "0.7",
+      x: "-8", y: "-26.2", width: "16", height: "26.2", rx: "0.7",
       fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.2"
     }, wallBody);
-    // Alternating warm stone-wash bricks for unmistakable masonry texture
-    mk("rect", { x: "-7.5", y: "-26.1", width: "7.2", height: "4.4", fill: "#EDE8DE" }, wallBody);
-    mk("rect", { x: "1.4", y: "-21.3", width: "6.1", height: "4.4", fill: "#EDE8DE" }, wallBody);
-    mk("rect", { x: "-7.5", y: "-10.0", width: "5.8", height: "4.6", fill: "#EDE8DE" }, wallBody);
-    mk("rect", { x: "0.6", y: "-5.1", width: "6.9", height: "4.8", fill: "#EDE8DE" }, wallBody);
-    // Crisp staggered brick mortar courses
+    mk("rect", { x: "-7.5", y: "-25.7", width: "7.2", height: "4.6", fill: "#EDE8DE" }, wallBody);
+    mk("rect", { x: "1.2", y: "-20.8", width: "6.3", height: "4.6", fill: "#EDE8DE" }, wallBody);
+    mk("rect", { x: "-7.5", y: "-15.8", width: "6.0", height: "4.8", fill: "#EDE8DE" }, wallBody);
+    mk("rect", { x: "0.8", y: "-10.6", width: "6.7", height: "4.8", fill: "#EDE8DE" }, wallBody);
+    mk("rect", { x: "-7.5", y: "-5.4", width: "7.4", height: "5.0", fill: "#EDE8DE" }, wallBody);
     mk("path", {
-      d: "M -8,-21.4 L 8,-21.4 M -8,-16.7 L 8,-16.7 M -8,-10.2 L 8,-10.2 M -8,-5.2 L 8,-5.2 M 0,-26.6 L 0,-21.4 M -3.6,-21.4 L -3.6,-16.7 M 3.8,-21.4 L 3.8,-16.7 M -1.6,-10.2 L -1.6,-5.2 M 3.4,-10.2 L 3.4,-5.2 M -4.2,-5.2 L -4.2,0 M 0.6,-5.2 L 0.6,0",
+      d: "M -8,-21.0 L 8,-21.0 M -8,-16.0 L 8,-16.0 M -8,-10.8 L 8,-10.8 M -8,-5.5 L 8,-5.5 M 0,-26.2 L 0,-21.0 M -3.6,-21.0 L -3.6,-16.0 M 3.8,-21.0 L 3.8,-16.0 M -1.4,-16.0 L -1.4,-10.8 M 3.6,-16.0 L 3.6,-10.8 M -4.2,-10.8 L -4.2,-5.5 M 0.8,-10.8 L 0.8,-5.5 M 0.2,-5.5 L 0.2,0",
       fill: "none", stroke: "currentColor", "stroke-width": "0.75", "stroke-opacity": "0.8"
     }, wallBody);
-    // Beveled stone capstone header
     mk("rect", {
-      x: "-8.7", y: "-28.6", width: "17.4", height: "2.3", rx: "0.6",
+      x: "-8.7", y: "-28.4", width: "17.4", height: "2.4", rx: "0.6",
       fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.1"
     }, wallBody);
-    // Recessed industrial cross-valve wheel at waist height (y = -13.6) — stays visible when barrier lowers halfway!
-    mk("circle", { cx: "0", cy: "-13.6", r: "4.2", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1" }, wallBody);
-    mk("circle", { cx: "0", cy: "-13.6", r: "2.9", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.75", "stroke-opacity": "0.75" }, wallBody);
-    const wallBolt = mk("g", null, wallBody);
-    mk("line", { x1: "-2.7", y1: "-13.6", x2: "2.7", y2: "-13.6", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, wallBolt);
-    mk("line", { x1: "0", y1: "-16.3", x2: "0", y2: "-10.9", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, wallBolt);
-    const wallBoltCore = mk("circle", { cx: "0", cy: "-13.6", r: "1.05", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.8" }, wallBolt);
-    // Curved bamboo-green torque motion arcs with crisp arrowheads outside valve flange
+    // Dramatic jagged crack spreading from drill contact point during drilling!
+    const wallCrack = mk("path", {
+      d: "M -7.8,-13.6 L -3.2,-15.2 L -0.4,-12.6 L 3.6,-16.4 L 6.8,-13.2 M -0.4,-12.6 L -2.2,-7.6 L 1.4,-3.2 M -3.2,-15.2 L -1.6,-21.8 L 2.2,-25.4",
+      fill: "none", stroke: "#1D1B18", "stroke-width": "1.25", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0"
+    }, wallBody);
+
+    // Permanently Smashed-Through Brick Wall Rubble (left cleanly behind after breakthrough — instantly self-explanatory!)
+    const wallBrokenG = mk("g", { opacity: "0" }, prop3);
+    // Left jagged low brick stump
+    mk("polygon", {
+      points: "-8.2,0 -8.2,-10.2 -4.8,-10.2 -3.6,-6.2 -1.8,-4.6 -1.2,0",
+      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1", "stroke-linejoin": "round"
+    }, wallBrokenG);
+    mk("path", { d: "M -8.0,-5.4 L -3.4,-5.4 M -5.0,-5.4 L -5.0,0", fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.75" }, wallBrokenG);
+    // Right jagged low brick stump
+    mk("polygon", {
+      points: "2.2,0 3.0,-5.0 4.8,-7.4 6.2,-12.6 8.2,-12.6 8.2,0",
+      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.1", "stroke-linejoin": "round"
+    }, wallBrokenG);
+    mk("path", { d: "M 3.2,-5.4 L 8.0,-5.4 M 5.8,-10.2 L 8.0,-10.2", fill: "none", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.75" }, wallBrokenG);
+    // Scattered broken bricks resting cleanly on ground
+    mk("rect", { x: "-1.2", y: "-2.4", width: "3.2", height: "2.4", rx: "0.4", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85", transform: "rotate(-12, 0.4, -1.2)" }, wallBrokenG);
+    mk("rect", { x: "9.2", y: "-2.6", width: "3.4", height: "2.5", rx: "0.4", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.85", transform: "rotate(16, 10.9, -1.3)" }, wallBrokenG);
+    mk("rect", { x: "-11.4", y: "-2.2", width: "2.8", height: "2.2", rx: "0.4", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8", transform: "rotate(-18, -10.0, -1.1)" }, wallBrokenG);
+
+    // Flying brick shards bursting outward during wall shatter!
+    const wallShardsG = mk("g", { opacity: "0" }, prop3);
+    const shard1 = mk("rect", { x: "-2", y: "-16", width: "4.0", height: "2.8", rx: "0.4", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.95" }, wallShardsG);
+    const shard2 = mk("rect", { x: "1", y: "-20", width: "3.6", height: "2.6", rx: "0.4", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.95" }, wallShardsG);
+    const shard3 = mk("rect", { x: "-4", y: "-22", width: "3.4", height: "2.4", rx: "0.4", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.9" }, wallShardsG);
+    const shard4 = mk("rect", { x: "2", y: "-12", width: "3.8", height: "2.6", rx: "0.4", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9" }, wallShardsG);
+
+    // Drilling bamboo sparks + dust puffs at drill contact point
     const wallTorqueArcs = mk("g", { opacity: "0" }, prop3);
     mk("path", {
-      d: "M -4.6,-18.6 A 6.6,6.6 0 0,1 5.0,-18.2 M 3.6,-19.4 L 5.2,-18.0 L 3.4,-17.1 M 4.6,-8.6 A 6.6,6.6 0 0,1 -5.0,-9.0 M -3.6,-7.8 L -5.2,-9.2 L -3.4,-10.1",
-      fill: "none", stroke: "#2D6A47", "stroke-width": "1.05", "stroke-linecap": "round", "stroke-linejoin": "round"
+      d: "M -8.6,-15.6 L -12.6,-18.8 M -8.8,-13.4 L -13.4,-13.8 M -8.6,-11.2 L -12.2,-8.4 M -6.8,-16.8 L -8.4,-20.6",
+      fill: "none", stroke: "#2D6A47", "stroke-width": "1.15", "stroke-linecap": "round"
     }, wallTorqueArcs);
     // Vermilion bonk impact star-sparks positioned cleanly at forehead collision zone
     const wallSparks = mk("g", { opacity: "0" }, prop3);
@@ -233,80 +252,69 @@
     mk("line", { x1: "-9.6", y1: "-22.2", x2: "-15.4", y2: "-23.0", stroke: "#B83B2A", "stroke-width": "1.4", "stroke-linecap": "round" }, wallSparks);
     mk("line", { x1: "-9.0", y1: "-19.6", x2: "-13.6", y2: "-17.6", stroke: "#B83B2A", "stroke-width": "1.3", "stroke-linecap": "round" }, wallSparks);
     mk("circle", { cx: "-8.2", cy: "-22.4", r: "1.45", fill: "#B83B2A" }, wallSparks);
-    // Retracting wall dust puffs at ground seam
+    // Shatter dust puffs at ground seam
     const wallDust = mk("g", { opacity: "0" }, prop3);
-    mk("circle", { cx: "-9.5", cy: "-1.6", r: "1.35", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.7" }, wallDust);
-    mk("circle", { cx: "9.5", cy: "-1.8", r: "1.25", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.7" }, wallDust);
-    mk("circle", { cx: "-11.4", cy: "-3.2", r: "0.9", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
-    mk("circle", { cx: "11.2", cy: "-3.4", r: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
+    mk("circle", { cx: "-9.5", cy: "-2.2", r: "1.6", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.7" }, wallDust);
+    mk("circle", { cx: "9.5", cy: "-2.4", r: "1.5", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.7" }, wallDust);
+    mk("circle", { cx: "-12.0", cy: "-4.6", r: "1.0", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
+    mk("circle", { cx: "11.8", cy: "-4.8", r: "0.95", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.65" }, wallDust);
 
-    // --- PROP 4 (Era 4 · 手眼脑通，状态机): Clear Computer Terminal + 3-Node State-Machine Flow + Separate Boom Post ---
+    // --- PROP 4 (Era 4 · 手眼脑通，状态机): Minimalist Computer Desk + Keyboard Typing + Floating State Flow -> Big ✓ ---
     const prop4 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
-    mk("rect", { x: "-18", y: "-32", width: "36", height: "34", fill: "transparent" }, prop4);
-    // Crisp dual-optic vision scan cone + twin laser rays projected cleanly across gap from robot goggles onto wide monitor!
+    mk("rect", { x: "-20", y: "-36", width: "38", height: "38", fill: "transparent" }, prop4);
+    // Crisp dual-optic vision scan cone projected from robot goggles onto the big desktop monitor!
     const gateScanBeam = mk("g", { opacity: "0" }, prop4);
-    mk("polygon", { points: "-19.2,-25.4 -8.2,-20.5 -8.2,-13.7", fill: "url(#evo-scan-beam)" }, gateScanBeam);
-    mk("line", { x1: "-19.2", y1: "-25.4", x2: "-8.2", y2: "-20.5", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.85" }, gateScanBeam);
-    mk("line", { x1: "-19.2", y1: "-25.4", x2: "-8.2", y2: "-13.7", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.75" }, gateScanBeam);
-    mk("line", { x1: "-19.2", y1: "-25.4", x2: "-8.2", y2: "-17.1", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "2 2", "stroke-opacity": "0.85" }, gateScanBeam);
-    // Dedicated Right-Side Gate Boom Arm pivoting cleanly at (8.5, -7.2) — never tangles behind the monitor when raised!
-    const gateArmGroup = mk("g", { transform: "rotate(0, 8.5, -7.2)" }, prop4);
-    mk("rect", {
-      x: "10.0", y: "-8.6", width: "3.2", height: "2.8", rx: "0.6",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95"
-    }, gateArmGroup);
-    mk("rect", {
-      x: "-12.0", y: "-8.3", width: "22.2", height: "2.2", rx: "1.0",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.0"
-    }, gateArmGroup);
-    mk("path", {
-      d: "M -9.2,-8.2 L -8.0,-6.2 M -5.6,-8.2 L -4.4,-6.2 M -2.0,-8.2 L -0.8,-6.2 M 1.6,-8.2 L 2.8,-6.2",
-      fill: "none", stroke: "currentColor", "stroke-width": "1.0", "stroke-linecap": "butt"
-    }, gateArmGroup);
-    // Right boom pivot stanchion
-    mk("rect", { x: "6.9", y: "-9.2", width: "3.2", height: "9.2", rx: "0.7", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.95" }, prop4);
-    mk("circle", { cx: "8.5", cy: "-7.2", r: "1.1", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.85" }, prop4);
-    // Wide Console Plinth + Slim Desk Base (Left/Center)
-    mk("rect", {
-      x: "-10.2", y: "-2.2", width: "16.4", height: "2.2", rx: "0.6",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.0"
-    }, prop4);
-    // Lower State-Machine Console Cabinet housing 3 spacious flow nodes (S1 -> S2 -> S3)
-    mk("rect", {
-      x: "-8.8", y: "-10.6", width: "13.6", height: "8.4", rx: "1.1",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.1"
-    }, prop4);
-    mk("line", { x1: "-5.8", y1: "-6.4", x2: "1.8", y2: "-6.4", stroke: "currentColor", "stroke-width": "0.85", "stroke-opacity": "0.55" }, prop4);
-    const gateS1 = mk("circle", { cx: "-5.8", cy: "-6.4", r: "1.45", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop4);
-    const gateS2 = mk("circle", { cx: "-2.0", cy: "-6.4", r: "1.45", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop4);
-    const gateS3 = mk("circle", { cx: "1.8", cy: "-6.4", r: "1.45", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8" }, prop4);
-    const gateSavedRipple = mk("circle", { cx: "1.8", cy: "-6.4", r: "2.4", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", opacity: "0" }, prop4);
-    // Monitor neck stem
-    mk("rect", { x: "-3.6", y: "-12.6", width: "3.2", height: "2.1", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.85" }, prop4);
-    // Unmistakable Wide Computer-Use Desktop Monitor (instantly recognizable even at 1x resting state!)
-    mk("rect", {
-      x: "-9.4", y: "-21.8", width: "14.8", height: "9.4", rx: "1.5",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.15"
-    }, prop4);
-    mk("rect", { x: "-8.1", y: "-20.5", width: "12.2", height: "6.8", rx: "0.9", fill: "#1D1B18" }, prop4);
+    mk("polygon", { points: "-15.4,-25.2 -0.6,-22.2 -0.6,-15.2", fill: "url(#evo-scan-beam)" }, gateScanBeam);
+    mk("line", { x1: "-15.4", y1: "-25.2", x2: "-0.6", y2: "-22.2", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.85" }, gateScanBeam);
+    mk("line", { x1: "-15.4", y1: "-25.2", x2: "-0.6", y2: "-15.2", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.75" }, gateScanBeam);
+    mk("line", { x1: "-15.4", y1: "-25.2", x2: "-0.6", y2: "-18.7", stroke: "#2D6A47", "stroke-width": "0.75", "stroke-dasharray": "2 2", "stroke-opacity": "0.85" }, gateScanBeam);
+
+    // Architectural Minimalist Desk (instantly recognizable silhouette!)
+    mk("line", { x1: "-13.5", y1: "0", x2: "13.5", y2: "0", stroke: "currentColor", "stroke-width": "0.9", "stroke-opacity": "0.3", "stroke-linecap": "round" }, prop4);
+    mk("line", { x1: "-10.2", y1: "-10.4", x2: "-10.2", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
+    mk("line", { x1: "10.2", y1: "-10.4", x2: "10.2", y2: "0", stroke: "currentColor", "stroke-width": "1.2", "stroke-linecap": "round" }, prop4);
+    mk("line", { x1: "-10.2", y1: "-3.6", x2: "10.2", y2: "-3.6", stroke: "currentColor", "stroke-width": "0.7", "stroke-opacity": "0.45" }, prop4);
+    mk("rect", { x: "-12.0", y: "-12.0", width: "24.0", height: "2.0", rx: "0.7", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "1.05" }, prop4);
+
+    // Angled Desktop Keyboard right where robot's hands rapidly type!
+    mk("path", { d: "M -10.4,-12.0 L -9.6,-13.4 L -3.4,-13.4 L -2.8,-12.0 Z", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, prop4);
+    mk("line", { x1: "-8.8", y1: "-12.7", x2: "-4.2", y2: "-12.7", stroke: "currentColor", "stroke-width": "0.6", "stroke-dasharray": "1.2 1.0", "stroke-opacity": "0.65" }, prop4);
+    // Tiny typing click-sparks above keyboard while typing!
+    const typeSparks = mk("g", { opacity: "0" }, prop4);
+    mk("path", { d: "M -8.4,-14.8 L -9.6,-16.6 M -6.4,-15.2 L -6.4,-17.4 M -4.4,-14.8 L -3.2,-16.6", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round" }, typeSparks);
+
+    // Big Unmistakable Desktop Monitor (14.4 × 10.6px — crystal clear even at resting state!)
+    mk("path", { d: "M 3.2,-12.0 L 4.0,-14.4 L 6.6,-14.4 L 7.4,-12.0 Z", fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.9", "stroke-linejoin": "round" }, prop4);
+    mk("rect", { x: "-1.6", y: "-24.8", width: "13.8", height: "10.6", rx: "1.5", fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "1.18" }, prop4);
+    mk("rect", { x: "-0.3", y: "-23.5", width: "11.2", height: "8.0", rx: "0.9", fill: "#181715" }, prop4);
+    // Live code/terminal lines on screen (visible before completion)
     const gateScreenLines = mk("path", {
-      d: "M -6.6,-18.4 L -5.4,-17.5 L -6.6,-16.6 M -4.2,-17.5 L 1.6,-17.5 M -6.4,-15.3 L -0.4,-15.3",
-      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.85", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0.75"
+      d: "M 1.2,-21.4 L 2.5,-20.4 L 1.2,-19.4 M 3.8,-20.4 L 9.2,-20.4 M 1.4,-17.8 L 7.4,-17.8",
+      fill: "none", stroke: "#FAF8F4", "stroke-width": "0.9", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0.78"
     }, prop4);
-    // Top depressible checkpoint button on monitor crown
-    mk("rect", {
-      x: "-4.6", y: "-22.9", width: "5.2", height: "1.1", rx: "0.4",
-      fill: "#EDE8DE", stroke: "currentColor", "stroke-width": "0.8"
+    // Bold Luminous Bamboo-Green Checkmark ✓ (lights up when task finishes & stays permanently on screen!)
+    const gateCheckEl = mk("path", {
+      d: "M 2.3,-19.4 L 4.6,-17.1 L 8.9,-21.6",
+      fill: "none", stroke: "#7CE8B1", "stroke-width": "1.65", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0"
     }, prop4);
-    const gateBtnEl = mk("rect", {
-      x: "-3.8", y: "-24.7", width: "3.6", height: "1.8", rx: "0.7",
-      fill: "#FAF8F4", stroke: "currentColor", "stroke-width": "0.95"
-    }, prop4);
-    // Pill-framed stateless-interrupt freeze cue (||) cleanly above checkpoint button
+    const gateSavedRipple = mk("circle", { cx: "5.3", cy: "-19.5", r: "3.0", fill: "none", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, prop4);
+
+    // Floating 3-Node State-Machine Chain cleanly above the monitor (○ -> || -> ●, fades cleanly after completion!)
+    const stateFlowGroup = mk("g", { opacity: "0" }, prop4);
+    const gateLink1 = mk("line", { x1: "-2.0", y1: "-31.2", x2: "3.6", y2: "-31.2", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, stateFlowGroup);
+    const gateLink2 = mk("line", { x1: "7.0", y1: "-31.2", x2: "12.6", y2: "-31.2", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, stateFlowGroup);
+    const gateS1 = mk("circle", { cx: "-3.6", cy: "-31.2", r: "1.65", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1" }, stateFlowGroup);
+    const gateS2 = mk("circle", { cx: "5.3", cy: "-31.2", r: "1.65", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "1.1" }, stateFlowGroup);
+    const gateS3 = mk("circle", { cx: "14.2", cy: "-31.2", r: "1.85", fill: "#2D6A47", stroke: "#2D6A47", "stroke-width": "1.0", opacity: "0" }, stateFlowGroup);
+    const gateS3Rays = mk("path", {
+      d: "M 14.2,-34.4 L 14.2,-36.0 M 16.8,-33.2 L 18.0,-34.4 M 11.6,-33.2 L 10.4,-34.4",
+      fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round", opacity: "0"
+    }, stateFlowGroup);
+    // Pill-framed checkpoint freeze badge (||) right over S2 during the 0.28s state-machine pause!
     const gateFreezeBadge = mk("g", { opacity: "0" }, prop4);
-    mk("rect", { x: "-6.6", y: "-31.6", width: "9.2", height: "5.6", rx: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-opacity": "0.65" }, gateFreezeBadge);
-    mk("line", { x1: "-3.5", y1: "-30.2", x2: "-3.5", y2: "-27.4", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
-    mk("line", { x1: "-0.5", y1: "-30.2", x2: "-0.5", y2: "-27.4", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
+    mk("rect", { x: "0.7", y: "-34.1", width: "9.2", height: "5.8", rx: "2.0", fill: "#FAF8F4", stroke: "#2D6A47", "stroke-width": "0.9", "stroke-opacity": "0.75" }, gateFreezeBadge);
+    mk("line", { x1: "3.8", y1: "-32.6", x2: "3.8", y2: "-29.8", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
+    mk("line", { x1: "6.8", y1: "-32.6", x2: "6.8", y2: "-29.8", stroke: "#2D6A47", "stroke-width": "1.4", "stroke-linecap": "round" }, gateFreezeBadge);
 
     // --- PROP 5 (Era 5 · 卷马具，进生产): Production Harness Launch Gantry (Docking Pad + Twin Rails + 3 Pre-Flight LEDs) ---
     const prop5 = mk("g", { class: "evo-prop-hit", color: "#8A8275", opacity: "0.42" }, scenery);
@@ -501,7 +509,11 @@
     const handTipB = mk("circle", { r: "1.05", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "0.85", opacity: "0" }, botBody);
     const handTipF = mk("circle", { r: "1.15", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "0.9", opacity: "0" }, botBody);
     const pincerEl = mk("path", { fill: "none", stroke: "#1D1B18", "stroke-width": "1.2", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "1" }, botBody);
-    const wrenchEl = mk("path", { fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.1", "stroke-linecap": "round", "stroke-linejoin": "round", opacity: "0" }, botBody);
+    // Era 3 Big Spiral Mechanical Drill attachment (snaps straight onto forearm!)
+    const drillGroup = mk("g", { opacity: "0" }, botBody);
+    mk("rect", { x: "-1.0", y: "-2.3", width: "3.8", height: "4.6", rx: "0.9", fill: "#EDE8DE", stroke: "#1D1B18", "stroke-width": "1.0" }, drillGroup);
+    mk("polygon", { points: "2.8,-2.4 10.6,0 2.8,2.4", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05", "stroke-linejoin": "round" }, drillGroup);
+    const drillFlutes = mk("path", { d: "M 4.4,-1.9 L 5.2,1.9 M 6.8,-1.2 L 7.4,1.2", fill: "none", stroke: "#2D6A47", "stroke-width": "0.95", "stroke-linecap": "round" }, drillGroup);
     const gauntletF = mk("g", { opacity: "0" }, botBody);
     mk("rect", { x: "-2.0", y: "-2.1", width: "4.0", height: "3.1", rx: "0.85", fill: "#FAF8F4", stroke: "#1D1B18", "stroke-width": "1.05" }, gauntletF);
     mk("line", { x1: "-1.0", y1: "-0.5", x2: "1.0", y2: "-0.5", stroke: "#2D6A47", "stroke-width": "0.85", "stroke-linecap": "round" }, gauntletF);
@@ -664,11 +676,10 @@
       }
     };
 
-    let wallSink = 0;    // 0..14.5px lowered mechanical barrier (leaves unlocked valve + bricks clearly readable!)
-    let wallBoltDeg = 0; // 0..90 deg
-    let gateAngle = 0;   // 0..78 deg raised (persists until cycle reset)
+    let wallBroken = false;  // Era 3 brick wall shattered cleanly into rubble stumps!
+    let taskDone = false;    // Era 4 computer monitor shows permanent luminous bamboo ✓!
     let hasBrain = false;   // Physical brain docked from Era 2 Glass Vat!
-    let hasWrench = false;  // Physical C-spanner plugged from Era 3 Tool Socket!
+    let hasWrench = false;  // Physical spiral drill equipped from Era 3 Toolbox!
     let isEquipped = false;
     let claspRippleTimer = 0;
     let lockSparkTimer = 0;
@@ -681,9 +692,8 @@
       phase = 0;
       b1 = b2 = b3 = b4 = b5 = 0;
       b1t = b2t = b3t = b4t = b5t = 0;
-      wallSink = 0;
-      wallBoltDeg = 0;
-      gateAngle = 0;
+      wallBroken = false;
+      taskDone = false;
       hasBrain = false;
       hasWrench = false;
       isEquipped = false;
@@ -725,8 +735,8 @@
       posX = Math.max(startX, anchors[idx]);
       if (idx >= 1) { b1 = 4; }
       if (idx >= 2) { b2 = 2; hasBrain = true; }
-      if (idx >= 3) { b3 = 2; hasWrench = false; wallBoltDeg = 90; wallSink = 14.5; }
-      if (idx >= 4) { b4 = 2; gateAngle = 78; }
+      if (idx >= 3) { b3 = 2; hasWrench = false; wallBroken = true; }
+      if (idx >= 4) { b4 = 2; taskDone = true; }
       botGroup.setAttribute("opacity", "1");
     }
 
@@ -829,7 +839,7 @@
         if (b1 === 0 && posX >= x1 - 7.5) { b1 = 1; b1t = 0; }
         if (b2 === 0 && posX >= x2 - 18.0){ b2 = 1; b2t = 0; }
         if (b3 === 0 && posX >= x3 - 13.0){ b3 = 1; b3t = 0; }
-        if (b4 === 0 && posX >= x4 - 21.5){ b4 = 1; b4t = 0; }
+        if (b4 === 0 && posX >= x4 - 16.5){ b4 = 1; b4t = 0; }
         if (b5 === 0 && posX >= x5 - 1)   { b5 = 1; b5t = 0; }
         if (b5 === 2 && posX >= launchX)  { b5 = 3; b5t = 0; }
 
@@ -863,26 +873,18 @@
           moveSpeed = 0;
           beatHopH = Math.sin((clickHopTimer / 0.5) * Math.PI) * 7.5;
         } else if (b1 === 1) {
-          // Era 1 Step 1: Rigid script bump-push against stone (0..0.14s) -> trip into Superman belly-slide (0.14..0.36s)!
+          // Era 1 Step 1 (Restored Original Snappy Beat!): Immediate jog-trip over stone into flat Superman belly-slide!
           b1t += dt;
           activeEraIdx = 0;
           isEraBeat = true;
-          if (b1t < 0.14) {
-            // Stubbornly marches in place against stone like a blind RPA script!
-            moveSpeed = 95;
-            extraLean = 18;
-            pincerSnap = 0.7;
-            visualDX = Math.sin(b1t * 60) * 1.1;
-          } else {
-            const u = clamp01((b1t - 0.14) / 0.22);
-            posX += 116 * dt;
-            moveSpeed = 0;
-            beatHopH = Math.sin(u * Math.PI) * 6.8;
-            bodyRollDeg = u * 78;
-            bodyDropY = -u * 2.4;
-            pincerSnap = 0.9;
-          }
-          if (b1t >= 0.36) { b1 = 2; b1t = 0; }
+          const u = clamp01(b1t / 0.22);
+          posX += 116 * dt;
+          moveSpeed = 0;
+          beatHopH = Math.sin(u * Math.PI) * 6.8;
+          bodyRollDeg = u * 78;
+          bodyDropY = -u * 2.4;
+          pincerSnap = 0.9;
+          if (b1t >= 0.22) { b1 = 2; b1t = 0; }
         } else if (b1 === 2) {
           // Era 1 Step 2: Long friction belly-slide strictly flush atop the timeline spine (never below y=0!)
           b1t += dt;
@@ -933,7 +935,7 @@
           }
           if (b2t >= 1.62) b2 = 2;
         } else if (b3 === 1) {
-          // Era 3 Beat (撞墙试错，接工具): BONK -> recoil -> 0.22s epiphany glance -> snap wrench -> turn valve -> half-lower barrier!
+          // Era 3 Beat (撞墙试错，接工具): BONK -> recoil -> toolbox pops open -> snap Spiral Drill -> drill & SHATTER brick wall!
           b3t += dt;
           activeEraIdx = 2;
           isEraBeat = true;
@@ -944,16 +946,16 @@
             extraLean = -44 * (1 - u * 0.35);
             beatHopH = Math.sin(u * Math.PI) * 1.8;
             armPose = "bonk";
-          } else if (b3t < 0.56) {
-            // Brief epiphany beat: head shake -> notices Tool Workbench -> antenna lights bamboo green!
-            const u = (b3t - 0.34) / 0.22;
+          } else if (b3t < 0.58) {
+            // Brief epiphany beat: head shake -> toolbox pops open -> antenna flashes bamboo green!
+            const u = (b3t - 0.34) / 0.24;
             visualDX = -16.5;
             extraLean = 4;
             armPose = "epiphany";
             epiphanyNow = u > 0.35;
             headNodDeg = u < 0.5 ? Math.sin(u * Math.PI * 4) * 8 : -5;
           } else if (b3t < 0.94) {
-            // Reach forward cleanly to snap C-spanner off Tool Workbench!
+            // Reach into open toolbox & snap big Spiral Drill onto forearm!
             visualDX = -16.5;
             extraLean = 6;
             armPose = "grabTool";
@@ -961,55 +963,54 @@
               hasWrench = true;
               toolSnapTimer = 0.28;
             }
-          } else if (b3t < 1.20) {
-            // Step forward up to brick wall with newly plugged wrench
-            const u = (b3t - 0.94) / 0.26;
-            visualDX = lerp(-16.5, -4.0, u);
-            extraLean = 5;
+          } else if (b3t < 1.18) {
+            // Step confidently up to brick wall with Spiral Drill armed!
+            const u = (b3t - 0.94) / 0.24;
+            visualDX = lerp(-16.5, -5.5, u);
+            extraLean = 7;
             armPose = "wrench";
-          } else if (b3t < 1.52) {
-            // Turn cross-valve 90°
-            const u = (b3t - 1.20) / 0.32;
-            visualDX = -4.0;
-            extraLean = 5;
+          } else if (b3t < 1.56) {
+            // DRILL INTO BRICK WALL! Rapid vibration + jagged crack spreading!
+            visualDX = -5.5 + Math.sin(b3t * 85) * 1.0;
+            extraLean = 11;
             armPose = "wrench";
-            wallBoltDeg = u * 90;
           } else {
-            // Brick barrier lowers halfway (14.5px), keeping unlocked green valve & brick courses clearly readable!
-            const u = clamp01((b3t - 1.52) / 0.38);
-            const ease = u * u * (3 - 2 * u);
-            visualDX = -4.0;
-            extraLean = 2;
+            // SHATTER! Wall bursts into rubble & flying brick shards!
+            if (!wallBroken) wallBroken = true;
+            visualDX = -5.5;
+            extraLean = 3;
             armPose = "wrench";
-            wallBoltDeg = 90;
-            wallSink = ease * 14.5;
           }
-          if (b3t >= 1.90) {
-            wallSink = 14.5;
+          if (b3t >= 1.92) {
+            wallBroken = true;
             b3 = 2;
           }
         } else if (b4 === 1) {
-          // Era 4 Beat (手眼脑通，状态机): Dual-optic scan wide monitor (S1) -> press plunger (S2) -> 0.28s || freeze -> S3 & right boom lift 78°
+          // Era 4 Beat (手眼脑通，状态机): Eye scans monitor (S1) -> Both hands rapidly type on keyboard (S2) -> 0.28s || freeze -> S3 & big ✓ on screen!
           b4t += dt;
           activeEraIdx = 3;
           isEraBeat = true;
           moveSpeed = 0;
           if (b4t < 0.34) {
             armPose = "scan";
-          } else if (b4t < 0.56) {
-            armPose = "press";
-          } else if (b4t < 0.84) {
-            armPose = "press";
+          } else if (b4t < 0.82) {
+            armPose = "type";
+            extraLean = 7;
+          } else if (b4t < 1.10) {
+            armPose = "type";
+            extraLean = 7;
             freezeAll = true;
           } else {
-            if (gateRippleTimer <= 0 && b4t < 0.92) gateRippleTimer = 0.52;
-            const u = clamp01((b4t - 0.84) / 0.44);
-            const ease = 1 - Math.pow(1 - u, 3);
-            gateAngle = ease * 78;
-            armPose = "walk";
+            if (!taskDone) {
+              taskDone = true;
+              gateRippleTimer = 0.52;
+            }
+            armPose = b4t < 1.24 ? "type" : "walk";
+            extraLean = b4t < 1.24 ? 5 : 0;
+            headNodDeg = b4t >= 1.24 ? Math.sin(clamp01((b4t - 1.24) / 0.30) * Math.PI) * 8 : 0;
           }
-          if (b4t >= 1.28) {
-            gateAngle = 78;
+          if (b4t >= 1.56) {
+            taskDone = true;
             b4 = 2;
           }
         } else if (b5 === 1) {
@@ -1223,48 +1224,80 @@
         }
         brainDockSpark.setAttribute("opacity", brainDockTimer > 0 ? (brainDockTimer / 0.28).toFixed(2) : "0");
 
-        // Prop 3 updates (撞墙试错，接工具): Tool workbench wrench pickup, bonk sparks, valve rotation + unlocked bamboo hub, half-retract wall
-        rackWrenchEl.setAttribute("opacity", hasWrench ? "0" : "1");
-        rackPortLed.setAttribute("opacity", hasWrench ? "0.35" : "0.9");
+        // Prop 3 updates (撞墙试错，接工具): Toolbox lid pop-open, drill rise/pickup, wall shudder & crack -> dramatic brick shatter!
+        const boxOpen = (b3 === 1 && b3t >= 0.40) || b3 === 2;
+        const lidAngle = b3 === 1
+          ? -112 * smooth(0.40, 0.58, b3t)
+          : b3 === 2
+          ? -112
+          : 0;
+        toolBoxLid.setAttribute("transform", `rotate(${lidAngle.toFixed(1)}, -5.4, -8.0)`);
+        const drillPopU = b3 === 1 ? smooth(0.46, 0.64, b3t) : 0;
+        rackWrenchEl.setAttribute("opacity", b3 === 1 && b3t >= 0.46 && !hasWrench ? drillPopU.toFixed(2) : "0");
+        rackWrenchEl.setAttribute("transform", `translate(0, ${(5 * (1 - drillPopU)).toFixed(1)})`);
+        rackPortLed.setAttribute("opacity", boxOpen ? "0.95" : "0.55");
         toolSnapSpark.setAttribute("opacity", toolSnapTimer > 0 ? (toolSnapTimer / 0.28).toFixed(2) : "0");
-        wallBody.setAttribute("transform", `translate(0, ${wallSink.toFixed(1)})`);
-        wallBolt.setAttribute("transform", `rotate(${wallBoltDeg.toFixed(1)}, 0, -13.6)`);
-        wallBoltCore.setAttribute("fill", wallBoltDeg >= 85 ? "#2D6A47" : "#FAF8F4");
+
+        const drillingNow = b3 === 1 && b3t >= 1.18 && b3t < 1.56;
+        const wallShakeX = drillingNow ? Math.sin(b3t * 95) * 1.35 : 0;
+        wallBody.setAttribute("opacity", wallBroken ? "0" : "1");
+        wallBody.setAttribute("transform", `translate(${wallShakeX.toFixed(2)}, 0)`);
+        wallCrack.setAttribute("opacity", drillingNow ? clamp01((b3t - 1.18) / 0.26).toFixed(2) : "0");
+        wallBrokenG.setAttribute("opacity", wallBroken ? "1" : "0");
+
         const showBonk = b3 === 1 && b3t < 0.34;
         const bonkOp = showBonk ? (b3t < 0.17 ? 0.96 : (1 - (b3t - 0.17) / 0.17) * 0.96) : 0;
         wallSparks.setAttribute("opacity", bonkOp.toFixed(2));
-        const turningValve = b3 === 1 && b3t >= 1.20 && b3t < 1.52;
-        wallTorqueArcs.setAttribute("opacity", turningValve ? (Math.sin(((b3t - 1.20) / 0.32) * Math.PI) * 0.85).toFixed(2) : "0");
-        const wallSinkingNow = b3 === 1 && b3t >= 1.52 && b3t < 1.90;
-        if (wallSinkingNow) {
-          const wu = clamp01((b3t - 1.52) / 0.38);
-          wallDust.setAttribute("opacity", (Math.sin(wu * Math.PI) * 0.75).toFixed(2));
-          wallDust.setAttribute("transform", `translate(0, ${(-wu * 3.2).toFixed(1)})`);
+        wallTorqueArcs.setAttribute("opacity", drillingNow ? (0.45 + 0.55 * Math.abs(Math.sin(b3t * 42))).toFixed(2) : "0");
+
+        const shatteringNow = b3 === 1 && b3t >= 1.56 && b3t < 1.92;
+        if (shatteringNow) {
+          const su = clamp01((b3t - 1.56) / 0.36);
+          const fade = 1 - su * su;
+          wallShardsG.setAttribute("opacity", fade.toFixed(2));
+          shard1.setAttribute("transform", `translate(${(-su * 14).toFixed(1)}, ${(-Math.sin(su * Math.PI) * 12 + su * 14).toFixed(1)}) rotate(${(-su * 68).toFixed(1)})`);
+          shard2.setAttribute("transform", `translate(${(su * 16).toFixed(1)}, ${(-Math.sin(su * Math.PI) * 15 + su * 18).toFixed(1)}) rotate(${(su * 82).toFixed(1)})`);
+          shard3.setAttribute("transform", `translate(${(-su * 9).toFixed(1)}, ${(-Math.sin(su * Math.PI) * 16 + su * 20).toFixed(1)}) rotate(${(-su * 52).toFixed(1)})`);
+          shard4.setAttribute("transform", `translate(${(su * 13).toFixed(1)}, ${(-Math.sin(su * Math.PI) * 9 + su * 10).toFixed(1)}) rotate(${(su * 46).toFixed(1)})`);
+          wallDust.setAttribute("opacity", (Math.sin(su * Math.PI) * 0.85).toFixed(2));
+          wallDust.setAttribute("transform", `translate(0, ${(-su * 3.8).toFixed(1)})`);
         } else {
+          wallShardsG.setAttribute("opacity", "0");
           wallDust.setAttribute("opacity", "0");
         }
 
-        // Prop 4 updates (手眼脑通，状态机): Wide monitor dual-optic scan, S1->S2->S3 flow, freeze & right-side boom lift
+        // Prop 4 updates (手眼脑通，状态机): Big Monitor scan -> rapid typing -> floating ○ -> || -> ● state flow -> bold bamboo ✓!
         const scanningTerminal = b4 === 1 && b4t < 0.34;
+        const typingNow = b4 === 1 && b4t >= 0.34 && b4t < 0.82;
         const scanOp = scanningTerminal ? Math.sin(clamp01(b4t / 0.34) * Math.PI) : 0;
         gateScanBeam.setAttribute("opacity", (scanOp * 0.95).toFixed(2));
-        gateScreenLines.setAttribute("stroke", scanningTerminal || (b4 === 1 && b4t < 0.84) || b4 === 2 ? "#B5F5D4" : "#FAF8F4");
-        gateScreenLines.setAttribute("opacity", scanningTerminal ? "1" : "0.78");
+        typeSparks.setAttribute("opacity", typingNow ? (0.35 + 0.65 * Math.abs(Math.sin(b4t * 48))).toFixed(2) : "0");
 
-        const btnPressed = b4 === 1 && b4t >= 0.44 && b4t <= 0.84;
-        gateBtnEl.setAttribute("y", btnPressed ? "-23.6" : "-24.7");
-        gateArmGroup.setAttribute("transform", `rotate(${gateAngle.toFixed(1)}, 8.5, -7.2)`);
+        gateScreenLines.setAttribute("opacity", taskDone ? "0" : (scanningTerminal || typingNow ? "1" : "0.78"));
+        gateScreenLines.setAttribute("stroke", scanningTerminal || typingNow || freezeAll ? "#B5F5D4" : "#FAF8F4");
+        gateCheckEl.setAttribute("opacity", taskDone ? "1" : "0");
+
+        // Floating 3-node state-machine chain above monitor during Era 4 work beat
+        if (b4 === 1) {
+          const flowFade = 1 - smooth(1.36, 1.54, b4t);
+          stateFlowGroup.setAttribute("opacity", flowFade.toFixed(2));
+          const s1On = b4t >= 0.08;
+          const s2On = b4t >= 0.38;
+          const s3On = b4t >= 1.10;
+          gateS1.setAttribute("fill", s1On ? "#2D6A47" : "#FAF8F4");
+          gateLink1.setAttribute("opacity", s2On ? "1" : "0");
+          gateS2.setAttribute("fill", s2On ? "#2D6A47" : "#FAF8F4");
+          gateS2.setAttribute("opacity", freezeAll ? "0" : "1");
+          gateLink2.setAttribute("opacity", s3On ? "1" : "0");
+          gateS3.setAttribute("opacity", s3On ? "1" : "0");
+          gateS3Rays.setAttribute("opacity", s3On ? "1" : "0");
+        } else {
+          stateFlowGroup.setAttribute("opacity", "0");
+        }
         gateFreezeBadge.setAttribute("opacity", freezeAll ? "0.96" : "0");
-
-        const s1Lit = (b4 === 1 && b4t >= 0.12) || b4 === 2;
-        const s2Lit = (b4 === 1 && b4t >= 0.46) || b4 === 2;
-        const s3Lit = (b4 === 1 && b4t >= 0.84) || b4 === 2;
-        gateS1.setAttribute("fill", s1Lit ? "#2D6A47" : "#EDE8DE");
-        gateS2.setAttribute("fill", s2Lit ? "#2D6A47" : "#EDE8DE");
-        gateS3.setAttribute("fill", s3Lit ? "#2D6A47" : "#EDE8DE");
         if (gateRippleTimer > 0) {
           const gu = 1 - gateRippleTimer / 0.52;
-          gateSavedRipple.setAttribute("r", (2.2 + gu * 6.2).toFixed(1));
+          gateSavedRipple.setAttribute("r", (3.0 + gu * 7.2).toFixed(1));
           gateSavedRipple.setAttribute("opacity", ((1 - gu) * 0.85).toFixed(2));
         } else {
           gateSavedRipple.setAttribute("opacity", "0");
@@ -1695,33 +1728,36 @@
           bHY = bSY + 5.4;
           fBend = 0.7;
         } else if (armPose === "grabTool") {
-          // Era 3: stands cleanly left of Tool Workbench and reaches straight to wrench hook!
-          fHX = fSX + 7.8;
-          fHY = -12.8;
+          // Era 3: reaches right into the open toolbox to snap on the big Spiral Drill!
+          fHX = fSX + 7.2;
+          fHY = -12.2;
           bHX = bSX - 2.0;
           bHY = bSY + 5.6;
           fBend = 0.45;
         } else if (armPose === "wrench") {
-          // Era 3: right wrench arm reaches straight out to grip left outer spoke of cross-valve
-          fHX = fSX + 8.0;
+          // Era 3: extends right forearm horizontally with spinning Spiral Drill pressing into brick wall!
+          fHX = fSX + 7.2;
           fHY = -13.6;
           bHX = bSX - 2.4;
           bHY = bSY + 5.8;
-          fBend = 0.35;
+          fBend = 0.3;
         } else if (armPose === "scan") {
-          // Era 4: poised alert stance while dual-optic visor scans wide monitor screen
+          // Era 4: poised alert stance while dual-optic visor scans big desktop monitor
           fHX = fSX + 3.6;
           fHY = fSY + 5.6;
           bHX = bSX - 2.0;
           bHY = bSY + 6.2;
           fBend = 0.5;
-        } else if (armPose === "press") {
-          // Era 4: right hand arcs cleanly to press the top checkpoint button on the wide monitor crown!
-          fHX = fSX + 18.2;
-          fHY = -23.8;
-          bHX = bSX - 2.0;
-          bHY = bSY + 6.2;
-          fBend = -0.85;
+        } else if (armPose === "type") {
+          // Era 4: BOTH hands hover over desk keyboard rapidly alternating keystrokes (哒哒哒)!
+          const tapL = freezeAll ? 0 : Math.sin(b4t * 42) * 1.35;
+          const tapR = freezeAll ? 0 : -Math.sin(b4t * 42) * 1.35;
+          fHX = fSX + 8.6;
+          fHY = -13.4 + tapR;
+          bHX = bSX + 7.2;
+          bHY = -13.4 + tapL;
+          fBend = 0.75;
+          bBend = 0.75;
         } else if (armPose === "dock") {
           // Era 5 Suit-Up Stance: arms held heroically outward while modules converge!
           fHX = shoulderX + 7.2;
@@ -1743,7 +1779,7 @@
         const fElb = solveElbow(fSX, fSY, fHX, fHY, fBend);
         const bElb = solveElbow(bSX, bSY, bHX, bHY, bBend);
         frontArm.setAttribute("d", `M ${fSX.toFixed(1)},${fSY.toFixed(1)} L ${fElb.x.toFixed(1)},${fElb.y.toFixed(1)} L ${fHX.toFixed(1)},${fHY.toFixed(1)}`);
-        backArm.setAttribute("opacity", armPose === "cot" || armPose === "bonk" || isSymStance ? "0.95" : "0.60");
+        backArm.setAttribute("opacity", armPose === "cot" || armPose === "bonk" || armPose === "type" || isSymStance ? "0.95" : "0.60");
         backArm.setAttribute("d", `M ${bSX.toFixed(1)},${bSY.toFixed(1)} L ${bElb.x.toFixed(1)},${bElb.y.toFixed(1)} L ${bHX.toFixed(1)},${bHY.toFixed(1)}`);
         shoulderPin.setAttribute("cx", fSX.toFixed(1));
         shoulderPin.setAttribute("cy", fSY.toFixed(1));
@@ -1779,10 +1815,12 @@
         handTipB.setAttribute("cy", bHY.toFixed(1));
         handTipB.setAttribute("opacity", showBareHandB ? (armPose === "cot" ? "0.95" : "0.62") : "0");
 
-        // Era 3 Sculpted open-end C-spanner wrench with warm-paper fill (reads cleanly over valve)
-        wrenchEl.setAttribute("opacity", wrenchW.toFixed(2));
+        // Era 3 Big Spiral Mechanical Drill attached to right forearm (spins flutes during drilling!)
+        drillGroup.setAttribute("opacity", wrenchW.toFixed(2));
         if (wrenchW > 0.02) {
-          wrenchEl.setAttribute("d", `M ${(fHX - 0.5).toFixed(1)},${(fHY - 2.3).toFixed(1)} L ${(fHX + 3.2).toFixed(1)},${(fHY - 2.3).toFixed(1)} L ${(fHX + 3.2).toFixed(1)},${(fHY - 1.1).toFixed(1)} L ${(fHX + 1.2).toFixed(1)},${(fHY - 1.1).toFixed(1)} L ${(fHX + 1.2).toFixed(1)},${(fHY + 1.1).toFixed(1)} L ${(fHX + 3.2).toFixed(1)},${(fHY + 1.1).toFixed(1)} L ${(fHX + 3.2).toFixed(1)},${(fHY + 2.3).toFixed(1)} L ${(fHX - 0.5).toFixed(1)},${(fHY + 2.3).toFixed(1)} Z`);
+          drillGroup.setAttribute("transform", `translate(${fHX.toFixed(1)}, ${fHY.toFixed(1)})`);
+          const spinShift = drillingNow ? Math.sin(b3t * 70) * 0.7 : 0;
+          drillFlutes.setAttribute("d", `M ${(4.4 + spinShift).toFixed(1)},-1.9 L ${(5.2 + spinShift).toFixed(1)},1.9 M ${(6.8 + spinShift * 0.7).toFixed(1)},-1.2 L ${(7.4 + spinShift * 0.7).toFixed(1)},1.2`);
         }
 
         // Era 5 Iron Man luminous gradient palm repulsor plumes + jetpack + boot thrusters
