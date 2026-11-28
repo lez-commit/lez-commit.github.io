@@ -137,8 +137,8 @@ export function createSkeleton({ skeletonGridEl, tooltip, brushing, openArticle 
               <ul class="twig-list">${twigsHtml}</ul>
             </div>
             <div class="era-runway-slot" aria-hidden="true"></div>
-            <button class="spine-dot ${spineCls}" type="button" data-summon-era="${eraIdx}" title="点击召唤机器人从此时代演进" aria-label="从${esc(compact.short)}时代召唤机器人"></button>
-            <header class="era-upper" data-summon-era="${eraIdx}" title="${esc(fullMetaTip)} · 点击从本时代演进">
+            <button class="spine-dot ${spineCls}" type="button" data-summon-era="${eraIdx}" aria-label="从${esc(compact.short)}时代召唤机器人"></button>
+            <header class="era-upper" data-summon-era="${eraIdx}" aria-label="${esc(fullMetaTip)}">
               <div class="era-title-row">
                 <span class="era-num-tag">${esc(era.num)}</span>
                 <h2 class="era-title">${esc(compact.short)}</h2>

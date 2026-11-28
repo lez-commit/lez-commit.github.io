@@ -1,6 +1,6 @@
 import { clamp01, lerp, smooth } from "../core/utils.js";
 import { bus } from "../core/bus.js";
-import { buildMechRig } from "./mech-svg.js";
+import { buildMechRig } from "./mech-svg.js?v=20261127z11";
 
 /**
  * Unified Ver.Ka Gundam Controller:

@@ -4,25 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Agent 演进手札 · 以时间轴为骨，以长文为血肉</title>
-  <link rel="stylesheet" href="agent/css/base.css?v=20261127z10" />
-  <link rel="stylesheet" href="agent/css/home.css?v=20261127z10" />
-  <link rel="stylesheet" href="agent/css/views.css?v=20261127z10" />
-  <link rel="modulepreload" href="agent/js/main.js?v=20261127z10" />
+  <link rel="stylesheet" href="agent/css/base.css?v=20261127z11" />
+  <link rel="stylesheet" href="agent/css/home.css?v=20261127z11" />
+  <link rel="stylesheet" href="agent/css/views.css?v=20261127z11" />
+  <link rel="modulepreload" href="agent/js/main.js?v=20261127z11" />
   <link rel="modulepreload" href="agent/js/core/bus.js" />
   <link rel="modulepreload" href="agent/js/core/utils.js" />
   <link rel="modulepreload" href="agent/js/core/store.js" />
   <link rel="modulepreload" href="agent/js/data/map-data.js" />
   <link rel="modulepreload" href="agent/js/ui/tooltip.js" />
-  <link rel="modulepreload" href="agent/js/ui/brushing.js" />
-  <link rel="modulepreload" href="agent/js/ui/skeleton.js" />
+  <link rel="modulepreload" href="agent/js/ui/brushing.js?v=20261127z11" />
+  <link rel="modulepreload" href="agent/js/ui/skeleton.js?v=20261127z11" />
   <link rel="modulepreload" href="agent/js/ui/footprint.js" />
-  <link rel="modulepreload" href="agent/js/ui/recent.js" />
-  <link rel="modulepreload" href="agent/js/ui/views.js" />
-  <link rel="modulepreload" href="agent/js/mech/mech-svg.js" />
-  <link rel="modulepreload" href="agent/js/mech/mech-avatar.js" />
-  <link rel="modulepreload" href="agent/js/evo/dioramas.js" />
-  <link rel="modulepreload" href="agent/js/evo/bot-rig.js" />
-  <link rel="modulepreload" href="agent/js/evo/evo-walker.js" />
+  <link rel="modulepreload" href="agent/js/ui/recent.js?v=20261127z11" />
+  <link rel="modulepreload" href="agent/js/ui/views.js?v=20261127z11" />
+  <link rel="modulepreload" href="agent/js/mech/mech-svg.js?v=20261127z11" />
+  <link rel="modulepreload" href="agent/js/mech/mech-avatar.js?v=20261127z11" />
+  <link rel="modulepreload" href="agent/js/evo/dioramas.js?v=20261127z11" />
+  <link rel="modulepreload" href="agent/js/evo/bot-rig.js?v=20261127z11" />
+  <link rel="modulepreload" href="agent/js/evo/evo-walker.js?v=20261127z11" />
 </head>
 <body class="view-home">
   <div class="site-shell" id="site-shell">
@@ -30,7 +30,7 @@
          BAND 1: MINIMAL TOP NAVIGATION BAR (~48px)
          ===================================================================== -->
     <header class="top-nav" id="top-nav">
-      <button class="mech-avatar-btn" id="mech-avatar-btn" type="button" aria-label="动态机械头像 · 返回首页" title="点击返回首页 · 双击展开机体空中巡检"></button>
+      <button class="mech-avatar-btn" id="mech-avatar-btn" type="button" aria-label="动态机械头像 · 单击激光扫描 · 双击展开机体空中巡检"></button>
       <nav class="nav-links" id="nav-links" aria-label="主导航">
         <button class="nav-btn is-active" type="button" data-view="home">图谱首页</button>
         <button class="nav-btn" type="button" data-view="articles">全部文章</button>
@@ -123,7 +123,7 @@
   <div class="quiet-tip" id="quiet-tip" role="tooltip"></div>
 
 
-  <script type="module" src="agent/js/main.js?v=20261127z10"></script>
+  <script type="module" src="agent/js/main.js?v=20261127z11"></script>
   <script>
     // Defer optional webfont enhancement until after first paint so load never blocks on Google Fonts
     window.addEventListener("load", function () {

@@ -11,8 +11,8 @@ import {
   capsuleFootPath
 } from "../core/utils.js";
 import { bus } from "../core/bus.js";
-import { buildDioramas } from "./dioramas.js";
-import { buildBotRig } from "./bot-rig.js";
+import { buildDioramas } from "./dioramas.js?v=20261127z11";
+import { buildBotRig } from "./bot-rig.js?v=20261127z11";
 
 /**
  * Evolving Ink-Art Robot Choreography Engine (Era 1 -> Era 5):

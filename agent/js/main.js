@@ -1,13 +1,13 @@
 import { bus } from "./core/bus.js";
 import { state, buildFootprint } from "./core/store.js";
 import { createTooltip } from "./ui/tooltip.js";
-import { createBrushing } from "./ui/brushing.js";
-import { createSkeleton } from "./ui/skeleton.js";
+import { createBrushing } from "./ui/brushing.js?v=20261127z11";
+import { createSkeleton } from "./ui/skeleton.js?v=20261127z11";
 import { createFootprint } from "./ui/footprint.js";
-import { createRecentDock } from "./ui/recent.js";
-import { createViews } from "./ui/views.js";
-import { initMechAvatar } from "./mech/mech-avatar.js";
-import { initEvoWalker } from "./evo/evo-walker.js";
+import { createRecentDock } from "./ui/recent.js?v=20261127z11";
+import { createViews } from "./ui/views.js?v=20261127z11";
+import { initMechAvatar } from "./mech/mech-avatar.js?v=20261127z11";
+import { initEvoWalker } from "./evo/evo-walker.js?v=20261127z11";
 
 /**
  * Application Bootstrap — Zero-Build Native ES Modules Entrypoint.
