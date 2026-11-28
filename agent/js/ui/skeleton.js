@@ -78,12 +78,6 @@ export function createSkeleton({ skeletonGridEl, tooltip, brushing, openArticle 
               .filter(Boolean)
               .join(" ");
 
-            let badgeHtml = "";
-            if (pub) {
-              const caret = isCollapsed ? "▸" : "▾";
-              badgeHtml = `<button class="twig-badge" type="button" data-toggle-node="${node.id}" aria-expanded="${!isCollapsed}" aria-label="折叠或展开文章分支" title="折叠/展开分支">${caret}</button>`;
-            }
-
             let subListHtml = "";
             if (pub) {
               const subItems = pubs
@@ -93,7 +87,7 @@ export function createSkeleton({ skeletonGridEl, tooltip, brushing, openArticle 
                     .join(" ");
                   return `
                     <li>
-                      <button class="${subCls}" type="button" data-open-article="${p.id}" data-node-id="${node.id}" title="${esc(p.title)}">
+                      <button class="${subCls}" type="button" data-open-article="${p.id}" data-node-id="${node.id}" aria-label="${esc(p.title)}">
                         <span class="sub-twig-branch" aria-hidden="true">└</span>
                         <span class="sub-twig-title">${esc(p.shortTitle)}</span>
                       </button>
@@ -113,7 +107,6 @@ export function createSkeleton({ skeletonGridEl, tooltip, brushing, openArticle 
                 <div class="twig-row" data-node-id="${node.id}" ${rowA11y}>
                   <span class="twig-dot" aria-hidden="true"></span>
                   <span class="twig-title">${esc(node.title)}</span>
-                  ${badgeHtml}
                 </div>
                 ${subListHtml}
               </li>
@@ -193,11 +186,8 @@ export function createSkeleton({ skeletonGridEl, tooltip, brushing, openArticle 
     if (!node) return;
     const pubs = getPublishedPostsForNode(node);
     if (pubs.length === 0) return;
-    if (pubs.length === 1) {
-      openArticle(pubs[0].id);
-      return;
-    }
-    toggleNodeBranch(node.id, row.closest(".twig-item"));
+    const target = pubs.find((p) => p.isFlagship) || pubs[0];
+    openArticle(target.id);
   }
 
   if (skeletonGridEl) {
@@ -218,7 +208,7 @@ export function createSkeleton({ skeletonGridEl, tooltip, brushing, openArticle 
       const pubs = getPublishedPostsForNode(node);
       if (pubs.length > 0) {
         brushing.highlightFromTwig(node.id);
-        const hint = pubs.length === 1 ? "已收录 1 篇 · 点击直达阅读" : `已收录 ${pubs.length} 篇 · 点击展开/折叠`;
+        const hint = `已收录 ${pubs.length} 篇 · 点击直达阅读`;
         tooltip.showTip(`<div class="qt-meta">${esc(node.milestone)}</div><div>${hint}</div>`, row);
       } else {
         brushing.clearHoverLinks();

@@ -1,6 +1,18 @@
 import { esc } from "../core/utils.js";
 import { NODE_MAP, getPublishedPostsForNode, isPublished, state } from "../core/store.js";
 
+const SHORT_ERA_NAMES = {
+  "era-01": "01 规则脚本",
+  "era-02": "02 通用大脑",
+  "era-03": "03 工具破壁",
+  "era-04": "04 自主干活",
+  "era-05": "05 驾驭工程"
+};
+
+function formatEraTag(era) {
+  return (era && SHORT_ERA_NAMES[era.id]) || (era ? `${era.num} ${era.title}` : "");
+}
+
 /**
  * Symmetric 3-way Brushing & Linking across:
  *   53-week Heatmap <-> Recent Posts <-> 5-Era Knowledge Graph
@@ -63,10 +75,11 @@ export function createBrushing({ skeletonGridEl, fpCanvasEl, fpReadoutEl, dockLa
 
     if (fpReadoutEl) {
       fpReadoutEl.classList.add("is-active");
+      const eraTag = formatEraTag(node.era);
       if (pubs.length > 1) {
-        fpReadoutEl.innerHTML = `<strong>${esc(node.title)}</strong> · 收录 <strong>${pubs.length}</strong> 篇（最新 ${pubs[0].date}）`;
+        fpReadoutEl.innerHTML = `<strong>${pubs[0].date}</strong> · ${esc(eraTag)} › ${esc(node.title)}（共 ${pubs.length} 篇）`;
       } else {
-        fpReadoutEl.innerHTML = `<strong>${pubs[0].date}</strong> · 发布《${esc(pubs[0].shortTitle)}》`;
+        fpReadoutEl.innerHTML = `<strong>${pubs[0].date}</strong> · ${esc(eraTag)} › 《${esc(pubs[0].shortTitle)}》`;
       }
     }
   }
@@ -80,7 +93,7 @@ export function createBrushing({ skeletonGridEl, fpCanvasEl, fpReadoutEl, dockLa
 
     if (fpReadoutEl) {
       fpReadoutEl.classList.add("is-active");
-      fpReadoutEl.innerHTML = `<strong>${post.date}</strong> · 发布《${esc(post.shortTitle)}》`;
+      fpReadoutEl.innerHTML = `<strong>${post.date}</strong> · ${esc(formatEraTag(post.era))} › 《${esc(post.shortTitle)}》`;
     }
   }
 
@@ -100,7 +113,7 @@ export function createBrushing({ skeletonGridEl, fpCanvasEl, fpReadoutEl, dockLa
 
     if (fpReadoutEl) {
       fpReadoutEl.classList.add("is-active");
-      fpReadoutEl.innerHTML = `<strong>${post.date}</strong> · ${esc(post.era.title)} › 《${esc(post.shortTitle)}》`;
+      fpReadoutEl.innerHTML = `<strong>${post.date}</strong> · ${esc(formatEraTag(post.era))} › 《${esc(post.shortTitle)}》`;
     }
   }
 

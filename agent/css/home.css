@@ -914,19 +914,20 @@
 
 
 
-/* Strict 1:1 Square GitHub Heatmap Container */
+/* Strict 1:1 Square GitHub Heatmap Container (overflow visible so rightmost column highlight ring never clips!) */
 .fp-canvas {
   flex: 0 0 auto;
   min-height: 0;
   display: flex;
   align-items: center;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .gh-graph {
   display: inline-flex;
   flex-direction: column;
   gap: 3px;
+  padding: 0 6px 0 0;
 }
 
 .gh-months-row {
